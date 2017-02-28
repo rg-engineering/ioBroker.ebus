@@ -1,0 +1,45 @@
+{
+  "common": {
+    "name": "myhomecontrol_ebus",
+    "version": "0.0.2",
+    "news": {
+      "0.0.2": {
+        "en": "initial release",
+        "de": "erste Version"
+      }
+    },
+    "title": "myHomeControl ebus",
+    "desc": {
+      "en": "myHomeControl ebus Adapter. ",
+      "de": "myHomeControl ebus Adapter."
+    },
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "icon": "myhomecontrol.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://github.com/rg-engineering/ioBroker.homecontrol/blob/master/admin/homecontrol.PNG",
+    "keywords": [ "myhomecontrol" ],
+    "readme": "https://github.com/rg-engineering/ioBroker.homecontrol/blob/master/README.md",
+    "loglevel": "debug",
+    "stopBeforeUpdate": true,
+    "type": "hardware"
+  },
+  "native": {
+    "targetIP": "192.168.0.100"
+  },
+  "objects": [
+    {
+      "_id": "_design/homecontrol",
+      "language": "javascript",
+      "views": {
+        "devices": {
+          "map": "function(doc) {\n  if (doc.type == 'device' && doc._id.slice(0, 4) == 'cul') {\n   emit(doc._id, doc);\n  }\n}"
+        }
+      }
+    }
+  ],
+  "instanceObjects": [
+
+  ]
+}
