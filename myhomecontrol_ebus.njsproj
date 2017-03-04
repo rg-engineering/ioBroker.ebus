@@ -17,6 +17,10 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Content Include=".classpath" />
+    <Content Include=".gitignore" />
+    <Content Include=".npmignore" />
+    <Content Include=".project" />
     <Content Include="readme.txt" />
     <Content Include="todo.txt" />
     <Content Include="io-package.json" />
@@ -36,6 +40,7 @@
     <Content Include="www\README.md" />
     <Content Include="widgets\template\css\style.css" />
     <Content Include="widgets\template\img\test.png" />
+    <Compile Include="test.js" />
     <Compile Include="widgets\template\js\template.js" />
   </ItemGroup>
   <ItemGroup>
