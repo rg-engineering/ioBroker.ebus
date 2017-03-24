@@ -18,28 +18,16 @@
     "icon": "myhomecontrol.png",
     "enabled": true,
     "messagebox": true,
-    "extIcon": "https://github.com/rg-engineering/ioBroker.homecontrol/blob/master/admin/homecontrol.PNG",
+    "extIcon": "https://github.com/rg-engineering/ioBroker.myhomecontrol_ebus/blob/master/admin/homecontrol.PNG",
     "keywords": [ "myhomecontrol" ],
-    "readme": "https://github.com/rg-engineering/ioBroker.homecontrol/blob/master/README.md",
+    "readme": "https://github.com/rg-engineering/ioBroker.myhomecontrol_ebus/blob/master/README.md",
     "loglevel": "debug",
     "stopBeforeUpdate": true,
-    "type": "hardware"
+    "type": "hardware",
+    "license": "GPL-3.0"
   },
   "native": {
     "targetIP": "192.168.0.100"
-  },
-  "objects": [
-    {
-      "_id": "_design/homecontrol",
-      "language": "javascript",
-      "views": {
-        "devices": {
-          "map": "function(doc) {\n  if (doc.type == 'device' && doc._id.slice(0, 4) == 'cul') {\n   emit(doc._id, doc);\n  }\n}"
-        }
-      }
-    }
-  ],
-  "instanceObjects": [
+  }
 
-  ]
 }
