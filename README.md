@@ -1,4 +1,4 @@
-
+﻿
 # ioBroker.myhomecontrol_ebus
 ===========================
 
@@ -12,7 +12,7 @@ This adapter implements interpretation of data received ebus adapter.
 
 
 #### 0.0.2
-* (Ren�) initial release
+* (René) initial release
 
 ## License
 Copyright (C) <2016>  <info@rg-engineering.eu>
