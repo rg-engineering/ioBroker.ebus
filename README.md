@@ -2,14 +2,16 @@
 # ioBroker.myhomecontrol_ebus
 ===========================
 
-This adapter implements interpretation of data received ebus adapter.
+This adapter implements interpretation of data received from ebus adapter.
 
-
+see also http://wiki.rg-engineering.eu/index.php?title=EBUS_Adapter
 
 
 
 ## Changelog
 
+#### 0.0.3
+* (René) UTF8 coding
 
 #### 0.0.2
 * (René) initial release

@@ -1,8 +1,12 @@
 ﻿{
   "common": {
     "name": "myhomecontrol_ebus",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "news": {
+      "0.0.3": {
+        "en": "UTF8 coding",
+        "de": "UTF8 Kodierung"
+      },
       "0.0.2": {
         "en": "initial release",
         "de": "erste Version"
