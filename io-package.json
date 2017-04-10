@@ -3,6 +3,10 @@
     "name": "myhomecontrol_ebus",
     "version": "0.0.3",
     "news": {
+      "0.1.0": {
+        "en": "scheduled adapter instead of deamon",
+        "de": "Umbau auf Zeitsteuerung"
+      },
       "0.0.3": {
         "en": "UTF8 coding",
         "de": "UTF8 Kodierung"
@@ -18,11 +22,12 @@
       "de": "myHomeControl ebus Adapter."
     },
     "platform": "Javascript/Node.js",
-    "mode": "daemon",
+    "mode": "schedule",
+    "schedule": "*/5 * * * *",
     "icon": "myhomecontrol.png",
     "enabled": true,
     "messagebox": true,
-    "extIcon": "https://github.com/rg-engineering/ioBroker.myhomecontrol_ebus/blob/master/admin/homecontrol.PNG",
+    "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.myhomecontrol_ebus/master/admin/myhomecontrol.png",
     "keywords": [ "myhomecontrol" ],
     "readme": "https://github.com/rg-engineering/ioBroker.myhomecontrol_ebus/blob/master/README.md",
     "loglevel": "debug",

@@ -1,6 +1,6 @@
 {
   "name": "iobroker.myhomecontrol_ebus",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "ioBroker myHomeControl ebus Adapter",
   "author": {
     "name": "René G.",
@@ -13,7 +13,7 @@
     }
   ],
   "homepage": "https://github.com/rg-engineering/ioBroker.myhomecontrol_ebus",
-  "license": "GPL v3",
+  "license": "GPL-3.0",
   "keywords": [
     "ioBroker",
     "HomeControl",
@@ -25,6 +25,8 @@
     "url": "https://github.com/rg-engineering/ioBroker.myhomecontrol_ebus"
   },
   "dependencies": {
+    "request": "^2.81.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

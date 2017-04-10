@@ -34,7 +34,7 @@ var adapter = utils.adapter('myhomecontrol_ebus');
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
-var ReceiveTimer = null;
+
 
 
 //Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
@@ -103,20 +103,25 @@ adapter.on('ready', function () {
 
 function main() {
     var options = {
-        targetIP: adapter.config.targetIP || '192.168.0.100',
-        receiveInterval: parseInt(adapter.config.receiveInterval) || 60,
+        targetIP: adapter.config.targetIP || '192.168.0.100'
+       
     };
 
     checkVariables();
 
-    if (!ReceiveTimer) {
-        adapter.log.debug("init timer");
-        var _ReceiveTimer = setInterval(function () {
-            ReceiveData(options);
-        }, options.receiveInterval * 1000);  
-        ReceiveTimer = _ReceiveTimer;
-    }
+    ReceiveData(options, function () {
+        setTimeout(function () {
+            adapter.stop();
+        }, 6000);
+    });
 
+    // force terminate after 1min
+    // don't know why it does not terminate by itself...
+    setTimeout(function () {
+        adapter.log.warn('force terminate');
+        process.exit(0);
+    }, 60000);
+ 
 }
 
 /*
@@ -138,7 +143,7 @@ VaillantInterface >
     </data>
 </VaillantInterface >
 */
-function ReceiveData(options) {
+function ReceiveData(options, cb) {
 
 
     try {
@@ -186,6 +191,7 @@ function ReceiveData(options) {
     catch (e) {
         adapter.log.error('exception in ReceiveData [' + e + ']');
     }
+    if (cb) cb();
 }
 
 
