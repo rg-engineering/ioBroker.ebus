@@ -21,6 +21,7 @@
     <Content Include=".gitignore" />
     <Content Include=".npmignore" />
     <Content Include=".project" />
+    <Content Include=".travis.yml" />
     <Content Include="readme.txt" />
     <Content Include="todo.txt" />
     <Content Include="io-package.json" />
@@ -41,6 +42,9 @@
     <Content Include="widgets\template\css\style.css" />
     <Content Include="widgets\template\img\test.png" />
     <Compile Include="test.js" />
+    <Compile Include="test\lib\setup.js" />
+    <Compile Include="test\testAdapter.js" />
+    <Compile Include="test\testPackageFiles.js" />
     <Compile Include="widgets\template\js\template.js" />
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +53,8 @@
     <Folder Include="lib" />
     <Folder Include="src" />
     <Folder Include="tasks" />
+    <Folder Include="test\" />
+    <Folder Include="test\lib\" />
     <Folder Include="widgets" />
     <Folder Include="widgets\template" />
     <Folder Include="widgets\template\css" />
