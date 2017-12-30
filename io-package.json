@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "myhomecontrol_ebus",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "news": {
+      "0.2.0": {
+        "en": "add history as JSON",
+        "de": "Aufzeichnung der Werte als JSON"
+      },
       "0.1.0": {
         "en": "scheduled adapter instead of deamon",
         "de": "Umbau auf Zeitsteuerung"
@@ -33,7 +37,7 @@
     "loglevel": "debug",
     "stopBeforeUpdate": true,
     "type": "hardware",
-    "license": "GPL-3.0"
+    "license": "MIT"
   },
   "native": {
     "targetIP": "192.168.0.100"

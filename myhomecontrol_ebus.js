@@ -34,7 +34,7 @@ var adapter = utils.adapter('myhomecontrol_ebus');
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
-
+var oEbusHistory = [];
 
 
 //Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
@@ -163,7 +163,7 @@ function ReceiveData(options, cb) {
                     adapter.log.debug("time " + JSON.stringify(result.VaillantInterface.data[0].time[0].$.time));
 
                     adapter.setState('sender.IP', { ack: true, val: result.VaillantInterface.sender[0].$.IP });
-                    
+
                     adapter.setState('sender.name', { ack: true, val: result.VaillantInterface.sender[0].$.name });
                     adapter.setState('sender.versionname', { ack: true, val: result.VaillantInterface.version[0].$.name });
                     adapter.setState('sender.version', { ack: true, val: result.VaillantInterface.version[0].$.number });
@@ -181,7 +181,36 @@ function ReceiveData(options, cb) {
                     adapter.setState('data.Warning', { ack: true, val: result.VaillantInterface.data[0].Warning[0].$.value });
                     adapter.setState('data.Pump', { ack: true, val: result.VaillantInterface.data[0].pump[0].$.state });
 
-                    
+
+                    //myhomecontrol_ebus.0.data.history
+                    //use datapoint behaviour as storage for json object
+                    adapter.getState('data.history', function (err, obj) {
+                        if (err) {
+                            adapter.log.error(err);
+                        } else {
+
+                            //adapter.log.debug("before " + obj.val);
+                            oEbusHistory = JSON.parse(obj.val);
+                            //adapter.log.debug("after " + JSON.stringify(oEbusHistory));
+
+                            oEbusHistory.push({
+                                "date": result.VaillantInterface.data[0].date[0].$.date,
+                                "time": result.VaillantInterface.data[0].time[0].$.time,
+                                "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
+                                "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
+                                "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
+                                "Status": result.VaillantInterface.data[0].Status[0].$.value
+                            });
+                            //adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
+                            //limit length of object...
+                            if (oEbusHistory.length > 100) {
+                                delete oEbusHistory[0];
+                            }
+
+                            adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });
+                        }
+
+                    });
                 });
             } else {
                 adapter.log.error(error);
@@ -312,6 +341,14 @@ function checkVariables() {
         common: { name: 'pump state' },
         native: { id: 'data.Pump' }
     });
+
+    // histories
+    adapter.setObjectNotExists('data.history', {
+        type: 'state',
+        common: { name: 'ebus history as JSON', type: 'string', role: 'history', unit: '', read: true, write: false },
+        native: { location: 'data.history' }
+    });
+
 }
 
 

@@ -1,0 +1,245 @@
+﻿<!--
+    ebus.vis Widget-Set
+
+
+    Copyright 2017 René G. <info@rg-engineering.eu>
+-->
+<!-- here you can include so many css as you want -->
+
+<script type="text/javascript" src="widgets/myhomecontrol_ebus/lib/js/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="widgets/myhomecontrol_ebus/lib/js/flot/jquery.flot.time.js"></script>
+
+<!-- doku for flot : -->
+<!--  https://github.com/flot/flot/blob/master/API.md -->
+
+
+<script type="text/javascript">
+    'use strict';
+
+    if (vis.editMode) {
+        // Add words for basic widgets
+        $.extend(true, systemDictionary, {
+            "1 second": { "en": "1 second", "de": "1 Sekunde", "ru": "1 ???????" },
+            "10 seconds": { "en": "10 seconds", "de": "10 Sekunden", "ru": "10 ??????" },
+            "30 seconds": { "en": "30 seconds", "de": "30 Sekunden", "ru": "30 ??????" },
+            "1 minute": { "en": "1 minute", "de": "1 Minute", "ru": "1 ??????" },
+            "2 minutes": { "en": "2 minutes", "de": "2 Minuten", "ru": "2 ??????" },
+            "5 minutes": { "en": "5 minutes", "de": "5 Minuten", "ru": "5 ?????" },
+            "10 minutes": { "en": "10 minutes", "de": "10 Minuten", "ru": "10 ?????" },
+            "30 minutes": { "en": "30 minutes", "de": "30 Minuten", "ru": "30 ?????" },
+            "1 hour": { "en": "1 hour", "de": "1 Stunde", "ru": "1 ???" },
+            "2 hours": { "en": "2 hours", "de": "2 Stunden", "ru": "2 ????" },
+            "4 hours": { "en": "4 hours", "de": "4 Stunden", "ru": "4 ????" },
+            "8 hours": { "en": "8 hours", "de": "8 Stunden", "ru": "8 ?????" },
+            "12 hours": { "en": "12 hours", "de": "12 Stunden", "ru": "12 ?????" },
+            "24 hours": { "en": "24 hours", "de": "24 Stunden", "ru": "24 ????" },
+ 
+
+            "withxaxix": { "en": "show X axis", "de": "Zeige X-Achse", "ru": "???" },
+            "axislabelcolor": { "en": "color axis label", "de": "Farbe Achsbeschriftung", "ru": "???" },
+            "tickscolor": { "en": "color axis ticks", "de": "Farbe Achsmarke", "ru": "???" }
+
+
+        });
+    }
+
+    vis.binds.ebus = {
+        version: "0.1.0",
+        showVersion: function () {
+            if (vis.binds.ebus.version) {
+                console.log('Version vis-ebus: ' + vis.binds.ebus.version);
+                vis.binds.ebus.version = null;
+            }
+        },
+
+        setup: {
+            intervals: {
+                '1 second': 1000,
+                '10 seconds': 10000,
+                '30 seconds': 30000,
+                '1 minute': 60000,
+                '2 minutes': 120000,
+                '5 minutes': 300000,
+                '10 minutes': 600000,
+                '30 minutes': 1800000,
+                '1 hour': 3600000,
+                '2 hours': 7200000,
+                '4 hours': 14400000,
+                '8 hours': 28800000,
+                '12 hours': 43200000,
+                '24 hours': 86400000
+            },
+            
+        },
+        history: {
+            update: function ($div) {
+                var data = $div.data('options');
+
+                if (!data.ebusinstance) {
+                    console.log("keine instanz " + data.chartType);
+
+                    $div.html("<br> <center> <font color='red'> no instance </font> </center></br>");
+                } else {
+                    //warum wir das brauchen, verstehe ich noch nicht...
+                    //ist eigentlich nur dummy... aber ohne wird plot ganz klein dargestellt ???
+                    vis.getHistory(data.oid, {
+                        instance: data.ebusinstance,
+                        count: 10,
+                        aggregate:  'average',
+                        start: new Date().getTime(),
+                        end: new Date().getTime() + 5000,
+                        timeout: 1000
+                    }, function (err, result) {
+                        var data = $div.data('options');
+                        if (err) console.log(err);
+   
+                        console.log("ShowChart begin");
+
+
+                        
+
+                    $.plot($div,
+                        [{
+                            data: data.todayvisible ? values_today : {},
+                            color: data.todaycolor,
+                            //label: "today [Wh]",
+                            //hoverable: true,
+                            xaxis: 1,
+                            yaxis: 1,
+                            lines: { show: false },
+                            bars:
+                                {
+                                    show:  true,
+                                    barWidth: barwidth_today
+                                }
+                        }
+                        
+                        ],
+                        {
+
+                            xaxes: //xaxis mit [] geht nicht...!!!
+                              [{//das folgende geht
+                                  show: data.withxaxix & data.todayvisible,
+                                  mode: "time",
+                                  tickLength: 5,
+                                  ticks: data.ticksonxaxix > 0 ? parseInt(data.ticksonxaxix,10) : 5,
+                                  timeformat: "%H:%M",
+                                  monthNames: ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+                                  color: data.tickscolor,
+                                  font: {
+                                      color: data.axislabelcolor
+                                  }
+                              }
+                              ],
+                            yaxes:                              
+                                [{
+                                    show: data.todayvisible,
+                                    max: maxY_today,
+                                    min: minY_today,
+                                    //alignTicksWithAxis: 1,
+                                    position: 'left',
+                                    ticks: 3,
+                                    color: data.tickscolor,
+                                    font: {
+                                        color: data.axislabelcolor
+                                    }
+                                
+                                }
+                                ],
+                            grid:
+                              {
+                                  //Farben einstellen fehlt noch
+                                  backgroundColor: { colors: ["#fff", "#eee"] },
+                                  borderWidth: {
+                                      top: 1,
+                                      right: 1,
+                                      bottom: 2,
+                                      left: 2
+                                  },
+                                  //fehlt noch
+                                  //markings: nextDay
+                              }
+                        }
+                        );
+
+
+                     }); //GetHistory
+                }
+            },
+            init: function (el, view, data) {
+                var $div = $(el);
+                console.log("ebus init" );
+                var _data = {};
+                for (var s in data) {
+
+                    if (s[0] !== '_' && data.hasOwnProperty(s) && typeof data[s] !== 'object' && typeof data[s] !== 'function') {
+                        _data[s] = data[s];
+
+                    }
+                }
+                data = null;
+                $div.data('options', _data);
+
+                if (_data.ebusinstance) {
+
+                    
+
+                    // update every x seconds
+                    if (!vis.editMode) {
+                        $div.data('timer', setInterval(function () {
+                            vis.binds.ebus.history.update($div);
+                        }, parseInt(vis.binds.ebus.setup.intervals[_data.time_interval] / (parseInt(_data.points, 10) || 10), 10)));
+                    }
+                }
+                else {
+                    console.log("instance not set ");
+                }
+                vis.binds.ebus.history.update($div);
+                if (vis.editMode) {
+                    console.log("flot version " + $.plot.version);
+                }
+            }
+        },
+    };
+
+    if (vis.editMode) {
+        vis.binds.ebus.onInstanceChanged = function (widgetID, view, newId, fields) {
+            console.log('---------: ' + widgetID + ' - ' + view + ' - ' + newId + ' - ' + fields);
+
+            var changed = [];
+           
+            
+
+          return changed;
+        }
+
+    }
+
+    vis.binds.ebus.showVersion();
+
+</script>
+
+
+
+<script id="tplEbusShowInstance"
+        type="text/ejs"
+        class="vis-tpl"
+        data-vis-set="ebus"
+        data-vis-name="ebus"
+        data-vis-type="ebus"
+        data-vis-update-style="true"
+        data-vis-prev='<img src="widgets/myhomecontrol_ebus/img/Prev_tplebus.png"></img>'
+        data-vis-attrs="ebusinstance/ebus/onInstanceChanged;"
+        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;ticksonxaxix[5];axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;"
+        
+        data-vis-attrs1="group.oids;oid_history/id;"
+
+>
+
+    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow: hidden; width: 210px; height: 170px;" id="<%= this.data.attr('wid') %>">
+        <div class="vis-widget-body" <%= (el1) -> vis.binds.ebus.history.init(el1, this.view, this.data) %>></div>
+        
+    </div>
+
+</script>
+

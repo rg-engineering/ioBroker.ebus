@@ -4,11 +4,16 @@
 
 
 This adapter reads web interface of Arduino based ebus adapter.
-Interpretation of beus data is done on Arduino.
+Interpretation of ebus data is done on Arduino.
 For details visit our web site http://wiki.rg-engineering.eu/index.php?title=EBUS_Adapter 
 
 
 ## Changelog
+
+#### 0.1.0
+* (René) add history as JSON for vis
+* (René) add flot based widget to display temperatur, status and power graph
+
 
 #### 0.1.0
 * (René) scheduled adapter instead of deamon
