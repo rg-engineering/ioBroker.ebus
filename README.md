@@ -10,10 +10,9 @@ For details visit our web site http://wiki.rg-engineering.eu/index.php?title=EBU
 
 ## Changelog
 
-#### 0.1.0
+#### 0.2.0
 * (René) add history as JSON for vis
 * (René) add flot based widget to display temperatur, status and power graph
-
 
 #### 0.1.0
 * (René) scheduled adapter instead of deamon
