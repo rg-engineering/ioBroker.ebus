@@ -22,8 +22,8 @@
     },
     "title": "myHomeControl ebus",
     "desc": {
-      "en": "myHomeControl ebus Adapter. ",
-      "de": "myHomeControl ebus Adapter."
+      "en": "myHomeControl ebus Adapter",
+      "de": "myHomeControl ebus Adapter"
     },
     "platform": "Javascript/Node.js",
     "mode": "schedule",

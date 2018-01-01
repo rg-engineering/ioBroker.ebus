@@ -190,7 +190,9 @@ function ReceiveData(options, cb) {
                         } else {
 
                             //adapter.log.debug("before " + obj.val);
-                            oEbusHistory = JSON.parse(obj.val);
+                            if (obj != null) {
+                                oEbusHistory = JSON.parse(obj.val);
+                            }
                             //adapter.log.debug("after " + JSON.stringify(oEbusHistory));
 
                             oEbusHistory.push({
@@ -203,8 +205,12 @@ function ReceiveData(options, cb) {
                             });
                             //adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
                             //limit length of object...
-                            if (oEbusHistory.length > 100) {
-                                delete oEbusHistory[0];
+                            if (oEbusHistory.length > 200) {
+
+                                for (var i = oEbusHistory.length; i > 200; i--) {
+                                    adapter.log.debug("delete");
+                                    oEbusHistory.shift();
+                                }
                             }
 
                             adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });

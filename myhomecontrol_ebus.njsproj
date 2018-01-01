@@ -40,8 +40,9 @@
     <Compile Include="tasks\jscs.js" />
     <Compile Include="tasks\jscsRules.js" />
     <Compile Include="tasks\jshint.js" />
-    <Content Include="widgets\myhomecontrol_ebus.html" />
+    <Content Include="widgets\myhomecontrol_ebus\css\style.css" />
     <Content Include="widgets\myhomecontrol_ebus\img\Prev_tplebus.png" />
+    <Content Include="widgets\myhomecontrol_ebus.html" />
     <Content Include="www\index.html" />
     <Content Include="www\README.md" />
     <Compile Include="test.js" />
