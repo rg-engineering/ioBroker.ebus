@@ -1,14 +1,19 @@
 ﻿
-# ioBroker.myhomecontrol_ebus
+# ioBroker.ebus
 ===========================
 
 
-This adapter reads web interface of Arduino based ebus adapter.
-Interpretation of ebus data is done on Arduino.
-For details visit our web site http://wiki.rg-engineering.eu/index.php?title=EBUS_Adapter 
+This adapter reads
+- data from ebusd using html
+- web interface of Arduino based ebus adapter. Interpretation of ebus data is done on Arduino.
+   For details visit our web site http://wiki.rg-engineering.eu/index.php?title=EBUS_Adapter 
 
 
 ## Changelog
+
+#### 0.3.0
+* (René) support of ebusd
+* (René) admin3 support
 
 #### 0.2.0
 * (René) add history as JSON for vis
