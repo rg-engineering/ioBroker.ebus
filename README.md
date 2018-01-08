@@ -11,8 +11,8 @@ This adapter reads
 
 ## Changelog
 
-#### 0.3.0
-* (René) support of ebusd
+#### 0.3.0 (work in progress)
+* (René) support of ebusd 
 * (René) admin3 support
 
 #### 0.2.0
