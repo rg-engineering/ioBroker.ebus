@@ -22,17 +22,13 @@
 <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
 <script type="text/javascript" src="../../js/translate.js"></script>
 <script type="text/javascript" src="../../js/adapter-settings.js"></script>
-
+<script type="text/javascript" src="words.js"></script>
 
 <!-- you have to define 2 functions in the global scope: -->
 <script type="text/javascript">
 
-    // Dictionary (systemDictionary is global variable from adapter-settings.js)
-    systemDictionary = {
-        "myHomeControl ebus adapter settings": { "de": "HomeControl ebus Adapter Einstellungen" },
-        "on save adapter restarts with new config immediately": { "de": "Beim Speichern von Einstellungen wird der Adapter sofort neu gestartet." },
-        "target IP": { "de": "IP" }
-    };
+
+    
 
     
         
@@ -83,29 +79,44 @@
 <!-- you have to put your config page in a div with id adapter-container -->
 <div id="adapter-container">
 
-    <table><tr>
-        <td><img src="myhomecontrol.png"/></td>
-        <td><h3 class="translate">myHomeControl ebus adapter settings</h3></td>
-    </tr></table>
-
-
-    <p class="translate">on save adapter restarts with new config immediately</p>
-
     <table>
         <tr>
-            <td class="translate">target IP</td>
-            <td>
-                <input type="text" id="targetIP" class="value" />
-        	</td>
+            <td><img src="myhomecontrol.png" /></td>
+            <td><h3 class="translate">ebus_adapter_settings</h3></td>
         </tr>
     </table>
 
-    <h3>Notes</h3>
-    <p>This adpater reads web interface of Arduino based ebus adapter</p>
-    <p>interpretation of ebus data is done on Arduino!</p>
-    details see our <a href="http://wiki.rg-engineering.eu/index.php?title=EBUS_Adapter" >wiki</a>
 
+    <p class="translate">restart_hint</p>
 
+    <table>
+        <tr>
+            <td class="translate">interface_type</td>
+            <td>
+                <select id="interfacetype" class="value">
+                    <option value="arduino">Arduino</option>
+                    <option value="ebusd">ebusd</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="translate">target_IP</td>
+            <td>
+                <input type="text" id="targetIP" class="value" />
+            </td>
+        </tr>
+        <tr>
+            <td class="translate">target_Port</td>
+            <td>
+                <input type="text" id="targetPort" class="value" />
+            </td>
+        </tr>
+    </table>
+
+    <p class="translate">hint_arduino</p>
+    <a href="http://wiki.rg-engineering.eu/index.php?title=EBUS_Adapter">wiki</a>
+
+    <p class="translate">hint_ebusd</p>
 </div>
 
 </html>

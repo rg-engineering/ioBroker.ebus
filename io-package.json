@@ -1,8 +1,22 @@
 {
   "common": {
-    "name": "myhomecontrol_ebus",
-    "version": "0.2.0",
+    "name": "ebus",
+    "version": "0.4.0",
     "news": {
+      "0.4.0": {
+        "en": "reading data from ebusd"
+      },
+      "0.3.0": {
+        "en": "support of ebusd",
+        "de": "Unterstützung von ebusd",
+        "ru": "поддержка ebusd",
+        "pt": "suporte de ebusd",
+        "nl": "ondersteuning van ebusd",
+        "fr": "support d'ebusd",
+        "it": "supporto di ebusd",
+        "es": "soporte de ebusd",
+        "pl": "wsparcie ebusd"
+      },
       "0.2.0": {
         "en": "add history as JSON",
         "de": "Aufzeichnung der Werte als JSON"
@@ -20,27 +34,54 @@
         "de": "erste Version"
       }
     },
-    "title": "myHomeControl ebus",
-    "desc": {
-      "en": "myHomeControl ebus Adapter",
-      "de": "myHomeControl ebus Adapter"
+      "title": "ebus",
+      "titleLang": {
+        "en": "ebus",
+        "de": "ebus",
+        "ru": "EBUS",
+        "pt": "ebus",
+        "nl": "ebus",
+        "fr": "ebus",
+        "it": "eBUS",
+        "es": "ebus",
+        "pl": "ebus"
+      },
+      "desc": {
+        "en": "ebus Adapter",
+        "de": "ebus Adapter",
+        "ru": "Адаптер ebus",
+        "pt": "Adaptador ebus",
+        "nl": "ebus-adapter",
+        "fr": "Adaptateur ebus",
+        "it": "adattatore ebus",
+        "es": "Adaptador ebus",
+        "pl": "Adapter ebus"
+      },
+      "platform": "Javascript/Node.js",
+      "mode": "schedule",
+      "schedule": "*/5 * * * *",
+      "icon": "myhomecontrol.png",
+      "enabled": true,
+      "messagebox": true,
+      "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/myhomecontrol.png",
+      "keywords": [ "ebus" ],
+      "readme": "https://github.com/rg-engineering/ioBroker.ebus/blob/master/README.md",
+      "loglevel": "debug",
+      "stopBeforeUpdate": true,
+      "type": "hardware",
+      "license": "MIT",
+      "materialize": true,
+      "authors": [
+        {
+          "name": "René G.",
+          "email": "info@rg-engineering.eu"
+        }
+      ]
     },
-    "platform": "Javascript/Node.js",
-    "mode": "schedule",
-    "schedule": "*/5 * * * *",
-    "icon": "myhomecontrol.png",
-    "enabled": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.myhomecontrol_ebus/master/admin/myhomecontrol.png",
-    "keywords": [ "myhomecontrol" ],
-    "readme": "https://github.com/rg-engineering/ioBroker.myhomecontrol_ebus/blob/master/README.md",
-    "loglevel": "debug",
-    "stopBeforeUpdate": true,
-    "type": "hardware",
-    "license": "MIT"
-  },
   "native": {
-    "targetIP": "192.168.0.100"
+    "targetIP": "192.168.0.1",
+    "interfacetype": "arduino",
+    "targetPort": 8889
   }
 
 }

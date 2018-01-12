@@ -1,5 +1,12 @@
 .idea
 node_modules
 /bin/
+test.js
+test1.js
+admin/i18n
+/obj
+*.njsproj
+todo.txt
+package-lock.json
 
 /typings/*

@@ -1,21 +1,9 @@
 ﻿/*
- * homecontrol adapter für iobroker
+ * ebus adapter für iobroker
  *
  * Created: 15.09.2016 21:31:28
  *  Author: Rene
 
-Copyright(C)[2016, 2017][René Glaß]
-
-Dieses Programm ist freie Software.Sie können es unter den Bedingungen der GNU General Public License, wie von der Free Software 
-Foundation veröffentlicht, weitergeben und/ oder modifizieren, entweder gemäß Version 3 der Lizenz oder (nach Ihrer Option) jeder 
-späteren Version.
-
-Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE,
-    sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK.Details finden Sie in der
-GNU General Public License.
-
-Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben.Falls nicht,
-    siehe < http://www.gnu.org/licenses/>.
 
 */
 
@@ -30,7 +18,7 @@ var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.template.0
-var adapter = utils.adapter('myhomecontrol_ebus');
+var adapter = utils.adapter('ebus');
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
@@ -69,12 +57,6 @@ adapter.on('objectChange', function (id, obj) {
     // Warning, obj can be null if it was deleted
     adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
 
-    //feuert auch, wenn adapter im admin anghalten oder gestartet wird...
-
-    if (obj == null && myPort != null) {
-        myPort.close();
-    }
-
 });
 
 // is called if a subscribed state changes
@@ -103,17 +85,10 @@ adapter.on('ready', function () {
 
 function main() {
     var options = {
-        targetIP: adapter.config.targetIP || '192.168.0.100'
+        targetIP: adapter.config.targetIP || '192.168.0.100',
+        targetPort: parseInt(adapter.config.targetPort)
        
     };
-
-    checkVariables();
-
-    ReceiveData(options, function () {
-        setTimeout(function () {
-            adapter.stop();
-        }, 6000);
-    });
 
     // force terminate after 1min
     // don't know why it does not terminate by itself...
@@ -121,9 +96,40 @@ function main() {
         adapter.log.warn('force terminate');
         process.exit(0);
     }, 60000);
+
+    if (adapter.config.interfacetype == "arduino") {
+        adapter.log.debug('start with interface arduino ');
+        Arduino_checkVariables();
+
+        Arduino_ReceiveData(options, function () {
+            setTimeout(function () {
+                adapter.stop();
+            }, 6000);
+        });
+
+    }
+    else if (adapter.config.interfacetype == "ebusd") {
+        adapter.log.debug('start with interface ebusd ');
+        ebusd_checkVariables();
+
+        ebusd_ReceiveData(options, function () {
+            setTimeout(function () {
+                adapter.stop();
+            }, 6000);
+        });
+
+    }
+    else {
+        adapter.log.error('unknown interface type ' + adapter.config.interfacetype);
+    }
+
+    
  
 }
 
+
+//===================================================================================================
+// arduino interface
 /*
 VaillantInterface >
     <sender IP="192.168.3.181" name="Arduino"> </sender>
@@ -143,7 +149,7 @@ VaillantInterface >
     </data>
 </VaillantInterface >
 */
-function ReceiveData(options, cb) {
+function Arduino_ReceiveData(options, cb) {
 
 
     try {
@@ -224,13 +230,13 @@ function ReceiveData(options, cb) {
         });
     }
     catch (e) {
-        adapter.log.error('exception in ReceiveData [' + e + ']');
+        adapter.log.error('exception in Arduino_ReceiveData [' + e + ']');
     }
     if (cb) cb();
 }
 
 
-function checkVariables() {
+function Arduino_checkVariables() {
     adapter.log.debug("init variables ");
 
     adapter.setObjectNotExists('sender', {
@@ -359,13 +365,85 @@ function checkVariables() {
 
 
 
-/*
 
 
-var parseString = require('xml2js').parseString;
-var xml = '<?xml version="1.0" encoding="UTF-8" ?><business><company>Code Blog</company><owner>Nic Raboy</owner><employee><firstname>Nic</firstname><lastname>Raboy</lastname></employee><employee><firstname>Maria</firstname><lastname>Campos</lastname></employee></business>';
-parseString(xml, function (err, result) {
-    console.dir(JSON.stringify(result));
-});
-*/
+//===================================================================================================
+// ebusd interface
+//just call http://192.168.0.123:8889/data
+function ebusd_checkVariables() {
+}
 
+
+function ebusd_ReceiveData(options, cb) {
+
+    var sUrl = "http://" + options.targetIP + ":" + options.targetPort + "/data";
+    adapter.log.debug("request data from " + sUrl);
+
+    request(sUrl, function (error, response, body) {
+
+        try {
+            if (!error && response.statusCode == 200) {
+                //adapter.log.debug("Body: " + body + " " + response.statusCode);
+
+                var oData = JSON.parse(body);
+
+                //console.log(JSON.stringify(oData));
+
+                //adapter.log.debug("length " + oData.length);
+
+                var flatten = require('flat');
+
+                var newData = flatten(oData);
+
+                var keys = Object.keys(newData);
+
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i];
+                    var subnames = key.split('.');
+                    var temp = subnames.length;
+
+                    if (subnames[temp - 1].includes("value")) {
+                        adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+
+                        var value = newData[key];
+
+                        AddObject(key);
+                        UpdateObject(key, value);
+                    }
+                    else if (subnames[temp - 1].includes("lastup")) {
+
+                        var value = newData[key];
+
+                        if (parseInt(value) > 0) {
+                            adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+                            AddObject(key);
+                            UpdateObject(key, value);
+                        }
+                    }
+                    else if (subnames[0].includes("global")) {
+                        adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+                        var value = newData[key];
+                        AddObject(key);
+                        UpdateObject(key, value);
+                    }
+                }
+                adapter.log.info("all done");
+            }
+        }
+        catch (e) {
+            adapter.log.error('exception in ebusd_ReceiveData [' + e + ']');
+        }
+    });
+}
+
+function AddObject(key) {
+    adapter.setObjectNotExists(key, {
+        type: 'state',
+        common: { name: 'data', type: 'string', role: 'history', unit: '', read: true, write: false },
+        native: { location: key }
+    });
+}
+
+function UpdateObject(key, value) {
+    adapter.setState(key, { ack: true, val: value });
+}

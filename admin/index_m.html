@@ -1,0 +1,107 @@
+﻿<html>
+
+<head>
+    <!-- these 4 files always have to be included -->
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+
+    <script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+    <!-- these files always have to be included -->
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+    <script type="text/javascript" src="words.js"></script>
+
+    <!-- you have to define 2 functions in the global scope: -->
+    <script type="text/javascript">
+
+
+
+
+
+
+
+        // the function loadSettings has to exist ...
+        function load(settings, onChange) {
+
+            if (!settings) return;
+
+            // example: select elements with id=key and class=value and insert value
+            for (var key in settings) {
+                // example: select elements with id=key and class=value and insert value
+                if ($('#' + key + '.value').attr('type') == 'checkbox') {
+                    $('#' + key + '.value').prop('checked', settings[key]).change(function () {
+                        onChange();
+                    });
+                } else {
+                    $('#' + key + '.value').val(settings[key]).change(function () {
+                        onChange();
+                    }).keyup(function () {
+                        $(this).trigger('change');
+                    });
+                }
+            }
+
+
+            // Signal to admin, that no changes yet
+            onChange(false);
+        }
+
+
+        // ... and the function save has to exist.
+        // you have to make sure the callback is called with the settings object as first param!
+        function save(callback) {
+            // example: select elements with class=value and build settings object
+            var obj = {};
+            $('.value').each(function () {
+                var $this = $(this);
+                obj[$this.attr('id')] = $this.val();
+            });
+            callback(obj);
+        }
+
+
+
+    </script>
+</head>
+<body>
+    <!-- you have to put your config page in a div with id adapter-container -->
+    <div class="m adapter-container">
+        <div class="row">
+            <div class="col s12 m4 l2">
+                <img src="myhomecontrol.png" class="logo">
+            </div>
+        </div>
+
+        <p class="translate">restart_hint</p>
+        <div class="row">
+            <div class="col s12">
+                <select id="interfacetype" class="value">
+                    <option value="arduino">Arduino</option>
+                    <option value="ebusd">ebusd</option>
+                </select>
+                <label for="interfacetype" class="translate">interface_type</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <input type="text" id="targetIP" class="value" />
+                <label for="targetIP" class="translate">target_IP</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <input type="text" id="targetPort" class="value" />
+                <label for="targetPort" class="translate">target_Port</label>
+            </div>
+        </div>
+
+        <p class="translate">hint_arduino</p>
+        <a href="http://wiki.rg-engineering.eu/index.php?title=EBUS_Adapter">wiki</a>
+
+        <p class="translate">hint_ebusd</p>
+    </div>
+</body>
+</html>

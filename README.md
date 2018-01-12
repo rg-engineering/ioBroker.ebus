@@ -1,17 +1,29 @@
-﻿
+﻿![Logo](admin/myhomecontrol.png)
 # ioBroker.ebus
 ===========================
+[![NPM version](https://img.shields.io/npm/v/iobroker.ebus.svg)](https://www.npmjs.com/package/iobroker.ebus)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.ebus.svg)](https://www.npmjs.com/package/iobroker.ebus)
 
+[![NPM](https://nodei.co/npm/iobroker.ebus.png?downloads=true)](https://nodei.co/npm/iobroker.ebus/)
 
 This adapter reads
 - data from ebusd using html
+In this case ebusd must run and must be able to send data to e.g. explorer via http://IP:port/data (http://192.168.0.123:8889/data)
+Current version of ebusd incl. configuration files can be copied from https://github.com/john30/ebusd
+All fields with data, lastup and from global section are parsed. All others are ignored at the moment. 
+Write access to ebusd is not implemented yet.
+supported ebusd-version: 3.1
 - web interface of Arduino based ebus adapter. Interpretation of ebus data is done on Arduino.
-   For details visit our web site http://wiki.rg-engineering.eu/index.php?title=EBUS_Adapter 
-
+details incl. Arduino software see /t.b.d./
+   
+Attention: ebus-history and ebus widget works only with arduino interface at the moment. Will be implemented later.
 
 ## Changelog
 
-#### 0.3.0 (work in progress)
+#### 0.4.0 
+* (René) reading data from ebusd 
+
+#### 0.3.0 
 * (René) support of ebusd 
 * (René) admin3 support
 
