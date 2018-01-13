@@ -1,15 +1,15 @@
 ﻿<!--
-    ioBroker.vis myhomecontrol_ebus Widget-Set
+    ioBroker.vis ebus Widget-Set
 
     version: "0.1.1"
 
-    Copyright 2017 René G. info@rg-engineering.eu
+    Copyright 2017,2018 René G. info@rg-engineering.eu
 -->
 <!-- here you can include so many css as you want -->
 <!--<link rel="stylesheet" href="widgets/ebus/css/style.css" /> -->
 <!-- here you can include so many js-files as you want -->
-<script type="text/javascript" src="widgets/myhomecontrol_ebus/lib/js/flot/jquery.flot.js"></script>
-<script type="text/javascript" src="widgets/myhomecontrol_ebus/lib/js/flot/jquery.flot.time.js"></script>
+<script type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.time.js"></script>
 
 
 
@@ -87,12 +87,12 @@
     }
 
     // this code can be placed directly in template.html
-    vis.binds.myhomecontrol_ebus = {
+    vis.binds.ebus = {
         version: "0.2.0",
         showVersion: function () {
-            if (vis.binds.myhomecontrol_ebus.version) {
-                console.log('Version ebus: ' + vis.binds.myhomecontrol_ebus.version);
-                vis.binds.myhomecontrol_ebus.version = null;
+            if (vis.binds.ebus.version) {
+                console.log('Version ebus: ' + vis.binds.ebus.version);
+                vis.binds.ebus.version = null;
             }
         },
         setup: {
@@ -404,21 +404,21 @@
                     var oid_history = _data.oid_history;
                     console.log("bind " + oid_history);
                     vis.states.bind(oid_history + '.val', function () {
-                        vis.binds.myhomecontrol_ebus.history.update($div);
+                        vis.binds.ebus.history.update($div);
                     });
 
                     // update every x seconds
                     if (!vis.editMode) {
                         $div.data('timer', setInterval(function () {
-                            vis.binds.myhomecontrol_ebus.history.update($div);
-                        }, parseInt(vis.binds.myhomecontrol_ebus.setup.intervals[_data.time_interval] / (parseInt(_data.points, 10) || 10), 10)));
+                            vis.binds.ebus.history.update($div);
+                        }, parseInt(vis.binds.ebus.setup.intervals[_data.time_interval] / (parseInt(_data.points, 10) || 10), 10)));
                     }
 
                 }
                 else {
                     console.log("instance not set ");
                 }
-                vis.binds.myhomecontrol_ebus.history.update($div);
+                vis.binds.ebus.history.update($div);
                 if (vis.editMode) {
                     console.log("flot version " + $.plot.version + " for ebus" );
                 }
@@ -429,7 +429,7 @@
     };
 
     if (vis.editMode) {
-        vis.binds.myhomecontrol_ebus.onInstanceChanged = function (widgetID, view, newId, fields) {
+        vis.binds.ebus.onInstanceChanged = function (widgetID, view, newId, fields) {
             console.log('---------: ' + widgetID + ' - ' + view + ' - ' + newId + ' - ' + fields);
 
             var changed = [];
@@ -437,9 +437,9 @@
             vis.views[view].widgets[widgetID].data.oid_history = "";
 
             //then copy new values
-            if (newId.indexOf("myhomecontrol_ebus") > -1) {
+            if (newId.indexOf("ebus") > -1) {
 
-                //myhomecontrol_ebus.0.data.history
+                //ebus.0.data.history
                 console.log('calc new oids');
                 vis.views[view].widgets[widgetID].data.oid_history = newId + ".data.history";
                 vis.widgets[widgetID].data.oid_hsitory = newId + ".data.history";
@@ -450,15 +450,15 @@
 
     }
 
-    vis.binds.myhomecontrol_ebus.showVersion();
+    vis.binds.ebus.showVersion();
 
 </script>
 
 <script id="tplEbusShowInstance"
         type="text/ejs"
         class="vis-tpl"
-        data-vis-prev='<img src="widgets/myhomecontrol_ebus/img/Prev_tplebus.png"></img>'
-        data-vis-set="myhomecontrol_ebus"
+        data-vis-prev='<img src="widgets/ebus/img/Prev_tplebus.png"></img>'
+        data-vis-set="ebus"
         data-vis-type="ebus"
         data-vis-name="ebus"
         data-vis-update-style="true"
@@ -470,7 +470,7 @@
         data-vis-attrs4="group.status;statusvisible[true]/checkbox;statuscolor[#f1f113]/color;statuswithyaxix[true]/checkbox;"
         data-vis-attrs5="group.oids;oid_history/id;">
     <div class="vis-widget <%== this.data.attr('class') %>" style="width:210px; height:170px;" id="<%= this.data.attr('wid') %>">
-        <div class="vis-widget-body" <%= (el1) -> vis.binds.myhomecontrol_ebus.history.init(el1, this.view, this.data) %>></div>
+        <div class="vis-widget-body" <%= (el1) -> vis.binds.ebus.history.init(el1, this.view, this.data) %>></div>
     </div>
 </script>
 
