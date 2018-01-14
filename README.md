@@ -1,4 +1,4 @@
-﻿![Logo](admin/myhomecontrol.png)
+﻿![Logo](admin/ebus.png)
 # ioBroker.ebus
 ===========================
 
@@ -20,6 +20,9 @@ details incl. Arduino software see /t.b.d./
 Attention: ebus-history and ebus widget works only with arduino interface at the moment. Will be implemented for ebusd later.
 
 ## Changelog
+
+#### 0.4.1 
+* (René) logo changed 
 
 #### 0.4.0 
 * (René) reading data from ebusd 
