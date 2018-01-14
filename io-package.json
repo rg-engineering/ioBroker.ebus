@@ -55,15 +55,15 @@
     },
     "title": "ebus",
     "titleLang": {
-      "en": "ebus Adapter",
-      "de": "ebus Adapter",
-      "ru": "Адаптер ebus",
-      "pt": "Adaptador ebus",
-      "nl": "ebus-adapter",
-      "fr": "Adaptateur ebus",
-      "it": "adattatore ebus",
-      "es": "Adaptador ebus",
-      "pl": "Adapter ebus"
+      "en": "ebus",
+      "de": "ebus",
+      "ru": "ebus",
+      "pt": "ebus",
+      "nl": "ebus",
+      "fr": "ebus",
+      "it": "ebus",
+      "es": "ebus",
+      "pl": "ebus"
     },
     "desc": {
       "en": "ebus Adapter; reads data from ebusd or from Arduino ebus Interface",
