@@ -21,6 +21,9 @@ Attention: ebus-history and ebus widget works only with arduino interface at the
 
 ## Changelog
 
+#### 0.4.2
+* (René) bug fix for admin V3 
+
 #### 0.4.1 
 * (René) logo changed 
 

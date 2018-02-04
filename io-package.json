@@ -1,8 +1,19 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "news": {
+      "0.4.2": {
+        "en": "bug fix for admin V3",
+        "de": "Bugfix für Admin V3",
+        "ru": "исправление ошибок для администратора V3",
+        "pt": "correção de erros para admin V3",
+        "nl": "fout opgelost voor admin V3",
+        "fr": "Correction d'un bug pour l'administrateur V3",
+        "it": "correzione bug per admin V3",
+        "es": "solución de errores para el administrador V3",
+        "pl": "naprawa błędów dla administratora V3"
+      },
       "0.4.1": {
         "en": "logo changed",
         "de": "Logo geändert",

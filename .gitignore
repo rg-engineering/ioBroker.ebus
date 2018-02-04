@@ -8,5 +8,6 @@ admin/i18n
 *.njsproj
 todo.txt
 package-lock.json
+readme.txt
 
 /typings/*
