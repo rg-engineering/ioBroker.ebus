@@ -21,6 +21,9 @@ Attention: ebus-history and ebus widget works only with arduino interface at the
 
 ## Changelog
 
+#### 0.5.0
+* (René) write date over TCP to ebusd
+
 #### 0.4.2
 * (René) bug fix for admin V3 
 

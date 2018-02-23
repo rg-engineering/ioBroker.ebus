@@ -76,6 +76,7 @@ adapter.on('stateChange', function (id, state) {
 // start here!
 adapter.on('ready', function () {
     try {
+        //adapter.log.debug('start');
         main();
     }
     catch (e) {
@@ -86,8 +87,10 @@ adapter.on('ready', function () {
 function main() {
     var options = {
         targetIP: adapter.config.targetIP || '192.168.0.100',
-        targetPort: parseInt(adapter.config.targetPort)
-       
+        targetHTTPPort: parseInt(adapter.config.targetHTTPPort),
+        targetTelnetPort: parseInt(adapter.config.targetTelnetPort),
+        polledValues: adapter.config.PolledValues,
+        historyValues: adapter.config.HistoryValues
     };
 
     // force terminate after 1min
@@ -112,11 +115,9 @@ function main() {
         adapter.log.debug('start with interface ebusd ');
         ebusd_checkVariables();
 
-        ebusd_ReceiveData(options, function () {
-            setTimeout(function () {
-                adapter.stop();
-            }, 6000);
-        });
+        ebusd_ReadValues(options); // to trigger read over ebus
+
+        
 
     }
     else {
@@ -163,66 +164,104 @@ function Arduino_ReceiveData(options, cb) {
 
                 parseString(body, function (err, result) {
                     //adapter.log.debug(JSON.stringify(result));
+                    var oToday = new Date();
+                    var sDate = JSON.stringify(result.VaillantInterface.data[0].date[0].$.date);
+                    //Date "20.02.2018"
+                    sDate = sDate.replace(/"/g, '');
+                    var sDateArr = sDate.split(".");
 
-                    adapter.log.debug("result " + JSON.stringify(result.VaillantInterface));
-                    adapter.log.debug("date " + JSON.stringify(result.VaillantInterface.data[0].date[0].$.date));
-                    adapter.log.debug("time " + JSON.stringify(result.VaillantInterface.data[0].time[0].$.time));
+                    var sTime = JSON.stringify(result.VaillantInterface.data[0].time[0].$.time)
+                    //time "21:05:04"
+                    sTime = sTime.replace(/"/g, '');
+                    var sTimeArr = sTime.split(":");
+                    //year, month, day, hours, minutes, seconds, milliseconds
+                    var oDate = new Date(parseInt(sDateArr[2]), parseInt(sDateArr[1]) - 1, parseInt(sDateArr[0]), parseInt(sTimeArr[0]), parseInt(sTimeArr[1]), parseInt(sTimeArr[2]),0);
 
-                    adapter.setState('sender.IP', { ack: true, val: result.VaillantInterface.sender[0].$.IP });
+                    adapter.log.debug("got from " + oDate.toString());
+                    //adapter.log.debug("got from " + oDate.toString() + " " + oToday.toString());
+                    //adapter.log.debug("date " + sDate + " " + sDateArr[2] + " " + sDateArr[1] + " " + sDateArr[0]);
+                    //adapter.log.debug("time " + sTime + " " + sTimeArr[0] + " " + sTimeArr[1] + " " + sTimeArr[2]);
 
-                    adapter.setState('sender.name', { ack: true, val: result.VaillantInterface.sender[0].$.name });
-                    adapter.setState('sender.versionname', { ack: true, val: result.VaillantInterface.version[0].$.name });
-                    adapter.setState('sender.version', { ack: true, val: result.VaillantInterface.version[0].$.number });
-                    adapter.setState('sender.RAM', { ack: true, val: result.VaillantInterface.system[0].$.RAM });
-                    adapter.setState('sender.RX', { ack: true, val: result.VaillantInterface.system[0].$.Rx });
+                    //just check if we got correct date and time 
 
-                    adapter.setState('data.date', { ack: true, val: result.VaillantInterface.data[0].date[0].$.date });
-                    adapter.setState('data.time', { ack: true, val: result.VaillantInterface.data[0].time[0].$.time });
-                    adapter.setState('data.TempOut', { ack: true, val: result.VaillantInterface.data[0].TempOut[0].$.value });
-                    adapter.setState('data.TempVorlauf', { ack: true, val: result.VaillantInterface.data[0].TempVorlauf[0].$.value });
-                    adapter.setState('data.TempQuelle', { ack: true, val: result.VaillantInterface.data[0].TempQuelle[0].$.value });
-                    adapter.setState('data.HeizLeistungMomentan', { ack: true, val: result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value });
-                    adapter.setState('data.Status', { ack: true, val: result.VaillantInterface.data[0].Status[0].$.value });
-                    adapter.setState('data.Error', { ack: true, val: result.VaillantInterface.data[0].Error[0].$.value });
-                    adapter.setState('data.Warning', { ack: true, val: result.VaillantInterface.data[0].Warning[0].$.value });
-                    adapter.setState('data.Pump', { ack: true, val: result.VaillantInterface.data[0].pump[0].$.state });
+                    //adapter.log.debug("*** " + Math.abs(oDate.getTime() - oToday.getTime()) + " " + (12 * 60 * 60 * 1000))
+
+                    if (Math.abs(oDate.getTime() - oToday.getTime()) < (12 * 60 * 60 * 1000)) {
+
+                        adapter.log.debug("result " + JSON.stringify(result.VaillantInterface));
 
 
-                    //myhomecontrol_ebus.0.data.history
-                    //use datapoint behaviour as storage for json object
-                    adapter.getState('data.history', function (err, obj) {
-                        if (err) {
-                            adapter.log.error(err);
-                        } else {
+                        adapter.setState('sender.IP', { ack: true, val: result.VaillantInterface.sender[0].$.IP });
 
-                            //adapter.log.debug("before " + obj.val);
-                            if (obj != null) {
-                                oEbusHistory = JSON.parse(obj.val);
-                            }
-                            //adapter.log.debug("after " + JSON.stringify(oEbusHistory));
+                        adapter.setState('sender.name', { ack: true, val: result.VaillantInterface.sender[0].$.name });
+                        adapter.setState('sender.versionname', { ack: true, val: result.VaillantInterface.version[0].$.name });
+                        adapter.setState('sender.version', { ack: true, val: result.VaillantInterface.version[0].$.number });
+                        adapter.setState('sender.RAM', { ack: true, val: result.VaillantInterface.system[0].$.RAM });
+                        adapter.setState('sender.RX', { ack: true, val: result.VaillantInterface.system[0].$.Rx });
 
-                            oEbusHistory.push({
-                                "date": result.VaillantInterface.data[0].date[0].$.date,
-                                "time": result.VaillantInterface.data[0].time[0].$.time,
-                                "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
-                                "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
-                                "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
-                                "Status": result.VaillantInterface.data[0].Status[0].$.value
-                            });
-                            //adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
-                            //limit length of object...
-                            if (oEbusHistory.length > 200) {
+                        adapter.setState('data.date', { ack: true, val: sDate });
+                        adapter.setState('data.time', { ack: true, val: sTime });
+                        adapter.setState('data.TempOut', { ack: true, val: result.VaillantInterface.data[0].TempOut[0].$.value });
+                        adapter.setState('data.TempVorlauf', { ack: true, val: result.VaillantInterface.data[0].TempVorlauf[0].$.value });
+                        adapter.setState('data.TempQuelle', { ack: true, val: result.VaillantInterface.data[0].TempQuelle[0].$.value });
+                        adapter.setState('data.HeizLeistungMomentan', { ack: true, val: result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value });
+                        adapter.setState('data.Status', { ack: true, val: result.VaillantInterface.data[0].Status[0].$.value });
+                        adapter.setState('data.Error', { ack: true, val: result.VaillantInterface.data[0].Error[0].$.value });
+                        adapter.setState('data.Warning', { ack: true, val: result.VaillantInterface.data[0].Warning[0].$.value });
+                        adapter.setState('data.Pump', { ack: true, val: result.VaillantInterface.data[0].pump[0].$.state });
 
-                                for (var i = oEbusHistory.length; i > 200; i--) {
-                                    adapter.log.debug("delete");
-                                    oEbusHistory.shift();
+
+                        //myhomecontrol_ebus.0.data.history
+                        //use datapoint behaviour as storage for json object
+                        var historyvalues = [];
+                  
+                        historyvalues.push({
+                            "date": result.VaillantInterface.data[0].date[0].$.date,
+                            "time": result.VaillantInterface.data[0].time[0].$.time,
+                            "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
+                            "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
+                            "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
+                            "Status": result.VaillantInterface.data[0].Status[0].$.value
+                        });
+
+                        UpdateHistory(historyvalues);
+
+                        /*
+                        adapter.getState('data.history', function (err, obj) {
+                            if (err) {
+                                adapter.log.error(err);
+                            } else {
+
+                                //adapter.log.debug("before " + obj.val);
+                                if (obj != null) {
+                                    oEbusHistory = JSON.parse(obj.val);
                                 }
+                                //adapter.log.debug("after " + JSON.stringify(oEbusHistory));
+
+                                oEbusHistory.push({
+                                    "date": result.VaillantInterface.data[0].date[0].$.date,
+                                    "time": result.VaillantInterface.data[0].time[0].$.time,
+                                    "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
+                                    "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
+                                    "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
+                                    "Status": result.VaillantInterface.data[0].Status[0].$.value
+                                });
+                                //adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
+                                //limit length of object...
+                                if (oEbusHistory.length > 200) {
+
+                                    for (var i = oEbusHistory.length; i > 200; i--) {
+                                        adapter.log.debug("delete");
+                                        oEbusHistory.shift();
+                                    }
+                                }
+
+                                adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });
                             }
 
-                            adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });
-                        }
-
-                    });
+                        });
+                        */
+                    }
                 });
             } else {
                 adapter.log.error(error);
@@ -371,12 +410,41 @@ function Arduino_checkVariables() {
 // ebusd interface
 //just call http://192.168.0.123:8889/data
 function ebusd_checkVariables() {
+    adapter.log.debug("init variables ");
+
+
+
+    adapter.setObjectNotExists("cmd", {
+        type: "state",
+        common: {
+            name: "ebusd command",
+            type: "string",
+            read: true,
+            write: true
+        }
+    });
+    adapter.setObjectNotExists("cmdResult", {
+        type: "state",
+        common: {
+            name: "ebusd command result",
+            type: "string",
+            read: true,
+            write: false
+        }
+    });
+
+    adapter.setObjectNotExists('data.history', {
+        type: 'state',
+        common: { name: 'ebus history as JSON', type: 'string', role: 'history', unit: '', read: true, write: false },
+        native: { location: 'data.history' }
+    });
 }
 
-
+//get data via https in json -> this is the main data receiver; telnet just triggers ebusd to read data;
+//https://github.com/john30/ebusd/wiki/3.2.-HTTP-client
 function ebusd_ReceiveData(options, cb) {
 
-    var sUrl = "http://" + options.targetIP + ":" + options.targetPort + "/data";
+    var sUrl = "http://" + options.targetIP + ":" + options.targetHTTPPort + "/data";
     adapter.log.debug("request data from " + sUrl);
 
     request(sUrl, function (error, response, body) {
@@ -397,37 +465,85 @@ function ebusd_ReceiveData(options, cb) {
 
                 var keys = Object.keys(newData);
 
+                adapter.log.debug("history: " + options.historyValues);
+
+                var oHistory = options.historyValues.split(",");
+
+                var historyvalues = [];
+
+                var oToday = new Date();
+
+                historyvalues.push({
+                    "date": oToday.getDate() + "." + oToday.getMonth() + 1 + "." + oToday.getFullYear(),
+                    "time": oToday.getHours() + ":" + oToday.getMinutes() + ":" + oToday.getSeconds()
+                });
+
+            
+
+                var name = "unknown";
                 for (var i = 0; i < keys.length; i++) {
                     var key = keys[i];
                     var subnames = key.split('.');
                     var temp = subnames.length;
+                    //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
 
-                    if (subnames[temp - 1].includes("value")) {
-                        adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+                    
+                    if (subnames[temp - 1].includes("name")) {
+                        name = newData[key];
+                    }
+                    else if (subnames[temp - 1].includes("value")) {
+                        adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
 
                         var value = newData[key];
 
+                        //value
                         AddObject(key);
                         UpdateObject(key, value);
+
+                        //name parallel to value
+                        var keyname = key.replace("value", "name");
+                        AddObject(keyname);
+                        UpdateObject(keyname, name);
+                        
+
+                        //push to history
+                        if (!subnames[temp - 2].includes("sensor")) { //ignore sensor states
+                            for (var ii = 0; ii < oHistory.length; ii++) {
+
+                                if (name == oHistory[ii]) {
+
+                                    var sTemp = '{"' + name + '": "' + value + '"}';
+                                    adapter.log.debug(sTemp);
+                                    historyvalues.push(JSON.parse(sTemp));
+                                }
+                            }
+
+                        }
+
                     }
                     else if (subnames[temp - 1].includes("lastup")) {
 
                         var value = newData[key];
 
                         if (parseInt(value) > 0) {
-                            adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+                            adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
                             AddObject(key);
                             UpdateObject(key, value);
                         }
                     }
                     else if (subnames[0].includes("global")) {
-                        adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+                        adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
                         var value = newData[key];
                         AddObject(key);
                         UpdateObject(key, value);
                     }
                 }
-                adapter.log.info("all done");
+
+                adapter.log.debug(JSON.stringify(historyvalues));
+
+                UpdateHistory(historyvalues);
+
+                adapter.log.info("all http done");
             }
         }
         catch (e) {
@@ -435,6 +551,35 @@ function ebusd_ReceiveData(options, cb) {
         }
     });
 }
+
+function UpdateHistory(values) {
+
+    adapter.getState('data.history', function (err, obj) {
+        if (err) {
+            adapter.log.error(err);
+        } else {
+
+            if (obj != null) {
+                adapter.log.debug("before " + obj.val);
+                oEbusHistory = JSON.parse(obj.val);
+            }
+            adapter.log.debug("after " + JSON.stringify(oEbusHistory));
+
+            oEbusHistory.push(values);
+            adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
+            //limit length of object...
+            if (oEbusHistory.length > 200) {
+
+                for (var i = oEbusHistory.length; i > 200; i--) {
+                    adapter.log.debug("delete");
+                    oEbusHistory.shift();
+                }
+            }
+            adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });
+        }
+    });
+}
+
 
 function AddObject(key) {
     adapter.setObjectNotExists(key, {
@@ -447,3 +592,76 @@ function AddObject(key) {
 function UpdateObject(key, value) {
     adapter.setState(key, { ack: true, val: value });
 }
+
+
+//telnet client to write to ebusd
+//https://github.com/john30/ebusd/wiki/3.1.-TCP-client-commands
+/*
+telnet 192.168.3.144 8890
+
+find -f -c broadcast outsidetemp
+find -f  outsidetemp
+find -f  YieldTotal
+
+read YieldTotal
+read LegioProtectionEnabled
+
+*/
+var net = require('net');
+
+//this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
+//here we need a loop over all configured read data in admin-page
+function ebusd_ReadValues(options) {
+    adapter.log.debug("connect telnet to IP " + options.targetIP + " port " + options.targetTelnetPort);
+
+    //adapter.log.debug("polled: " + options.polledValues);
+    //adapter.log.debug("history: " + options.historyValues);
+
+    var oPolled = options.polledValues.split(",");
+    var nCtr = 0;
+    adapter.log.debug("polled: " + oPolled);
+
+    var client = new net.Socket();
+    client.setTimeout(5000, function () {
+        client.destroy();
+    });
+    client.connect(options.targetTelnetPort, options.targetIP, function () {
+        adapter.log.debug("telnet connected");
+    });
+    client.on('data', function (data) {
+        adapter.log.debug("received " + data);
+
+        if (oPolled.length > nCtr) {
+            client.write('read -f ' + oPolled[nCtr] + '\n');
+            nCtr++;
+        }
+        else {
+            client.end();
+            client.destroy();
+            adapter.log.debug("all telnet done ");
+            ebusd_ReceiveData(options, function () {
+                setTimeout(function () {
+                    adapter.stop();
+                }, 6000);
+            });
+        }
+    });
+    client.on('end', function () {
+        adapter.log.debug('Daten ausgelesen');
+    });
+
+    
+    if (oPolled.length>nCtr) {
+        client.write('read -f ' + oPolled[nCtr] + '\n');
+        nCtr++;
+    }
+    //client.end();
+    client.on('error', function (err) {
+
+        client.destroy();
+        adapter.log.debug('Telnet Server nicht erreichbar.');
+    });
+
+
+}
+

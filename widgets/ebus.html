@@ -173,7 +173,7 @@
                             var month = DateArray[1];
                             var year = DateArray[2];
 
-                            //console.log("data " + vorlauftemp + " " + sDate + " " + sTime);
+                            
                             //data 25.37 31.12.2017 14:07:00
 
                             var nstatus;
@@ -191,7 +191,7 @@
                             oDate.setHours(hour);
                             oDate.setMinutes(minute);
                             oDate.setDate(day);
-                            oDate.setMonth(month);
+                            oDate.setMonth(month-1);
                             oDate.setYear(year);
 
                             values_vorlauftemp.push([oDate, vorlauftemp]);
@@ -206,7 +206,11 @@
                             if (quelltemp > maxY_QuellTemp) maxY_QuellTemp = quelltemp;
                             if (quelltemp < minY_QuellTemp) minY_QuellTemp = quelltemp;
 
+                            //console.log("data " + oDate.toISOString() + " " + vorlauftemp + " " + quelltemp + " " + heizleistung + " " + nstatus );
+
                         }
+
+                        
 
                         maxY_VorlaufTemp = Math.ceil((maxY_VorlaufTemp + 1) / 10) * 10;
                         if (minY_VorlaufTemp > 0) {
@@ -219,6 +223,8 @@
                             minY_VorlaufTemp = -1.0 * minY_VorlaufTemp;
                         }
 
+                        console.log("Vorlauf min " + minY_VorlaufTemp + " max " + maxY_VorlaufTemp);
+
                         maxY_QuellTemp = Math.ceil((maxY_QuellTemp + 1) / 10) * 10;
                         if (minY_QuellTemp > 0) {
                             minY_QuellTemp = 0;
@@ -229,7 +235,7 @@
                             minY_QuellTemp = Math.ceil((temp1 + 1) / 10) * 10;
                             minY_QuellTemp = -1.0 * minY_QuellTemp;
                         }
-
+                        console.log("Quell min " + minY_QuellTemp + " max " + maxY_QuellTemp);
                         var barwidth = 1000 * 60 * 5; //5 Minuten
 
                         $.plot($div,

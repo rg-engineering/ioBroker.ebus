@@ -1,8 +1,19 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.4.2",
+    "version": "0.5.0",
     "news": {
+      "0.5.0": {
+        "en": "write date over TCP to ebusd",
+        "de": "schreibe Datum über TCP nach ebusd",
+        "ru": "записать дату через TCP в ebusd",
+        "pt": "escreva data sobre TCP para ebusd",
+        "nl": "schrijf de datum via TCP naar ebusd",
+        "fr": "écrire la date sur TCP à ebusd",
+        "it": "scrivere la data su TCP su ebusd",
+        "es": "escribir fecha sobre TCP para ebusd",
+        "pl": "zapisz datę przez TCP do ebusd"
+      },
       "0.4.2": {
         "en": "bug fix for admin V3",
         "de": "Bugfix für Admin V3",
@@ -110,8 +121,11 @@
   },
   "native": {
     "targetIP": "192.168.0.1",
-    "interfacetype": "arduino",
-    "targetPort": 8889
+    "interfacetype": "ebusd",
+    "targetHTTPPort": 8889,
+    "targetTelnetPort": 8890,
+    "PolledValues": "",
+    "HistoryValues":  ""
   }
 
 }
