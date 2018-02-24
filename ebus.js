@@ -472,9 +472,10 @@ function ebusd_ReceiveData(options, cb) {
                 var historyvalues = [];
 
                 var oToday = new Date();
+                var month = oToday.getMonth() + 1;
 
                 historyvalues.push({
-                    "date": oToday.getDate() + "." + oToday.getMonth() + 1 + "." + oToday.getFullYear(),
+                    "date": oToday.getDate() + "." + month  + "." + oToday.getFullYear(),
                     "time": oToday.getHours() + ":" + oToday.getMinutes() + ":" + oToday.getSeconds()
                 });
 
@@ -500,7 +501,7 @@ function ebusd_ReceiveData(options, cb) {
                         AddObject(key);
                         UpdateObject(key, value);
 
-                        //name parallel to value
+                        //name parallel to value: used for lists in admin...
                         var keyname = key.replace("value", "name");
                         AddObject(keyname);
                         UpdateObject(keyname, name);
@@ -527,8 +528,19 @@ function ebusd_ReceiveData(options, cb) {
 
                         if (parseInt(value) > 0) {
                             adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
+
+                            //umrechnen...
+                            var oDate = new Date(value * 1000);
+                            var nDate = oDate.getDate();
+                            var nMonth = oDate.getMonth() + 1;
+                            var nYear = oDate.getFullYear();
+                            var nHours = oDate.getHours();
+                            var nMinutes = oDate.getMinutes();
+                            var nSeconds = oDate.getSeconds();
+                            
+                            var sDate = nDate + "." + nMonth + "." + nYear + " " + nHours + ":" + nMinutes + ":" + nSeconds;
                             AddObject(key);
-                            UpdateObject(key, value);
+                            UpdateObject(key, sDate);
                         }
                     }
                     else if (subnames[0].includes("global")) {
