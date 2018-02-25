@@ -1,7 +1,7 @@
 ﻿<!--
     ioBroker.vis ebus Widget-Set
 
-    version: "0.1.1"
+    version: "0.5.0"
 
     Copyright 2017,2018 René G. info@rg-engineering.eu
 -->
@@ -44,34 +44,66 @@
         "time_interval": { "en": "Time interval", "de": "Zeitintervall", "ru": "????????" },
         "withxaxix": { "en": "show X axis", "de": "zeige X-Achse", "ru": "???" },
         "ebusinstance": { "en": "ebus instance", "de": "ebus Instanz", "ru": "???" },
-        "group_vorlauftemp": { "en": "group_vorlauftemp", "de": "Vorlauftemperatur", "ru": "???" },
-        "vorlauftempvisible": { "en": "visible", "de": "sichtbar", "ru": "???" },
-        "vorlauftempcolor": { "en": "color", "de": "Farbe", "ru": "???" },
-        "group_quelletemp": { "en": "group_quelletemp", "de": "Qellentemperatur", "ru": "???" },
-        "quelletempvisible": { "en": "visible", "de": "sichtbar", "ru": "???" },
-        "quelletempcolor": { "en": "color", "de": "Farbe", "ru": "???" },
-        "group_heizleistung": { "en": "group_heizleistung", "de": "Heizleistung", "ru": "???" },
-        "heizleistungvisible": { "en": "visible", "de": "sichtbar", "ru": "???" },
-        "heizleistungcolor": { "en": "color", "de": "Farbe", "ru": "???" },
-        "group_status": { "en": "group_status", "de": "Heizstatus", "ru": "???" },
-        "statusvisible": { "en": "visible", "de": "sichtbar", "ru": "???" },
-        "statuscolor": { "en": "color", "de": "Farbe", "ru": "???" },
         "oid_history": { "en": "OID history", "de": "OID history", "ru": "???" },
 
-        "vorlauftempwithyaxix": { "en": "with Y axis", "de": "zeige Y-Achse", "ru": "vorlauftempwithyaxix" },
-        "quelltempwithyaxix": { "en": "with Y axis", "de": "zeige Y-Achse", "ru": "quelltempwithyaxix" },
-        "heizleistungwithyaxix": { "en": "with Y axis", "de": "zeige Y-Achse", "ru": "heizleistungwithyaxix" },
-        "statuswithyaxix": { "en": "with Y axis", "de": "zeige Y-Achse", "ru": "statuswithyaxix" },
         "xDateFormat": { "en": "format for date/time on x-axis", "de": "Datum-/Zeitformat X-Achse", "ru": "???" },
 
-        "serial": { "en": "serial", "de": "serial", "ru": "serial" },
 
-        "todaywithy": { "en": "show y axis", "de": "zeige Y-Achse", "ru": "todaywithy" },
-        "last30dayswithy": { "en": "show y axis", "de": "zeige Y-Achse", "ru": "last30dayswithy" },
-        "last12monthswithy": { "en": "show y axis", "de": "zeige Y-Achse", "ru": "last12monthswithy" },
-        "yearswithy": { "en": "show y axis", "de": "zeige Y-Achse", "ru": "yearswithy" },
+        //ab hier noch übersetzen
+        "charttypeline": { "en": "charttypeline", "de": "charttypeline", "ru": "charttypeline" },
+        "charttypebar": { "en": "charttypebar", "de": "charttypebar", "ru": "charttypebar" },
+        "none": { "en": "none", "de": "none", "ru": "none" },
+        "kWh": { "en": "kWh", "de": "kWh", "ru": "kWh" },
+        "degree": { "en": "degree", "de": "degree", "ru": "degree" },
+        "charttypeline": { "en": "charttypeline", "de": "charttypeline", "ru": "charttypeline" },
+        "charttypebar": { "en": "charttypebar", "de": "charttypebar", "ru": "charttypebar" },
+        "none": { "en": "none", "de": "none", "ru": "none" },
+        "kWh": { "en": "kWh", "de": "kWh", "ru": "kWh" },
+        "degree": { "en": "degree", "de": "degree", "ru": "degree" },
+        "charttypeline": { "en": "charttypeline", "de": "charttypeline", "ru": "charttypeline" },
+        "charttypebar": { "en": "charttypebar", "de": "charttypebar", "ru": "charttypebar" },
+        "none": { "en": "none", "de": "none", "ru": "none" },
+        "kWh": { "en": "kWh", "de": "kWh", "ru": "kWh" },
+        "degree": { "en": "degree", "de": "degree", "ru": "degree" },
+        "charttypeline": { "en": "charttypeline", "de": "charttypeline", "ru": "charttypeline" },
+        "charttypebar": { "en": "charttypebar", "de": "charttypebar", "ru": "charttypebar" },
+        "none": { "en": "none", "de": "none", "ru": "none" },
+        "kWh": { "en": "kWh", "de": "kWh", "ru": "kWh" },
+        "degree": { "en": "degree", "de": "degree", "ru": "degree" },
+        "group_graph1": { "en": "group_graph1", "de": "group_graph1", "ru": "group_graph1" },
+        "graph1data": { "en": "graph1data", "de": "graph1data", "ru": "graph1data" },
+        "graph1charttype": { "en": "graph1charttype", "de": "graph1charttype", "ru": "graph1charttype" },
+        "graph1visible": { "en": "graph1visible", "de": "graph1visible", "ru": "graph1visible" },
+        "graph1color": { "en": "graph1color", "de": "graph1color", "ru": "graph1color" },
+        "graph1withyaxix": { "en": "graph1withyaxix", "de": "graph1withyaxix", "ru": "graph1withyaxix" },
+        "graph1YAxisFomat": { "en": "graph1YAxisFomat", "de": "graph1YAxisFomat", "ru": "graph1YAxisFomat" },
+        "group_graph2": { "en": "group_graph2", "de": "group_graph2", "ru": "group_graph2" },
+        "graph2data": { "en": "graph2data", "de": "graph2data", "ru": "graph2data" },
+        "graph2charttype": { "en": "graph2charttype", "de": "graph2charttype", "ru": "graph2charttype" },
+        "graph2visible": { "en": "graph2visible", "de": "graph2visible", "ru": "graph2visible" },
+        "graph2color": { "en": "graph2color", "de": "graph2color", "ru": "graph2color" },
+        "graph2withyaxix": { "en": "graph2withyaxix", "de": "graph2withyaxix", "ru": "graph2withyaxix" },
+        "graph2YAxisFomat": { "en": "graph2YAxisFomat", "de": "graph2YAxisFomat", "ru": "graph2YAxisFomat" },
+        "group_graph3": { "en": "group_graph3", "de": "group_graph3", "ru": "group_graph3" },
+        "graph3data": { "en": "graph3data", "de": "graph3data", "ru": "graph3data" },
+        "graph3charttype": { "en": "graph3charttype", "de": "graph3charttype", "ru": "graph3charttype" },
+        "graph3visible": { "en": "graph3visible", "de": "graph3visible", "ru": "graph3visible" },
+        "graph3color": { "en": "graph3color", "de": "graph3color", "ru": "graph3color" },
+        "graph3withyaxix": { "en": "graph3withyaxix", "de": "graph3withyaxix", "ru": "graph3withyaxix" },
+        "graph3YAxisFomat": { "en": "graph3YAxisFomat", "de": "graph3YAxisFomat", "ru": "graph3YAxisFomat" },
+        "group_graph4": { "en": "group_graph4", "de": "group_graph4", "ru": "group_graph4" },
+        "graph4data": { "en": "graph4data", "de": "graph4data", "ru": "graph4data" },
+        "graph4charttype": { "en": "graph4charttype", "de": "graph4charttype", "ru": "graph4charttype" },
+        "graph4visible": { "en": "graph4visible", "de": "graph4visible", "ru": "graph4visible" },
+        "graph4color": { "en": "graph4color", "de": "graph4color", "ru": "graph4color" },
+        "graph4withyaxix": { "en": "graph4withyaxix", "de": "graph4withyaxix", "ru": "graph4withyaxix" },
+        "graph4YAxisFomat": { "en": "graph4YAxisFomat", "de": "graph4YAxisFomat", "ru": "graph4YAxisFomat" }
 
     });
+
+    function noneFormatter(v, axis) {
+        return v.toFixed(axis.tickDecimals);
+    }
 
     function degreeFormatter(v, axis) {
         return v.toFixed(axis.tickDecimals) + "°C";
@@ -88,7 +120,7 @@
 
     // this code can be placed directly in template.html
     vis.binds.ebus = {
-        version: "0.2.0",
+        version: "0.5.0",
         showVersion: function () {
             if (vis.binds.ebus.version) {
                 console.log('Version ebus: ' + vis.binds.ebus.version);
@@ -138,32 +170,43 @@
 
                         console.log("ShowChart begin");
 
+
                         //parse data
                         var oid_history = data.oid_history;
-                        var all_data = JSON.parse(vis.states[oid_history + '.val']);
+                        try {
+                            var all_data = JSON.parse(vis.states[oid_history + '.val']);
+                        } catch (e) {
+                            console.warn('parse error [' + e + ']');
+                            $div.html("<br> <center> <font color='red'>no data available yet </font> </center></br>");
+                            return;
+                        }
 
-                        var values_vorlauftemp = [];
-                        var values_quelletemp = [];
-                        var values_heizleistung = [];
-                        var values_status = [];
-                        var values_date = [];
-                        var values_time = [];
-                        var maxY_VorlaufTemp = -99;
-                        var minY_VorlaufTemp = 99;
-                        var maxY_QuellTemp = -99;
-                        var minY_QuellTemp = 99;
+                        if (typeof all_data == "undefined" || all_data.length < 100) {
+                            $div.html("<br> <center> <font color='red'>no data available yet </font> </center></br>");
+                            return;
+                        }
 
+                        var values_graph1 = [];
+                        var maxY_graph = [-99, -99, -99, -99];
+                        var minY_graph = [999999, 999999, 999999, 999999];
+
+                        var values_graph2 = [];
+
+
+                        var values_graph3 = [];
+
+
+                        var values_graph4 = [];
+
+
+                        //console.log("data length " + all_data.length);
+                        //console.log(JSON.stringify(all_data));
                         for (var i = 0; i < all_data.length; i++) {
-
+                            //console.log(JSON.stringify(all_data[i]));
                             var oVals = all_data[i];
 
-                            var vorlauftemp = parseFloat(oVals["TempVorlauf"]);
-                            var quelltemp = parseFloat(oVals["TempQuelle"]);
-                            var heizleistung = parseFloat(oVals["HeizLeistung"]);
-                            heizleistung = 1000.0 * heizleistung; //we get kW but we need W
-                            var status = oVals["Status"];
-                            var sDate = oVals["date"];
-                            var sTime = oVals["time"];
+                            var sDate = oVals[0]["date"];
+                            var sTime = oVals[0]["time"];
 
                             var DateArray = sDate.split(".");
                             var TimeArray = sTime.split(":");
@@ -173,122 +216,218 @@
                             var month = DateArray[1];
                             var year = DateArray[2];
 
-                            
-                            //data 25.37 31.12.2017 14:07:00
-
-                            var nstatus;
-                            switch (status) {
-                                case "Warmwasser": nstatus = 3; break;
-                                case "Heizen": nstatus = 2; break;
-                                case "Bereitschaft": nstatus = 1; break;
-                                default:
-                                    console.log("unknown " + status);
-                                    nstatus = 0;
-                                    break;
-                            }
-
                             var oDate = new Date();
                             oDate.setHours(hour);
                             oDate.setMinutes(minute);
                             oDate.setDate(day);
-                            oDate.setMonth(month-1);
+                            oDate.setMonth(month - 1);
                             oDate.setYear(year);
 
-                            values_vorlauftemp.push([oDate, vorlauftemp]);
-                            values_quelletemp.push([oDate, quelltemp]);
-                            values_heizleistung.push([oDate, heizleistung]);
-                            values_status.push([oDate, nstatus]);
 
-                            if (vorlauftemp > maxY_VorlaufTemp) maxY_VorlaufTemp = vorlauftemp;
-                            if (vorlauftemp < minY_VorlaufTemp) minY_VorlaufTemp = vorlauftemp;
+                            for (var n = 1; n < oVals.length; n++) {
+                                if (data.graph1data != "unknown") {
+                                    var sVal = oVals[n][data.graph1data];
+                                    if (typeof sVal != "undefined") {
+                                        var sValGraph1 = sVal;
+                                        console.log("graph1 "+ sDate + " " + sTime + ": " + sValGraph1);
+                                        values_graph1.push([oDate, sValGraph1]);
 
+                                        if (sValGraph1 > maxY_graph[0]) maxY_graph[0] = sValGraph1;
+                                        if (sValGraph1 < minY_graph[0]) minY_graph[0] = sValGraph1;
+                                    }
+                                }
 
-                            if (quelltemp > maxY_QuellTemp) maxY_QuellTemp = quelltemp;
-                            if (quelltemp < minY_QuellTemp) minY_QuellTemp = quelltemp;
+                                if (data.graph2data != "unknown") {
+                                    var sVal = oVals[n][data.graph2data];
+                                    if (typeof sVal != "undefined") {
+                                        var sValGraph2 = sVal;
+                                        console.log("graph2 " + sDate + " " + sTime + ": " + sValGraph2);
+                                        values_graph2.push([oDate, sValGraph2]);
 
-                            //console.log("data " + oDate.toISOString() + " " + vorlauftemp + " " + quelltemp + " " + heizleistung + " " + nstatus );
+                                        if (sValGraph2 > maxY_graph[1]) maxY_graph[1] = sValGraph2;
+                                        if (sValGraph2 < minY_graph[1]) minY_graph[1] = sValGraph2;
+                                    }
+                                }
 
+                                if (data.graph3data != "unknown") {
+                                    var sVal = oVals[n][data.graph3data];
+                                    if (typeof sVal != "undefined") {
+                                        var sValGraph3 = sVal;
+                                        console.log("graph3 " + sDate + " " + sTime + ": " + sValGraph3);
+                                        values_graph3.push([oDate, sValGraph3]);
+
+                                        if (sValGraph3 > maxY_graph[2]) maxY_graph[2] = sValGraph3;
+                                        if (sValGraph3 < minY_graph[2]) minY_graph[2] = sValGraph3;
+                                    }
+                                }
+
+                                if (data.graph4data != "unknown") {
+                                    var sVal = oVals[n][data.graph4data];
+                                    if (typeof sVal != "undefined") {
+                                        var sValGraph4 = sVal;
+                                        console.log("graph4 " + sDate + " " + sTime + ": " + sValGraph4);
+                                        values_graph4.push([oDate, sValGraph4]);
+
+                                        if (sValGraph4 > maxY_graph[3]) maxY_graph[3] = sValGraph4;
+                                        if (sValGraph4 < minY_graph[3]) minY_graph[3] = sValGraph4;
+                                    }
+                                }
+                            }
                         }
 
                         
+                        for (var n = 0; n < 4; n++) {
 
-                        maxY_VorlaufTemp = Math.ceil((maxY_VorlaufTemp + 1) / 10) * 10;
-                        if (minY_VorlaufTemp > 0) {
-                            minY_VorlaufTemp = 0;
+                            console.log("****** before Graph" + n + " max " + maxY_graph[n] + " min " + minY_graph[n] );
+
+                            var nTemp = parseFloat(maxY_graph[n]);
+                            //console.log(nTemp);
+                            nTemp = nTemp + 1;
+                            //console.log(nTemp);
+                            nTemp = nTemp / 10;
+                            //console.log(nTemp);
+                            maxY_graph[n] = Math.ceil(nTemp) * 10;
+                            if (minY_graph[n] >= 0 && minY_graph[n] < 1000) { //only for temperature and pressure values
+                                minY_graph[n] = 0;
+                            }
+                            else if (minY_graph[n] < 0) {
+                                var temp1 = Math.abs(minY_graph[n]);
+
+                                minY_graph[n] = Math.ceil((temp1 + 1) / 10) * 10;
+                                minY_graph[n] = -1.0 * minY_graph[n];
+                            }
+                            else {
+                                nTemp = parseFloat(minY_graph[n]);
+                                //console.log(nTemp);
+                                nTemp = nTemp + 1;
+                                //console.log(nTemp);
+                                nTemp = nTemp / 10;
+                                //console.log(nTemp);
+                                minY_graph[n] = Math.ceil(nTemp) * 10;
+                            }
+                            console.log("****** after Graph" + n + "max " + maxY_graph[n] + " min " + minY_graph[n]);
                         }
-                        else {
-                            var temp1 = Math.abs(minY_VorlaufTemp);
+                        
 
-                            minY_VorlaufTemp = Math.ceil((temp1 + 1) / 10) * 10;
-                            minY_VorlaufTemp = -1.0 * minY_VorlaufTemp;
-                        }
 
-                        console.log("Vorlauf min " + minY_VorlaufTemp + " max " + maxY_VorlaufTemp);
-
-                        maxY_QuellTemp = Math.ceil((maxY_QuellTemp + 1) / 10) * 10;
-                        if (minY_QuellTemp > 0) {
-                            minY_QuellTemp = 0;
-                        }
-                        else {
-                            var temp1 = Math.abs(minY_QuellTemp);
-
-                            minY_QuellTemp = Math.ceil((temp1 + 1) / 10) * 10;
-                            minY_QuellTemp = -1.0 * minY_QuellTemp;
-                        }
-                        console.log("Quell min " + minY_QuellTemp + " max " + maxY_QuellTemp);
                         var barwidth = 1000 * 60 * 5; //5 Minuten
+
+                        var Graph1Formatter = noneFormatter;
+                        switch (data.graph1YAxisFomat) {
+                            case "kWh":
+                                Graph1Formatter = xwFormatter;
+                                console.log("kWh format");
+                                break;
+                            case "degree":
+                                Graph1Formatter = degreeFormatter;
+                                console.log("degree format");
+                                break;
+                            default:
+                                console.log("unknown format " + data.graph1YAxisFomat);
+                                break;
+
+                        }
+
+                        var Graph2Formatter = noneFormatter;
+                        switch (data.graph2YAxisFomat) {
+                            case "kWh":
+                                Graph2Formatter = xwFormatter;
+                                console.log("kWh format");
+                                break;
+                            case "degree":
+                                Graph2Formatter = degreeFormatter;
+                                console.log("degree format");
+                                break;
+                            default:
+                                console.log("unknown format " + data.graph2YAxisFomat);
+                                break;
+
+                        }
+
+                        var Graph3Formatter = noneFormatter;
+                        switch (data.graph3YAxisFomat) {
+                            case "kWh":
+                                Graph3Formatter = xwFormatter;
+                                console.log("kWh format");
+                                break;
+                            case "degree":
+                                Graph3Formatter = degreeFormatter;
+                                console.log("degree format");
+                                break;
+                            default:
+                                console.log("unknown format " + data.graph3YAxisFomat);
+                                break;
+
+                        }
+
+                        var Graph4Formatter = noneFormatter;
+                        switch (data.graph4YAxisFomat) {
+                            case "kWh":
+                                Graph4Formatter = xwFormatter;
+                                console.log("kWh format");
+                                break;
+                            case "degree":
+                                Graph4Formatter = degreeFormatter;
+                                console.log("degree format");
+                                break;
+                            default:
+                                console.log("unknown format " + data.graph4YAxisFomat);
+                                break;
+
+                        }
+
 
                         $.plot($div,
                             [
                                 {
-                                    data: data.vorlauftempvisible ? values_vorlauftemp : {},
-                                    color: data.vorlauftempcolor,
+                                    data: data.graph1visible ? values_graph1 : {},
+                                    color: data.graph1color,
 
                                     xaxis: 1,
                                     yaxis: 1,
-                                    lines: { show: true },
+                                    lines: { show: data.graph1charttype =="charttypeline" },
                                     bars:
                                     {
-                                        show: false,
+                                        show: data.graph1charttype == "charttypebar",
                                         barWidth: barwidth
                                     }
                                 },
                                 {
-                                    data: data.quelletempvisible ? values_quelletemp : {},
-                                    color: data.quelletempcolor,
+                                    data: data.graph2visible ? values_graph2 : {},
+                                    color: data.graph2color,
 
                                     xaxis: 1,
                                     yaxis: 2,
-                                    lines: { show: true },
+                                    lines: { show: data.graph2charttype == "charttypeline" },
                                     bars:
                                     {
-                                        show: false,
+                                        show: data.graph2charttype == "charttypebar",
                                         barWidth: barwidth
                                     }
                                 },
                                 {
-                                    data: data.heizleistungvisible ? values_heizleistung : {},
-                                    color: data.heizleistungcolor,
+                                    data: data.graph3visible ? values_graph3 : {},
+                                    color: data.graph3color,
 
                                     xaxis: 1,
                                     yaxis: 3,
-                                    lines: { show: false },
+                                    lines: { show: data.graph3charttype == "charttypeline" },
                                     bars:
                                     {
-                                        show: true,
+                                        show: data.graph3charttype == "charttypebar",
                                         barWidth: barwidth
                                     }
                                 },
                                 {
-                                    data: data.statusvisible ? values_status : {},
-                                    color: data.statuscolor,
+                                    data: data.graph4visible ? values_graph4 : {},
+                                    color: data.graph4color,
 
                                     xaxis: 1,
                                     yaxis: 4,
-                                    lines: { show: false },
+                                    lines: { show: data.graph4charttype == "charttypeline" },
                                     bars:
                                     {
-                                        show: true,
+                                        show: data.graph4charttype == "charttypebar",
                                         barWidth: barwidth
                                     }
                                 }
@@ -317,57 +456,58 @@
                                 yaxes:
                                 [
                                     {
-                                        show: data.vorlauftempvisible && data.vorlauftempwithyaxix,
-                                        max: maxY_VorlaufTemp,
-                                        min: minY_VorlaufTemp,
+                                        show: data.graph1visible && data.graph1withyaxix,
+                                        max: maxY_graph[0],
+                                        min: minY_graph[0],
                                         //alignTicksWithAxis: 1,
                                         position: 'left',
                                         ticks: 3,
                                         color: data.tickscolor,
                                         font: {
-                                            color: data.vorlauftempcolor
+                                            color: data.graph1color
                                         },
-                                        tickFormatter: degreeFormatter
+                                        tickFormatter: Graph1Formatter
                                     },
                                     {
-                                        show: data.quelletempvisible && data.quelltempwithyaxix,
-                                        max: maxY_QuellTemp,
-                                        min: minY_QuellTemp,
+                                        show: data.graph2visible && data.graph2withyaxix,
+                                        max: maxY_graph[1],
+                                        min: minY_graph[1],
                                         //alignTicksWithAxis: 1,
                                         position: 'left',
                                         ticks: 3,
                                         color: data.tickscolor,
                                         font: {
-                                            color: data.quelletempcolor
+                                            color: data.graph2color
                                         },
-                                        tickFormatter: degreeFormatter
+                                        tickFormatter: Graph2Formatter
                                     },
                                     {
-                                        show: data.heizleistungvisible && data.heizleistungwithyaxix,
-                                        max: 15,
-                                        min: 0,
+                                        show: data.graph3visible && data.graph3withyaxix,
+                                        max: maxY_graph[2],
+                                        min: minY_graph[2],
                                         //alignTicksWithAxis: 1,
                                         position: 'left',
                                         ticks: 3,
                                         color: data.tickscolor,
                                         font: {
-                                            color: data.heizleistungcolor
+                                            color: data.graph3color
                                         },
-                                        tickFormatter: xwFormatter
+                                        tickFormatter: Graph3Formatter
                                     },
                                     {
-                                        show: data.statusvisible && data.statuswithyaxix,
-                                        max: 3,
-                                        min: 1,
+                                        show: data.graph4visible && data.graph4withyaxix,
+                                        max: maxY_graph[3],
+                                        min: minY_graph[3],
                                         //alignTicksWithAxis: 1,
                                         position: 'left',
                                         ticks: 3,
                                         color: data.tickscolor,
                                         font: {
-                                            color: data.statuscolor
-                                        }
+                                            color: data.graph4color
+                                        },
+                                        tickFormatter: Graph4Formatter
                                     }
-                                    //no tickFormatter:
+                                    
 
                                 ],
                                 grid:
@@ -449,7 +589,32 @@
                 console.log('calc new oids');
                 vis.views[view].widgets[widgetID].data.oid_history = newId + ".data.history";
                 vis.widgets[widgetID].data.oid_hsitory = newId + ".data.history";
+
+                
+
             }
+
+            /*
+            to do
+            // fill combo box with existing data points
+            //vis.views[view].widgets[widgetID].data.graph1data = "1,2,3";
+            //vis.widgets[widgetID].data.graph1data = "1,2,3";
+
+            var strName, strValue;
+
+            for (strName in oVals) {
+                strValue = oVals[strName];
+                console.log(strName + " " + JSON.stringify(strValue));
+            }
+
+            for (prop in oVals) {
+                if (oVals.hasOwnProperty(prop)) {
+                    console.log("prop " + prop);
+                }
+            }
+            */
+
+
 
             return changed;
         }
@@ -470,10 +635,10 @@
         data-vis-update-style="true"
         data-vis-attrs="ebusinstance/ebus/onInstanceChanged;"
         data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;ticksonxaxix[5];axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;xDateFormat[%H:%M];"
-        data-vis-attrs1="group.vorlauftemp;vorlauftempvisible[true]/checkbox;vorlauftempcolor[#f1f113]/color;vorlauftempwithyaxix[true]/checkbox;"
-        data-vis-attrs2="group.quelletemp;quelletempvisible[true]/checkbox;quelletempcolor[#f1f113]/color;quelltempwithyaxix[true]/checkbox;"
-        data-vis-attrs3="group.heizleistung;heizleistungvisible[true]/checkbox;heizleistungcolor[#f1f113]/color;heizleistungwithyaxix[true]/checkbox;"
-        data-vis-attrs4="group.status;statusvisible[true]/checkbox;statuscolor[#f1f113]/color;statuswithyaxix[true]/checkbox;"
+        data-vis-attrs1="group.graph1;graph1data[unknown];graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1visible[true]/checkbox;graph1color[#f1f113]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,degree;"
+        data-vis-attrs2="group.graph2;graph2data[unknown];graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2visible[true]/checkbox;graph2color[#f1f113]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,degree;"
+        data-vis-attrs3="group.graph3;graph3data[unknown];graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3visible[true]/checkbox;graph3color[#f1f113]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,degree;"
+        data-vis-attrs4="group.graph4;graph4data[unknown];graph4charttype[charttypeline]/select,charttypeline,charttypebar;graph4visible[true]/checkbox;graph4color[#f1f113]/color;graph4withyaxix[true]/checkbox;graph4YAxisFomat[none]/select,none,kWh,degree;"
         data-vis-attrs5="group.oids;oid_history/id;">
     <div class="vis-widget <%== this.data.attr('class') %>" style="width:210px; height:170px;" id="<%= this.data.attr('wid') %>">
         <div class="vis-widget-body" <%= (el1) -> vis.binds.ebus.history.init(el1, this.view, this.data) %>></div>

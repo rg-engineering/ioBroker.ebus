@@ -175,7 +175,7 @@ function Arduino_ReceiveData(options, cb) {
                     sTime = sTime.replace(/"/g, '');
                     var sTimeArr = sTime.split(":");
                     //year, month, day, hours, minutes, seconds, milliseconds
-                    var oDate = new Date(parseInt(sDateArr[2]), parseInt(sDateArr[1]) - 1, parseInt(sDateArr[0]), parseInt(sTimeArr[0]), parseInt(sTimeArr[1]), parseInt(sTimeArr[2]),0);
+                    var oDate = new Date(parseInt(sDateArr[2]), parseInt(sDateArr[1]) - 1, parseInt(sDateArr[0]), parseInt(sTimeArr[0]), parseInt(sTimeArr[1]), parseInt(sTimeArr[2]), 0);
 
                     adapter.log.debug("got from " + oDate.toString());
                     //adapter.log.debug("got from " + oDate.toString() + " " + oToday.toString());
@@ -214,7 +214,8 @@ function Arduino_ReceiveData(options, cb) {
                         //myhomecontrol_ebus.0.data.history
                         //use datapoint behaviour as storage for json object
                         var historyvalues = [];
-                  
+
+                        /*
                         historyvalues.push({
                             "date": result.VaillantInterface.data[0].date[0].$.date,
                             "time": result.VaillantInterface.data[0].time[0].$.time,
@@ -223,6 +224,26 @@ function Arduino_ReceiveData(options, cb) {
                             "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
                             "Status": result.VaillantInterface.data[0].Status[0].$.value
                         });
+                        */
+                        historyvalues.push({
+                            "date": result.VaillantInterface.data[0].date[0].$.date,
+                            "time": result.VaillantInterface.data[0].time[0].$.time,
+                        });
+                        historyvalues.push({
+                            "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value
+                        });
+                        historyvalues.push({
+                            "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value
+                        });
+                        historyvalues.push({
+                            "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value
+                        });
+                        historyvalues.push({
+                            "Status": result.VaillantInterface.data[0].Status[0].$.value
+                        });
+
+                        historyvalues.push();
+
 
                         UpdateHistory(historyvalues);
 
@@ -479,8 +500,7 @@ function ebusd_ReceiveData(options, cb) {
                     "time": oToday.getHours() + ":" + oToday.getMinutes() + ":" + oToday.getSeconds()
                 });
 
-            
-
+                
                 var name = "unknown";
                 for (var i = 0; i < keys.length; i++) {
                     var key = keys[i];
