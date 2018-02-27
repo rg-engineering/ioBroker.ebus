@@ -44,11 +44,12 @@
         "time_interval": { "en": "Time interval", "de": "Zeitintervall", "ru": "????????" },
         "withxaxix": { "en": "show X axis", "de": "zeige X-Achse", "ru": "???" },
         "ebusinstance": { "en": "ebus instance", "de": "ebus Instanz", "ru": "???" },
-        "oid_history": { "en": "OID history", "de": "OID history", "ru": "???" },
+
 
         "xDateFormat": { "en": "format for date/time on x-axis", "de": "Datum-/Zeitformat X-Achse", "ru": "???" },
 
-
+        "withborder": { "en": "show border", "de": "Rahmen anzeigen", "ru": "withborder" },
+        "nobgcolor": { "en": "no background color", "de": "keine Farbe Hintergrund", "ru": "nobgcolor" },
         //ab hier noch übersetzen
         "charttypeline": { "en": "charttypeline", "de": "charttypeline", "ru": "charttypeline" },
         "charttypebar": { "en": "charttypebar", "de": "charttypebar", "ru": "charttypebar" },
@@ -71,33 +72,39 @@
         "kWh": { "en": "kWh", "de": "kWh", "ru": "kWh" },
         "degree": { "en": "degree", "de": "degree", "ru": "degree" },
         "group_graph1": { "en": "group_graph1", "de": "group_graph1", "ru": "group_graph1" },
-        "graph1data": { "en": "graph1data", "de": "graph1data", "ru": "graph1data" },
+        
         "graph1charttype": { "en": "graph1charttype", "de": "graph1charttype", "ru": "graph1charttype" },
         "graph1visible": { "en": "graph1visible", "de": "graph1visible", "ru": "graph1visible" },
         "graph1color": { "en": "graph1color", "de": "graph1color", "ru": "graph1color" },
         "graph1withyaxix": { "en": "graph1withyaxix", "de": "graph1withyaxix", "ru": "graph1withyaxix" },
         "graph1YAxisFomat": { "en": "graph1YAxisFomat", "de": "graph1YAxisFomat", "ru": "graph1YAxisFomat" },
         "group_graph2": { "en": "group_graph2", "de": "group_graph2", "ru": "group_graph2" },
-        "graph2data": { "en": "graph2data", "de": "graph2data", "ru": "graph2data" },
+        
         "graph2charttype": { "en": "graph2charttype", "de": "graph2charttype", "ru": "graph2charttype" },
         "graph2visible": { "en": "graph2visible", "de": "graph2visible", "ru": "graph2visible" },
         "graph2color": { "en": "graph2color", "de": "graph2color", "ru": "graph2color" },
         "graph2withyaxix": { "en": "graph2withyaxix", "de": "graph2withyaxix", "ru": "graph2withyaxix" },
         "graph2YAxisFomat": { "en": "graph2YAxisFomat", "de": "graph2YAxisFomat", "ru": "graph2YAxisFomat" },
         "group_graph3": { "en": "group_graph3", "de": "group_graph3", "ru": "group_graph3" },
-        "graph3data": { "en": "graph3data", "de": "graph3data", "ru": "graph3data" },
+        
         "graph3charttype": { "en": "graph3charttype", "de": "graph3charttype", "ru": "graph3charttype" },
         "graph3visible": { "en": "graph3visible", "de": "graph3visible", "ru": "graph3visible" },
         "graph3color": { "en": "graph3color", "de": "graph3color", "ru": "graph3color" },
         "graph3withyaxix": { "en": "graph3withyaxix", "de": "graph3withyaxix", "ru": "graph3withyaxix" },
         "graph3YAxisFomat": { "en": "graph3YAxisFomat", "de": "graph3YAxisFomat", "ru": "graph3YAxisFomat" },
         "group_graph4": { "en": "group_graph4", "de": "group_graph4", "ru": "group_graph4" },
-        "graph4data": { "en": "graph4data", "de": "graph4data", "ru": "graph4data" },
+        
         "graph4charttype": { "en": "graph4charttype", "de": "graph4charttype", "ru": "graph4charttype" },
         "graph4visible": { "en": "graph4visible", "de": "graph4visible", "ru": "graph4visible" },
         "graph4color": { "en": "graph4color", "de": "graph4color", "ru": "graph4color" },
         "graph4withyaxix": { "en": "graph4withyaxix", "de": "graph4withyaxix", "ru": "graph4withyaxix" },
-        "graph4YAxisFomat": { "en": "graph4YAxisFomat", "de": "graph4YAxisFomat", "ru": "graph4YAxisFomat" }
+        "graph4YAxisFomat": { "en": "graph4YAxisFomat", "de": "graph4YAxisFomat", "ru": "graph4YAxisFomat" },
+
+        "oid_historygraph1": { "en": "oid_historygraph1", "de": "oid_historygraph1", "ru": "oid_historygraph1" },
+        "oid_historygraph2": { "en": "oid_historygraph2", "de": "oid_historygraph2", "ru": "oid_historygraph2" },
+        "oid_historygraph3": { "en": "oid_historygraph3", "de": "oid_historygraph3", "ru": "oid_historygraph3" },
+        "oid_historygraph4": { "en": "oid_historygraph4", "de": "oid_historygraph4", "ru": "oid_historygraph4" },
+        "oid_historydate": { "en": "oid_historydate", "de": "oid_historydate", "ru": "oid_historydate" }
 
     });
 
@@ -172,16 +179,36 @@
 
 
                         //parse data
-                        var oid_history = data.oid_history;
+                        var oid_historydate = data.oid_historydate;
+                        var oid_historygraph1 = data.oid_historygraph1;
+                        var oid_historygraph2 = data.oid_historygraph2;
+                        var oid_historygraph3 = data.oid_historygraph3;
+                        var oid_historygraph4 = data.oid_historygraph4;
                         try {
-                            var all_data = JSON.parse(vis.states[oid_history + '.val']);
+                            var data_date = JSON.parse(vis.states[oid_historydate + '.val']);
+                            var data_value1=null;
+                            if (oid_historygraph1 != "") {
+                                data_value1 = JSON.parse(vis.states[oid_historygraph1 + '.val']);
+                            }
+                            data_value2 = null;
+                            if (oid_historygraph2 != "") {
+                                var data_value2 = JSON.parse(vis.states[oid_historygraph2 + '.val']);
+                            }
+                            data_value3 = null;
+                            if (oid_historygraph3 != "") {
+                                var data_value3 = JSON.parse(vis.states[oid_historygraph3 + '.val']);
+                            }
+                            data_value4 = null;
+                            if (oid_historygraph4 != "") {
+                                var data_value4 = JSON.parse(vis.states[oid_historygraph4 + '.val']);
+                            }
                         } catch (e) {
                             console.warn('parse error [' + e + ']');
                             $div.html("<br> <center> <font color='red'>no data available yet </font> </center></br>");
                             return;
                         }
 
-                        if (typeof all_data == "undefined" || all_data.length < 100) {
+                        if (typeof data_date == "undefined" || data_date.length < 1) {
                             $div.html("<br> <center> <font color='red'>no data available yet </font> </center></br>");
                             return;
                         }
@@ -198,87 +225,186 @@
 
                         var values_graph4 = [];
 
+                            //since all datpoints should have the same length we use date datapoint as master
+                        for (var i = 0; i < data_date.length; i++) {
+                            try {
+                                var oValDate = data_date[i];
 
-                        //console.log("data length " + all_data.length);
-                        //console.log(JSON.stringify(all_data));
-                        for (var i = 0; i < all_data.length; i++) {
-                            //console.log(JSON.stringify(all_data[i]));
-                            var oVals = all_data[i];
+                                var sDate = oValDate[0]["date"];
+                                var sTime = oValDate[0]["time"];
 
-                            var sDate = oVals[0]["date"];
-                            var sTime = oVals[0]["time"];
+                                var DateArray = sDate.split(".");
+                                var TimeArray = sTime.split(":");
+                                var hour = TimeArray[0];
+                                var minute = TimeArray[1];
+                                var day = DateArray[0];
+                                var month = DateArray[1];
+                                var year = DateArray[2];
 
-                            var DateArray = sDate.split(".");
-                            var TimeArray = sTime.split(":");
-                            var hour = TimeArray[0];
-                            var minute = TimeArray[1];
-                            var day = DateArray[0];
-                            var month = DateArray[1];
-                            var year = DateArray[2];
+                                var oDate = new Date();
+                                oDate.setHours(hour);
+                                oDate.setMinutes(minute);
+                                oDate.setDate(day);
+                                oDate.setMonth(month - 1);
+                                oDate.setYear(year);
 
-                            var oDate = new Date();
-                            oDate.setHours(hour);
-                            oDate.setMinutes(minute);
-                            oDate.setDate(day);
-                            oDate.setMonth(month - 1);
-                            oDate.setYear(year);
+                                var oValGraph1 = null;
+                                if (data_value1 != null) {
+                                    oValGraph1 = data_value1[i];
+                                }
+                                var oValGraph2 = null;
+                                if (data_value2 != null) {
+                                    var oValGraph2 = data_value2[i];
+                                }
+                                var oValGraph3 = null;
+                                if (data_value3 != null) {
+                                    var oValGraph3 = data_value3[i];
+                                }
+                                var oValGraph4 = null;
+                                if (data_value4 != null) {
+                                    var oValGraph4 = data_value4[i];
+                                }
+                                var sVal = oValGraph1;
+                                if (sVal!=null && typeof sVal != "undefined") {
+                                    var names = Object.keys(sVal[0]);
+                                    var sValGraph1 = sVal[0][names[0]];
+                                    console.log("graph1 " + sDate + " " + sTime + ": " + sValGraph1);
+                                    values_graph1.push([oDate, sValGraph1]);
 
+                                    if (sValGraph1 > maxY_graph[0]) maxY_graph[0] = sValGraph1;
+                                    if (sValGraph1 < minY_graph[0]) minY_graph[0] = sValGraph1;
 
-                            for (var n = 1; n < oVals.length; n++) {
-                                if (data.graph1data != "unknown") {
-                                    var sVal = oVals[n][data.graph1data];
-                                    if (typeof sVal != "undefined") {
-                                        var sValGraph1 = sVal;
-                                        console.log("graph1 "+ sDate + " " + sTime + ": " + sValGraph1);
-                                        values_graph1.push([oDate, sValGraph1]);
-
-                                        if (sValGraph1 > maxY_graph[0]) maxY_graph[0] = sValGraph1;
-                                        if (sValGraph1 < minY_graph[0]) minY_graph[0] = sValGraph1;
+                                    /*
+                                    if (vis.editMode) {
+                                        if (data.graph1Name == "") {
+                                            //data.graph1Name = names[0];
+                                            $div.data('options').graph1Name = names[0];
+                                        }
                                     }
+                                    */
                                 }
 
-                                if (data.graph2data != "unknown") {
-                                    var sVal = oVals[n][data.graph2data];
-                                    if (typeof sVal != "undefined") {
-                                        var sValGraph2 = sVal;
-                                        console.log("graph2 " + sDate + " " + sTime + ": " + sValGraph2);
-                                        values_graph2.push([oDate, sValGraph2]);
+                                sVal = oValGraph2;
+                                if (sVal != null && typeof sVal != "undefined") {
+                                    var names = Object.keys(sVal[0]);
+                                    var sValGraph2 = sVal[0][names[0]];
+                                    console.log("graph2 " + sDate + " " + sTime + ": " + sValGraph2);
+                                    values_graph2.push([oDate, sValGraph2]);
 
-                                        if (sValGraph2 > maxY_graph[1]) maxY_graph[1] = sValGraph2;
-                                        if (sValGraph2 < minY_graph[1]) minY_graph[1] = sValGraph2;
+                                    if (sValGraph2 > maxY_graph[1]) maxY_graph[1] = sValGraph2;
+                                    if (sValGraph2 < minY_graph[1]) minY_graph[1] = sValGraph2;
+
+                                    /*
+                                    if (vis.editMode) {
+                                        if (data.graph2Name == "") {
+                                            data.graph2Name = names[0];
+                                        }
                                     }
+                                    */
                                 }
 
-                                if (data.graph3data != "unknown") {
-                                    var sVal = oVals[n][data.graph3data];
-                                    if (typeof sVal != "undefined") {
-                                        var sValGraph3 = sVal;
-                                        console.log("graph3 " + sDate + " " + sTime + ": " + sValGraph3);
-                                        values_graph3.push([oDate, sValGraph3]);
+                                sVal = oValGraph3;
+                                if (sVal != null && typeof sVal != "undefined") {
+                                    var names = Object.keys(sVal[0]);
+                                    var sValGraph3 = sVal[0][names[0]];
+                                    console.log("graph3 " + sDate + " " + sTime + ": " + sValGraph3);
+                                    values_graph3.push([oDate, sValGraph3]);
 
-                                        if (sValGraph3 > maxY_graph[2]) maxY_graph[2] = sValGraph3;
-                                        if (sValGraph3 < minY_graph[2]) minY_graph[2] = sValGraph3;
+                                    if (sValGraph3 > maxY_graph[2]) maxY_graph[2] = sValGraph3;
+                                    if (sValGraph3 < minY_graph[2]) minY_graph[2] = sValGraph3;
+
+                                    /*
+                                    if (vis.editMode) {
+                                        if (data.graph3Name == "") {
+                                            data.graph3Name = names[0];
+                                        }
                                     }
+                                    */
                                 }
 
-                                if (data.graph4data != "unknown") {
-                                    var sVal = oVals[n][data.graph4data];
-                                    if (typeof sVal != "undefined") {
-                                        var sValGraph4 = sVal;
-                                        console.log("graph4 " + sDate + " " + sTime + ": " + sValGraph4);
-                                        values_graph4.push([oDate, sValGraph4]);
+                                sVal = oValGraph4;
+                                if (sVal != null && typeof sVal != "undefined") {
+                                    var names = Object.keys(sVal[0]);
+                                    var sValGraph4 = sVal[0][names[0]];
+                                    console.log("graph4 " + sDate + " " + sTime + ": " + sValGraph4);
+                                    values_graph4.push([oDate, sValGraph4]);
 
-                                        if (sValGraph4 > maxY_graph[3]) maxY_graph[3] = sValGraph4;
-                                        if (sValGraph4 < minY_graph[3]) minY_graph[3] = sValGraph4;
+                                    if (sValGraph4 > maxY_graph[3]) maxY_graph[3] = sValGraph4;
+                                    if (sValGraph4 < minY_graph[3]) minY_graph[3] = sValGraph4;
+
+                                    /*
+                                    if (vis.editMode) {
+                                        if (data.graph4Name == "") {
+                                            data.graph4Name = names[0];
+                                        }
                                     }
+                                    */
                                 }
+
+
+                                /*
+                                for (var n = 1; n < oVals.length; n++) {
+                                    if (data.graph1data != "unknown") {
+                                        var sVal = oVals[n][data.graph1data];
+                                        if (typeof sVal != "undefined") {
+                                            var sValGraph1 = sVal;
+                                            console.log("graph1 "+ sDate + " " + sTime + ": " + sValGraph1);
+                                            values_graph1.push([oDate, sValGraph1]);
+    
+                                            if (sValGraph1 > maxY_graph[0]) maxY_graph[0] = sValGraph1;
+                                            if (sValGraph1 < minY_graph[0]) minY_graph[0] = sValGraph1;
+                                        }
+                                    }
+    
+                                    if (data.graph2data != "unknown") {
+                                        var sVal = oVals[n][data.graph2data];
+                                        if (typeof sVal != "undefined") {
+                                            var sValGraph2 = sVal;
+                                            console.log("graph2 " + sDate + " " + sTime + ": " + sValGraph2);
+                                            values_graph2.push([oDate, sValGraph2]);
+    
+                                            if (sValGraph2 > maxY_graph[1]) maxY_graph[1] = sValGraph2;
+                                            if (sValGraph2 < minY_graph[1]) minY_graph[1] = sValGraph2;
+                                        }
+                                    }
+    
+                                    if (data.graph3data != "unknown") {
+                                        var sVal = oVals[n][data.graph3data];
+                                        if (typeof sVal != "undefined") {
+                                            var sValGraph3 = sVal;
+                                            console.log("graph3 " + sDate + " " + sTime + ": " + sValGraph3);
+                                            values_graph3.push([oDate, sValGraph3]);
+    
+                                            if (sValGraph3 > maxY_graph[2]) maxY_graph[2] = sValGraph3;
+                                            if (sValGraph3 < minY_graph[2]) minY_graph[2] = sValGraph3;
+                                        }
+                                    }
+    
+                                    if (data.graph4data != "unknown") {
+                                        var sVal = oVals[n][data.graph4data];
+                                        if (typeof sVal != "undefined") {
+                                            var sValGraph4 = sVal;
+                                            console.log("graph4 " + sDate + " " + sTime + ": " + sValGraph4);
+                                            values_graph4.push([oDate, sValGraph4]);
+    
+                                            if (sValGraph4 > maxY_graph[3]) maxY_graph[3] = sValGraph4;
+                                            if (sValGraph4 < minY_graph[3]) minY_graph[3] = sValGraph4;
+                                        }
+                                    }
+                                } */
+
+                            }
+                            catch (e) {
+                                console.warn('parse error [' + e + ']');
+                                $div.html("<br> <center> <font color='red'>data parse error </font> </center></br>");
+                                return;
                             }
                         }
 
-                        
+
                         for (var n = 0; n < 4; n++) {
 
-                            console.log("****** before Graph" + n + " max " + maxY_graph[n] + " min " + minY_graph[n] );
+                            console.log("****** before Graph" + n + " max " + maxY_graph[n] + " min " + minY_graph[n]);
 
                             var nTemp = parseFloat(maxY_graph[n]);
                             //console.log(nTemp);
@@ -307,8 +433,8 @@
                             }
                             console.log("****** after Graph" + n + "max " + maxY_graph[n] + " min " + minY_graph[n]);
                         }
-                        
 
+                       
 
                         var barwidth = 1000 * 60 * 5; //5 Minuten
 
@@ -513,12 +639,12 @@
                                 grid:
                                 {
                                     //Farben einstellen fehlt noch
-                                    backgroundColor: { colors: ["#fff", "#eee"] },
+                                    backgroundColor: data.nobgcolor ? null : { colors: ["#fff", "#eee"] },
                                     borderWidth: {
-                                        top: 1,
-                                        right: 1,
-                                        bottom: 2,
-                                        left: 2
+                                        top: data.withborder ? 1 : 0,
+                                        right: data.withborder ? 1 : 0,
+                                        bottom: data.withborder ? 2 : 0,
+                                        left: data.withborder ? 2 : 0
                                     },
                                     //fehlt noch
                                     //markings: nextDay
@@ -587,34 +713,23 @@
 
                 //ebus.0.data.history
                 console.log('calc new oids');
-                vis.views[view].widgets[widgetID].data.oid_history = newId + ".data.history";
-                vis.widgets[widgetID].data.oid_hsitory = newId + ".data.history";
+                vis.views[view].widgets[widgetID].data.oid_historydate = newId + ".history.date";
+                vis.widgets[widgetID].data.oid_historydate = newId + ".history.date";
+
+                vis.views[view].widgets[widgetID].data.oid_historygraph1 = newId + ".history.value1";
+                vis.widgets[widgetID].data.oid_historygraph1 = newId + ".history.value1";
+
+                vis.views[view].widgets[widgetID].data.oid_historygraph2 = newId + ".history.value2";
+                vis.widgets[widgetID].data.oid_historygraph2 = newId + ".history.value2";
+
+                vis.views[view].widgets[widgetID].data.oid_historygraph3 = newId + ".history.value3";
+                vis.widgets[widgetID].data.oid_historygraph3 = newId + ".history.value3";
+
+                vis.views[view].widgets[widgetID].data.oid_historygraph4 = newId + ".history.value4";
+                vis.widgets[widgetID].data.oid_historygraph4 = newId + ".history.value4";
 
                 
-
             }
-
-            /*
-            to do
-            // fill combo box with existing data points
-            //vis.views[view].widgets[widgetID].data.graph1data = "1,2,3";
-            //vis.widgets[widgetID].data.graph1data = "1,2,3";
-
-            var strName, strValue;
-
-            for (strName in oVals) {
-                strValue = oVals[strName];
-                console.log(strName + " " + JSON.stringify(strValue));
-            }
-
-            for (prop in oVals) {
-                if (oVals.hasOwnProperty(prop)) {
-                    console.log("prop " + prop);
-                }
-            }
-            */
-
-
 
             return changed;
         }
@@ -634,12 +749,12 @@
         data-vis-name="ebus"
         data-vis-update-style="true"
         data-vis-attrs="ebusinstance/ebus/onInstanceChanged;"
-        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;ticksonxaxix[5];axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;xDateFormat[%H:%M];"
-        data-vis-attrs1="group.graph1;graph1data[unknown];graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1visible[true]/checkbox;graph1color[#f1f113]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,degree;"
-        data-vis-attrs2="group.graph2;graph2data[unknown];graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2visible[true]/checkbox;graph2color[#f1f113]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,degree;"
-        data-vis-attrs3="group.graph3;graph3data[unknown];graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3visible[true]/checkbox;graph3color[#f1f113]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,degree;"
-        data-vis-attrs4="group.graph4;graph4data[unknown];graph4charttype[charttypeline]/select,charttypeline,charttypebar;graph4visible[true]/checkbox;graph4color[#f1f113]/color;graph4withyaxix[true]/checkbox;graph4YAxisFomat[none]/select,none,kWh,degree;"
-        data-vis-attrs5="group.oids;oid_history/id;">
+        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;ticksonxaxix[5];axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;xDateFormat[%H:%M];withborder[true]/checkbox;nobgcolor[true]/checkbox;"
+        data-vis-attrs1="group.graph1;oid_historygraph1/id;graph1Name;graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1visible[true]/checkbox;graph1color[#f1f113]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,degree;"
+        data-vis-attrs2="group.graph2;oid_historygraph2/id;graph2Name;graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2visible[true]/checkbox;graph2color[#f1f113]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,degree;"
+        data-vis-attrs3="group.graph3;oid_historygraph3/id;graph3Name;graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3visible[true]/checkbox;graph3color[#f1f113]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,degree;"
+        data-vis-attrs4="group.graph4;oid_historygraph4/id;graph4Name;graph4charttype[charttypeline]/select,charttypeline,charttypebar;graph4visible[true]/checkbox;graph4color[#f1f113]/color;graph4withyaxix[true]/checkbox;graph4YAxisFomat[none]/select,none,kWh,degree;"
+        data-vis-attrs5="group.oids;oid_historydate/id;">
     <div class="vis-widget <%== this.data.attr('class') %>" style="width:210px; height:170px;" id="<%= this.data.attr('wid') %>">
         <div class="vis-widget-body" <%= (el1) -> vis.binds.ebus.history.init(el1, this.view, this.data) %>></div>
     </div>

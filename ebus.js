@@ -674,12 +674,15 @@ function UpdateHistoryValues(values, ctr) {
                     oEbusValues = JSON.parse(obj.val);
 
                     adapter.log.debug("after parse " + JSON.stringify(oEbusValues));
+
+                    adapter.log.debug("after parse cnt " + oEbusValues.length);
                 }
 
-                adapter.log.debug("values " + ctr + ": " + JSON.stringify(values[ctr]));
+                adapter.log.debug("values " + ctr + ": " + JSON.stringify(values[ctr-1]));
 
                 oEbusValues.push(values[ctr-1]);
                 adapter.log.debug("after push " + JSON.stringify(oEbusValues));
+                adapter.log.debug("after push cnt " + oEbusValues.length);
                 //limit length of object...
                 if (oEbusValues.length > 200) {
 
