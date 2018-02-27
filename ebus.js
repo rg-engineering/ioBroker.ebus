@@ -22,7 +22,7 @@ var adapter = utils.adapter('ebus');
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
-var oEbusHistory = [];
+
 
 
 //Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
@@ -102,7 +102,7 @@ function main() {
 
     if (adapter.config.interfacetype == "arduino") {
         adapter.log.debug('start with interface arduino ');
-        Arduino_checkVariables();
+        Arduino_checkVariables(options);
 
         Arduino_ReceiveData(options, function () {
             setTimeout(function () {
@@ -113,19 +113,15 @@ function main() {
     }
     else if (adapter.config.interfacetype == "ebusd") {
         adapter.log.debug('start with interface ebusd ');
-        ebusd_checkVariables();
+        ebusd_checkVariables(options);
 
         ebusd_ReadValues(options); // to trigger read over ebus
-
-        
 
     }
     else {
         adapter.log.error('unknown interface type ' + adapter.config.interfacetype);
     }
 
-    
- 
 }
 
 
@@ -163,126 +159,144 @@ function Arduino_ReceiveData(options, cb) {
                 //adapter.log.debug("Body: " + body + " " + response.statusCode);
 
                 parseString(body, function (err, result) {
-                    //adapter.log.debug(JSON.stringify(result));
-                    var oToday = new Date();
-                    var sDate = JSON.stringify(result.VaillantInterface.data[0].date[0].$.date);
-                    //Date "20.02.2018"
-                    sDate = sDate.replace(/"/g, '');
-                    var sDateArr = sDate.split(".");
 
-                    var sTime = JSON.stringify(result.VaillantInterface.data[0].time[0].$.time)
-                    //time "21:05:04"
-                    sTime = sTime.replace(/"/g, '');
-                    var sTimeArr = sTime.split(":");
-                    //year, month, day, hours, minutes, seconds, milliseconds
-                    var oDate = new Date(parseInt(sDateArr[2]), parseInt(sDateArr[1]) - 1, parseInt(sDateArr[0]), parseInt(sTimeArr[0]), parseInt(sTimeArr[1]), parseInt(sTimeArr[2]), 0);
+                    try {
+                        //adapter.log.debug(JSON.stringify(result));
+                        var oToday = new Date();
+                        var sDate = JSON.stringify(result.VaillantInterface.data[0].date[0].$.date);
+                        //Date "20.02.2018"
+                        sDate = sDate.replace(/"/g, '');
+                        var sDateArr = sDate.split(".");
 
-                    adapter.log.debug("got from " + oDate.toString());
-                    //adapter.log.debug("got from " + oDate.toString() + " " + oToday.toString());
-                    //adapter.log.debug("date " + sDate + " " + sDateArr[2] + " " + sDateArr[1] + " " + sDateArr[0]);
-                    //adapter.log.debug("time " + sTime + " " + sTimeArr[0] + " " + sTimeArr[1] + " " + sTimeArr[2]);
+                        var sTime = JSON.stringify(result.VaillantInterface.data[0].time[0].$.time)
+                        //time "21:05:04"
+                        sTime = sTime.replace(/"/g, '');
+                        var sTimeArr = sTime.split(":");
+                        //year, month, day, hours, minutes, seconds, milliseconds
+                        var oDate = new Date(parseInt(sDateArr[2]), parseInt(sDateArr[1]) - 1, parseInt(sDateArr[0]), parseInt(sTimeArr[0]), parseInt(sTimeArr[1]), parseInt(sTimeArr[2]), 0);
 
-                    //just check if we got correct date and time 
+                        adapter.log.debug("got from " + oDate.toString());
+                        //adapter.log.debug("got from " + oDate.toString() + " " + oToday.toString());
+                        //adapter.log.debug("date " + sDate + " " + sDateArr[2] + " " + sDateArr[1] + " " + sDateArr[0]);
+                        //adapter.log.debug("time " + sTime + " " + sTimeArr[0] + " " + sTimeArr[1] + " " + sTimeArr[2]);
 
-                    //adapter.log.debug("*** " + Math.abs(oDate.getTime() - oToday.getTime()) + " " + (12 * 60 * 60 * 1000))
+                        //just check if we got correct date and time 
 
-                    if (Math.abs(oDate.getTime() - oToday.getTime()) < (12 * 60 * 60 * 1000)) {
+                        //adapter.log.debug("*** " + Math.abs(oDate.getTime() - oToday.getTime()) + " " + (12 * 60 * 60 * 1000))
 
-                        adapter.log.debug("result " + JSON.stringify(result.VaillantInterface));
+                        if (Math.abs(oDate.getTime() - oToday.getTime()) < (12 * 60 * 60 * 1000)) {
 
-
-                        adapter.setState('sender.IP', { ack: true, val: result.VaillantInterface.sender[0].$.IP });
-
-                        adapter.setState('sender.name', { ack: true, val: result.VaillantInterface.sender[0].$.name });
-                        adapter.setState('sender.versionname', { ack: true, val: result.VaillantInterface.version[0].$.name });
-                        adapter.setState('sender.version', { ack: true, val: result.VaillantInterface.version[0].$.number });
-                        adapter.setState('sender.RAM', { ack: true, val: result.VaillantInterface.system[0].$.RAM });
-                        adapter.setState('sender.RX', { ack: true, val: result.VaillantInterface.system[0].$.Rx });
-
-                        adapter.setState('data.date', { ack: true, val: sDate });
-                        adapter.setState('data.time', { ack: true, val: sTime });
-                        adapter.setState('data.TempOut', { ack: true, val: result.VaillantInterface.data[0].TempOut[0].$.value });
-                        adapter.setState('data.TempVorlauf', { ack: true, val: result.VaillantInterface.data[0].TempVorlauf[0].$.value });
-                        adapter.setState('data.TempQuelle', { ack: true, val: result.VaillantInterface.data[0].TempQuelle[0].$.value });
-                        adapter.setState('data.HeizLeistungMomentan', { ack: true, val: result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value });
-                        adapter.setState('data.Status', { ack: true, val: result.VaillantInterface.data[0].Status[0].$.value });
-                        adapter.setState('data.Error', { ack: true, val: result.VaillantInterface.data[0].Error[0].$.value });
-                        adapter.setState('data.Warning', { ack: true, val: result.VaillantInterface.data[0].Warning[0].$.value });
-                        adapter.setState('data.Pump', { ack: true, val: result.VaillantInterface.data[0].pump[0].$.state });
+                            adapter.log.debug("result " + JSON.stringify(result.VaillantInterface));
 
 
-                        //myhomecontrol_ebus.0.data.history
-                        //use datapoint behaviour as storage for json object
-                        var historyvalues = [];
+                            adapter.setState('sender.IP', { ack: true, val: result.VaillantInterface.sender[0].$.IP });
 
-                        /*
-                        historyvalues.push({
-                            "date": result.VaillantInterface.data[0].date[0].$.date,
-                            "time": result.VaillantInterface.data[0].time[0].$.time,
-                            "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
-                            "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
-                            "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
-                            "Status": result.VaillantInterface.data[0].Status[0].$.value
-                        });
-                        */
-                        historyvalues.push({
-                            "date": result.VaillantInterface.data[0].date[0].$.date,
-                            "time": result.VaillantInterface.data[0].time[0].$.time,
-                        });
-                        historyvalues.push({
-                            "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value
-                        });
-                        historyvalues.push({
-                            "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value
-                        });
-                        historyvalues.push({
-                            "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value
-                        });
-                        historyvalues.push({
-                            "Status": result.VaillantInterface.data[0].Status[0].$.value
-                        });
+                            adapter.setState('sender.name', { ack: true, val: result.VaillantInterface.sender[0].$.name });
+                            adapter.setState('sender.versionname', { ack: true, val: result.VaillantInterface.version[0].$.name });
+                            adapter.setState('sender.version', { ack: true, val: result.VaillantInterface.version[0].$.number });
+                            adapter.setState('sender.RAM', { ack: true, val: result.VaillantInterface.system[0].$.RAM });
+                            adapter.setState('sender.RX', { ack: true, val: result.VaillantInterface.system[0].$.Rx });
 
-                        historyvalues.push();
+                            adapter.setState('data.date', { ack: true, val: sDate });
+                            adapter.setState('data.time', { ack: true, val: sTime });
+                            adapter.setState('data.TempOut', { ack: true, val: result.VaillantInterface.data[0].TempOut[0].$.value });
+                            adapter.setState('data.TempVorlauf', { ack: true, val: result.VaillantInterface.data[0].TempVorlauf[0].$.value });
+                            adapter.setState('data.TempQuelle', { ack: true, val: result.VaillantInterface.data[0].TempQuelle[0].$.value });
+                            adapter.setState('data.HeizLeistungMomentan', { ack: true, val: result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value });
+                            adapter.setState('data.Status', { ack: true, val: result.VaillantInterface.data[0].Status[0].$.value });
+                            adapter.setState('data.Error', { ack: true, val: result.VaillantInterface.data[0].Error[0].$.value });
+                            adapter.setState('data.Warning', { ack: true, val: result.VaillantInterface.data[0].Warning[0].$.value });
+                            adapter.setState('data.Pump', { ack: true, val: result.VaillantInterface.data[0].pump[0].$.state });
 
 
-                        UpdateHistory(historyvalues);
+                            //myhomecontrol_ebus.0.data.history
+                            //use datapoint behaviour as storage for json object
+                            var historyvalues = [];
+                            var historydates = [];
+                            /*
+                            historyvalues.push({
+                                "date": result.VaillantInterface.data[0].date[0].$.date,
+                                "time": result.VaillantInterface.data[0].time[0].$.time,
+                                "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
+                                "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
+                                "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
+                                "Status": result.VaillantInterface.data[0].Status[0].$.value
+                            });
+                            */
 
-                        /*
-                        adapter.getState('data.history', function (err, obj) {
-                            if (err) {
-                                adapter.log.error(err);
-                            } else {
+                            historydates.push({
+                                "date": result.VaillantInterface.data[0].date[0].$.date,
+                                "time": result.VaillantInterface.data[0].time[0].$.time,
+                            });
+                            adapter.log.debug(JSON.stringify(historydates));
 
-                                //adapter.log.debug("before " + obj.val);
-                                if (obj != null) {
-                                    oEbusHistory = JSON.parse(obj.val);
-                                }
-                                //adapter.log.debug("after " + JSON.stringify(oEbusHistory));
+                            historyvalues[0] = [];
+                            historyvalues[0].push({
+                                "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value
+                            });
 
-                                oEbusHistory.push({
-                                    "date": result.VaillantInterface.data[0].date[0].$.date,
-                                    "time": result.VaillantInterface.data[0].time[0].$.time,
-                                    "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
-                                    "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
-                                    "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
-                                    "Status": result.VaillantInterface.data[0].Status[0].$.value
-                                });
-                                //adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
-                                //limit length of object...
-                                if (oEbusHistory.length > 200) {
+                            historyvalues[1] = [];
+                            historyvalues[1].push({
+                                "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value
+                            });
 
-                                    for (var i = oEbusHistory.length; i > 200; i--) {
-                                        adapter.log.debug("delete");
-                                        oEbusHistory.shift();
+                            historyvalues[2] = [];
+                            historyvalues[2].push({
+                                "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value
+                            });
+
+                            historyvalues[3] = [];
+                            historyvalues[3].push({
+                                "Status": result.VaillantInterface.data[0].Status[0].$.value
+                            });
+    
+                            adapter.log.debug(JSON.stringify(historyvalues));
+    
+                            
+                            UpdateHistory(historyvalues, historydates);
+                            
+
+                            /*
+                            adapter.getState('data.history', function (err, obj) {
+                                if (err) {
+                                    adapter.log.error(err);
+                                } else {
+    
+                                    //adapter.log.debug("before " + obj.val);
+                                    if (obj != null) {
+                                        oEbusHistory = JSON.parse(obj.val);
                                     }
+                                    //adapter.log.debug("after " + JSON.stringify(oEbusHistory));
+    
+                                    oEbusHistory.push({
+                                        "date": result.VaillantInterface.data[0].date[0].$.date,
+                                        "time": result.VaillantInterface.data[0].time[0].$.time,
+                                        "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
+                                        "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
+                                        "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
+                                        "Status": result.VaillantInterface.data[0].Status[0].$.value
+                                    });
+                                    //adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
+                                    //limit length of object...
+                                    if (oEbusHistory.length > 200) {
+    
+                                        for (var i = oEbusHistory.length; i > 200; i--) {
+                                            adapter.log.debug("delete");
+                                            oEbusHistory.shift();
+                                        }
+                                    }
+    
+                                    adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });
                                 }
-
-                                adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });
-                            }
-
-                        });
-                        */
+    
+                            });
+                            */
+                        }
                     }
+                    catch (e) {
+                        adapter.log.error('exception in arduino_ReceiveData [' + e + ']');
+                    }
+
                 });
             } else {
                 adapter.log.error(error);
@@ -296,7 +310,34 @@ function Arduino_ReceiveData(options, cb) {
 }
 
 
-function Arduino_checkVariables() {
+function Common_checkVariables(options) {
+
+    // histories
+    var nCtr = 0;
+    if (adapter.config.interfacetype == "arduino") {
+        nCtr = 5;
+    }
+    else if (adapter.config.interfacetype == "ebusd") {
+        var oHistory = options.historyValues.split(",");
+        nCtr = oHistory.length + 1;
+    }
+    adapter.log.debug("_____ ctr " + nCtr);
+    for (var n = 1; n < nCtr; n++) {
+
+        adapter.setObjectNotExists('history.value' + n, {
+            type: 'state',
+            common: { name: 'ebus history value ' + n + ' as JSON', type: 'string', role: 'history', unit: '', read: true, write: false },
+            native: { location: 'history.value' + n }
+        });
+    }
+    adapter.setObjectNotExists('history.date' , {
+        type: 'state',
+        common: { name: 'ebus history date as JSON', type: 'string', role: 'history', unit: '', read: true, write: false },
+        native: { location: 'history.date' }
+    });
+}
+
+function Arduino_checkVariables(options) {
     adapter.log.debug("init variables ");
 
     adapter.setObjectNotExists('sender', {
@@ -414,13 +455,8 @@ function Arduino_checkVariables() {
         native: { id: 'data.Pump' }
     });
 
-    // histories
-    adapter.setObjectNotExists('data.history', {
-        type: 'state',
-        common: { name: 'ebus history as JSON', type: 'string', role: 'history', unit: '', read: true, write: false },
-        native: { location: 'data.history' }
-    });
-
+    
+    Common_checkVariables(options);
 }
 
 
@@ -430,7 +466,7 @@ function Arduino_checkVariables() {
 //===================================================================================================
 // ebusd interface
 //just call http://192.168.0.123:8889/data
-function ebusd_checkVariables() {
+function ebusd_checkVariables(options) {
     adapter.log.debug("init variables ");
 
 
@@ -454,11 +490,7 @@ function ebusd_checkVariables() {
         }
     });
 
-    adapter.setObjectNotExists('data.history', {
-        type: 'state',
-        common: { name: 'ebus history as JSON', type: 'string', role: 'history', unit: '', read: true, write: false },
-        native: { location: 'data.history' }
-    });
+    Common_checkVariables(options);
 }
 
 //get data via https in json -> this is the main data receiver; telnet just triggers ebusd to read data;
@@ -491,15 +523,16 @@ function ebusd_ReceiveData(options, cb) {
                 var oHistory = options.historyValues.split(",");
 
                 var historyvalues = [];
+                var historydates = [];
 
                 var oToday = new Date();
                 var month = oToday.getMonth() + 1;
-
-                historyvalues.push({
+                
+                historydates.push({
                     "date": oToday.getDate() + "." + month  + "." + oToday.getFullYear(),
                     "time": oToday.getHours() + ":" + oToday.getMinutes() + ":" + oToday.getSeconds()
                 });
-
+                adapter.log.debug(JSON.stringify(historydates));
                 
                 var name = "unknown";
                 for (var i = 0; i < keys.length; i++) {
@@ -535,7 +568,9 @@ function ebusd_ReceiveData(options, cb) {
 
                                     var sTemp = '{"' + name + '": "' + value + '"}';
                                     adapter.log.debug(sTemp);
-                                    historyvalues.push(JSON.parse(sTemp));
+                                    historyvalues[ii] = [];
+                                    historyvalues[ii].push(JSON.parse(sTemp));
+                                    adapter.log.debug(JSON.stringify(historyvalues));
                                 }
                             }
 
@@ -573,7 +608,7 @@ function ebusd_ReceiveData(options, cb) {
 
                 adapter.log.debug(JSON.stringify(historyvalues));
 
-                UpdateHistory(historyvalues);
+                UpdateHistory(historyvalues, historydates);
 
                 adapter.log.info("all http done");
             }
@@ -584,35 +619,89 @@ function ebusd_ReceiveData(options, cb) {
     });
 }
 
-function UpdateHistory(values) {
+function UpdateHistory(values, dates) {
 
-    adapter.getState('data.history', function (err, obj) {
+    var oEbusDates = [];
+
+    adapter.getState('history.date', function (err, obj) {
         if (err) {
             adapter.log.error(err);
         } else {
+            try {
+                if (obj != null) {
+                    adapter.log.debug("before " + obj.val);
+                    oEbusDates = JSON.parse(obj.val);
+                    adapter.log.debug("after parse " + JSON.stringify(oEbusDates));
+                }
 
-            if (obj != null) {
-                adapter.log.debug("before " + obj.val);
-                oEbusHistory = JSON.parse(obj.val);
+
+                oEbusDates.push(dates);
+                adapter.log.debug("after push " + JSON.stringify(oEbusDates));
+                //limit length of object...
+                if (oEbusDates.length > 200) {
+
+                    for (var i = oEbusDates.length; i > 200; i--) {
+                        adapter.log.debug("delete");
+                        oEbusDates.shift();
+                    }
+                }
+                adapter.setState('history.date', { ack: true, val: JSON.stringify(oEbusDates) });
             }
-            adapter.log.debug("after " + JSON.stringify(oEbusHistory));
+            catch (e) {
+                adapter.log.error('exception in UpdateHistory part1 [' + e + ']');
+            }
+        }
+    });
 
-            oEbusHistory.push(values);
-            adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
-            //limit length of object...
-            if (oEbusHistory.length > 200) {
 
-                for (var i = oEbusHistory.length; i > 200; i--) {
-                    adapter.log.debug("delete");
-                    oEbusHistory.shift();
+    UpdateHistoryValues(values, 1);
+
+        
+    
+
+}
+
+function UpdateHistoryValues(values, ctr) {
+    adapter.getState('history.value' + ctr, function (err, obj) {
+        if (err) {
+            adapter.log.error(err);
+        } else {
+            try {
+                var oEbusValues = [];
+                if (obj != null) {
+                    adapter.log.debug("before " + obj.val);
+
+                    oEbusValues = JSON.parse(obj.val);
+
+                    adapter.log.debug("after parse " + JSON.stringify(oEbusValues));
+                }
+
+                adapter.log.debug("values " + ctr + ": " + JSON.stringify(values[ctr]));
+
+                oEbusValues.push(values[ctr-1]);
+                adapter.log.debug("after push " + JSON.stringify(oEbusValues));
+                //limit length of object...
+                if (oEbusValues.length > 200) {
+
+                    for (var i = oEbusValues.length; i > 200; i--) {
+                        adapter.log.debug("delete");
+                        oEbusValues.shift();
+                    }
+                }
+                adapter.setState('history.value' + ctr, { ack: true, val: JSON.stringify(oEbusValues) });
+
+                
+                if (ctr < values.length) {
+                    ctr++;
+                    UpdateHistoryValues(values, ctr);  //recursive call
                 }
             }
-            adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });
+            catch (e) {
+                adapter.log.error('exception in UpdateHistory part2 [' + e + ']');
+            }
         }
     });
 }
-
-
 function AddObject(key) {
     adapter.setObjectNotExists(key, {
         type: 'state',

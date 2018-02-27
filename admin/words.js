@@ -114,15 +114,15 @@ systemDictionary = {
     },
     "ListOfAllHistoryValues":
     {
-        "en": "comma separated list of datapoints for ebus history widget",
-        "de": "Komma getrennte Liste von Datenpunkten für ebus history widget",
-        "ru": "список точек данных для электронного журнала ebus с разделителями-запятыми",
-        "pt": "lista separada por vírgulas de pontos de dados para o widget história do ebus",
-        "nl": "door komma's gescheiden lijst met datapunten voor ebus-geschiedeniswidget",
-        "fr": "liste des points de données séparés par des virgules pour le widget d'historique ebus",
-        "it": "elenco separato da virgole di punti dati per il widget della cronologia ebus",
-        "es": "lista de puntos de datos separados por comas para el widget de historial ebus",
-        "pl": "rozdzielana przecinkami lista punktów danych dla widgetu historii ebus"
+        "en": "comma separated list of datapoints for ebus history widget. Maximum 4 datapoints should be used, more can be used.",
+        "de": "Komma-getrennte Liste von Datenpunkten für ebus history widget. Maximal 4 Datenpunkte sollten verwendet werden, mehr können verwendet werden.",
+        "ru": "разделенный запятыми список точек данных для виджета истории ebus. Необходимо использовать максимум 4 точки данных, больше можно использовать.",
+        "pt": "lista separada por vírgula de pontos de dados para o widget da história do ebus. O máximo de 4 pontos de dados deve ser usado, mais podem ser usados.",
+        "nl": "door komma's gescheiden lijst van gegevenspunten voor de widget van de ebus-geschiedenis. Er moeten maximaal 4 gegevenspunten worden gebruikt, er kunnen er meer worden gebruikt.",
+        "fr": "liste des points de données séparés par des virgules pour le widget d'historique ebus. Maximum 4 points de données doivent être utilisés, plus peuvent être utilisés.",
+        "it": "elenco separato da virgole di punti dati per il widget della cronologia ebus. È necessario utilizzare un massimo di 4 punti dati, altri possono essere utilizzati.",
+        "es": "lista de puntos de datos separados por comas para el widget de historial ebus. Se deben usar un máximo de 4 puntos de datos, se pueden usar más.",
+        "pl": "rozdzielana przecinkami lista punktów danych dla widgetu historii ebus. Należy użyć maksymalnie 4 punktów danych, więcej można wykorzystać."
     },
     "interface_type":
     {
