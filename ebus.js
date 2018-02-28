@@ -789,7 +789,7 @@ find -f -c broadcast outsidetemp
 find -f  outsidetemp
 find -f  YieldTotal
 
-read YieldTotal
+read -f YieldTotal
 read LegioProtectionEnabled
 
 */

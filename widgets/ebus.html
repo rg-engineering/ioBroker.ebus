@@ -49,6 +49,8 @@
 
         "withborder": { "en": "show border", "de": "Rahmen anzeigen", "ru": "withborder" },
         "nobgcolor": { "en": "no background color", "de": "keine Farbe Hintergrund", "ru": "nobgcolor" },
+        "withlegend": { "en": "show legend", "de": "mit Legende", "ru": "withlegend" },
+        "legendposition": { "en": "legend position", "de": "Legendenposition", "ru": "legendposition" },
 
         "charttypeline": { "en": "line", "de": "Linie", "ru": "charttypeline" },
         "charttypebar": { "en": "bar", "de": "Balken", "ru": "charttypebar" },
@@ -106,7 +108,7 @@
         return v.toFixed(axis.tickDecimals) + "°C";
     }
 
-    function xwFormatter(val, axis) {
+    function xwhFormatter(val, axis) {
         if (val > 1000000)
             return (val / 1000000).toFixed(axis.tickDecimals) + " MWh";
         else if (val > 1000)
@@ -114,6 +116,26 @@
         else
             return val.toFixed(axis.tickDecimals) + " Wh";
     }
+    function xwFormatter(val, axis) {
+        if (val > 1000000)
+            return (val / 1000000).toFixed(axis.tickDecimals) + " MW";
+        else if (val > 1000)
+            return (val / 1000).toFixed(axis.tickDecimals) + " kW";
+        else
+            return val.toFixed(axis.tickDecimals) + " W";
+    }
+
+    function legendformater(label, series) {
+
+        //wenn keine Daten, dann ausblenden ->  (return null)
+        if (series.data == null || typeof series.data == "undefined" || typeof series.data[0] == "undefined") {
+            return null;
+        }
+        else {
+            return label;
+        }
+    }
+
 
     // this code can be placed directly in template.html
     vis.binds.ebus = {
@@ -377,8 +399,12 @@
                         var Graph1Formatter = noneFormatter;
                         switch (data.graph1YAxisFomat) {
                             case "kWh":
-                                Graph1Formatter = xwFormatter;
+                                Graph1Formatter = xwhFormatter;
                                 console.log("kWh format");
+                                break;
+                            case "kW":
+                                Graph1Formatter = xwFormatter;
+                                console.log("kW format");
                                 break;
                             case "degree":
                                 Graph1Formatter = degreeFormatter;
@@ -393,8 +419,12 @@
                         var Graph2Formatter = noneFormatter;
                         switch (data.graph2YAxisFomat) {
                             case "kWh":
-                                Graph2Formatter = xwFormatter;
+                                Graph2Formatter = xwhFormatter;
                                 console.log("kWh format");
+                                break;
+                            case "kW":
+                                Graph2Formatter = xwFormatter;
+                                console.log("kW format");
                                 break;
                             case "degree":
                                 Graph2Formatter = degreeFormatter;
@@ -409,9 +439,14 @@
                         var Graph3Formatter = noneFormatter;
                         switch (data.graph3YAxisFomat) {
                             case "kWh":
-                                Graph3Formatter = xwFormatter;
+                                Graph3Formatter = xwhFormatter;
                                 console.log("kWh format");
                                 break;
+                            case "kW":
+                                Graph3Formatter = xwFormatter;
+                                console.log("kW format");
+                                break;
+
                             case "degree":
                                 Graph3Formatter = degreeFormatter;
                                 console.log("degree format");
@@ -425,9 +460,13 @@
                         var Graph4Formatter = noneFormatter;
                         switch (data.graph4YAxisFomat) {
                             case "kWh":
-                                Graph4Formatter = xwFormatter;
+                                Graph4Formatter = xwhFormatter;
                                 console.log("kWh format");
                                 break;
+                            case "kW":
+                                Graph4Formatter = xwFormatter;
+                                console.log("kW format");
+                                break; 
                             case "degree":
                                 Graph4Formatter = degreeFormatter;
                                 console.log("degree format");
@@ -444,7 +483,7 @@
                                 {
                                     data: data.graph1visible ? values_graph1 : {},
                                     color: data.graph1color,
-
+                                    label: data.graph1Name,
                                     xaxis: 1,
                                     yaxis: 1,
                                     lines: { show: data.graph1charttype =="charttypeline" },
@@ -457,7 +496,7 @@
                                 {
                                     data: data.graph2visible ? values_graph2 : {},
                                     color: data.graph2color,
-
+                                    label: data.graph2Name,
                                     xaxis: 1,
                                     yaxis: 2,
                                     lines: { show: data.graph2charttype == "charttypeline" },
@@ -470,7 +509,7 @@
                                 {
                                     data: data.graph3visible ? values_graph3 : {},
                                     color: data.graph3color,
-
+                                    label: data.graph3Name,
                                     xaxis: 1,
                                     yaxis: 3,
                                     lines: { show: data.graph3charttype == "charttypeline" },
@@ -483,7 +522,7 @@
                                 {
                                     data: data.graph4visible ? values_graph4 : {},
                                     color: data.graph4color,
-
+                                    label: data.graph4Name,
                                     xaxis: 1,
                                     yaxis: 4,
                                     lines: { show: data.graph4charttype == "charttypeline" },
@@ -584,6 +623,18 @@
                                     },
                                     //fehlt noch
                                     //markings: nextDay
+                                },
+                                legend: {
+                                    show: data.withlegend,
+                                    labelFormatter: legendformater,
+                                    //labelBoxBorderColor: color,
+                                    //noColumns: number,
+                                    position: data.legendposition,
+                                    //margin: number of pixels or [x margin, y margin]
+                                    backgroundColor: null,
+                                    backgroundOpacity: 0,
+                                    container: null,
+                                    sorted: false
                                 }
                             }
                         );
@@ -710,11 +761,11 @@
         data-vis-name="ebus"
         data-vis-update-style="true"
         data-vis-attrs="ebusinstance/ebus/onInstanceChanged;"
-        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;ticksonxaxix[5];axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;xDateFormat[%H:%M];withborder[true]/checkbox;nobgcolor[true]/checkbox;"
-        data-vis-attrs1="group.graph1;oid_historygraph1/id;graph1Name;graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1visible[true]/checkbox;graph1color[#f1f113]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,degree;"
-        data-vis-attrs2="group.graph2;oid_historygraph2/id;graph2Name;graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2visible[true]/checkbox;graph2color[#f1f113]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,degree;"
-        data-vis-attrs3="group.graph3;oid_historygraph3/id;graph3Name;graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3visible[true]/checkbox;graph3color[#f1f113]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,degree;"
-        data-vis-attrs4="group.graph4;oid_historygraph4/id;graph4Name;graph4charttype[charttypeline]/select,charttypeline,charttypebar;graph4visible[true]/checkbox;graph4color[#f1f113]/color;graph4withyaxix[true]/checkbox;graph4YAxisFomat[none]/select,none,kWh,degree;"
+        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;ticksonxaxix[5];axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;xDateFormat[%H:%M];withborder[true]/checkbox;nobgcolor[true]/checkbox;withlegend[false]/checkbox;legendposition[ne]/select,ne,nw,se,sw;"
+        data-vis-attrs1="group.graph1;oid_historygraph1/id;graph1Name;graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1visible[true]/checkbox;graph1color[#f1f113]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,kW,degree;"
+        data-vis-attrs2="group.graph2;oid_historygraph2/id;graph2Name;graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2visible[true]/checkbox;graph2color[#f1f113]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,kW,degree;"
+        data-vis-attrs3="group.graph3;oid_historygraph3/id;graph3Name;graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3visible[true]/checkbox;graph3color[#f1f113]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,kW,degree;"
+        data-vis-attrs4="group.graph4;oid_historygraph4/id;graph4Name;graph4charttype[charttypeline]/select,charttypeline,charttypebar;graph4visible[true]/checkbox;graph4color[#f1f113]/color;graph4withyaxix[true]/checkbox;graph4YAxisFomat[none]/select,none,kWh,kW,degree;"
         data-vis-attrs5="group.oids;oid_historydate/id;">
     <div class="vis-widget <%== this.data.attr('class') %>" style="width:210px; height:170px;" id="<%= this.data.attr('wid') %>">
         <div class="vis-widget-body" <%= (el1) -> vis.binds.ebus.history.init(el1, this.view, this.data) %>></div>
