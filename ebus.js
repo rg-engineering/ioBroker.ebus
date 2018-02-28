@@ -115,7 +115,9 @@ function main() {
         adapter.log.debug('start with interface ebusd ');
         ebusd_checkVariables(options);
 
-        ebusd_ReadValues(options); // to trigger read over ebus
+        ebusd_Command(options);
+
+       
 
     }
     else {
@@ -465,6 +467,66 @@ function Arduino_checkVariables(options) {
 
 //===================================================================================================
 // ebusd interface
+
+function ebusd_Command(options) {
+    adapter.getState('cmd', function (err, obj) {
+        if (err) {
+            adapter.log.error(err);
+        } else {
+            if (obj != null) {
+                var cmd = obj.val;
+                if (cmd != "") {
+                    adapter.log.debug("got command " + cmd);
+
+                    adapter.log.debug("connect telnet to IP " + options.targetIP + " port " + options.targetTelnetPort);
+
+                    var client = new net.Socket();
+                    client.setTimeout(5000, function () {
+                        client.destroy();
+                    });
+                    client.connect(options.targetTelnetPort, options.targetIP, function () {
+                        adapter.log.debug("telnet connected");
+                    });
+                    client.on('data', function (data) {
+                        adapter.log.debug("received " + data);
+
+                        
+                        //set result to cmdResult 
+                        adapter.setState('cmdResult', { ack: true, val: data.toString() });
+                        //aufruf next step
+                        ebusd_ReadValues(options); // to trigger read over ebus
+
+                        adapter.setState('cmd', { ack: true, val: "" });
+                    });
+                    client.on('end', function () {
+                        adapter.log.debug('Daten ausgelesen');
+                    });
+
+                  
+
+                    client.write(cmd + '\n');
+
+
+                    //client.end();
+                    client.on('error', function (err) {
+
+                        client.destroy();
+                        adapter.log.debug('Telnet Server nicht erreichbar.');
+                    });
+
+                }
+                else {
+                    ebusd_ReadValues(options); // to trigger read over ebus
+                }
+            }
+            else {
+                ebusd_ReadValues(options); // to trigger read over ebus
+            }
+        }
+    });
+}
+
+
 //just call http://192.168.0.123:8889/data
 function ebusd_checkVariables(options) {
     adapter.log.debug("init variables ");
