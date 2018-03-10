@@ -1,8 +1,19 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "news": {
+      "0.5.1": {
+        "en": "bug fix: if nothing to poll then skip telnet connection",
+        "de": "Bugfix: Wenn nichts abgefragt wird, dann Telnet-Verbindung überspringen",
+        "ru": "исправление ошибок: если ничего не опросить, пропустите telnet-соединение",
+        "pt": "correção de erros: se não houver nada para pesquisar, ignore a conexão do telnet",
+        "nl": "bug fix: als er niets te pollen is sla dan telnet verbinding over",
+        "fr": "correction de bogue: si rien à interroger, ignorez la connexion telnet",
+        "it": "correzione bug: se non c'è niente da sondare, saltare la connessione telnet",
+        "es": "corrección de errores: si no hay nada para sondear, omita la conexión de telnet",
+        "pl": "bug fix: jeśli nic do ankiety, pomiń połączenie telnet"
+      },
       "0.5.0": {
         "en": "write date over TCP to ebusd",
         "de": "schreibe Datum über TCP nach ebusd",

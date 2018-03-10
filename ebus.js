@@ -485,7 +485,7 @@ function ebusd_Command(options) {
                         client.destroy();
                     });
                     client.connect(options.targetTelnetPort, options.targetIP, function () {
-                        adapter.log.debug("telnet connected");
+                        adapter.log.debug("telnet connected for cmd");
                     });
                     client.on('data', function (data) {
                         adapter.log.debug("received " + data);
@@ -511,7 +511,7 @@ function ebusd_Command(options) {
                     client.on('error', function (err) {
 
                         client.destroy();
-                        adapter.log.debug('Telnet Server nicht erreichbar.');
+                        adapter.log.error('Telnet Server nicht erreichbar.');
                     });
 
                 }
@@ -798,56 +798,71 @@ var net = require('net');
 //this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
 //here we need a loop over all configured read data in admin-page
 function ebusd_ReadValues(options) {
-    adapter.log.debug("connect telnet to IP " + options.targetIP + " port " + options.targetTelnetPort);
+   
 
     //adapter.log.debug("polled: " + options.polledValues);
     //adapter.log.debug("history: " + options.historyValues);
 
     var oPolled = options.polledValues.split(",");
     var nCtr = 0;
-    adapter.log.debug("polled: " + oPolled);
 
-    var client = new net.Socket();
-    client.setTimeout(5000, function () {
-        client.destroy();
-    });
-    client.connect(options.targetTelnetPort, options.targetIP, function () {
-        adapter.log.debug("telnet connected");
-    });
-    client.on('data', function (data) {
-        adapter.log.debug("received " + data);
+    if (oPolled.length > 0 && options.polledValues.length>0) {
+
+        adapter.log.debug("to poll ctr " + oPolled.length + " vals:  " + oPolled + " org " + options.polledValues + " org length " + options.polledValues.length);
+
+        var client = new net.Socket();
+        client.setTimeout(5000, function () {
+            client.destroy();
+            adapter.log.error('Telnet Server timeout');
+            ebusd_StartReceive(options);
+        });
+        adapter.log.debug("connect telnet to IP " + options.targetIP + " port " + options.targetTelnetPort);
+        client.connect(options.targetTelnetPort, options.targetIP, function () {
+            adapter.log.debug("telnet connected");
+        });
+        client.on('data', function (data) {
+            adapter.log.debug("received " + data);
+
+            if (oPolled.length > nCtr) {
+                client.write('read -f ' + oPolled[nCtr] + '\n');
+                nCtr++;
+            }
+            else {
+                client.end();
+                client.destroy();
+                adapter.log.debug("all telnet done ");
+                ebusd_StartReceive(options);
+            }
+        });
+        client.on('end', function () {
+            adapter.log.debug('Daten ausgelesen');
+        });
 
         if (oPolled.length > nCtr) {
             client.write('read -f ' + oPolled[nCtr] + '\n');
             nCtr++;
         }
-        else {
-            client.end();
+        //client.end();
+        client.on('error', function (err) {
+
             client.destroy();
-            adapter.log.debug("all telnet done ");
-            ebusd_ReceiveData(options, function () {
-                setTimeout(function () {
-                    adapter.stop();
-                }, 6000);
-            });
-        }
-    });
-    client.on('end', function () {
-        adapter.log.debug('Daten ausgelesen');
-    });
-
-    
-    if (oPolled.length>nCtr) {
-        client.write('read -f ' + oPolled[nCtr] + '\n');
-        nCtr++;
+            adapter.log.error('Telnet Server nicht erreichbar.');
+            ebusd_StartReceive(options);
+        });
     }
-    //client.end();
-    client.on('error', function (err) {
+    else {
+        adapter.log.debug("nothing to poll; skip telnet");
 
-        client.destroy();
-        adapter.log.debug('Telnet Server nicht erreichbar.');
-    });
-
+        ebusd_StartReceive(options);
+    }
 
 }
 
+
+function ebusd_StartReceive(options) {
+    ebusd_ReceiveData(options, function () {
+        setTimeout(function () {
+            adapter.stop();
+        }, 6000);
+    });
+}
