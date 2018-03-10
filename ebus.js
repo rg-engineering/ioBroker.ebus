@@ -323,7 +323,7 @@ function Common_checkVariables(options) {
         var oHistory = options.historyValues.split(",");
         nCtr = oHistory.length + 1;
     }
-    adapter.log.debug("_____ ctr " + nCtr);
+    //adapter.log.debug("_____ ctr " + nCtr);
     for (var n = 1; n < nCtr; n++) {
 
         adapter.setObjectNotExists('history.value' + n, {
