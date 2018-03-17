@@ -12,12 +12,16 @@ This adapter reads
 In this case ebusd must run and must be able to send data to e.g. explorer via http://IP:port/data (http://192.168.0.123:8889/data)
 Current version of ebusd incl. configuration files can be copied from https://github.com/john30/ebusd
 All fields with data, lastup and from global section are parsed. All others are ignored at the moment. 
-Write access to ebusd is not implemented yet.
+
+There is a possibillity to poll data which are not polled by ebusd directly. Command 'read -f' is used to force reading over ebus.  
+
+Another feature is to send any command to ebusd and receive answer to work with e.g. scripts.
+
 supported ebusd-version: 3.1
 - web interface of Arduino based ebus adapter. Interpretation of ebus data is done on Arduino.
 details incl. Arduino software see /t.b.d./
    
-Attention: ebus-history and ebus widget works only with arduino interface at the moment. Will be implemented for ebusd later.
+
 
 ## Changelog
 
