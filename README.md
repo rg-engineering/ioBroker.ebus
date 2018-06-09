@@ -25,6 +25,9 @@ details incl. Arduino software see /t.b.d./
 
 ## Changelog
 
+#### 0.5.2
+* (René) bug fix: in vis 1.x some values are not stored
+
 #### 0.5.1
 * (René) bug fix: if nothing to poll then skip telnet connection
 

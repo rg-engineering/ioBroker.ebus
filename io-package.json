@@ -1,8 +1,19 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "news": {
+      "0.5.2": {
+        "en": "bug fix: in vis 1.x some values are not stored",
+        "de": "Bugfix: In vis 1.x werden einige Werte nicht gespeichert",
+        "ru": "исправление ошибки: в vis 1.x некоторые значения не сохраняются",
+        "pt": "correção de bug: em vis 1.x alguns valores não são armazenados",
+        "nl": "bug fix: in vis 1.x worden sommige waarden niet opgeslagen",
+        "fr": "correction de bogue: dans vis 1.x certaines valeurs ne sont pas stockées",
+        "it": "bug fix: in vis 1.x alcuni valori non sono memorizzati",
+        "es": "corrección de errores: en vis 1.x algunos valores no se almacenan",
+        "pl": "bug fix: w vis 1.x niektóre wartości nie są przechowywane"
+      },
       "0.5.1": {
         "en": "bug fix: if nothing to poll then skip telnet connection",
         "de": "Bugfix: Wenn nichts abgefragt wird, dann Telnet-Verbindung überspringen",

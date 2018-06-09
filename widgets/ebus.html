@@ -283,7 +283,8 @@
                                 if (sVal!=null && typeof sVal != "undefined") {
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph1 = sVal[0][names[0]];
-                                    console.log("graph1 " + sDate + " " + sTime + ": " + sValGraph1);
+                                    //console.log("graph1 " + sDate + " " + sTime + ": " + sValGraph1);
+                                    console.log("graph1 " + oDate.toISOString() + " "  + sValGraph1);
                                     values_graph1.push([oDate, sValGraph1]);
 
                                     if (sValGraph1 > maxY_graph[0]) maxY_graph[0] = sValGraph1;
@@ -302,7 +303,8 @@
                                 if (sVal != null && typeof sVal != "undefined") {
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph2 = sVal[0][names[0]];
-                                    console.log("graph2 " + sDate + " " + sTime + ": " + sValGraph2);
+                                    //console.log("graph2 " + sDate + " " + sTime + ": " + sValGraph2);
+                                    console.log("graph2 " + oDate.toISOString() + " "  + sValGraph2);
                                     values_graph2.push([oDate, sValGraph2]);
 
                                     if (sValGraph2 > maxY_graph[1]) maxY_graph[1] = sValGraph2;
@@ -320,7 +322,8 @@
                                 if (sVal != null && typeof sVal != "undefined") {
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph3 = sVal[0][names[0]];
-                                    console.log("graph3 " + sDate + " " + sTime + ": " + sValGraph3);
+                                    //console.log("graph3 " + sDate + " " + sTime + ": " + sValGraph3);
+                                    console.log("graph3 " + oDate.toISOString() + " "  + sValGraph3);
                                     values_graph3.push([oDate, sValGraph3]);
 
                                     if (sValGraph3 > maxY_graph[2]) maxY_graph[2] = sValGraph3;
@@ -338,7 +341,8 @@
                                 if (sVal != null && typeof sVal != "undefined") {
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph4 = sVal[0][names[0]];
-                                    console.log("graph4 " + sDate + " " + sTime + ": " + sValGraph4);
+                                    //console.log("graph4 " + sDate + " " + sTime + ": " + sValGraph4);
+                                    console.log("graph4 " + oDate.toISOString() + " " + sValGraph4);
                                     values_graph4.push([oDate, sValGraph4]);
 
                                     if (sValGraph4 > maxY_graph[3]) maxY_graph[3] = sValGraph4;
