@@ -168,7 +168,7 @@
         history: {
             update: function ($div, view) {
                 var data = $div.data('options');
-                
+
                 if (!data.ebusinstance) {
                     console.log("keine instanz " + data.chartType);
 
@@ -191,7 +191,7 @@
 
                         var widgetID = $div[0].parentElement.id;
 
-                        
+
 
                         //parse data
                         var oid_historydate = data.oid_historydate;
@@ -201,25 +201,43 @@
                         var oid_historygraph4 = data.oid_historygraph4;
                         try {
                             var data_date = JSON.parse(vis.states[oid_historydate + '.val']);
-                            var data_value1=null;
+                            var data_value1 = null;
                             if (oid_historygraph1 != "") {
                                 data_value1 = JSON.parse(vis.states[oid_historygraph1 + '.val']);
                             }
+                        } catch (e) {
+                            console.warn('parse error [' + e + ']');
+                            $div.html("<br> <center> <font color='red'>exception in parse data graph1 </font> </center></br>");
+                            return;
+                        }
+                        try {
                             data_value2 = null;
                             if (oid_historygraph2 != "") {
                                 var data_value2 = JSON.parse(vis.states[oid_historygraph2 + '.val']);
                             }
+                        } catch (e) {
+                            console.warn('parse error [' + e + ']');
+                            $div.html("<br> <center> <font color='red'>exception in parse data graph2 </font> </center></br>");
+                            return;
+                        }
+                        try {
                             data_value3 = null;
                             if (oid_historygraph3 != "") {
                                 var data_value3 = JSON.parse(vis.states[oid_historygraph3 + '.val']);
                             }
+                        } catch (e) {
+                            console.warn('parse error [' + e + ']');
+                            $div.html("<br> <center> <font color='red'>exception in parse data graph3 </font> </center></br>");
+                            return;
+                        }
+                        try {
                             data_value4 = null;
                             if (oid_historygraph4 != "") {
                                 var data_value4 = JSON.parse(vis.states[oid_historygraph4 + '.val']);
                             }
                         } catch (e) {
                             console.warn('parse error [' + e + ']');
-                            $div.html("<br> <center> <font color='red'>no data available yet </font> </center></br>");
+                            $div.html("<br> <center> <font color='red'>exception in parse data graph4 </font> </center></br>");
                             return;
                         }
 
@@ -240,7 +258,7 @@
 
                         var values_graph4 = [];
 
-                            //since all datpoints should have the same length we use date datapoint as master
+                        //since all datpoints should have the same length we use date datapoint as master
                         for (var i = 0; i < data_date.length; i++) {
                             try {
                                 var oValDate = data_date[i];
@@ -280,11 +298,11 @@
                                     var oValGraph4 = data_value4[i];
                                 }
                                 var sVal = oValGraph1;
-                                if (sVal!=null && typeof sVal != "undefined") {
+                                if (sVal != null && typeof sVal != "undefined") {
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph1 = sVal[0][names[0]];
                                     //console.log("graph1 " + sDate + " " + sTime + ": " + sValGraph1);
-                                    console.log("graph1 " + oDate.toISOString() + " "  + sValGraph1);
+                                    console.log("graph1 " + oDate.toISOString() + " " + sValGraph1);
                                     values_graph1.push([oDate, sValGraph1]);
 
                                     if (sValGraph1 > maxY_graph[0]) maxY_graph[0] = sValGraph1;
@@ -296,7 +314,7 @@
                                             vis.widgets[widgetID].data.graph1Name = names[0];
                                         }
                                     }
-                                    
+
                                 }
 
                                 sVal = oValGraph2;
@@ -304,7 +322,7 @@
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph2 = sVal[0][names[0]];
                                     //console.log("graph2 " + sDate + " " + sTime + ": " + sValGraph2);
-                                    console.log("graph2 " + oDate.toISOString() + " "  + sValGraph2);
+                                    console.log("graph2 " + oDate.toISOString() + " " + sValGraph2);
                                     values_graph2.push([oDate, sValGraph2]);
 
                                     if (sValGraph2 > maxY_graph[1]) maxY_graph[1] = sValGraph2;
@@ -323,7 +341,7 @@
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph3 = sVal[0][names[0]];
                                     //console.log("graph3 " + sDate + " " + sTime + ": " + sValGraph3);
-                                    console.log("graph3 " + oDate.toISOString() + " "  + sValGraph3);
+                                    console.log("graph3 " + oDate.toISOString() + " " + sValGraph3);
                                     values_graph3.push([oDate, sValGraph3]);
 
                                     if (sValGraph3 > maxY_graph[2]) maxY_graph[2] = sValGraph3;
@@ -348,7 +366,7 @@
                                     if (sValGraph4 > maxY_graph[3]) maxY_graph[3] = sValGraph4;
                                     if (sValGraph4 < minY_graph[3]) minY_graph[3] = sValGraph4;
 
-                                    
+
                                     if (vis.editMode) {
                                         if (vis.views[view].widgets[widgetID].data.graph4Name == "") {
                                             vis.views[view].widgets[widgetID].data.graph4Name = names[0];
@@ -470,7 +488,7 @@
                             case "kW":
                                 Graph4Formatter = xwFormatter;
                                 console.log("kW format");
-                                break; 
+                                break;
                             case "degree":
                                 Graph4Formatter = degreeFormatter;
                                 console.log("degree format");
@@ -490,7 +508,7 @@
                                     label: data.graph1Name,
                                     xaxis: 1,
                                     yaxis: 1,
-                                    lines: { show: data.graph1charttype =="charttypeline" },
+                                    lines: { show: data.graph1charttype == "charttypeline" },
                                     bars:
                                     {
                                         show: data.graph1charttype == "charttypebar",
@@ -612,7 +630,7 @@
                                         },
                                         tickFormatter: Graph4Formatter
                                     }
-                                    
+
 
                                 ],
                                 grid:
