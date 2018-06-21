@@ -24,6 +24,8 @@ details incl. Arduino software see /t.b.d./
 
 
 ## Changelog
+#### 0.5.3
+* (René) add error information
 
 #### 0.5.2
 * (René) bug fix: in vis 1.x some values are not stored

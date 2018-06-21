@@ -186,6 +186,7 @@ function Arduino_ReceiveData(options, cb) {
 
                         //adapter.log.debug("*** " + Math.abs(oDate.getTime() - oToday.getTime()) + " " + (12 * 60 * 60 * 1000))
 
+
                         if (Math.abs(oDate.getTime() - oToday.getTime()) < (12 * 60 * 60 * 1000)) {
 
                             adapter.log.debug("result " + JSON.stringify(result.VaillantInterface));
@@ -337,6 +338,15 @@ function Common_checkVariables(options) {
         common: { name: 'ebus history date as JSON', type: 'string', role: 'history', unit: '', read: true, write: false },
         native: { location: 'history.date' }
     });
+
+    adapter.setObjectNotExists('history.error', {
+        type: 'state',
+        common: { name: 'ebus error', type: 'string', role: 'history', unit: '', read: true, write: false },
+        native: { location: 'history.error' }
+    });
+
+
+    
 }
 
 function Arduino_checkVariables(options) {
@@ -658,6 +668,15 @@ function ebusd_ReceiveData(options, cb) {
                             var sDate = nDate + "." + nMonth + "." + nYear + " " + nHours + ":" + nMinutes + ":" + nSeconds;
                             AddObject(key);
                             UpdateObject(key, sDate);
+
+                            var oToday = new Date();
+                            var sError = "none";
+                            if (Math.abs(oDate.getTime() - oToday.getTime()) > (1 * 60 * 60 * 1000)) {
+                                var sError = "no update since " + sDate;
+                                
+                            }
+                            
+                            adapter.setState('history.error', { ack: true, val: sError });
                         }
                     }
                     else if (subnames[0].includes("global")) {
