@@ -18,7 +18,7 @@ var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.template.0
-var adapter = utils.Adapter('ebus');
+var adapter = utils.adapter('ebus');
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
@@ -231,7 +231,7 @@ function Arduino_ReceiveData(options, cb) {
                                 "date": result.VaillantInterface.data[0].date[0].$.date,
                                 "time": result.VaillantInterface.data[0].time[0].$.time,
                             });
-                            adapter.log.debug(JSON.stringify(historydates));
+                            //adapter.log.debug(JSON.stringify(historydates));
 
                             historyvalues[0] = [];
                             historyvalues[0].push({
@@ -253,7 +253,7 @@ function Arduino_ReceiveData(options, cb) {
                                 "Status": result.VaillantInterface.data[0].Status[0].$.value
                             });
     
-                            adapter.log.debug(JSON.stringify(historyvalues));
+                            //adapter.log.debug(JSON.stringify(historyvalues));
     
                             
                             UpdateHistory(historyvalues, historydates);
@@ -324,6 +324,8 @@ function Common_checkVariables(options) {
         var oHistory = options.historyValues.split(",");
         nCtr = oHistory.length + 1;
     }
+
+    adapter.log.debug("init common variables ");
     //adapter.log.debug("_____ ctr " + nCtr);
     for (var n = 1; n < nCtr; n++) {
 
@@ -590,7 +592,7 @@ function ebusd_ReceiveData(options, cb) {
 
                 var keys = Object.keys(newData);
 
-                adapter.log.debug("history: " + options.historyValues);
+                //adapter.log.debug("history: " + options.historyValues);
 
                 var oHistory = options.historyValues.split(",");
 
@@ -604,9 +606,10 @@ function ebusd_ReceiveData(options, cb) {
                     "date": oToday.getDate() + "." + month  + "." + oToday.getFullYear(),
                     "time": oToday.getHours() + ":" + oToday.getMinutes() + ":" + oToday.getSeconds()
                 });
-                adapter.log.debug(JSON.stringify(historydates));
+                //adapter.log.debug(JSON.stringify(historydates));
                 
                 var name = "unknown";
+                var sError = "none";
                 for (var i = 0; i < keys.length; i++) {
                     var key = keys[i];
                     var subnames = key.split('.');
@@ -618,7 +621,7 @@ function ebusd_ReceiveData(options, cb) {
                         name = newData[key];
                     }
                     else if (subnames[temp - 1].includes("value")) {
-                        adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
+                        //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
 
                         var value = newData[key];
 
@@ -639,22 +642,20 @@ function ebusd_ReceiveData(options, cb) {
                                 if (name == oHistory[ii]) {
 
                                     var sTemp = '{"' + name + '": "' + value + '"}';
-                                    adapter.log.debug(sTemp);
+                                    //adapter.log.debug(sTemp);
                                     historyvalues[ii] = [];
                                     historyvalues[ii].push(JSON.parse(sTemp));
-                                    adapter.log.debug(JSON.stringify(historyvalues));
+                                    //adapter.log.debug(JSON.stringify(historyvalues));
                                 }
                             }
-
                         }
-
                     }
                     else if (subnames[temp - 1].includes("lastup")) {
 
                         var value = newData[key];
 
                         if (parseInt(value) > 0) {
-                            adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
+                            //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
 
                             //umrechnen...
                             var oDate = new Date(value * 1000);
@@ -670,24 +671,45 @@ function ebusd_ReceiveData(options, cb) {
                             UpdateObject(key, sDate);
 
                             var oToday = new Date();
-                            var sError = "none";
-                            if (Math.abs(oDate.getTime() - oToday.getTime()) > (1 * 60 * 60 * 1000)) {
-                                var sError = "no update since " + sDate;
+
+                            var bSkip = false;
+
+                            if (subnames[0].includes("scan") ||
+                                subnames[0].includes("ehp")) {
+                                bSkip = true;
+                            }
+                            if (temp > 2) {
+                                //adapter.log.debug("_______________size " + temp);
+                                if (subnames[2].includes("Timer")) {
+                                    bSkip = true;
+                                }
+                            }
                                 
+                            if (!bSkip && Math.abs(oDate.getTime() - oToday.getTime()) > (1 * 60 * 60 * 1000)) {
+                               
+                                var sError1 = "no update since " + sDate + " " + key + " ";
+                                if (sError.includes("none")) {
+                                    sError = "ebus: " + sError1;
+                                }
+                                else {
+                                    sError += sError1;
+                                }
+                                adapter.log.debug(sError1);
                             }
                             
-                            adapter.setState('history.error', { ack: true, val: sError });
+                           
                         }
                     }
                     else if (subnames[0].includes("global")) {
-                        adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
+                        //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
                         var value = newData[key];
                         AddObject(key);
                         UpdateObject(key, value);
                     }
                 }
+                adapter.setState('history.error', { ack: true, val: sError });
 
-                adapter.log.debug(JSON.stringify(historyvalues));
+                //adapter.log.debug(JSON.stringify(historyvalues));
 
                 UpdateHistory(historyvalues, historydates);
 
@@ -710,14 +732,14 @@ function UpdateHistory(values, dates) {
         } else {
             try {
                 if (obj != null) {
-                    adapter.log.debug("before " + obj.val);
+                    //adapter.log.debug("before " + obj.val);
                     oEbusDates = JSON.parse(obj.val);
-                    adapter.log.debug("after parse " + JSON.stringify(oEbusDates));
+                    //adapter.log.debug("after parse " + JSON.stringify(oEbusDates));
                 }
 
 
                 oEbusDates.push(dates);
-                adapter.log.debug("after push " + JSON.stringify(oEbusDates));
+                //adapter.log.debug("after push " + JSON.stringify(oEbusDates));
                 //limit length of object...
                 if (oEbusDates.length > 200) {
 
@@ -750,20 +772,20 @@ function UpdateHistoryValues(values, ctr) {
             try {
                 var oEbusValues = [];
                 if (obj != null) {
-                    adapter.log.debug("before " + obj.val);
+                    //adapter.log.debug("before " + obj.val);
 
                     oEbusValues = JSON.parse(obj.val);
 
-                    adapter.log.debug("after parse " + JSON.stringify(oEbusValues));
+                    //adapter.log.debug("after parse " + JSON.stringify(oEbusValues));
 
-                    adapter.log.debug("after parse cnt " + oEbusValues.length);
+                    //adapter.log.debug("after parse cnt " + oEbusValues.length);
                 }
 
-                adapter.log.debug("values " + ctr + ": " + JSON.stringify(values[ctr-1]));
+                //adapter.log.debug("values " + ctr + ": " + JSON.stringify(values[ctr-1]));
 
                 oEbusValues.push(values[ctr-1]);
-                adapter.log.debug("after push " + JSON.stringify(oEbusValues));
-                adapter.log.debug("after push cnt " + oEbusValues.length);
+                //adapter.log.debug("after push " + JSON.stringify(oEbusValues));
+                //adapter.log.debug("after push cnt " + oEbusValues.length);
                 //limit length of object...
                 if (oEbusValues.length > 200) {
 
@@ -840,7 +862,12 @@ function ebusd_ReadValues(options) {
             adapter.log.debug("telnet connected");
         });
         client.on('data', function (data) {
-            adapter.log.debug("received " + data);
+            if (data.includes("ERR")){
+                adapter.log.error("received " + data + " for " + oPolled[nCtr - 1]);
+            }
+            else {
+                adapter.log.debug("received " + data + " for " + oPolled[nCtr - 1] );
+            }
 
             if (oPolled.length > nCtr) {
                 client.write('read -f ' + oPolled[nCtr] + '\n');
