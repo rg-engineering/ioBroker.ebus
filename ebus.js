@@ -100,6 +100,7 @@ function main() {
         process.exit(0);
     }, 60000);
 
+    /*
     if (adapter.config.interfacetype == "arduino") {
         adapter.log.debug('start with interface arduino ');
         Arduino_checkVariables(options);
@@ -111,7 +112,8 @@ function main() {
         });
 
     }
-    else if (adapter.config.interfacetype == "ebusd") {
+    else */
+    //if (adapter.config.interfacetype == "ebusd") {
         adapter.log.debug('start with interface ebusd ');
         ebusd_checkVariables(options);
 
@@ -119,10 +121,10 @@ function main() {
 
        
 
-    }
-    else {
-        adapter.log.error('unknown interface type ' + adapter.config.interfacetype);
-    }
+    //}
+    //else {
+    //    adapter.log.error('unknown interface type ' + adapter.config.interfacetype);
+    //}
 
 }
 
@@ -148,6 +150,8 @@ VaillantInterface >
     </data>
 </VaillantInterface >
 */
+
+/*
 function Arduino_ReceiveData(options, cb) {
 
 
@@ -216,17 +220,7 @@ function Arduino_ReceiveData(options, cb) {
                             //use datapoint behaviour as storage for json object
                             var historyvalues = [];
                             var historydates = [];
-                            /*
-                            historyvalues.push({
-                                "date": result.VaillantInterface.data[0].date[0].$.date,
-                                "time": result.VaillantInterface.data[0].time[0].$.time,
-                                "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
-                                "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
-                                "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
-                                "Status": result.VaillantInterface.data[0].Status[0].$.value
-                            });
-                            */
-
+                            
                             historydates.push({
                                 "date": result.VaillantInterface.data[0].date[0].$.date,
                                 "time": result.VaillantInterface.data[0].time[0].$.time,
@@ -259,41 +253,7 @@ function Arduino_ReceiveData(options, cb) {
                             UpdateHistory(historyvalues, historydates);
                             
 
-                            /*
-                            adapter.getState('data.history', function (err, obj) {
-                                if (err) {
-                                    adapter.log.error(err);
-                                } else {
-    
-                                    //adapter.log.debug("before " + obj.val);
-                                    if (obj != null) {
-                                        oEbusHistory = JSON.parse(obj.val);
-                                    }
-                                    //adapter.log.debug("after " + JSON.stringify(oEbusHistory));
-    
-                                    oEbusHistory.push({
-                                        "date": result.VaillantInterface.data[0].date[0].$.date,
-                                        "time": result.VaillantInterface.data[0].time[0].$.time,
-                                        "TempVorlauf": result.VaillantInterface.data[0].TempVorlauf[0].$.value,
-                                        "TempQuelle": result.VaillantInterface.data[0].TempQuelle[0].$.value,
-                                        "HeizLeistung": result.VaillantInterface.data[0].HeizLeistungMomentan[0].$.value,
-                                        "Status": result.VaillantInterface.data[0].Status[0].$.value
-                                    });
-                                    //adapter.log.debug("after push " + JSON.stringify(oEbusHistory));
-                                    //limit length of object...
-                                    if (oEbusHistory.length > 200) {
-    
-                                        for (var i = oEbusHistory.length; i > 200; i--) {
-                                            adapter.log.debug("delete");
-                                            oEbusHistory.shift();
-                                        }
-                                    }
-    
-                                    adapter.setState('data.history', { ack: true, val: JSON.stringify(oEbusHistory) });
-                                }
-    
-                            });
-                            */
+                            
                         }
                     }
                     catch (e) {
@@ -311,19 +271,20 @@ function Arduino_ReceiveData(options, cb) {
     }
     if (cb) cb();
 }
-
+*/
 
 function Common_checkVariables(options) {
 
     // histories
     var nCtr = 0;
-    if (adapter.config.interfacetype == "arduino") {
+    /* if (adapter.config.interfacetype == "arduino") {
         nCtr = 5;
     }
     else if (adapter.config.interfacetype == "ebusd") {
+    */
         var oHistory = options.historyValues.split(",");
         nCtr = oHistory.length + 1;
-    }
+    //}
 
     adapter.log.debug("init common variables ");
     //adapter.log.debug("_____ ctr " + nCtr);
@@ -350,7 +311,7 @@ function Common_checkVariables(options) {
 
     
 }
-
+/*
 function Arduino_checkVariables(options) {
     adapter.log.debug("init variables ");
 
@@ -473,7 +434,7 @@ function Arduino_checkVariables(options) {
     Common_checkVariables(options);
 }
 
-
+*/
 
 
 

@@ -18,12 +18,14 @@ There is a possibillity to poll data which are not polled by ebusd directly. Com
 Another feature is to send any command to ebusd and receive answer to work with e.g. scripts.
 
 supported ebusd-version: 3.1
-- web interface of Arduino based ebus adapter. Interpretation of ebus data is done on Arduino.
-details incl. Arduino software see /t.b.d./
+
    
 
 
 ## Changelog
+#### 0.5.4
+* (René) arduine support removed
+
 #### 0.5.3
 * (René) add error information
 
