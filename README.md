@@ -23,8 +23,11 @@ supported ebusd-version: 3.1
 
 
 ## Changelog
+#### 2.0.0
+* (René) ebusd integrated into adapter
+
 #### 0.5.4
-* (René) arduine support removed
+* (René) arduino support removed
 
 #### 0.5.3
 * (René) add error information

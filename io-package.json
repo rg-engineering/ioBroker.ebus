@@ -1,10 +1,13 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.5.4",
+    "version": "2.0.0",
     "news": {
+      "2.0.0": {
+        "en": "ebusd integrated into adapter"
+      },
       "0.5.4": {
-        "en": "arduine support removed"
+        "en": "arduino support removed"
       },
       "0.5.3": {
         "en": "add error information",
@@ -124,15 +127,9 @@
         "pl": "ebus"
       },
       "desc": {
-        "en": "ebus Adapter; reads data from ebusd or from Arduino ebus Interface",
-        "de": "ebus Adapter; liest Daten von ebusd oder von Arduino ebus Interface",
-        "ru": "Адаптер ebus; считывает данные с ebusd или через интерфейс Ebus Arduino",
-        "pt": "Adaptador ebus; lê dados da interface ebusd ou da Arduino ebus",
-        "nl": "ebus-adapter; leest gegevens van ebusd of van Arduino ebus Interface",
-        "fr": "adaptateur ebus; lit les données d'ebusd ou de l'interface Arduino ebus",
-        "it": "ebus Adapter; legge i dati da ebusd o dall'interfaccia ebus Arduino",
-        "es": "adaptador ebus; lee datos de ebusd o de la interfaz Arduino ebus",
-        "pl": "Adapter ebus; odczytuje dane z ebusd lub z interfejsu Arduino ebus"
+        "en": "ebus Adapter; reads data from ebusd Interface",
+        "de": "ebus Adapter; liest Daten von ebusd Interface"
+        
       },
       "platform": "Javascript/Node.js",
       "mode": "schedule",
