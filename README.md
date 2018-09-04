@@ -4,7 +4,8 @@
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.ebus.svg)](https://www.npmjs.com/package/iobroker.ebus)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.ebus.svg)](https://www.npmjs.com/package/iobroker.ebus)
-
+[![Tests](https://travis-ci.org/rg-engineering/ioBroker.ebus.svg?branch=master)](https://travis-ci.org/rg-engineering/ioBroker.ebus)
+[![Build Status](https://travis-ci.org/rg-engineering/ioBroker.ebus.svg?branch=master)](https://travis-ci.org/rg-engineering/ioBroker.ebus)
 [![NPM](https://nodei.co/npm/iobroker.ebus.png?downloads=true)](https://nodei.co/npm/iobroker.ebus/)
 
 This adapter reads
@@ -19,8 +20,10 @@ Another feature is to send any command to ebusd and receive answer to work with 
 
 supported ebusd-version: 3.1
 
-   
-
+- data from ebus using a ebus interface on USB
+In this case a ebus dongle (hardware interface) on USB must be available on the same system as this adapter runs.
+The adapter use the same configuration files as described in case with ebusd. Advantage of this version is that you do not need to install ebusd. 
+Disadvantage is that parsing of data needs power on the system, the adapter runs all the time (since ebusd version is schedelued with cron)
 
 ## Changelog
 #### 2.0.0

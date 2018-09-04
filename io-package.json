@@ -4,10 +4,26 @@
     "version": "2.0.0",
     "news": {
       "2.0.0": {
-        "en": "ebusd integrated into adapter"
+        "en": "ebusd integrated into adapter",
+        "de": "EBUSD in Adapter integriert",
+        "ru": "Встроенный в адаптер ebusd",
+        "pt": "ebusd integrado no adaptador",
+        "nl": "ebusd geïntegreerd in adapter",
+        "fr": "ebusd intégré dans l'adaptateur",
+        "it": "ebusd integrato nell'adattatore",
+        "es": "ebusd integrado en el adaptador",
+        "pl": "ebusd zintegrowany z adapterem"
       },
       "0.5.4": {
-        "en": "arduino support removed"
+        "en": "arduino support removed",
+        "de": "Arduino-Unterstützung entfernt",
+        "ru": "поддержка arduino",
+        "pt": "suporte de arduino removido",
+        "nl": "arduino-ondersteuning verwijderd",
+        "fr": "support arduino supprimé",
+        "it": "supporto per arduino rimosso",
+        "es": "soporte arduino eliminado",
+        "pl": "Usunięto wsparcie arduino"
       },
       "0.5.3": {
         "en": "add error information",
@@ -126,11 +142,18 @@
         "es": "ebus",
         "pl": "ebus"
       },
-      "desc": {
-        "en": "ebus Adapter; reads data from ebusd Interface",
-        "de": "ebus Adapter; liest Daten von ebusd Interface"
-        
-      },
+    "desc": {
+      "en": "ebus Adapter; reads data from ebusd Interface",
+      "de": "ebus Adapter; liest Daten von der ebusd Schnittstelle",
+      "ru": "Адаптер ebus; считывает данные из интерфейса ebusd",
+      "pt": "Adaptador ebus; lê dados da interface ebusd",
+      "nl": "ebus-adapter; leest gegevens van ebusd Interface",
+      "fr": "adaptateur ebus; lit les données de l'interface ebusd",
+      "it": "ebus Adapter; legge i dati dall'interfaccia ebusd",
+      "es": "adaptador ebus; lee datos de la interfaz ebusd",
+      "pl": "Adapter ebus; odczytuje dane z interfejsu ebusd"
+
+    },
       "platform": "Javascript/Node.js",
       "mode": "schedule",
       "schedule": "*/5 * * * *",
