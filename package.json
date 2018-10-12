@@ -20,9 +20,9 @@
     "url": "https://github.com/rg-engineering/ioBroker.ebus"
   },
   "dependencies": {
-    "request": "^2.83.0",
+    "request": "^2.88.0",
     "xml2js": "^0.4.19",
-    "flat": "^4.0.0",
+    "flat": "^4.1.0",
     "net": "^1.0.2"
   },
   "devDependencies": {

@@ -11,3 +11,4 @@ package-lock.json
 readme.txt
 
 /typings/*
+/widgets/ebus_alt.html
