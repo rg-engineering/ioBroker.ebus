@@ -1,8 +1,19 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.5.4",
+    "version": "0.5.5",
     "news": {
+      "0.5.5": {
+        "en": "code clean up",
+        "de": "Code aufräumen",
+        "ru": "очистка кода",
+        "pt": "código de limpeza",
+        "nl": "code opruimen",
+        "fr": "nettoyage du code",
+        "it": "codice ripulire",
+        "es": "código de limpieza",
+        "pl": "oczyść kod"
+      },
       "0.5.4": {
         "en": "arduino support removed",
         "de": "Arduino-Unterstützung entfernt",
