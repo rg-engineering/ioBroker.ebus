@@ -25,48 +25,48 @@ supported ebusd-version: 3.1
 
 ## Changelog
 
-#### 0.5.5 (2018-11-04)
+### 0.5.5 (2018-11-04)
 * (René) code clean up
 
-#### 0.5.4
+### 0.5.4
 * (René) arduino support removed
 
-#### 0.5.3
+### 0.5.3
 * (René) add error information
 
-#### 0.5.2
+### 0.5.2
 * (René) bug fix: in vis 1.x some values are not stored
 
-#### 0.5.1
+### 0.5.1
 * (René) bug fix: if nothing to poll then skip telnet connection
 
-#### 0.5.0
+### 0.5.0
 * (René) write date over TCP to ebusd
 
-#### 0.4.2
+### 0.4.2
 * (René) bug fix for admin V3 
 
-#### 0.4.1 
+### 0.4.1 
 * (René) logo changed 
 
-#### 0.4.0 
+### 0.4.0 
 * (René) reading data from ebusd 
 
-#### 0.3.0 
+### 0.3.0 
 * (René) support of ebusd 
 * (René) admin3 support
 
-#### 0.2.0
+### 0.2.0
 * (René) add history as JSON for vis
 * (René) add flot based widget to display temperatur, status and power graph
 
-#### 0.1.0
+### 0.1.0
 * (René) scheduled adapter instead of deamon
 
-#### 0.0.3
+### 0.0.3
 * (René) UTF8 coding
 
-#### 0.0.2
+### 0.0.2
 * (René) initial release
 
 ## License
