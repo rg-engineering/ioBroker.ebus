@@ -1,8 +1,19 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.5.5",
+    "version": "0.6.0",
     "news": {
+      "0.6.0": {
+        "en": "support of compact adapter",
+        "de": "Unterstützung des Kompaktadapters",
+        "ru": "поддержка компактного адаптера",
+        "pt": "suporte de adaptador compacto",
+        "nl": "ondersteuning voor compacte adapter",
+        "fr": "support de l'adaptateur compact",
+        "it": "supporto di adattatore compatto",
+        "es": "soporte de adaptador compacto",
+        "pl": "obsługa adaptera kompaktowego"
+      },
       "0.5.5": {
         "en": "code clean up",
         "de": "Code aufräumen",
@@ -167,6 +178,7 @@
     "type": "hardware",
     "license": "MIT",
     "materialize": true,
+    "compact": true,
     "authors": [
       {
         "name": "René G.",

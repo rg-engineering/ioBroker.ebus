@@ -12,13 +12,72 @@
 "use strict";
 
 // you have to require the utils module and call adapter function
-var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
-
+//var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
+const utils = require('@iobroker/adapter-core');
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.template.0
-var adapter = utils.adapter('ebus');
+//this is the old version without compact
+//var adapter = utils.adapter('ebus');
+
+//new version with compact
+let adapter;
+function startAdapter(options) {
+    options = options || {};
+    Object.assign(options, {
+        name: 'ebus',
+        ready: function () {
+            try {
+                //adapter.log.debug('start');
+                main();
+            }
+            catch (e) {
+                adapter.log.error('exception catch after ready [' + e + ']');
+            }
+        },
+
+        //Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
+        message: function (obj) {
+            if (obj) {
+                switch (obj.command) {
+                    case 'send':
+                        // e.g. send email or pushover or whatever
+                        console.log('send command');
+
+                        // Send response in callback if required
+                        if (obj.callback) adapter.sendTo(obj.from, obj.command, 'Message received', obj.callback);
+                        break;
+
+                }
+            }
+        },
+
+        // is called if a subscribed object changes
+        objectChange: function (id, obj) {
+            // Warning, obj can be null if it was deleted
+            adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
+        },
+
+        // is called if a subscribed state changes
+        stateChange: function (id, state) {
+            // Warning, state can be null if it was deleted
+            adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+
+            // you can use the ack flag to detect if it is status (true) or command (false)
+            if (state && !state.ack) {
+                adapter.log.info('ack is not set!');
+            }
+        },
+
+
+
+    });
+    adapter = new utils.Adapter(options);
+
+    return adapter;
+};
+
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
@@ -26,7 +85,7 @@ var parseString = require('xml2js').parseString;
 
 
 //Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
-adapter.on('message', function (obj) {
+/* adapter.on('message', function (obj) {
 	if (obj) {
         switch (obj.command) {
         	case 'send':
@@ -41,8 +100,9 @@ adapter.on('message', function (obj) {
     }
 });
 
+*/
 // is called when adapter shuts down - callback has to be called under any circumstances!
-adapter.on('unload', function (callback) {
+/*adapter.on('unload', function (callback) {
     try {
         adapter.log.debug('cleaned everything up...');
         callback();
@@ -51,16 +111,18 @@ adapter.on('unload', function (callback) {
         callback();
     }
 });
+*/
+
 
 // is called if a subscribed object changes
-adapter.on('objectChange', function (id, obj) {
+/*adapter.on('objectChange', function (id, obj) {
     // Warning, obj can be null if it was deleted
     adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
 
 });
-
+*/
 // is called if a subscribed state changes
-adapter.on('stateChange', function (id, state) {
+/*adapter.on('stateChange', function (id, state) {
     // Warning, state can be null if it was deleted
     adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
@@ -69,12 +131,12 @@ adapter.on('stateChange', function (id, state) {
         adapter.log.info('ack is not set!');
     }
 });
-
+*/
 
 
 // is called when databases are connected and adapter received configuration.
 // start here!
-adapter.on('ready', function () {
+/*adapter.on('ready', function () {
     try {
         //adapter.log.debug('start');
         main();
@@ -83,6 +145,8 @@ adapter.on('ready', function () {
         adapter.log.error('exception catch after ready [' + e + ']');
     }
 });
+*/
+
 
 function main() {
     var options = {
@@ -97,7 +161,8 @@ function main() {
     // don't know why it does not terminate by itself...
     setTimeout(function () {
         adapter.log.warn('force terminate');
-        process.exit(0);
+        //process.exit(0);
+        adapter.terminate ? adapter.terminate() : process.exit(15);
     }, 60000);
 
     /*
@@ -869,7 +934,16 @@ function ebusd_ReadValues(options) {
 function ebusd_StartReceive(options) {
     ebusd_ReceiveData(options, function () {
         setTimeout(function () {
-            adapter.stop();
+            //adapter.stop();
+            adapter.terminate ? adapter.terminate() : process.exit(15);
         }, 6000);
     });
+}
+
+// If started as allInOne/compact mode => return function to create instance
+if (typeof module !== undefined && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
 }

@@ -24,6 +24,8 @@ supported ebusd-version: 3.1
 
 
 ## Changelog
+### 0.6.0 (2019-01-06)
+* (René) support of compact mode
 
 ### 0.5.5 (2018-11-04)
 * (René) code clean up
@@ -70,7 +72,7 @@ supported ebusd-version: 3.1
 * (René) initial release
 
 ## License
-Copyright (C) <2017 - 2018>  <info@rg-engineering.eu>
+Copyright (C) <2017 - 2019>  <info@rg-engineering.eu>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
