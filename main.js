@@ -162,7 +162,7 @@ function main() {
     setTimeout(function () {
         adapter.log.warn('force terminate');
         //process.exit(0);
-        adapter.terminate ? adapter.terminate() : process.exit(15);
+        adapter.terminate ? adapter.terminate() : process.exit(11);
     }, 60000);
 
     /*
@@ -827,6 +827,11 @@ function UpdateHistoryValues(values, ctr) {
                     ctr++;
                     UpdateHistoryValues(values, ctr);  //recursive call
                 }
+                else {
+                    adapter.log.info("all history done (exit)");
+
+                    adapter.terminate ? adapter.terminate() : process.exit();
+                }
             }
             catch (e) {
                 adapter.log.error('exception in UpdateHistory part2 [' + e + ']');
@@ -934,16 +939,17 @@ function ebusd_ReadValues(options) {
 function ebusd_StartReceive(options) {
     ebusd_ReceiveData(options, function () {
         setTimeout(function () {
+            adapter.log.warn('force terminate in receive');
             //adapter.stop();
-            adapter.terminate ? adapter.terminate() : process.exit(15);
+            adapter.terminate ? adapter.terminate() : process.exit(11);
         }, 6000);
     });
 }
 
 // If started as allInOne/compact mode => return function to create instance
-if (typeof module !== undefined && module.parent) {
+if (module && module.parent) {
     module.exports = startAdapter;
 } else {
     // or start the instance directly
     startAdapter();
-}
+} 
