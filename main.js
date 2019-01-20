@@ -35,43 +35,7 @@ function startAdapter(options) {
             catch (e) {
                 adapter.log.error('exception catch after ready [' + e + ']');
             }
-        },
-
-        //Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
-        message: function (obj) {
-            if (obj) {
-                switch (obj.command) {
-                    case 'send':
-                        // e.g. send email or pushover or whatever
-                        console.log('send command');
-
-                        // Send response in callback if required
-                        if (obj.callback) adapter.sendTo(obj.from, obj.command, 'Message received', obj.callback);
-                        break;
-
-                }
-            }
-        },
-
-        // is called if a subscribed object changes
-        objectChange: function (id, obj) {
-            // Warning, obj can be null if it was deleted
-            adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
-        },
-
-        // is called if a subscribed state changes
-        stateChange: function (id, state) {
-            // Warning, state can be null if it was deleted
-            adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-
-            // you can use the ack flag to detect if it is status (true) or command (false)
-            if (state && !state.ack) {
-                adapter.log.info('ack is not set!');
-            }
-        },
-
-
-
+        }
     });
     adapter = new utils.Adapter(options);
 
