@@ -24,7 +24,7 @@
     "xml2js": "^0.4.19",
     "flat": "^4.1.0",
     "net": "^1.0.2",
-    "@iobroker/adapter-core": "^1.0.2"
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
