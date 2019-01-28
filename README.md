@@ -22,7 +22,7 @@ supported ebusd-version: 3.1
 
    
 ## Changelog
-### 0.7.0 (2019-01-06)
+### 0.7.0 (2019-01-28)
 * (René) add adjustable timeout
 
 ### 0.6.0 (2019-01-06)
