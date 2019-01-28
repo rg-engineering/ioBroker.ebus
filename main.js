@@ -121,13 +121,19 @@ function main() {
         historyValues: adapter.config.HistoryValues
     };
 
+    var nParseTimeout = 60;
+    if (adapter.config.parseTimeout > 0) {
+        nParseTimeout = adapter.config.parseTimeout;
+    }
+    adapter.log.debug('set timeout to ' + nParseTimeout + ' sec');
+    nParseTimeout = nParseTimeout * 1000;
     // force terminate after 1min
     // don't know why it does not terminate by itself...
     setTimeout(function () {
         adapter.log.warn('force terminate');
         //process.exit(0);
         adapter.terminate ? adapter.terminate() : process.exit(11);
-    }, 60000);
+    }, nParseTimeout);
 
     /*
     if (adapter.config.interfacetype == "arduino") {

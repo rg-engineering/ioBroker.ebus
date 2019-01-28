@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "news": {
+      "0.7.0": {
+        "en": "add adjustable timeout",
+        "de": "einstellbares Timeout hinzufügen",
+        "ru": "добавить настраиваемое время ожидания",
+        "pt": "adicionar timeout ajustável",
+        "nl": "voeg instelbare time-out toe",
+        "fr": "ajouter un délai d'attente réglable",
+        "it": "aggiungere un timeout regolabile",
+        "es": "agregar tiempo de espera ajustable",
+        "pl": "dodaj regulowany limit czasu",
+        "zh-cn": "添加可调超时"
+      },
       "0.6.0": {
         "en": "support of compact adapter",
         "de": "Unterstützung des Kompaktadapters",
@@ -192,7 +204,8 @@
     "targetHTTPPort": 8889,
     "targetTelnetPort": 8890,
     "PolledValues": "",
-    "HistoryValues":  ""
+    "HistoryValues": "",
+    "parseTimeout": 60
   }
 
 }

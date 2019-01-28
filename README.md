@@ -21,9 +21,10 @@ Another feature is to send any command to ebusd and receive answer to work with 
 supported ebusd-version: 3.1
 
    
-
-
 ## Changelog
+### 0.7.0 (2019-01-06)
+* (René) add adjustable timeout
+
 ### 0.6.0 (2019-01-06)
 * (René) support of compact mode
 
