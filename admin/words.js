@@ -138,15 +138,16 @@ systemDictionary = {
         },
     "parse_timeout":
         {
-            "en": "download and parse timeout [seconds]",
-            "de": "Zeitlimit für Herunterladen und Parsen [Sekunden]",
-            "ru": "скачать и разобрать таймаут [секунды]",
-            "pt": "baixar e analisar o tempo limite [segundos]",
-            "nl": "time-out voor downloaden en parseren [seconden]",
-            "fr": "télécharger et analyser le délai d'attente [secondes]",
-            "it": "scarica e analizza il timeout [secondi]",
-            "es": "descargar y analizar el tiempo de espera [segundos]",
-            "pl": "pobierz i przeanalizuj limit czasu [sekundy]"
+            "en": "download and poll timeout [seconds]",
+            "de": "Download und Abfrage-Timeout [Sekunden]",
+            "ru": "время ожидания загрузки и опроса [секунд]",
+            "pt": "tempo de download e poll timeout [segundos]",
+            "nl": "downloaden en poll time-out [seconden]",
+            "fr": "délai de téléchargement et d'interrogation [secondes]",
+            "it": "download e polling timeout [secondi]",
+            "es": "tiempo de espera de descarga y encuesta [segundos]",
+            "pl": "czas pobierania i odpytywania [sekundy]",
+            "zh-cn": "下载和轮询超时[秒]"
         }
 
 };
