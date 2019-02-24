@@ -132,7 +132,7 @@ function main() {
     setTimeout(function () {
         adapter.log.warn('force terminate');
         //process.exit(0);
-        adapter.terminate ? adapter.terminate() : process.exit(11);
+        adapter.terminate ? adapter.terminate(11) : process.exit(11);
     }, nParseTimeout);
 
     /*
@@ -628,8 +628,17 @@ function ebusd_ReceiveData(options, cb) {
                         //name parallel to value: used for lists in admin...
                         var keyname = key.replace("value", "name");
                         AddObject(keyname);
-                        UpdateObject(keyname, name);
                         
+                        
+                        if (name == "hcmode2") {
+                            adapter.log.info("in hcmode2, value " + value);
+                            if (parseInt(value) == 5) {
+                                adapter.log.info("with value 5");
+                                value = "EVU Sperrzeit";
+                            }
+                        }
+
+                        UpdateObject(keyname, name);
 
                         //push to history
                         if (!subnames[temp - 2].includes("sensor")) { //ignore sensor states
@@ -800,7 +809,7 @@ function UpdateHistoryValues(values, ctr) {
                 else {
                     adapter.log.info("all history done (exit)");
 
-                    adapter.terminate ? adapter.terminate() : process.exit();
+                    adapter.terminate ? adapter.terminate(11) : process.exit(11);
                 }
             }
             catch (e) {
@@ -911,7 +920,7 @@ function ebusd_StartReceive(options) {
         setTimeout(function () {
             adapter.log.warn('force terminate in receive');
             //adapter.stop();
-            adapter.terminate ? adapter.terminate() : process.exit(11);
+            adapter.terminate ? adapter.terminate(15) : process.exit(15);
         }, 6000);
     });
 }
