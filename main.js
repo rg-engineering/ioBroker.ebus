@@ -623,13 +623,6 @@ function ebusd_ReceiveData(options, cb) {
 
                         //value
                         AddObject(key);
-                        UpdateObject(key, value);
-
-                        //name parallel to value: used for lists in admin...
-                        var keyname = key.replace("value", "name");
-                        AddObject(keyname);
-                        
-                        
                         if (name == "hcmode2") {
                             adapter.log.info("in hcmode2, value " + value);
                             if (parseInt(value) == 5) {
@@ -637,6 +630,14 @@ function ebusd_ReceiveData(options, cb) {
                                 value = "EVU Sperrzeit";
                             }
                         }
+                        UpdateObject(key, value);
+
+                        //name parallel to value: used for lists in admin...
+                        var keyname = key.replace("value", "name");
+                        AddObject(keyname);
+                        
+                        
+                        
 
                         UpdateObject(keyname, name);
 

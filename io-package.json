@@ -3,6 +3,18 @@
     "name": "ebus",
     "version": "0.8.0",
     "news": {
+      "0.8.0": {
+        "en": "hcmode2 translate value 5 to EVU Sperrzeit",
+        "de": "hcmode2 Wert 5 in EVU-Sperrzeit umrechnen",
+        "ru": "hcmode2 перевести значение 5 в EVU Sperrzeit",
+        "pt": "hcmode2 translate value 5 para EVU Sperrzeit",
+        "nl": "hcmode2 vertalen waarde 5 naar EVU Sperrzeit",
+        "fr": "hcmode2 traduit la valeur 5 en EVU Sperrzeit",
+        "it": "hcmode2 traduce il valore 5 in EVU Sperrzeit",
+        "es": "hcmode2 convierte el valor 5 a EVU Sperrzeit",
+        "pl": "hcmode2 przetłumaczyć wartość 5 na EVU Sperrzeit",
+        "zh-cn": "hcmode2将值5转换为EVU Sperrzeit"
+      },
       "0.7.0": {
         "en": "add adjustable timeout",
         "de": "einstellbares Timeout hinzufügen",

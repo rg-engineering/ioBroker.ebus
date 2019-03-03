@@ -24,6 +24,7 @@ supported ebusd-version: 3.1
 ## Changelog
 
 ### 0.8.0 (2019-02-24)
+* (René) hcmode2 value 5 = EVU Sperrzeit
 
 ### 0.7.0 (2019-01-28)
 * (René) add adjustable timeout
