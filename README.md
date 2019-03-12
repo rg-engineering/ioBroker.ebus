@@ -18,7 +18,7 @@ There is a possibillity to poll data which are not polled by ebusd directly. Com
 
 Another feature is to send any command to ebusd and receive answer to work with e.g. scripts.
 
-supported ebusd-version: 3.1
+current supported ebusd-version: 3.3
 
    
 ## Changelog

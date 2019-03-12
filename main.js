@@ -520,6 +520,7 @@ function ebusd_Command(options) {
 
                         client.destroy();
                         adapter.log.error('Telnet Server nicht erreichbar.');
+                        ebusd_ReadValues(options); // to trigger read over ebus
                     });
 
                 }
