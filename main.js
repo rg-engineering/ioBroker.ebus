@@ -132,7 +132,7 @@ function main() {
     setTimeout(function () {
         adapter.log.warn('force terminate');
         //process.exit(0);
-        adapter.terminate ? adapter.terminate(11) : process.exit(11);
+        adapter.terminate ? adapter.terminate(15) : process.exit(15);
     }, nParseTimeout);
 
     /*
@@ -811,7 +811,7 @@ function UpdateHistoryValues(values, ctr) {
                 else {
                     adapter.log.info("all history done (exit)");
 
-                    adapter.terminate ? adapter.terminate(11) : process.exit(11);
+                    adapter.terminate ? adapter.terminate(0) : process.exit(0);
                 }
             }
             catch (e) {
