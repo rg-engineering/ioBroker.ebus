@@ -40,7 +40,7 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     return adapter;
-};
+}
 
 var request = require('request');
 var parseString = require('xml2js').parseString;
@@ -481,9 +481,9 @@ function ebusd_Command(options) {
         if (err) {
             adapter.log.error(err);
         } else {
-            if (obj != null) {
+            if (obj !== null) {
                 var cmd = obj.val;
-                if (cmd != "") {
+                if (cmd !== "") {
                     adapter.log.debug("got command " + cmd);
 
                     adapter.log.debug("connect telnet to IP " + options.targetIP + " port " + options.targetTelnetPort);
@@ -574,7 +574,7 @@ function ebusd_ReceiveData(options, cb) {
     request(sUrl, function (error, response, body) {
 
         try {
-            if (!error && response.statusCode == 200) {
+            if (!error && response.statusCode === 200) {
                 //adapter.log.debug("Body: " + body + " " + response.statusCode);
 
                 var oData = JSON.parse(body);
@@ -598,13 +598,13 @@ function ebusd_ReceiveData(options, cb) {
 
                 var oToday = new Date();
                 var month = oToday.getMonth() + 1;
-                
+
                 historydates.push({
-                    "date": oToday.getDate() + "." + month  + "." + oToday.getFullYear(),
+                    "date": oToday.getDate() + "." + month + "." + oToday.getFullYear(),
                     "time": oToday.getHours() + ":" + oToday.getMinutes() + ":" + oToday.getSeconds()
                 });
                 //adapter.log.debug(JSON.stringify(historydates));
-                
+
                 var name = "unknown";
                 var sError = "none";
                 for (var i = 0; i < keys.length; i++) {
@@ -613,7 +613,7 @@ function ebusd_ReceiveData(options, cb) {
                     var temp = subnames.length;
                     //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
 
-                    
+
                     if (subnames[temp - 1].includes("name")) {
                         name = newData[key];
                     }
@@ -624,9 +624,9 @@ function ebusd_ReceiveData(options, cb) {
 
                         //value
                         AddObject(key);
-                        if (name == "hcmode2") {
+                        if (name === "hcmode2") {
                             adapter.log.info("in hcmode2, value " + value);
-                            if (parseInt(value) == 5) {
+                            if (parseInt(value) === 5) {
                                 adapter.log.info("with value 5");
                                 value = "EVU Sperrzeit";
                             }
@@ -636,9 +636,9 @@ function ebusd_ReceiveData(options, cb) {
                         //name parallel to value: used for lists in admin...
                         var keyname = key.replace("value", "name");
                         AddObject(keyname);
-                        
-                        
-                        
+
+
+
 
                         UpdateObject(keyname, name);
 
@@ -646,7 +646,7 @@ function ebusd_ReceiveData(options, cb) {
                         if (!subnames[temp - 2].includes("sensor")) { //ignore sensor states
                             for (var ii = 0; ii < oHistory.length; ii++) {
 
-                                if (name == oHistory[ii]) {
+                                if (name === oHistory[ii]) {
 
                                     var sTemp = '{"' + name + '": "' + value + '"}';
                                     //adapter.log.debug(sTemp);
@@ -672,7 +672,7 @@ function ebusd_ReceiveData(options, cb) {
                             var nHours = oDate.getHours();
                             var nMinutes = oDate.getMinutes();
                             var nSeconds = oDate.getSeconds();
-                            
+
                             var sDate = nDate + "." + nMonth + "." + nYear + " " + nHours + ":" + nMinutes + ":" + nSeconds;
                             AddObject(key);
                             UpdateObject(key, sDate);
@@ -691,9 +691,9 @@ function ebusd_ReceiveData(options, cb) {
                                     bSkip = true;
                                 }
                             }
-                                
-                            if (!bSkip && Math.abs(oDate.getTime() - oToday.getTime()) > (1 * 60 * 60 * 1000)) {
-                               
+
+                            if (!bSkip && Math.abs(oDate.getTime() - oToday.getTime()) > 1 * 60 * 60 * 1000) {
+
                                 var sError1 = "no update since " + sDate + " " + key + " ";
                                 if (sError.includes("none")) {
                                     sError = "ebus: " + sError1;
@@ -703,8 +703,8 @@ function ebusd_ReceiveData(options, cb) {
                                 }
                                 adapter.log.debug(sError1);
                             }
-                            
-                           
+
+
                         }
                     }
                     else if (subnames[0].includes("global")) {
@@ -722,6 +722,9 @@ function ebusd_ReceiveData(options, cb) {
 
                 adapter.log.info("all http done");
             }
+            else {
+                adapter.log.error('got error' + error + " or statuscode !=200 " + response.statusCode );
+            }
         }
         catch (e) {
             adapter.log.error('exception in ebusd_ReceiveData [' + e + ']');
@@ -738,7 +741,7 @@ function UpdateHistory(values, dates) {
             adapter.log.error(err);
         } else {
             try {
-                if (obj != null) {
+                if (obj !== null) {
                     //adapter.log.debug("before " + obj.val);
                     oEbusDates = JSON.parse(obj.val);
                     //adapter.log.debug("after parse " + JSON.stringify(oEbusDates));
@@ -778,7 +781,7 @@ function UpdateHistoryValues(values, ctr) {
         } else {
             try {
                 var oEbusValues = [];
-                if (obj != null) {
+                if (obj !== null) {
                     //adapter.log.debug("before " + obj.val);
 
                     oEbusValues = JSON.parse(obj.val);

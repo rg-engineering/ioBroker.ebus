@@ -8,21 +8,43 @@
 <!-- here you can include so many css as you want -->
 <!--<link rel="stylesheet" href="widgets/ebus/css/style.css" /> -->
 <!-- here you can include so many js-files as you want -->
-<script type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.js"></script>
-<script type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.time.js"></script>
+<!--
+<script type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.time.js"></script>
+    -->
+<!-- <script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.js"></script> -->
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.canvaswrapper.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.colorhelpers.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.saturated.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.browser.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.drawSeries.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.uiConstants.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.time.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.flot.legend.js"></script>
 
-
-
-<!-- the full description of format in data-vis-attrs can be found here:
-    https://github.com/ioBroker/ioBroker.vis/blob/master/www/js/visEditInspect.js#L39
--->
 <!-- doku for flot : -->
 <!--  https://github.com/flot/flot/blob/master/API.md -->
+
+<style>
+    .chart-placeholder {
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+        line-height: 1.2em;
+    }
+
+    .legendLayer .background {
+        fill: rgba(255, 255, 255, 0.85);
+        stroke: rgba(0, 0, 0, 0.85);
+        stroke-width: 1;
+    }
+</style>
 
 <script type="text/javascript">
     "use strict";
 
-
+     var MarkingColor = "eaebe5";
 
     // add translations for non-edit mode
     $.extend(true, systemDictionary, {
@@ -57,35 +79,35 @@
         "none": { "en": "none", "de": "kein", "ru": "none" },
         "kWh": { "en": "kWh", "de": "kWh", "ru": "kWh" },
         "degree": { "en": "degree", "de": "Grad", "ru": "degree" },
-        
+
         "group_graph1": { "en": "graph 1", "de": "Graph 1", "ru": "group_graph1" },
 
         "graph1charttype": { "en": "chart type", "de": "Grafiktyp", "ru": "graph1charttype" },
         "graph1visible": { "en": "visible", "de": "sichtbar", "ru": "graph1visible" },
         "graph1color": { "en": "color", "de": "Farbe", "ru": "graph1color" },
         "graph1withyaxix": { "en": "with Y axix", "de": "mit Y Achse", "ru": "graph1withyaxix" },
-        "graph1YAxisFomat": { "en": "Y axis fomat", "de": "A-Achsenformat", "ru": "graph1YAxisFomat" },
+        "graph1YAxisFomat": { "en": "Y axis fomat", "de": "Y-Achsenformat", "ru": "graph1YAxisFomat" },
 
         "group_graph2": { "en": "graph 2", "de": "Graph 2", "ru": "group_graph2" },
         "graph2charttype": { "en": "chart type", "de": "Grafiktyp", "ru": "graph1charttype" },
         "graph2visible": { "en": "visible", "de": "sichtbar", "ru": "graph1visible" },
         "graph2color": { "en": "color", "de": "Farbe", "ru": "graph1color" },
         "graph2withyaxix": { "en": "with Y axix", "de": "mit Y Achse", "ru": "graph1withyaxix" },
-        "graph2YAxisFomat": { "en": "Y axis fomat", "de": "A-Achsenformat", "ru": "graph1YAxisFomat" },
+        "graph2YAxisFomat": { "en": "Y axis fomat", "de": "Y-Achsenformat", "ru": "graph1YAxisFomat" },
 
         "group_graph3": { "en": "graph 3", "de": "Graph 3", "ru": "group_graph3" },
         "graph3charttype": { "en": "chart type", "de": "Grafiktyp", "ru": "graph1charttype" },
         "graph3visible": { "en": "visible", "de": "sichtbar", "ru": "graph1visible" },
         "graph3color": { "en": "color", "de": "Farbe", "ru": "graph1color" },
         "graph3withyaxix": { "en": "with Y axix", "de": "mit Y Achse", "ru": "graph1withyaxix" },
-        "graph3YAxisFomat": { "en": "Y axis fomat", "de": "A-Achsenformat", "ru": "graph1YAxisFomat" },
+        "graph3YAxisFomat": { "en": "Y axis fomat", "de": "Y-Achsenformat", "ru": "graph1YAxisFomat" },
 
         "group_graph4": { "en": "graph 4", "de": "Graph 4", "ru": "group_graph4" },
         "graph4charttype": { "en": "chart type", "de": "Grafiktyp", "ru": "graph1charttype" },
         "graph4visible": { "en": "visible", "de": "sichtbar", "ru": "graph1visible" },
         "graph4color": { "en": "color", "de": "Farbe", "ru": "graph1color" },
         "graph4withyaxix": { "en": "with Y axix", "de": "mit Y Achse", "ru": "graph1withyaxix" },
-        "graph4YAxisFomat": { "en": "Y axis fomat", "de": "A-Achsenformat", "ru": "graph1YAxisFomat" },
+        "graph4YAxisFomat": { "en": "Y axis fomat", "de": "Y-Achsenformat", "ru": "graph1YAxisFomat" },
 
         "oid_historygraph1": { "en": "OID", "de": "OID", "ru": "oid_historygraph1" },
         "oid_historygraph2": { "en": "OID", "de": "OID", "ru": "oid_historygraph2" },
@@ -98,8 +120,14 @@
         "graph3Name": { "en": "Name", "de": "Name", "ru": "graph3Name" },
         "graph4Name": { "en": "Name", "de": "Name", "ru": "graph4Name" },
 
+        "markingcolor": { "en": "color marking", "de": "Farbe Hervorhebung", "ru": "???" },
+        "withmarking": { "en": "with marking", "de": "Hervorhebungen", "ru": "???" },
+
     });
 
+    function SetMarkingColor(color) {
+        MarkingColor = color;
+    }
     function noneFormatter(v, axis) {
         return v.toFixed(axis.tickDecimals);
     }
@@ -129,20 +157,82 @@
 
         //wenn keine Daten, dann ausblenden ->  (return null)
         if (series.data == null || typeof series.data == "undefined" || typeof series.data[0] == "undefined") {
+
+            console.log('legendformater no label ');
             return null;
         }
         else {
+            console.log('legendformater label ' + label);
             return label;
         }
     }
 
+    function GridMarkings(axes) {
+
+        var markings = [];
+        var minDate = new Date(axes.xaxis.min);
+
+        const dayDiff = (axes.xaxis.max - axes.xaxis.min) / 1000 / 60 / 60 / 24;
+        console.log('GridMarkings: DayDiff ' + dayDiff+ ' (' + axes.xaxis.max + ' ' + axes.xaxis.min + ')');
+
+        var i = minDate.getTime();
+
+        //if we only few hours then we need markings per hour otherwise per day
+        if (dayDiff > 2) {
+            do {
+                markings.push({ xaxis: { from: i, to: i + 24 * 60 * 60 * 1000 }, color: MarkingColor });
+                i += 2 * 24 * 60 * 60 * 1000;
+            } while (i < axes.xaxis.max);
+
+        }
+        else {
+            do {
+                markings.push({ xaxis: { from: i, to: i + 60 * 60 * 1000 }, color: MarkingColor });
+                i += 2 * 60 * 60 * 1000;
+            } while (i < axes.xaxis.max);
+        }
+        return markings;
+
+    }
+
+    function CalcTicks4X(axis) {
+
+        var ticks = [];
+
+        var minDate = new Date(axis.min);
+
+        const dayDiff = (axis.max - axis.min) / 1000 / 60 / 60 / 24;
+
+        console.log('CalcTicks4X: DayDiff ' + dayDiff + ' (' + axis.max + ' ' + axis.min + ')');
+
+        //if we only few hours then we need markings per hour otherwise per day
+        if (dayDiff > 2) {
+            minDate.setUTCHours(12);
+            minDate.setUTCMinutes(0);
+            var i = minDate.getTime();
+            do {
+                ticks.push([i]);
+                i += 24 * 60 * 60 * 1000;
+            } while (i < axis.max);
+        }
+        else {
+            minDate.setUTCHours(0);
+            minDate.setUTCMinutes(0);
+            var i = minDate.getTime();
+            do {
+                ticks.push([i]);
+                i += 6 * 60 * 60 * 1000;
+            } while (i < axis.max);
+        }
+        return ticks;
+    }
 
     // this code can be placed directly in template.html
     vis.binds.ebus = {
-        version: "0.5.0",
+        version: "0.8.1",
         showVersion: function () {
             if (vis.binds.ebus.version) {
-                console.log('Version ebus: ' + vis.binds.ebus.version);
+                console.log('Version vis-ebus: ' + vis.binds.ebus.version);
                 vis.binds.ebus.version = null;
             }
         },
@@ -166,32 +256,44 @@
 
         },
         history: {
-            update: function ($div, view) {
-                var data = $div.data('options');
 
-                if (!data.ebusinstance) {
-                    console.log("keine instanz " + data.chartType);
+            init: function (widgetID, view, data1, style) {
+                var $div = $('#' + widgetID);
+                console.log("ebus history (" + widgetID + ")");
+                var data = {};
+                for (var s in data1) {
+                    if (s[0] !== '_' && data1.hasOwnProperty(s) && typeof data1[s] !== 'object' && typeof data1[s] !== 'function') {
+                        data[s] = data1[s];
+                    }
 
-                    $div.html("<br> <center> <font color='red'> no instance </font> </center></br>");
-                } else {
-                    //warum wir das brauchen, verstehe ich noch nicht...
-                    //ist eigentlich nur dummy... aber ohne wird plot ganz klein dargestellt ???
-                    vis.getHistory(data.oid, {
-                        instance: data.ebusinstance,
-                        count: 10,
-                        aggregate: 'average',
-                        start: new Date().getTime(),
-                        end: new Date().getTime() + 5000,
-                        timeout: 1000
-                    }, function (err, result) {
-                        var data = $div.data('options');
-                        if (err) console.log(err);
+                }
 
-                        console.log("ShowChart begin");
+                function update() {
 
-                        var widgetID = $div[0].parentElement.id;
+                    console.log("ShowChart ebus  (" + widgetID + ")");
 
+                    var $div = $('#' + widgetID);
+                    // if nothing found => wait
+                    if (!$div.length) {
+                        return setTimeout(function () {
+                            console.log("need to wait... (" + widgetID + ")");
+                            update();
+                        }, 1000);
+                    }
 
+                    console.log("ShowChart ebus begin (" + widgetID + ")");
+
+                    if (!data || !data.ebusinstance) {
+                        console.log("keine instanz  (" + widgetID + ")");
+                        $div.html("<br> <center> <font color='red'> no instance for ebus specified </font> </center></br>");
+                    }
+
+                    else {
+
+                        SetMarkingColor(data.markingcolor);
+
+                        var dateMin = -1;
+                        var dateMax = -1;
 
                         //parse data
                         var oid_historydate = data.oid_historydate;
@@ -241,8 +343,8 @@
                             return;
                         }
 
-                        if (typeof data_date == "undefined" || data_date.length < 1) {
-                            $div.html("<br> <center> <font color='red'>no data available yet </font> </center></br>");
+                        if (data_date === null || typeof data_date == "undefined" || data_date.length < 1) {
+                            $div.html("<br> <center> <font color='red'>no data available yet for ebus </font> </center></br>");
                             return;
                         }
 
@@ -280,6 +382,13 @@
                                 oDate.setDate(day);
                                 oDate.setMonth(month - 1);
                                 oDate.setYear(year);
+
+                                var date = oDate.getTime();
+
+                                if (dateMin === -1) {
+                                    dateMin = date;
+                                }
+                                dateMax = date;
 
                                 var oValGraph1 = null;
                                 if (data_value1 != null) {
@@ -418,6 +527,8 @@
 
                         var barwidth = 1000 * 60 * 5; //5 Minuten
 
+                        console.log("barwidth = " + barwidth); // in ms
+
                         var Graph1Formatter = noneFormatter;
                         switch (data.graph1YAxisFomat) {
                             case "kWh":
@@ -512,7 +623,9 @@
                                     bars:
                                     {
                                         show: data.graph1charttype == "charttypebar",
-                                        barWidth: barwidth
+                                        barWidth: [barwidth, true],
+                                        align: "center",
+                                        horizontal: false
                                     }
                                 },
                                 {
@@ -525,7 +638,9 @@
                                     bars:
                                     {
                                         show: data.graph2charttype == "charttypebar",
-                                        barWidth: barwidth
+                                        barWidth: [barwidth, true],
+                                        align: "center",
+                                        horizontal: false
                                     }
                                 },
                                 {
@@ -538,7 +653,9 @@
                                     bars:
                                     {
                                         show: data.graph3charttype == "charttypebar",
-                                        barWidth: barwidth
+                                        barWidth: [barwidth, true],
+                                        align: "center",
+                                        horizontal: false
                                     }
                                 },
                                 {
@@ -551,7 +668,9 @@
                                     bars:
                                     {
                                         show: data.graph4charttype == "charttypebar",
-                                        barWidth: barwidth
+                                        barWidth: [barwidth, true],
+                                        align: "center",
+                                        horizontal: false
                                     }
                                 }
 
@@ -560,82 +679,88 @@
                             {
 
                                 xaxes:
-                                [
-                                    {
-                                        show: data.withxaxix,
-                                        mode: "time",
-                                        tickLength: 5,
-                                        ticks: data.ticksonxaxix > 0 ? parseInt(data.ticksonxaxix, 10) : 5,
-                                        timeformat: data.xDateFormat, //"%H:%M",
-                                        monthNames: ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-                                        color: data.tickscolor,
-                                        font: {
-                                            color: data.axislabelcolor
-                                        },
-                                        timezone: "browser"
-                                    }
+                                    [
+                                        {
+                                            show: data.withxaxix,
+                                            mode: "time",
+                                            timeBase: "milliseconds",
+                                            tickLength: 5,
+                                            min: dateMin,
+                                            max: dateMax,
+                                            //ticks: data.ticksonxaxix > 0 ? parseInt(data.ticksonxaxix, 10) : 5,
+                                            ticks: CalcTicks4X,
+                                            autoScale: "none",
+                                            timeformat: data.xDateFormat,
+                                            monthNames: ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+                                            color: data.tickscolor,
+                                            font: {
+                                                color: data.axislabelcolor
+                                            },
+                                            timezone: "browser"
+                                        }
 
-                                ],
+                                    ],
                                 yaxes:
-                                [
-                                    {
-                                        show: data.graph1visible && data.graph1withyaxix,
-                                        max: maxY_graph[0],
-                                        min: minY_graph[0],
-                                        //alignTicksWithAxis: 1,
-                                        position: 'left',
-                                        ticks: 3,
-                                        color: data.tickscolor,
-                                        font: {
-                                            color: data.graph1color
+                                    [
+                                        {
+                                            show: data.graph1visible && data.graph1withyaxix,
+                                            max: maxY_graph[0],
+                                            min: minY_graph[0],
+                                            //alignTicksWithAxis: 1,
+                                            position: 'left',
+                                            ticks: 3,
+                                            color: data.tickscolor,
+                                            font: {
+                                                color: data.graph1color
+                                            },
+                                            tickFormatter: Graph1Formatter
                                         },
-                                        tickFormatter: Graph1Formatter
-                                    },
-                                    {
-                                        show: data.graph2visible && data.graph2withyaxix,
-                                        max: maxY_graph[1],
-                                        min: minY_graph[1],
-                                        //alignTicksWithAxis: 1,
-                                        position: 'left',
-                                        ticks: 3,
-                                        color: data.tickscolor,
-                                        font: {
-                                            color: data.graph2color
+                                        {
+                                            show: data.graph2visible && data.graph2withyaxix,
+                                            max: maxY_graph[1],
+                                            min: minY_graph[1],
+                                            //alignTicksWithAxis: 1,
+                                            position: 'left',
+                                            ticks: 3,
+                                            color: data.tickscolor,
+                                            font: {
+                                                color: data.graph2color
+                                            },
+                                            tickFormatter: Graph2Formatter
                                         },
-                                        tickFormatter: Graph2Formatter
-                                    },
-                                    {
-                                        show: data.graph3visible && data.graph3withyaxix,
-                                        max: maxY_graph[2],
-                                        min: minY_graph[2],
-                                        //alignTicksWithAxis: 1,
-                                        position: 'left',
-                                        ticks: 3,
-                                        color: data.tickscolor,
-                                        font: {
-                                            color: data.graph3color
+                                        {
+                                            show: data.graph3visible && data.graph3withyaxix,
+                                            max: maxY_graph[2],
+                                            min: minY_graph[2],
+                                            //alignTicksWithAxis: 1,
+                                            position: 'left',
+                                            ticks: 3,
+                                            color: data.tickscolor,
+                                            font: {
+                                                color: data.graph3color
+                                            },
+                                            tickFormatter: Graph3Formatter
                                         },
-                                        tickFormatter: Graph3Formatter
-                                    },
-                                    {
-                                        show: data.graph4visible && data.graph4withyaxix,
-                                        max: maxY_graph[3],
-                                        min: minY_graph[3],
-                                        //alignTicksWithAxis: 1,
-                                        position: 'left',
-                                        ticks: 3,
-                                        color: data.tickscolor,
-                                        font: {
-                                            color: data.graph4color
-                                        },
-                                        tickFormatter: Graph4Formatter
-                                    }
+                                        {
+                                            show: data.graph4visible && data.graph4withyaxix,
+                                            max: maxY_graph[3],
+                                            min: minY_graph[3],
+                                            //alignTicksWithAxis: 1,
+                                            position: 'left',
+                                            ticks: 3,
+                                            color: data.tickscolor,
+                                            font: {
+                                                color: data.graph4color
+                                            },
+                                            tickFormatter: Graph4Formatter
+                                        }
 
 
-                                ],
+                                    ],
                                 grid:
                                 {
-                                    //Farben einstellen fehlt noch
+                                    markings: data.withmarking ? GridMarkings : null,
+
                                     backgroundColor: data.nobgcolor ? null : { colors: ["#fff", "#eee"] },
                                     borderWidth: {
                                         top: data.withborder ? 1 : 0,
@@ -643,18 +768,17 @@
                                         bottom: data.withborder ? 2 : 0,
                                         left: data.withborder ? 2 : 0
                                     },
-                                    //fehlt noch
-                                    //markings: nextDay
+
                                 },
                                 legend: {
                                     show: data.withlegend,
                                     labelFormatter: legendformater,
                                     //labelBoxBorderColor: color,
-                                    //noColumns: number,
+                                    noColumns: 5,
                                     position: data.legendposition,
                                     //margin: number of pixels or [x margin, y margin]
                                     backgroundColor: null,
-                                    backgroundOpacity: 0,
+                                    //backgroundOpacity: 0,
                                     container: null,
                                     sorted: false
                                 }
@@ -662,49 +786,37 @@
                         );
 
 
-                    }); //GetHistory
-                }
-            },
-            init: function (el, view, data) {
-                var $div = $(el);
-                var oView = view;
-                console.log("ebus init");
-                var _data = {};
-                for (var s in data) {
-
-                    if (s[0] !== '_' && data.hasOwnProperty(s) && typeof data[s] !== 'object' && typeof data[s] !== 'function') {
-                        _data[s] = data[s];
-
                     }
-                }
-                data = null;
-                $div.data('options', _data);
+                };
 
-                if (_data.ebusinstance) {
+
+
+
+                if (data.ebusinstance) {
 
                     //bind to oid to be informed about updates
-                    var oid_historydate = _data.oid_historydate;
+                    var oid_historydate = data.oid_historydate;
                     console.log("bind " + oid_historydate);
                     vis.states.bind(oid_historydate + '.val', function () {
                         vis.binds.ebus.history.update($div, oView);
                     });
 
-                    var oid_historygraph1 = _data.oid_historygraph1;
+                    var oid_historygraph1 = data.oid_historygraph1;
                     console.log("bind " + oid_historygraph1);
                     vis.states.bind(oid_historygraph1 + '.val', function () {
                         vis.binds.ebus.history.update($div, oView);
                     });
-                    var oid_historygraph2 = _data.oid_historygraph2;
+                    var oid_historygraph2 = data.oid_historygraph2;
                     console.log("bind " + oid_historygraph2);
                     vis.states.bind(oid_historygraph2 + '.val', function () {
                         vis.binds.ebus.history.update($div, oView);
                     });
-                    var oid_historygraph3 = _data.oid_historygraph3;
+                    var oid_historygraph3 = data.oid_historygraph3;
                     console.log("bind " + oid_historygraph3);
                     vis.states.bind(oid_historygraph3 + '.val', function () {
                         vis.binds.ebus.history.update($div, oView);
                     });
-                    var oid_historygraph4 = _data.oid_historygraph4;
+                    var oid_historygraph4 = data.oid_historygraph4;
                     console.log("bind " + oid_historygraph4);
                     vis.states.bind(oid_historygraph4 + '.val', function () {
                         vis.binds.ebus.history.update($div, oView);
@@ -713,21 +825,19 @@
                     if (!vis.editMode) {
                         $div.data('timer', setInterval(function () {
                             vis.binds.ebus.history.update($div, oView);
-                        }, parseInt(vis.binds.ebus.setup.intervals[_data.time_interval] / (parseInt(_data.points, 10) || 10), 10)));
+                        }, parseInt(vis.binds.ebus.setup.intervals[data.time_interval] / (parseInt(data.points, 10) || 10), 10)));
                     }
 
                 }
                 else {
                     console.log("instance not set ");
                 }
-                vis.binds.ebus.history.update($div, oView);
+                update();
                 if (vis.editMode) {
-                    console.log("flot version " + $.plot.version + " for ebus" );
+                    console.log("flot version " + $.plot.version + " for ebus");
                 }
-            },
+            }
         },
-
-
     };
 
     if (vis.editMode) {
@@ -761,7 +871,7 @@
                 vis.views[view].widgets[widgetID].data.oid_historygraph4 = newId + ".history.value4";
                 vis.widgets[widgetID].data.oid_historygraph4 = newId + ".history.value4";
 
-                
+
 
             }
 
@@ -783,15 +893,19 @@
         data-vis-name="ebus"
         data-vis-update-style="true"
         data-vis-attrs="ebusinstance/ebus/onInstanceChanged;"
-        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;ticksonxaxix[5];axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;xDateFormat[%H:%M];withborder[true]/checkbox;nobgcolor[true]/checkbox;withlegend[false]/checkbox;legendposition[ne]/select,ne,nw,se,sw;"
+        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;withmarking[true]/checkbox;markingcolor[#eaebe5]/color;xDateFormat[%H:%M];withborder[true]/checkbox;nobgcolor[true]/checkbox;withlegend[false]/checkbox;legendposition[ne]/select,ne,nw,se,sw;"
         data-vis-attrs1="group.graph1;oid_historygraph1/id;graph1Name;graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1visible[true]/checkbox;graph1color[#f1f113]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,kW,degree;"
         data-vis-attrs2="group.graph2;oid_historygraph2/id;graph2Name;graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2visible[true]/checkbox;graph2color[#f1f113]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,kW,degree;"
         data-vis-attrs3="group.graph3;oid_historygraph3/id;graph3Name;graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3visible[true]/checkbox;graph3color[#f1f113]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,kW,degree;"
         data-vis-attrs4="group.graph4;oid_historygraph4/id;graph4Name;graph4charttype[charttypeline]/select,charttypeline,charttypebar;graph4visible[true]/checkbox;graph4color[#f1f113]/color;graph4withyaxix[true]/checkbox;graph4YAxisFomat[none]/select,none,kWh,kW,degree;"
         data-vis-attrs5="group.oids;oid_historydate/id;">
+    
     <div class="vis-widget <%== this.data.attr('class') %>" style="width:210px; height:170px;" id="<%= this.data.attr('wid') %>">
-        <div class="vis-widget-body" <%= (el1) -> vis.binds.ebus.history.init(el1, this.view, this.data) %>></div>
+        <div class="vis-ebus-widget-body" 
+             <% vis.binds.ebus.history.init(this.data.wid, this.view, this.data, this.style) %>>
+        </div> 
     </div>
+
 </script>
 
 
