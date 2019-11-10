@@ -723,11 +723,16 @@ function ebusd_ReceiveData(options, cb) {
                 adapter.log.info("all http done");
             }
             else {
-                adapter.log.error('got error' + error + " or statuscode !=200 " + response.statusCode );
+                adapter.log.error('got error' + error + " or statuscode !=200 " + response.statusCode);
+
+                adapter.setState('history.error', { ack: true, val: "error or no answer" });
+
             }
         }
         catch (e) {
             adapter.log.error('exception in ebusd_ReceiveData [' + e + ']');
+
+            adapter.setState('history.error', { ack: true, val: "exception in receive" });
         }
     });
 }
@@ -908,6 +913,9 @@ function ebusd_ReadValues(options) {
 
             client.destroy();
             adapter.log.error('Telnet Server nicht erreichbar.');
+
+            adapter.setState('history.error', { ack: true, val: "telnet server no reachable" });
+
             ebusd_StartReceive(options);
         });
     }

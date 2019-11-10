@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "news": {
+      "0.8.2": {
+        "en": "some more error messages in datapoint ",
+        "de": "Einige weitere Fehlermeldungen im Datenpunkt",
+        "ru": "еще несколько сообщений об ошибках в datapoint",
+        "pt": "mais algumas mensagens de erro no datapoint",
+        "nl": "nog meer foutmeldingen in datapunt",
+        "fr": "quelques messages d'erreur supplémentaires dans le point de donnée",
+        "it": "alcuni altri messaggi di errore nel punto dati",
+        "es": "algunos mensajes de error más en el punto de datos",
+        "pl": "więcej komunikatów o błędach w punkcie danych",
+        "zh-cn": "数据点中一些其他错误消息"
+      },
       "0.8.1": {
         "en": "update flot to version 3.0",
         "de": "update flot auf version 3.0",
@@ -49,132 +61,6 @@
         "it": "supporto di adattatore compatto",
         "es": "soporte de adaptador compacto",
         "pl": "obsługa adaptera kompaktowego"
-      },
-      "0.5.5": {
-        "en": "code clean up",
-        "de": "Code aufräumen",
-        "ru": "очистка кода",
-        "pt": "código de limpeza",
-        "nl": "code opruimen",
-        "fr": "nettoyage du code",
-        "it": "codice ripulire",
-        "es": "código de limpieza",
-        "pl": "oczyść kod"
-      },
-      "0.5.4": {
-        "en": "arduino support removed",
-        "de": "Arduino-Unterstützung entfernt",
-        "ru": "поддержка arduino",
-        "pt": "suporte de arduino removido",
-        "nl": "arduino-ondersteuning verwijderd",
-        "fr": "support arduino supprimé",
-        "it": "supporto per arduino rimosso",
-        "es": "soporte arduino eliminado",
-        "pl": "Usunięto wsparcie arduino"
-      },
-      "0.5.3": {
-        "en": "add error information",
-        "de": "fügen Sie Fehlerinformationen hinzu",
-        "ru": "добавить информацию об ошибке",
-        "pt": "adicionar informações de erro",
-        "nl": "voeg foutinformatie toe",
-        "fr": "ajouter des informations d'erreur",
-        "it": "aggiungi informazioni sull'errore",
-        "es": "agregar información de error",
-        "pl": "dodaj informacje o błędzie"
-      },
-      "0.5.2": {
-        "en": "bug fix: in vis 1.x some values are not stored",
-        "de": "Bugfix: In vis 1.x werden einige Werte nicht gespeichert",
-        "ru": "исправление ошибки: в vis 1.x некоторые значения не сохраняются",
-        "pt": "correção de bug: em vis 1.x alguns valores não são armazenados",
-        "nl": "bug fix: in vis 1.x worden sommige waarden niet opgeslagen",
-        "fr": "correction de bogue: dans vis 1.x certaines valeurs ne sont pas stockées",
-        "it": "bug fix: in vis 1.x alcuni valori non sono memorizzati",
-        "es": "corrección de errores: en vis 1.x algunos valores no se almacenan",
-        "pl": "bug fix: w vis 1.x niektóre wartości nie są przechowywane"
-      },
-      "0.5.1": {
-        "en": "bug fix: if nothing to poll then skip telnet connection",
-        "de": "Bugfix: Wenn nichts abgefragt wird, dann Telnet-Verbindung überspringen",
-        "ru": "исправление ошибок: если ничего не опросить, пропустите telnet-соединение",
-        "pt": "correção de erros: se não houver nada para pesquisar, ignore a conexão do telnet",
-        "nl": "bug fix: als er niets te pollen is sla dan telnet verbinding over",
-        "fr": "correction de bogue: si rien à interroger, ignorez la connexion telnet",
-        "it": "correzione bug: se non c'è niente da sondare, saltare la connessione telnet",
-        "es": "corrección de errores: si no hay nada para sondear, omita la conexión de telnet",
-        "pl": "bug fix: jeśli nic do ankiety, pomiń połączenie telnet"
-      },
-      "0.5.0": {
-        "en": "write date over TCP to ebusd",
-        "de": "schreibe Datum über TCP nach ebusd",
-        "ru": "записать дату через TCP в ebusd",
-        "pt": "escreva data sobre TCP para ebusd",
-        "nl": "schrijf de datum via TCP naar ebusd",
-        "fr": "écrire la date sur TCP à ebusd",
-        "it": "scrivere la data su TCP su ebusd",
-        "es": "escribir fecha sobre TCP para ebusd",
-        "pl": "zapisz datę przez TCP do ebusd"
-      },
-      "0.4.2": {
-        "en": "bug fix for admin V3",
-        "de": "Bugfix für Admin V3",
-        "ru": "исправление ошибок для администратора V3",
-        "pt": "correção de erros para admin V3",
-        "nl": "fout opgelost voor admin V3",
-        "fr": "Correction d'un bug pour l'administrateur V3",
-        "it": "correzione bug per admin V3",
-        "es": "solución de errores para el administrador V3",
-        "pl": "naprawa błędów dla administratora V3"
-      },
-      "0.4.1": {
-        "en": "logo changed",
-        "de": "Logo geändert",
-        "ru": "логотип изменен",
-        "pt": "logo mudou",
-        "nl": "logo veranderd",
-        "fr": "logo changé",
-        "it": "logo cambiato",
-        "es": "logotipo cambiado",
-        "pl": "logo zmienione"
-      },
-      "0.4.0": {
-        "en": "reading data from ebusd",
-        "de": "Lesen von Daten von ebusd",
-        "ru": "чтение данных из ebusd",
-        "pt": "lendo dados de ebusd",
-        "nl": "gegevens lezen van ebusd",
-        "fr": "lire des données d'ebusd",
-        "it": "lettura dei dati da ebusd",
-        "es": "leyendo datos de ebusd",
-        "pl": "odczyt danych z ebusd"
-      },
-      "0.3.0": {
-        "en": "support of ebusd",
-        "de": "Unterstützung von ebusd",
-        "ru": "поддержка ebusd",
-        "pt": "suporte de ebusd",
-        "nl": "ondersteuning van ebusd",
-        "fr": "support d'ebusd",
-        "it": "supporto di ebusd",
-        "es": "soporte de ebusd",
-        "pl": "wsparcie ebusd"
-      },
-      "0.2.0": {
-        "en": "add history as JSON",
-        "de": "Aufzeichnung der Werte als JSON"
-      },
-      "0.1.0": {
-        "en": "scheduled adapter instead of deamon",
-        "de": "Umbau auf Zeitsteuerung"
-      },
-      "0.0.3": {
-        "en": "UTF8 coding",
-        "de": "UTF8 Kodierung"
-      },
-      "0.0.2": {
-        "en": "initial release",
-        "de": "erste Version"
       }
     },
     "title": "ebus",
