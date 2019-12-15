@@ -136,6 +136,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         var layer = this.surface.getSVGLayer(layerId);
         var transforms = this.transforms(offsets.degrees, offsets.x, offsets.y, layer.parentNode);
 
+        //console.log('###');
+
+        /*
+        var ctx = this.surface.context;
+        ctx.fillStyle = "red";
+        ctx.textAlign = "center";
+        ctx.font = "30px Arial";
+        ctx.fillText("Hello World", 10, 50); 
+        */
         this.surface.addText(layerId, 0, 0, this.axisLabel, className, undefined, undefined, undefined, undefined, transforms);
         this.surface.render();
         Object.keys(style).forEach(function(key) {

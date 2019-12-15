@@ -234,6 +234,7 @@ Licensed under the MIT license.
                 drawSeries: [],
                 drawAxis: [],
                 draw: [],
+                findNearbyItems: [],
                 axisReserveSpace: [],
                 bindEvents: [],
                 drawOverlay: [],
@@ -345,6 +346,7 @@ Licensed under the MIT license.
         plot.computeRangeForDataSeries = computeRangeForDataSeries;
         plot.adjustSeriesDataRange = adjustSeriesDataRange;
         plot.findNearbyItem = findNearbyItem;
+        plot.findNearbyItems = findNearbyItems;
         plot.findNearbyInterpolationPoint = findNearbyInterpolationPoint;
         plot.computeValuePrecision = computeValuePrecision;
         plot.computeTickSize = computeTickSize;
@@ -1344,6 +1346,8 @@ Licensed under the MIT license.
                     setTransformationHelpers(axis);
                     setEndpointTicks(axis, series);
 
+                    console.log('+++');
+
                     // find labelWidth/Height for axis
                     measureTickLabels(axis);
                 });
@@ -1804,7 +1808,129 @@ Licensed under the MIT license.
             // A draw implies that either the axes or data have changed, so we
             // should probably update the overlay highlights as well.
             triggerRedrawOverlay();
+
+
+           ShowTickLabels();
+
+            
         }
+
+
+        //*******************************************************************
+        // this is to overcome problem with colored ticks and axis labels
+        // xxx
+        //*******************************************************************
+        function ShowTickLabels() {
+            console.log('#1#1#');
+
+            $.each(allAxes(), function (_, axis) {
+                if (!axis.show || !axis.showTicks) {
+                    return;
+                }
+
+                //console.log("label width " + axis.labelWidth);
+
+                ctx.save();
+                ctx.translate(plotOffset.left, plotOffset.top);
+
+                ctx.fillStyle = axis.options.font.color;
+                ctx.textAlign = "left";
+                ctx.font = axis.options.font.size + "px " + axis.options.font.style + " " + axis.options.font.family;
+                var t = axis.tickLength,
+                    minorTicks = axis.showMinorTicks,
+                    minorTicksNr = MINOR_TICKS_COUNT_CONSTANT,
+                    edges = findEdges(axis),
+                    x = edges.x,
+                    y = edges.y,
+                    i = 0;
+
+
+                if (axis.direction === "x") {
+                    y = y + 15;
+                }
+
+                switch (axis.options.showTickLabels) {
+                    case 'none':
+                        break;
+                    case 'endpoints':
+                        console.log('endpoints');
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        break;
+                    case 'major':
+                        console.log('major');
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        for (i = 0; i < axis.ticks.length; i++) {
+                            //labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+                            var v = axis.ticks[i].v,
+                                xoff = 0,
+                                yoff = 0,
+                                xminor = 0,
+                                yminor = 0,
+                                j;
+
+                            if (!isNaN(v) && v >= axis.min && v <= axis.max) {
+
+                                if (axis.direction === "x") {
+                                    x = axis.p2c(v);
+                                    yoff = t;
+
+                                    if (axis.position === "top") {
+                                        yoff = -yoff;
+                                    }
+                                } else {
+                                    y = axis.p2c(v);
+                                    xoff = t;
+
+                                    if (axis.position === "left") {
+                                        xoff = -xoff;
+                                    }
+                                }
+
+
+                                var posx = x;
+                                var posy = y;
+                                if (axis.direction === "x") {
+                                    x = alignPosition(ctx.lineWidth, x);
+                                    posx = x - ctx.measureText(axis.ticks[i].label).width / 2 + xoff;
+                                    posy = y + yoff;
+
+                                } else {
+                                    y = alignPosition(ctx.lineWidth, y);
+                                    posy = y + 0.5 * axis.options.font.size + yoff;
+
+                                    if (axis.position == "left") {
+                                        posx = x - ctx.measureText(axis.ticks[i].label).width + xoff;
+                                    }
+                                    else {
+                                        posx = x + xoff;
+                                    }
+                                }
+
+                                console.log('show ' + axis.ticks[i].label + " on " + x + "/" + y + " Text is " + ctx.measureText(axis.ticks[i].label).width + " width and " + axis.options.font.size + " high");
+                                ctx.fillText(axis.ticks[i].label, posx, posy);
+                            }
+                        }
+                        break;
+                    case 'all':
+                        console.log('all');
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], []));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        for (i = 1; i < axis.ticks.length - 1; ++i) {
+                            //labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+                        }
+                        break;
+                }
+
+
+                ctx.restore();
+
+
+            });
+        }
+
+        
 
         function extractRange(ranges, coord) {
             var axis, from, to, key, axes = allAxes();
@@ -2308,28 +2434,43 @@ Licensed under the MIT license.
                     return;
                 }
 
+                /*
+                var ctx = surface.context;
+                ctx.fillStyle = "red";
+                ctx.textAlign = "center";
+                ctx.font = "8px Arial";
+                */
                 switch (axis.options.showTickLabels) {
                     case 'none':
                         break;
                     case 'endpoints':
-                        labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
-                        labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        console.log('endpoints');
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
                         break;
                     case 'major':
-                        labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
-                        labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        console.log('major');
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
                         for (i = 1; i < axis.ticks.length - 1; ++i) {
-                            labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+                            //labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+
+                          
+                            
+                            //ctx.fillText(axis.ticks[i].label, 10, 50); 
+
                         }
                         break;
                     case 'all':
-                        labelBoxes.push(drawAxisLabel(axis.ticks[0], []));
-                        labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        console.log('all');
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], []));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
                         for (i = 1; i < axis.ticks.length - 1; ++i) {
-                            labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+                            //labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
                         }
                         break;
                 }
+                
             });
         }
 
@@ -2492,55 +2633,85 @@ Licensed under the MIT license.
             }
         }
 
-        // returns the data item the mouse is over/ the cursor is closest to, or null if none is found
+        function findNearbyItems(mouseX, mouseY, seriesFilter, radius, computeDistance) {
+            var items = findItems(mouseX, mouseY, seriesFilter, radius, computeDistance);
+            for (var i = 0; i < series.length; ++i) {
+                if (seriesFilter(i)) {
+                    executeHooks(hooks.findNearbyItems, [mouseX, mouseY, series, i, radius, computeDistance, items]);
+                }
+            }
+
+            return items.sort((a, b) => { 
+                if (b.distance === undefined) {
+                    return -1;
+                } else if (a.distance === undefined && b.distance !== undefined) {
+                    return 1;
+                }
+
+                return a.distance - b.distance ;
+            });
+        }
+
         function findNearbyItem(mouseX, mouseY, seriesFilter, radius, computeDistance) {
-            var i, j,
-                item = null,
+            var items = findNearbyItems(mouseX, mouseY, seriesFilter, radius, computeDistance);
+            return items[0] !== undefined ? items[0] : null;
+         }
+
+        // returns the data item the mouse is over/ the cursor is closest to, or null if none is found
+        function findItems(mouseX, mouseY, seriesFilter, radius, computeDistance) {
+            var i, foundItems = [],
+                items = [],
                 smallestDistance = radius * radius + 1;
 
-            for (var i = series.length - 1; i >= 0; --i) {
+            for (i = series.length - 1; i >= 0; --i) {
                 if (!seriesFilter(i)) continue;
 
                 var s = series[i];
                 if (!s.datapoints) return;
 
+                var foundPoint = false;
                 if (s.lines.show || s.points.show) {
-                    var found = findNearbyPoint(s, mouseX, mouseY, radius, smallestDistance, computeDistance);
+                    var found = findNearbyPoint(s, mouseX, mouseY, radius, computeDistance);
                     if (found) {
-                        smallestDistance = found.distance;
-                        item = [i, found.dataIndex];
+                        items.push({ seriesIndex: i, dataIndex: found.dataIndex, distance: found.distance });
+                        foundPoint = true;
                     }
                 }
 
-                if (s.bars.show && !item) { // no other point can be nearby
+                if (s.bars.show && !foundPoint) { // no other point can be nearby
                     var foundIndex = findNearbyBar(s, mouseX, mouseY);
-                    if (foundIndex >= 0) item = [i, foundIndex];
+                    if (foundIndex >= 0) {
+                        items.push({ seriesIndex: i, dataIndex: foundIndex, distance: smallestDistance });
+                    }
                 }
             }
 
-            if (item) {
-                i = item[0];
-                j = item[1];
-                var ps = series[i].datapoints.pointsize;
+            for (i = 0; i < items.length; i++) {
+                var seriesIndex = items[i].seriesIndex;
+                var dataIndex = items[i].dataIndex;
+                var smallestDistance = items[i].distance;
+                var ps = series[seriesIndex].datapoints.pointsize;
 
-                return {
-                    datapoint: series[i].datapoints.points.slice(j * ps, (j + 1) * ps),
-                    dataIndex: j,
-                    series: series[i],
-                    seriesIndex: i
-                };
+                foundItems.push({
+                    datapoint: series[seriesIndex].datapoints.points.slice(dataIndex * ps, (dataIndex + 1) * ps),
+                    dataIndex: dataIndex,
+                    series: series[seriesIndex],
+                    seriesIndex: seriesIndex,
+                    distance: Math.sqrt(smallestDistance)
+                });
             }
 
-            return null;
+            return foundItems;
         }
 
-        function findNearbyPoint (series, mouseX, mouseY, maxDistance, smallestDistance, computeDistance) {
+        function findNearbyPoint (series, mouseX, mouseY, maxDistance, computeDistance) {
             var mx = series.xaxis.c2p(mouseX),
                 my = series.yaxis.c2p(mouseY),
                 maxx = maxDistance / series.xaxis.scale,
                 maxy = maxDistance / series.yaxis.scale,
                 points = series.datapoints.points,
-                ps = series.datapoints.pointsize;
+                ps = series.datapoints.pointsize,
+                smallestDistance = Number.POSITIVE_INFINITY;
 
             // with inverse transforms, we can't use the maxx/maxy
             // optimization, sadly
@@ -2604,7 +2775,7 @@ Licensed under the MIT license.
             barRight = barLeft + barWidth;
 
             var fillTowards = series.bars.fillTowards || 0;
-            var bottom = fillTowards > series.yaxis.min ? Math.min(series.yaxis.max, fillTowards) : series.yaxis.min;
+            var defaultBottom = fillTowards > series.yaxis.min ? Math.min(series.yaxis.max, fillTowards) : series.yaxis.min;
 
             var foundIndex = -1;
             for (var j = 0; j < points.length; j += ps) {
@@ -2612,6 +2783,7 @@ Licensed under the MIT license.
                 if (x == null)
                     continue;
 
+                var bottom = ps === 3 ? points[j + 2] : defaultBottom;
                 // for a bar graph, the cursor must be inside the bar
                 if (series.bars.horizontal ?
                     (mx <= Math.max(bottom, x) && mx >= Math.min(bottom, x) &&

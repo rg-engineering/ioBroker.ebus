@@ -1,8 +1,11 @@
 {
   "common": {
     "name": "ebus",
-    "version": "0.8.2",
+    "version": "1.0.0",
     "news": {
+      "1.0.0": {
+        "en": "update to flot 3.0"
+      },
       "0.8.2": {
         "en": "some more error messages in datapoint ",
         "de": "Einige weitere Fehlermeldungen im Datenpunkt",
