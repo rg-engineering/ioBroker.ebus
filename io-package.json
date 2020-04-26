@@ -1,70 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "news": {
-      "1.0.0": {
-        "en": "update to flot 3.0"
-      },
-      "0.8.2": {
-        "en": "some more error messages in datapoint ",
-        "de": "Einige weitere Fehlermeldungen im Datenpunkt",
-        "ru": "еще несколько сообщений об ошибках в datapoint",
-        "pt": "mais algumas mensagens de erro no datapoint",
-        "nl": "nog meer foutmeldingen in datapunt",
-        "fr": "quelques messages d'erreur supplémentaires dans le point de donnée",
-        "it": "alcuni altri messaggi di errore nel punto dati",
-        "es": "algunos mensajes de error más en el punto de datos",
-        "pl": "więcej komunikatów o błędach w punkcie danych",
-        "zh-cn": "数据点中一些其他错误消息"
-      },
-      "0.8.1": {
-        "en": "update flot to version 3.0",
-        "de": "update flot auf version 3.0",
-        "ru": "обновление flot до версии 3.0",
-        "pt": "atualização flot para a versão 3.0",
-        "nl": "update flot naar versie 3.0",
-        "fr": "mettre à jour flot à la version 3.0",
-        "it": "aggiorna il flot alla versione 3.0",
-        "es": "actualizar flot a la versión 3.0",
-        "pl": "zaktualizuj flota do wersji 3.0",
-        "zh-cn": "将flot更新到版本3.0"
-      },
-      "0.8.0": {
-        "en": "hcmode2 translate value 5 to EVU Sperrzeit",
-        "de": "hcmode2 Wert 5 in EVU-Sperrzeit umrechnen",
-        "ru": "hcmode2 перевести значение 5 в EVU Sperrzeit",
-        "pt": "hcmode2 translate value 5 para EVU Sperrzeit",
-        "nl": "hcmode2 vertalen waarde 5 naar EVU Sperrzeit",
-        "fr": "hcmode2 traduit la valeur 5 en EVU Sperrzeit",
-        "it": "hcmode2 traduce il valore 5 in EVU Sperrzeit",
-        "es": "hcmode2 convierte el valor 5 a EVU Sperrzeit",
-        "pl": "hcmode2 przetłumaczyć wartość 5 na EVU Sperrzeit",
-        "zh-cn": "hcmode2将值5转换为EVU Sperrzeit"
-      },
-      "0.7.0": {
-        "en": "add adjustable timeout",
-        "de": "einstellbares Timeout hinzufügen",
-        "ru": "добавить настраиваемое время ожидания",
-        "pt": "adicionar timeout ajustável",
-        "nl": "voeg instelbare time-out toe",
-        "fr": "ajouter un délai d'attente réglable",
-        "it": "aggiungere un timeout regolabile",
-        "es": "agregar tiempo de espera ajustable",
-        "pl": "dodaj regulowany limit czasu",
-        "zh-cn": "添加可调超时"
-      },
-      "0.6.0": {
-        "en": "support of compact adapter",
-        "de": "Unterstützung des Kompaktadapters",
-        "ru": "поддержка компактного адаптера",
-        "pt": "suporte de adaptador compacto",
-        "nl": "ondersteuning voor compacte adapter",
-        "fr": "support de l'adaptateur compact",
-        "it": "supporto di adattatore compatto",
-        "es": "soporte de adaptador compacto",
-        "pl": "obsługa adaptera kompaktowego"
+      "2.0.0": {
+        "en": "replaced 'REQUEST' by 'BENT'",
+        "de": "'REQUEST' durch 'BENT' ersetzt",
+        "ru": "заменил «ЗАПРОС» на «Согнут»",
+        "pt": "substituído \"PEDIDO\" por \"BENT\"",
+        "nl": "vervangen 'VERZOEK' door 'BENT'",
+        "fr": "remplacé «DEMANDE» par «BENT»",
+        "it": "sostituito da \"RICHIESTA\" con \"BENT\"",
+        "es": "reemplazado 'SOLICITUD' por 'BENT'",
+        "pl": "zastąpiono „ZAPYTANIE” na „WYGIĘTA”",
+        "zh-cn": "用“ BENT”代替“ REQUEST”"
       }
+     
     },
     "title": "ebus",
     "titleLang": {

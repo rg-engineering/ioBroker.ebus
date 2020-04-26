@@ -32,7 +32,10 @@ current supported ebusd-version: 3.3
    
 ## Changelog
 
-## 1.0.0 (2019-12-xx)
+## 2.0.0 (2020-04-26)
+* (René) "request" replaced by "bent"
+
+## 1.0.0 (2019-12-15)
 * (René) update to my own flot 3.0
 
 ## 0.8.2 (2019-11-10)
