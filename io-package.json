@@ -1,21 +1,32 @@
 {
   "common": {
     "name": "ebus",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "news": {
-      "2.0.0": {
-        "en": "replaced 'REQUEST' by 'BENT'",
-        "de": "'REQUEST' durch 'BENT' ersetzt",
-        "ru": "заменил «ЗАПРОС» на «Согнут»",
-        "pt": "substituído \"PEDIDO\" por \"BENT\"",
-        "nl": "vervangen 'VERZOEK' door 'BENT'",
-        "fr": "remplacé «DEMANDE» par «BENT»",
-        "it": "sostituito da \"RICHIESTA\" con \"BENT\"",
-        "es": "reemplazado 'SOLICITUD' por 'BENT'",
-        "pl": "zastąpiono „ZAPYTANIE” na „WYGIĘTA”",
-        "zh-cn": "用“ BENT”代替“ REQUEST”"
+      "2.1.0": {
+        "en": "refactoring:  'async/await' used",
+        "de": "Refactoring: 'async / await' verwendet",
+        "ru": "рефакторинг: используется async / await",
+        "pt": "refatoração: 'async / waitit' usado",
+        "nl": "refactoring: 'async / await' gebruikt",
+        "fr": "refactoring: 'async / wait' utilisé",
+        "it": "refactoring: 'async / await' usato",
+        "es": "refactorización: 'async / await' usado",
+        "pl": "refaktoryzacja: użyto opcji „asynchronizuj / czekaj”",
+        "zh-cn": "重构：使用“异步/等待”"
+      },
+      "1.0.0": {
+        "en": "update to flot 3.0",
+        "de": "Update auf Flot 3.0",
+        "ru": "обновление до флота 3.0",
+        "pt": "atualizar para o flot 3.0",
+        "nl": "update naar flot 3.0",
+        "fr": "mise à jour vers flot 3.0",
+        "it": "aggiornamento a flot 3.0",
+        "es": "actualizar a flot 3.0",
+        "pl": "aktualizacja do flot 3.0",
+        "zh-cn": "更新到flot 3.0"
       }
-     
     },
     "title": "ebus",
     "titleLang": {
