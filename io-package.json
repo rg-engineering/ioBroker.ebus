@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "ebus",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "news": {
-      "2.1.0": {
+      "2.1.1": {
         "en": "refactoring:  'async/await' used",
         "de": "Refactoring: 'async / await' verwendet",
         "ru": "рефакторинг: используется async / await",

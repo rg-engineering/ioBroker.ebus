@@ -230,7 +230,7 @@ async function ebusd_Command(options) {
         }
     }
     else {
-        adapter.log.error("object cmd not found " + JSON.stringify(obj));
+        adapter.log.debug("object cmd not found " + JSON.stringify(obj));
         //ebusd_ReadValues(options); 
     }
 
@@ -476,7 +476,7 @@ async function UpdateHistory(values, dates) {
         }
     }
     else {
-        adapter.log.error("history.date not found " + JSON.stringify(obj));
+        adapter.log.debug("history.date not found " + JSON.stringify(obj));
     }
 
 
@@ -536,7 +536,7 @@ async function UpdateHistoryValues(values, ctr) {
         }
     }
     else {
-        adapter.log.error("history.value" + ctr + " not found " + JSON.stringify(obj));
+        adapter.log.debug("history.value" + ctr + " not found " + JSON.stringify(obj));
     }
 }
 
