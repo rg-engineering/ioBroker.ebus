@@ -7,7 +7,7 @@ admin/i18n
 /obj
 *.njsproj
 todo.txt
-package-lock.json
+
 readme.txt
 
 /typings/*
