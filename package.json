@@ -20,7 +20,7 @@
     "url": "https://github.com/rg-engineering/ioBroker.ebus"
   },
   "dependencies": {
-    "bent": "^7.3.0",
+    "bent": "^7.3.9",
     "flat": "^5.0.0",
     "net": "^1.0.2",
     "promise-socket": "6.0.3",
