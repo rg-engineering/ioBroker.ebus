@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "bent": "^7.3.9",
-    "flat": "^5.0.0",
+    "flat": "^5.0.2",
     "net": "^1.0.2",
     "promise-socket": "6.0.3",
     "@iobroker/adapter-core": "^2.3.1"
