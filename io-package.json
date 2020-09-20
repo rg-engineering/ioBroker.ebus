@@ -65,6 +65,11 @@
     "type": "hardware",
     "license": "MIT",
     "materialize": true,
+    "plugins": {
+      "sentry": {
+        "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
+      }
+    },
     "compact": true,
     "authors": [
       {
@@ -73,14 +78,14 @@
       }
     ]
   },
-  "native": {
-    "targetIP": "192.168.0.1",
-    "interfacetype": "ebusd",
-    "targetHTTPPort": 8889,
-    "targetTelnetPort": 8890,
-    "PolledValues": "",
-    "HistoryValues": "",
-    "parseTimeout": 60
-  }
+    "native": {
+      "targetIP": "192.168.0.1",
+      "interfacetype": "ebusd",
+      "targetHTTPPort": 8889,
+      "targetTelnetPort": 8890,
+      "PolledValues": "",
+      "HistoryValues": "",
+      "parseTimeout": 60
+    }
 
-}
+  }
