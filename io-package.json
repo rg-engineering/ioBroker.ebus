@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ebus",
-    "version": "2.1.1",
+    "version": "2.2.0",
     "news": {
+      "2.2.0": {
+        "en": "change DP only if necessary to reduce system load",
+        "de": "Ändern Sie den DP nur bei Bedarf, um die Systemlast zu verringern",
+        "ru": "изменяйте DP только в случае необходимости для снижения нагрузки на систему",
+        "pt": "mude DP apenas se necessário para reduzir a carga do sistema",
+        "nl": "verander DP alleen indien nodig om de systeembelasting te verminderen",
+        "fr": "changer DP uniquement si nécessaire pour réduire la charge du système",
+        "it": "cambiare DP solo se necessario per ridurre il carico del sistema",
+        "es": "cambie DP solo si es necesario para reducir la carga del sistema",
+        "pl": "zmień DP tylko wtedy, gdy jest to konieczne, aby zmniejszyć obciążenie systemu",
+        "zh-cn": "仅在需要减少系统负载时才更改DP"
+      },
       "2.1.1": {
         "en": "refactoring:  'async/await' used",
         "de": "Refactoring: 'async / await' verwendet",

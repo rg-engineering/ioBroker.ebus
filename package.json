@@ -1,6 +1,6 @@
 {
   "name": "iobroker.ebus",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "ioBroker ebus Adapter",
   "author": {
     "name": "René G.",
@@ -20,12 +20,12 @@
     "url": "https://github.com/rg-engineering/ioBroker.ebus"
   },
   "dependencies": {
-    "bent": "^7.3.10",
-    "flat": "^5.0.2",
-    "net": "^1.0.2",
-    "promise-socket": "6.0.3",
-    "@iobroker/adapter-core": "^2.3.1",
-    "@sentry/node": "^5.23.0"
+    "bent": "7.3.11",
+    "flat": "5.0.2",
+    "net": "1.0.2",
+    "promise-socket": "7.0.0",
+    "@iobroker/adapter-core": "2.4.0",
+    "@sentry/node": "5.24.2"
   },
   "devDependencies": {
     "@iobroker/testing": "^2.2.0",
