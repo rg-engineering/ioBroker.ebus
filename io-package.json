@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ebus",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "news": {
+      "2.2.1": {
+        "en": "create history DP if not available ",
+        "de": "History-DP erstellen, falls nicht verfügbar",
+        "ru": "создать историю DP, если недоступен",
+        "pt": "criar histórico DP se não estiver disponível",
+        "nl": "maak een geschiedenis-DP als deze niet beschikbaar is",
+        "fr": "créer l'historique DP s'il n'est pas disponible",
+        "it": "creare la cronologia DP se non disponibile",
+        "es": "crear historial DP si no está disponible",
+        "pl": "utwórz historię DP, jeśli nie jest dostępna",
+        "zh-cn": "创建历史记录DP（如果不可用）"
+      },
       "2.2.0": {
         "en": "change DP only if necessary to reduce system load",
         "de": "Ändern Sie den DP nur bei Bedarf, um die Systemlast zu verringern",
@@ -90,14 +102,14 @@
       }
     ]
   },
-    "native": {
-      "targetIP": "192.168.0.1",
-      "interfacetype": "ebusd",
-      "targetHTTPPort": 8889,
-      "targetTelnetPort": 8890,
-      "PolledValues": "",
-      "HistoryValues": "",
-      "parseTimeout": 60
-    }
-
+  "native": {
+    "targetIP": "192.168.0.1",
+    "interfacetype": "ebusd",
+    "targetHTTPPort": 8889,
+    "targetTelnetPort": 8890,
+    "PolledValues": "",
+    "HistoryValues": "",
+    "parseTimeout": 60
   }
+
+}

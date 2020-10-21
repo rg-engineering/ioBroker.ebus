@@ -525,14 +525,25 @@ async function UpdateHistory(values, dates) {
         }
         catch (e) {
             adapter.log.error("exception in UpdateHistory part1 [" + e + "]");
+            await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
         }
     }
     else {
-        adapter.log.debug("history.date not found " + JSON.stringify(obj));
+        adapter.log.warn("history.date not found, creating DP " + JSON.stringify(obj));
+        await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
     }
 
 
-    await UpdateHistoryValues(values, 1);
+    if (values.length > 0) {
+        for (let ctr = 0; ctr < values.length; ctr++) {
+            await UpdateHistoryValues(values, ctr);  
+        }
+
+        adapter.log.info("all history done");
+    }
+    
+
+    
 
 
 
@@ -573,22 +584,16 @@ async function UpdateHistoryValues(values, ctr) {
             await adapter.setStateAsync("history.value" + ctr, { ack: true, val: JSON.stringify(oEbusValues) });
 
 
-            if (ctr < values.length) {
-                ctr++;
-                UpdateHistoryValues(values, ctr);  //recursive call
-            }
-            else {
-                adapter.log.info("all history done (exit)");
-
-                adapter.terminate ? adapter.terminate(0) : process.exit(0);
-            }
+            
         }
         catch (e) {
             adapter.log.error("exception in UpdateHistory part2 [" + e + "]");
+            await adapter.setStateAsync("history.value" + ctr, { ack: true, val: "[]" });
         }
     }
     else {
-        adapter.log.debug("history.value" + ctr + " not found " + JSON.stringify(obj));
+        adapter.log.warn("history.value" + ctr + " not found, creating DP " + JSON.stringify(obj));
+        await adapter.setStateAsync("history.value" + ctr, { ack: true, val:"[]" });
     }
 }
 
@@ -625,9 +630,7 @@ async function AddObject(key) {
                 }
             });
         }
-        //else {
-            //adapter.log.debug(" nothing to extend for " + key);
-        //}
+
     }
 }
 
