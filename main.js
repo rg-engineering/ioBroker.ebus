@@ -97,34 +97,52 @@ async function Common_checkVariables(options) {
     let nCtr = 0;
 
     const oHistory = options.historyValues.split(",");
-    nCtr = oHistory.length + 1;
+    nCtr = oHistory.length;
 
-    adapter.log.debug("init common variables ");
+    adapter.log.debug("init common variables and " + nCtr + " history DP's");
     let key;
     let obj;
     //adapter.log.debug("_____ ctr " + nCtr);
-    for (let n = 1; n < nCtr; n++) {
 
-        key = "history.value" + n;
-        await adapter.setObjectNotExistsAsync(key, {
-            type: "state",
-            common: { name: "ebus history value " + n + " as JSON", type: "string", role: "value", unit: "", read: true, write: false },
-            native: { location: key }
-        });
+    if (nCtr > 4) {
+        adapter.log.warn("too many history values " + nCtr + " -> maximum is  4");
+    }
 
-        obj = await adapter.getObjectAsync(key);
+    for (let n = 1; n <= nCtr; n++) {
 
-        if (obj != null) {
-            
-            if (obj.common.role != "value") {
-                await adapter.extendObject(key, {
-                    common: {
-                        role: "value",
-                    }
-                });
+        if (oHistory[n - 1].length > 0) {
+            const name = "history value " + n + " as JSON " + oHistory[n - 1];
+            key = "history.value" + n;
+            await adapter.setObjectNotExistsAsync(key, {
+                type: "state",
+                common: {
+                    name: name,
+                    type: "string",
+                    role: "value",
+                    unit: "",
+                    read: true,
+                    write: false
+                },
+                native: { location: key }
+            });
+
+            obj = await adapter.getObjectAsync(key);
+
+            if (obj != null) {
+
+                if (obj.common.role != "value" || obj.common.name != name) {
+                    await adapter.extendObject(key, {
+                        common: {
+                            name: name,
+                            role: "value",
+                        }
+                    });
+                }
             }
         }
-
+        else {
+            adapter.log.warn("ignoring history value " + n + " (invalid name)");
+        }
     }
 
     key = "history.date"; 
@@ -146,7 +164,7 @@ async function Common_checkVariables(options) {
         }
     }
 
-    key = "history.date"; 
+    key = "history.error"; 
     await adapter.setObjectNotExistsAsync(key, {
         type: "state",
         common: { name: "ebus error", type: "string", role: "value", unit: "", read: true, write: false },
@@ -529,25 +547,25 @@ async function UpdateHistory(values, dates) {
         }
     }
     else {
-        adapter.log.warn("history.date not found, creating DP " + JSON.stringify(obj));
+        adapter.log.warn("history.date not found, creating DP ");
         await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
     }
 
+    const oHistory = adapter.config.HistoryValues.split(",");
 
-    if (values.length > 0) {
-        for (let ctr = 0; ctr < values.length; ctr++) {
-            await UpdateHistoryValues(values, ctr);  
+    if (oHistory.length > 0) {
+        for (let ctr = 1; ctr <= oHistory.length; ctr++) {
+
+            if (oHistory[ctr - 1].length > 0) {
+                await UpdateHistoryValues(values, ctr);
+            }
+            else {
+                adapter.log.debug("ignoring history value " + ctr);
+            }
         }
 
         adapter.log.info("all history done");
     }
-    
-
-    
-
-
-
-
 }
 
 
@@ -581,7 +599,10 @@ async function UpdateHistoryValues(values, ctr) {
                     oEbusValues.shift();
                 }
             }
-            await adapter.setStateAsync("history.value" + ctr, { ack: true, val: JSON.stringify(oEbusValues) });
+
+            const key = "history.value" + ctr;
+            adapter.log.debug("update history " + key); 
+            await adapter.setStateAsync(key, { ack: true, val: JSON.stringify(oEbusValues) });
 
 
             
@@ -684,10 +705,11 @@ async function ebusd_ReadValues(options) {
 
             for (nCtr = 0; nCtr < oPolled.length; nCtr++) {
 
-                const cmd = "read -f " + oPolled[nCtr] + "\n";
+                let cmd = "read -f " + oPolled[nCtr];
 
                 adapter.log.debug("send cmd " + cmd);
 
+                cmd += "\n";
                 await promiseSocket.write(cmd);
 
                 const data = await promiseSocket.read();

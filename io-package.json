@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "ebus",
-    "version": "2.2.1",
+    "version": "2.2.2",
     "news": {
-      "2.2.1": {
+      "2.2.2": {
         "en": "create history DP if not available ",
         "de": "History-DP erstellen, falls nicht verfügbar",
         "ru": "создать историю DP, если недоступен",

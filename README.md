@@ -35,7 +35,7 @@ current supported ebusd-version: 3.3
    
 ## Changelog
 
-## 2.2.1 (2020-10-21)
+## 2.2.2 (2020-10-22)
 * (René) create history DP if not available 
 
 ## 2.2.0 (2020-09-06)
