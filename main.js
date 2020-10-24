@@ -46,6 +46,8 @@ let killTimer;
 
 
 async function main() {
+
+    /*
     const options = {
         targetIP: adapter.config.targetIP || "192.168.0.100",
         targetHTTPPort: parseInt(adapter.config.targetHTTPPort),
@@ -53,6 +55,7 @@ async function main() {
         polledValues: adapter.config.PolledValues,
         historyValues: adapter.config.HistoryValues
     };
+    */
 
     let nParseTimeout = 60;
     if (adapter.config.parseTimeout > 0) {
@@ -69,16 +72,18 @@ async function main() {
     }, nParseTimeout);
 
     adapter.log.debug("start with interface ebusd ");
-    await ebusd_checkVariables(options);
+    await ebusd_checkVariables();
 
-    await ebusd_Command(options);
-    await ebusd_ReadValues(options);
+    await ebusd_Command();
+    await ebusd_ReadValues();
     //await ebusd_StartReceive(options);
 
 
     //await TestFunction();
 
-    await ebusd_ReceiveData(options);
+    await ebusd_ReceiveData();
+
+    
 
     if (killTimer) {
         clearTimeout(killTimer);
@@ -91,12 +96,12 @@ async function main() {
 
 
 
-async function Common_checkVariables(options) {
+async function Common_checkVariables() {
 
     // histories
     let nCtr = 0;
 
-    const oHistory = options.historyValues.split(",");
+    const oHistory = adapter.config.HistoryValues.split(",");
     nCtr = oHistory.length;
 
     adapter.log.debug("init common variables and " + nCtr + " history DP's");
@@ -104,66 +109,68 @@ async function Common_checkVariables(options) {
     let obj;
     //adapter.log.debug("_____ ctr " + nCtr);
 
-    if (nCtr > 4) {
-        adapter.log.warn("too many history values " + nCtr + " -> maximum is  4");
-    }
+    if (adapter.config.HistoryValues.length>0 && nCtr > 0) {
 
-    for (let n = 1; n <= nCtr; n++) {
+        if (nCtr > 4) {
+            adapter.log.warn("too many history values " + nCtr + " -> maximum is  4");
+        }
 
-        if (oHistory[n - 1].length > 0) {
-            const name = "history value " + n + " as JSON " + oHistory[n - 1];
-            key = "history.value" + n;
-            await adapter.setObjectNotExistsAsync(key, {
-                type: "state",
-                common: {
-                    name: name,
-                    type: "string",
-                    role: "value",
-                    unit: "",
-                    read: true,
-                    write: false
-                },
-                native: { location: key }
-            });
+        for (let n = 1; n <= nCtr; n++) {
 
-            obj = await adapter.getObjectAsync(key);
+            if (oHistory[n - 1].length > 0) {
+                const name = "history value " + n + " as JSON " + oHistory[n - 1];
+                key = "history.value" + n;
+                await adapter.setObjectNotExistsAsync(key, {
+                    type: "state",
+                    common: {
+                        name: name,
+                        type: "string",
+                        role: "value",
+                        unit: "",
+                        read: true,
+                        write: false
+                    },
+                    native: { location: key }
+                });
 
-            if (obj != null) {
+                obj = await adapter.getObjectAsync(key);
 
-                if (obj.common.role != "value" || obj.common.name != name) {
-                    await adapter.extendObject(key, {
-                        common: {
-                            name: name,
-                            role: "value",
-                        }
-                    });
+                if (obj != null) {
+
+                    if (obj.common.role != "value" || obj.common.name != name) {
+                        await adapter.extendObject(key, {
+                            common: {
+                                name: name,
+                                role: "value",
+                            }
+                        });
+                    }
                 }
             }
+            else {
+                adapter.log.warn("ignoring history value " + n + " (invalid name)");
+            }
         }
-        else {
-            adapter.log.warn("ignoring history value " + n + " (invalid name)");
+
+        key = "history.date";
+        await adapter.setObjectNotExistsAsync(key, {
+            type: "state",
+            common: { name: "ebus history date as JSON", type: "string", role: "value", unit: "", read: true, write: false },
+            native: { location: key }
+        });
+        obj = await adapter.getObjectAsync(key);
+
+        if (obj != null) {
+
+            if (obj.common.role != "value") {
+                await adapter.extendObject(key, {
+                    common: {
+                        role: "value",
+                    }
+                });
+            }
         }
     }
-
-    key = "history.date"; 
-    await adapter.setObjectNotExistsAsync(key, {
-        type: "state",
-        common: { name: "ebus history date as JSON", type: "string", role: "value", unit: "", read: true, write: false },
-        native: { location: key }
-    });
-    obj = await adapter.getObjectAsync(key);
-
-    if (obj != null) {
-        
-        if (obj.common.role != "value") {
-            await adapter.extendObject(key, {
-                common: {
-                    role: "value",
-                }
-            });
-        }
-    }
-
     key = "history.error"; 
     await adapter.setObjectNotExistsAsync(key, {
         type: "state",
@@ -193,7 +200,7 @@ async function Common_checkVariables(options) {
 //===================================================================================================
 // ebusd interface
 
-async function ebusd_Command(options) {
+async function ebusd_Command() {
     const obj = await adapter.getStateAsync("cmd");
 
     if (typeof obj != undefined && obj != null) {
@@ -201,14 +208,14 @@ async function ebusd_Command(options) {
         if (cmd !== "") {
             adapter.log.debug("got command " + cmd);
 
-            adapter.log.debug("connect telnet to IP " + options.targetIP + " port " + options.targetTelnetPort);
+            adapter.log.debug("connect telnet to IP " + adapter.config.targetIP + " port " + parseInt(adapter.config.targetTelnetPort));
 
 
             const socket = new net.Socket();
             const promiseSocket = new PromiseSocket(socket);
 
             try {
-                await promiseSocket.connect(options.targetTelnetPort, options.targetIP);
+                await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
                 adapter.log.debug("telnet connected for cmd");
                 promiseSocket.setTimeout(5000);
 
@@ -238,59 +245,19 @@ async function ebusd_Command(options) {
 
 
 
-            /*
-            const client = new net.Socket();
-            client.setTimeout(5000, function () {
-                client.destroy();
-            });
-            client.connect(options.targetTelnetPort, options.targetIP, function () {
-                adapter.log.debug("telnet connected for cmd");
-            });
-            client.on("data", function (data) {
-                adapter.log.debug("received " + data);
-
-
-                //set result to cmdResult 
-                await adapter.setStateAsync("cmdResult", { ack: true, val: data.toString() });
-                //aufruf next step
-                //ebusd_ReadValues(options); // to trigger read over ebus
-
-                await adapter.setStateAsync("cmd", { ack: true, val: "" });
-            });
-            client.on("end", function () {
-                adapter.log.debug("Daten ausgelesen");
-            });
-
             
-
-            client.write(cmd + "\n");
-
-            
-            //client.end();
-            client.on("error", function (err) {
-
-                client.destroy();
-                adapter.log.error("Telnet Server nicht erreichbar. " + err);
-                //ebusd_ReadValues(options); // to trigger read over ebus
-            });
-
-*/
         }
-        else {
-            //ebusd_ReadValues(options); // to trigger read over ebus
-        }
+       
     }
     else {
         adapter.log.debug("object cmd not found " + JSON.stringify(obj));
-        //ebusd_ReadValues(options); 
     }
-
 }
 
 
 //just call http://192.168.0.123:8889/data
 
-async function ebusd_checkVariables(options) {
+async function ebusd_checkVariables() {
     adapter.log.debug("init variables ");
 
     let key;
@@ -344,15 +311,15 @@ async function ebusd_checkVariables(options) {
             });
         }
     }
-    Common_checkVariables(options);
+    Common_checkVariables();
 }
 
 //get data via https in json -> this is the main data receiver; telnet just triggers ebusd to read data;
 //https://github.com/john30/ebusd/wiki/3.2.-HTTP-client
 
-async function ebusd_ReceiveData(options) {
+async function ebusd_ReceiveData() {
 
-    const sUrl = "http://" + options.targetIP + ":" + options.targetHTTPPort + "/data";
+    const sUrl = "http://" + adapter.config.targetIP + ":" + parseInt(adapter.config.targetHTTPPort) + "/data";
     adapter.log.debug("request data from " + sUrl);
 
     try {
@@ -372,7 +339,7 @@ async function ebusd_ReceiveData(options) {
 
         //adapter.log.debug("history: " + options.historyValues);
 
-        const oHistory = options.historyValues.split(",");
+        const oHistory = adapter.config.HistoryValues.split(",");
 
         const historyvalues = [];
         const historydates = [];
@@ -499,9 +466,11 @@ async function ebusd_ReceiveData(options) {
 
         //adapter.log.debug(JSON.stringify(historyvalues));
 
-        await UpdateHistory(historyvalues, historydates);
-
         adapter.log.info("all http done");
+
+       
+        await UpdateHistory(historyvalues, historydates);
+       
 
     }
     catch (e) {
@@ -516,61 +485,80 @@ async function ebusd_ReceiveData(options) {
 
 async function UpdateHistory(values, dates) {
 
-    let oEbusDates = [];
+    if (adapter.config.HistoryValues.length > 0) {
+        //prüfen ob alle json gleich lang sind
+        let NoOfDates = -1;
 
-    const obj = await adapter.getStateAsync("history.date");
+        const obj = await adapter.getStateAsync("history.date");
 
-    if (typeof obj != undefined && obj != null) {
-        try {
+        if (typeof obj != undefined && obj != null) {
+            try {
+                let oEbusDates = [];
+                //adapter.log.debug("before " + obj.val);
+                oEbusDates = JSON.parse(obj.val);
+                //adapter.log.debug("after parse " + JSON.stringify(oEbusDates));
 
-            //adapter.log.debug("before " + obj.val);
-            oEbusDates = JSON.parse(obj.val);
-            //adapter.log.debug("after parse " + JSON.stringify(oEbusDates));
 
 
+                oEbusDates.push(dates);
+                //adapter.log.debug("after push " + JSON.stringify(oEbusDates));
+                //limit length of object...
+                if (oEbusDates.length > 200) {
 
-            oEbusDates.push(dates);
-            //adapter.log.debug("after push " + JSON.stringify(oEbusDates));
-            //limit length of object...
-            if (oEbusDates.length > 200) {
+                    for (let i = oEbusDates.length; i > 200; i--) {
+                        adapter.log.debug("delete");
+                        oEbusDates.shift();
+                    }
+                }
+                NoOfDates = oEbusDates.length;
+                await adapter.setStateAsync("history.date", { ack: true, val: JSON.stringify(oEbusDates) });
+            }
+            catch (e) {
+                adapter.log.error("exception in UpdateHistory part1 [" + e + "]");
+                await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
+                NoOfDates = 0;
+            }
+        }
+        else {
+            adapter.log.warn("history.date not found, creating DP ");
+            await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
+            NoOfDates = 0;
+        }
 
-                for (let i = oEbusDates.length; i > 200; i--) {
-                    adapter.log.debug("delete");
-                    oEbusDates.shift();
+        const oHistory = adapter.config.HistoryValues.split(",");
+
+        if (oHistory.length > 0) {
+            for (let ctr = 1; ctr <= oHistory.length; ctr++) {
+
+                if (oHistory[ctr - 1].length > 0) {
+                    const ctrOkay = await UpdateHistoryValues(values, ctr, NoOfDates);
+
+                    if (!ctrOkay) {
+                        await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
+                        NoOfDates = 0;
+                        adapter.log.warn("reset history date too");
+                    }
+                }
+                else {
+                    adapter.log.debug("ignoring history value " + ctr);
                 }
             }
-            await adapter.setStateAsync("history.date", { ack: true, val: JSON.stringify(oEbusDates) });
-        }
-        catch (e) {
-            adapter.log.error("exception in UpdateHistory part1 [" + e + "]");
-            await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
+
+            adapter.log.info("all history done");
         }
     }
     else {
-        adapter.log.warn("history.date not found, creating DP ");
-        await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
-    }
-
-    const oHistory = adapter.config.HistoryValues.split(",");
-
-    if (oHistory.length > 0) {
-        for (let ctr = 1; ctr <= oHistory.length; ctr++) {
-
-            if (oHistory[ctr - 1].length > 0) {
-                await UpdateHistoryValues(values, ctr);
-            }
-            else {
-                adapter.log.debug("ignoring history value " + ctr);
-            }
-        }
-
-        adapter.log.info("all history done");
+        adapter.log.debug("nothing to do for history");
     }
 }
 
 
 
-async function UpdateHistoryValues(values, ctr) {
+async function UpdateHistoryValues(values, ctr, curDateCtr) {
+
+
+    let bRet = true;
+
     const obj = await adapter.getStateAsync("history.value" + ctr);
 
     if (typeof obj != undefined && obj != null) {
@@ -602,20 +590,36 @@ async function UpdateHistoryValues(values, ctr) {
 
             const key = "history.value" + ctr;
             adapter.log.debug("update history " + key); 
-            await adapter.setStateAsync(key, { ack: true, val: JSON.stringify(oEbusValues) });
 
+            if (curDateCtr != oEbusValues.length) {
+                bRet = false;
+                await adapter.setStateAsync("history.value" + ctr, { ack: true, val: "[]" });
+                adapter.log.warn("reset history " + key + " because number of values different to date values"); 
+
+            }
+            else {
+                await adapter.setStateAsync(key, { ack: true, val: JSON.stringify(oEbusValues) });
+            }
 
             
         }
         catch (e) {
             adapter.log.error("exception in UpdateHistory part2 [" + e + "]");
             await adapter.setStateAsync("history.value" + ctr, { ack: true, val: "[]" });
+            if (curDateCtr > 0) {
+                bRet = false;
+            }
         }
     }
     else {
         adapter.log.warn("history.value" + ctr + " not found, creating DP " + JSON.stringify(obj));
-        await adapter.setStateAsync("history.value" + ctr, { ack: true, val:"[]" });
+        await adapter.setStateAsync("history.value" + ctr, { ack: true, val: "[]" });
+        if (curDateCtr > 0) {
+            bRet = false;
+        }
     }
+
+    return bRet;
 }
 
 
@@ -679,24 +683,24 @@ read LegioProtectionEnabled
 
 //this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
 //here we need a loop over all configured read data in admin-page
-async function ebusd_ReadValues(options) {
+async function ebusd_ReadValues() {
    
 
     //adapter.log.debug("polled: " + options.polledValues);
     //adapter.log.debug("history: " + options.historyValues);
 
-    const oPolled = options.polledValues.split(",");
+    const oPolled = adapter.config.PolledValues.split(",");
     let nCtr = 0;
 
-    if (oPolled.length > 0 && options.polledValues.length>0) {
+    if (oPolled.length > 0 && adapter.config.PolledValues.length>0) {
 
-        adapter.log.debug("to poll ctr " + oPolled.length + " vals:  " + oPolled + " org " + options.polledValues + " org length " + options.polledValues.length);
+        adapter.log.debug("to poll ctr " + oPolled.length + " vals:  " + oPolled + " org " + adapter.config.PolledValues + " org length " + adapter.config.PolledValues.length);
 
         const socket = new net.Socket();
         const promiseSocket = new PromiseSocket(socket);
 
         try {
-            await promiseSocket.connect(options.targetTelnetPort, options.targetIP);
+            await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
             adapter.log.debug("telnet connected for cmd");
             promiseSocket.setTimeout(5000);
 
@@ -718,70 +722,14 @@ async function ebusd_ReadValues(options) {
 
             }
 
-            
-
         } catch (e) {
-            //if (e instanceof TimeoutError) {
-            //    adapter.log.error("Socket timeout");
-            //}
-            //else {
             adapter.log.error("exception from tcp socket in ebusd_ReadValues " + "[" + e + "]");
-            //}
         }
 
         promiseSocket.destroy();
 
 
-        /*
-        const client = new net.Socket();
-        client.setTimeout(5000, function () {
-            client.destroy();
-            adapter.log.error("Telnet Server timeout");
-            //ebusd_StartReceive(options);
-        });
-        adapter.log.debug("connect telnet to IP " + options.targetIP + " port " + options.targetTelnetPort);
-        client.connect(options.targetTelnetPort, options.targetIP, function () {
-            adapter.log.debug("telnet connected");
-        });
-        client.on("data", function (data) {
-            if (data.includes("ERR")){
-                adapter.log.error("received " + data + " for " + oPolled[nCtr - 1]);
-            }
-            else {
-                adapter.log.debug("received " + data + " for " + oPolled[nCtr - 1] );
-            }
-
-            if (oPolled.length > nCtr) {
-                client.write("read -f " + oPolled[nCtr] + "\n");
-                nCtr++;
-            }
-            else {
-                client.end();
-                client.destroy();
-                adapter.log.debug("all telnet done ");
-                //ebusd_StartReceive(options);
-            }
-        });
-        client.on("end", function () {
-            adapter.log.debug("Daten ausgelesen");
-        });
-
-        if (oPolled.length > nCtr) {
-            client.write("read -f " + oPolled[nCtr] + "\n");
-            nCtr++;
-        }
-        //client.end();
-        client.on("error", function (err) {
-
-            client.destroy();
-            adapter.log.error("Telnet Server nicht erreichbar. " + err);
-
-            await adapter.setStateAsync("history.error", { ack: true, val: "telnet server no reachable" });
-
-            //ebusd_StartReceive(options);
-        });
-
-*/
+        
     }
     else {
         adapter.log.debug("nothing to poll; skip telnet");
