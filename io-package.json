@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ebus",
-    "version": "2.2.3",
+    "version": "2.2.4",
     "news": {
+      "2.2.4": {
+        "en": "bug fix: exception in widget removed",
+        "de": "Fehlerbehebung: Ausnahme im Widget entfernt",
+        "ru": "исправление ошибки: исключение в виджете удалено",
+        "pt": "correção de bug: exceção no widget removida",
+        "nl": "bug fix: uitzondering in widget verwijderd",
+        "fr": "correction de bogue: exception dans le widget supprimée",
+        "it": "correzione bug: eccezione nel widget rimossa",
+        "es": "corrección de errores: excepción en el widget eliminado",
+        "pl": "poprawka: wyjątek w widżecie został usunięty",
+        "zh-cn": "错误修复：删除了小部件中的异常"
+      },
       "2.2.3": {
         "en": "create history DP if not available ",
         "de": "History-DP erstellen, falls nicht verfügbar",
@@ -100,7 +112,9 @@
         "name": "René G.",
         "email": "info@rg-engineering.eu"
       }
-    ]
+    ],
+    "connectionType": "local",
+    "dataSource": "push"
   },
   "native": {
     "targetIP": "192.168.0.1",

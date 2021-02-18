@@ -1277,7 +1277,7 @@
 
     // this code can be placed directly in template.html
     vis.binds.ebus = {
-        version: "1.0.0",
+        version: "2.2.4",
         showVersion: function () {
             if (vis.binds.ebus.version) {
                 console.log('Version vis-ebus: ' + vis.binds.ebus.version);
@@ -2058,34 +2058,37 @@
                     var oid_historydate = data.oid_historydate;
                     console.log("bind " + oid_historydate);
                     vis.states.bind(oid_historydate + '.val', function () {
-                        vis.binds.ebus.history.update($div, oView);
+                        update();
                     });
 
                     var oid_historygraph1 = data.oid_historygraph1;
                     console.log("bind " + oid_historygraph1);
                     vis.states.bind(oid_historygraph1 + '.val', function () {
-                        vis.binds.ebus.history.update($div, oView);
+                        update();
                     });
                     var oid_historygraph2 = data.oid_historygraph2;
                     console.log("bind " + oid_historygraph2);
                     vis.states.bind(oid_historygraph2 + '.val', function () {
-                        vis.binds.ebus.history.update($div, oView);
+                        update();
                     });
                     var oid_historygraph3 = data.oid_historygraph3;
                     console.log("bind " + oid_historygraph3);
                     vis.states.bind(oid_historygraph3 + '.val', function () {
-                        vis.binds.ebus.history.update($div, oView);
+                        update();
                     });
                     var oid_historygraph4 = data.oid_historygraph4;
                     console.log("bind " + oid_historygraph4);
                     vis.states.bind(oid_historygraph4 + '.val', function () {
-                        vis.binds.ebus.history.update($div, oView);
+                        update();
                     });
                     // update every x seconds
                     if (!vis.editMode) {
+
+                        console.log("interval " + vis.binds.ebus.setup.intervals[data.time_interval]);
+
                         $div.data('timer', setInterval(function () {
-                            vis.binds.ebus.history.update($div, oView);
-                        }, parseInt(vis.binds.ebus.setup.intervals[data.time_interval] / (parseInt(data.points, 10) || 10), 10)));
+                            update();
+                        }, parseInt(vis.binds.ebus.setup.intervals[data.time_interval] , 10)));
                     }
 
                 }
