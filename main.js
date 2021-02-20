@@ -385,13 +385,14 @@ async function ebusd_ReceiveData() {
                 const keyname = key.replace("value", "name");
                 await AddObject(keyname);
 
-
-
-
                 await UpdateObject(keyname, name);
 
                 //push to history
-                if (!subnames[temp - 2].includes("sensor")) { //ignore sensor states
+                //ebus.0.bai.messages.ReturnTemp.fields.temp.value
+                //ebus.0.bai.messages.ReturnTemp.fields.tempmirror.value
+                if (!subnames[temp - 2].includes("sensor") //ignore sensor states
+                    && !subnames[temp - 2].includes("mirror") //ignore mirror-data
+                ) { 
                     for (let ii = 0; ii < oHistory.length; ii++) {
 
                         if (name === oHistory[ii]) {
