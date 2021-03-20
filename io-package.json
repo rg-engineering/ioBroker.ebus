@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ebus",
-    "version": "2.2.4",
+    "version": "2.2.5",
     "news": {
+      "2.2.5": {
+        "en": "dependencies updated",
+        "de": "Abhängigkeiten aktualisiert",
+        "ru": "зависимости обновлены",
+        "pt": "dependências atualizadas",
+        "nl": "afhankelijkheden bijgewerkt",
+        "fr": "dépendances mises à jour",
+        "it": "dipendenze aggiornate",
+        "es": "dependencias actualizadas",
+        "pl": "zaktualizowane zależności",
+        "zh-cn": "依赖关系已更新"
+      },
       "2.2.4": {
         "en": "bug fix: exception in widget removed",
         "de": "Fehlerbehebung: Ausnahme im Widget entfernt",

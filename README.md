@@ -35,6 +35,9 @@ current supported ebusd-version: 3.3
    
 ## Changelog
 
+## 2.2.5 (2021-03-21)
+* (René) dependencies updated
+
 ## 2.2.4 (2021-02-17)
 * (René) see issue #42: Uncaught ReferenceError: oView is not defined in widget solved
 
