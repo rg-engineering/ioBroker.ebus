@@ -7,7 +7,7 @@ node_js:
   - '10'
   - '12'
   - '14'
-  - 'node'
+
 sudo: required
 before_script:
   - export NPMVERSION=$(echo "$($(which npm) -v)"|cut -c1)
