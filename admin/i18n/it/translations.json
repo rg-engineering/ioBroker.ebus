@@ -1,0 +1,14 @@
+{
+    "ListOfAllHistoryValues": "elenco separato da virgole di punti dati per il widget della cronologia ebus. È necessario utilizzare un massimo di 4 punti dati, altri possono essere utilizzati.",
+    "ListOfAllPolledValues": "elenco separato da virgole di punti di dati sottoposti a polling",
+    "ebus_adapter_settings": "impostazioni dell'adattatore ebus",
+    "hint_arduino": "per l'interfaccia arduino hai bisogno di arduino, schermo ethernet, adattatore ebus e il nostro software arduino. Dettagli vedi:URL to do",
+    "hint_ebusd": "per l'interfaccia ebusd hai bisogno di un ebusd in esecuzione incl. tutte le configurazioni necessarie Questo adattatore utilizza l'HTML per leggere i dati da ebusd e TCP per scrivere su ebusd",
+    "hint_ebusd_history": "elenco separato da virgola di tutti i nomi dei punti dati che dovrebbero essere utilizzati con il widget della cronologia ebus. Se il datapoint è presente nell'elenco, viene visualizzato in json-data con data / ora e valore e può essere utilizzato nel widget della cronologia ebus",
+    "hint_ebusd_polled": "elenco separato da virgole di tutti i nomi dei punti dati che devono essere interrogati dall'adattatore. Non aggiungere datapoint che sono già stati interrogati da ebusd. Questo elenco dovrebbe includere quelli che non sono aggiornati da ebusd stesso",
+    "interface_type": "tipo di interfaccia",
+    "parse_timeout": "download e polling timeout [secondi]",
+    "target_HTTPPort": "Porta HTTP di destinazione per leggere i dati",
+    "target_IP": "IP di destinazione",
+    "target_TelnetPort": "Porta telnet target per scrivere dati"
+}

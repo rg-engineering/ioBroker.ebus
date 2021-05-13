@@ -1,0 +1,14 @@
+{
+    "ListOfAllHistoryValues": "rozdzielana przecinkami lista punktów danych dla widgetu historii ebus. Należy użyć maksymalnie 4 punktów danych, więcej można wykorzystać.",
+    "ListOfAllPolledValues": "rozdzielana przecinkami lista odpytanych punktów danych",
+    "ebus_adapter_settings": "ustawienia adaptera ebus",
+    "hint_arduino": "do interfejsu arduino potrzebujesz arduino, ekran ethernetowy, adapter ebus i nasze oprogramowanie arduino. Szczegóły patrz:URL to do",
+    "hint_ebusd": "do interfejsu ebusd potrzebny jest działający ebusd w tym. wszystkie niezbędne konfiguracje. Ten adapter używa HTML do odczytu danych z ebusd i TCP w celu zapisania do ebusd",
+    "hint_ebusd_history": "rozdzielana przecinkami lista wszystkich nazw punktów danych, które powinny być używane z widżetem historii ebus. Jeśli data jest na liście, pojawia się w json-data ze znacznikiem czasowym i wartością i może być użyta w widżecie historii ebus",
+    "hint_ebusd_polled": "rozdzielana przecinkami lista wszystkich nazw punktów danych, które powinny być pobierane z adaptera. Nie dodawaj punktów danych, które są już odpytywane z ebusd. Ta lista powinna zawierać te, które nie są aktualizowane od samego ebusd",
+    "interface_type": "typ interfejsu",
+    "parse_timeout": "czas pobierania i odpytywania [sekundy]",
+    "target_HTTPPort": "docelowy port HTTP do odczytu danych",
+    "target_IP": "docelowy adres IP",
+    "target_TelnetPort": "docelowy port telnet do zapisu danych"
+}

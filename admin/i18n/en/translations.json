@@ -1,0 +1,14 @@
+{
+    "ListOfAllHistoryValues": "comma separated list of datapoints for ebus history widget. Maximum 4 datapoints should be used, more can be used.",
+    "ListOfAllPolledValues": "comma separated list of polled datapoints",
+    "ebus_adapter_settings": "ebus adapter settings",
+    "hint_arduino": "for arduino interface you need arduino, ethernet shield, ebus adapter and our arduino software. Details see URL to do",
+    "hint_ebusd": "for ebusd interface you need a running ebusd incl. all necessary configurations. This adapter uses HTML to read data from ebusd and TCP to write to ebusd",
+    "hint_ebusd_history": "comma seperated list of all datapoint names which should be used with ebus history widget.If datapoint is in the list then it appears in json - data with timestamp and value and can be used in ebus history widget",
+    "hint_ebusd_polled": "comma seperated list of all datapoint names which should be polled from adapter. Do not add datapoint which are already polled from ebusd. This list should include onle those which are not updated from ebusd itself",
+    "interface_type": "type of interface",
+    "parse_timeout": "download and poll timeout [seconds]",
+    "target_HTTPPort": "target HTTP Port to read data",
+    "target_IP": "target IP",
+    "target_TelnetPort": "target telnet Port to write data"
+}
