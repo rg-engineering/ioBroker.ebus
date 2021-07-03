@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ebus",
-        "version": "2.2.5",
+        "version": "2.2.6",
         "news": {
+            "2.2.6": {
+                "en": "bug fix for wrong data type logs",
+                "de": "Bugfix für falsche Datentyp-Logs",
+                "ru": "исправление ошибки для журналов неправильного типа данных",
+                "pt": "correção de bug para registros de tipo de dados errado",
+                "nl": "bugfix voor logs van verkeerde gegevenstypes",
+                "fr": "correction de bogues pour les journaux de type de données incorrect",
+                "it": "correzione di bug per log di tipi di dati errati",
+                "es": "corrección de errores para registros de tipo de datos incorrectos",
+                "pl": "poprawka błędów w logach z nieprawidłowymi typami danych",
+                "zh-cn": "错误数据类型日志的错误修复"
+            },
             "2.2.5": {
                 "en": "dependencies updated",
                 "de": "Abhängigkeiten aktualisiert",

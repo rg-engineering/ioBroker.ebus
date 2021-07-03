@@ -370,8 +370,10 @@ async function ebusd_ReceiveData() {
 
                 let value = newData[key];
 
+
+                let type = typeof value;
                 //value
-                await AddObject(key);
+                await AddObject(key, type);
                 if (name === "hcmode2") {
                     adapter.log.info("in hcmode2, value " + value);
                     if (parseInt(value) === 5) {
@@ -383,7 +385,7 @@ async function ebusd_ReceiveData() {
 
                 //name parallel to value: used for lists in admin...
                 const keyname = key.replace("value", "name");
-                await AddObject(keyname);
+                await AddObject(keyname, "string");
 
                 await UpdateObject(keyname, name);
 
@@ -423,7 +425,7 @@ async function ebusd_ReceiveData() {
                     const nSeconds = oDate.getSeconds();
 
                     const sDate = nDate + "." + nMonth + "." + nYear + " " + nHours + ":" + nMinutes + ":" + nSeconds;
-                    await AddObject(key);
+                    await AddObject(key, "string");
                     await UpdateObject(key, sDate);
 
                     const oToday = new Date();
@@ -459,7 +461,7 @@ async function ebusd_ReceiveData() {
             else if (subnames[0].includes("global")) {
                 //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
                 const value = newData[key];
-                await AddObject(key);
+                await AddObject(key, typeof value);
                 await UpdateObject(key, value);
             }
         }
@@ -625,7 +627,7 @@ async function UpdateHistoryValues(values, ctr, curDateCtr) {
 
 
 
-async function AddObject(key) {
+async function AddObject(key, type) {
 
     adapter.log.debug("addObject " + key);
 
@@ -633,7 +635,7 @@ async function AddObject(key) {
         type: "state",
         common: {
             name: "data",
-            type: "string",
+            type: type,
             role: "value", 
             unit: "",
             read: true,
@@ -652,6 +654,7 @@ async function AddObject(key) {
             //adapter.log.debug(" !!! need to extend for " + key);
             await adapter.extendObject(key, {
                 common: {
+                    type: type,
                     role: "value",
                 }
             });
