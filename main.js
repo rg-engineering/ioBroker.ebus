@@ -650,7 +650,8 @@ async function AddObject(key, type) {
 
     if (obj != null) {
         //adapter.log.debug(" got Object " + JSON.stringify(obj));
-        if (obj.common.role != "value") {
+        if (obj.common.role != "value"
+            || obj.common.type != type ) {
             //adapter.log.debug(" !!! need to extend for " + key);
             await adapter.extendObject(key, {
                 common: {

@@ -39,7 +39,7 @@ current supported ebusd-version: 3.3
    
 ## Changelog
 
-## 2.2.6 (2021-07-07)
+## 2.2.7 (2021-07-03)
 * (René) dependencies updated
 * (René) see issue #48: bug fix for wrong data type logs
 
