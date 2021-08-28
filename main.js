@@ -357,12 +357,8 @@ async function ebusd_ReceiveData() {
         let sError = "none";
         for (let i = 0; i < keys.length; i++) {
             let key = keys[i];
-            const subnames = key.split(".");
-            const temp = subnames.length;
-            //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+            const org_key = key;
 
-            //
-            //if (key.match(adapter.FORBIDDEN_CHARS)) { continue; }
             if (key.includes("[") || key.includes("]")) {
                 adapter.log.warn("found unsupported chars in " + key);
                 const start = key.indexOf('[');
@@ -375,9 +371,16 @@ async function ebusd_ReceiveData() {
                 //adapter.log.warn("new key is " + key);
             }
 
+            const subnames = key.split(".");
+            const temp = subnames.length;
+            //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+
+            //
+            //if (key.match(adapter.FORBIDDEN_CHARS)) { continue; }
+            
 
             if (key.includes("global.version")) {
-                const value = newData[key];
+                const value = newData[org_key];
                 //adapter.log.info("in version, value " + value);
                 const versionInfo = value.split('.');
                 if (versionInfo.length > 1) {
@@ -390,17 +393,19 @@ async function ebusd_ReceiveData() {
                         adapter.log.info("unsupported ebusd version found (too new): " + versionInfo[0] + "." + versionInfo[1] + " supported version is " + ebusdMinVersion[0] + "." + ebusdMinVersion[1]);
                     }
                 }
-
             }
 
-
             if (subnames[temp - 1].includes("name")) {
-                name = newData[key];
+                name = newData[org_key];
             }
             else if (subnames[temp - 1].includes("value")) {
                 //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
 
-                let value = newData[key];
+                let value = newData[org_key];
+
+                if (value == null || value == undefined) {
+                    adapter.log.warn('Key : ' + key + ', Value : ' + newData[org_key] + " name " + name);
+                }
 
                 let type = typeof value;
                 //value
@@ -446,21 +451,21 @@ async function ebusd_ReceiveData() {
             }
             else if (subnames[temp - 1].includes("lastup")) {
 
-                const value = newData[key];
+                const value = newData[org_key];
 
                 if (parseInt(value) > 0) {
                     //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
 
                     //umrechnen...
                     const oDate = new Date(value * 1000);
-                    const nDate = oDate.getDate();
-                    const nMonth = oDate.getMonth() + 1;
-                    const nYear = oDate.getFullYear();
-                    const nHours = oDate.getHours();
-                    const nMinutes = oDate.getMinutes();
-                    const nSeconds = oDate.getSeconds();
+                    //const nDate = oDate.getDate();
+                    //const nMonth = oDate.getMonth() + 1;
+                    //const nYear = oDate.getFullYear();
+                    //const nHours = oDate.getHours();
+                    //const nMinutes = oDate.getMinutes();
+                    //const nSeconds = oDate.getSeconds();
 
-                    const sDate = nDate + "." + nMonth + "." + nYear + " " + nHours + ":" + nMinutes + ":" + nSeconds;
+                    const sDate = oDate.toLocaleString();
                     await AddObject(key, "string");
                     await UpdateObject(key, sDate);
 
@@ -496,7 +501,7 @@ async function ebusd_ReceiveData() {
             }
             else if (subnames[0].includes("global")) {
                 //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
-                const value = newData[key];
+                const value = newData[org_key];
                 await AddObject(key, typeof value);
                 await UpdateObject(key, value);
             }
@@ -664,32 +669,16 @@ async function UpdateHistoryValues(values, ctr, curDateCtr) {
 
 
 async function AddObject(key, type) {
-
-    adapter.log.debug("addObject " + key);
+    //adapter.log.debug("addObject " + key);
 
     try {
-        await adapter.setObjectNotExistsAsync(key, {
-            type: "state",
-            common: {
-                name: "data",
-                type: type,
-                role: "value",
-                unit: "",
-                read: true,
-                write: false
-            },
-            native: {
-                location: key
-            }
-        });
-
         const obj = await adapter.getObjectAsync(key);
 
         if (obj != null) {
             //adapter.log.debug(" got Object " + JSON.stringify(obj));
             if (obj.common.role != "value"
                 || obj.common.type != type) {
-                //adapter.log.debug(" !!! need to extend for " + key);
+                adapter.log.debug(" !!! need to extend for " + key);
                 await adapter.extendObject(key, {
                     common: {
                         type: type,
@@ -697,7 +686,24 @@ async function AddObject(key, type) {
                     }
                 });
             }
+        }
+        else {
+            adapter.log.warn(" !!! does not exist, creating now " + key );
 
+            await adapter.setObjectNotExistsAsync(key, {
+                type: "state",
+                common: {
+                    name: "data",
+                    type: type,
+                    role: "value",
+                    unit: "",
+                    read: true,
+                    write: false
+                },
+                native: {
+                    location: key
+                }
+            });
         }
 
     } catch (e) {
@@ -705,12 +711,16 @@ async function AddObject(key, type) {
     }
 }
 
-
-
 async function UpdateObject(key, value) {
     try {
-        await adapter.setStateAsync(key, { ack: true, val: value });
+        if (value == null || value == undefined) {
+            adapter.log.warn("updateObject: not updated " + key + " value: " + value);
+        }
+        else {
+            adapter.log.debug("updateObject " + key + " : " + value);
 
+            await adapter.setStateAsync(key, { ack: true, val: value });
+        }        
     } catch (e) {
         adapter.log.error("exception in UpdateObject " + "[" + e + "]");
     }
