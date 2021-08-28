@@ -12,7 +12,9 @@
 "use strict";
 
 const utils = require("@iobroker/adapter-core");
-const ebusdMinVersion = [ 21, 2];
+const ebusdMinVersion = [21, 2];
+let ebusdVersion = [0, 0];
+let ebusdUpdateVersion = [0, 0];
 
 let adapter;
 function startAdapter(options) {
@@ -314,6 +316,28 @@ async function ebusd_checkVariables() {
     Common_checkVariables();
 }
 
+
+function VersionCheck() {
+
+    if (ebusdVersion[0] > 0 ) {
+        if (ebusdVersion[0] < ebusdMinVersion[0] || (ebusdVersion[0] == ebusdMinVersion[0] && ebusdVersion[1] < ebusdMinVersion[1])) {
+            adapter.log.info("please update ebusd, old version found: " + ebusdVersion[0] + "." + ebusdVersion[1] + " supported version is " + ebusdMinVersion[0] + "." + ebusdMinVersion[1]);
+        }
+        if (ebusdVersion[0] > ebusdMinVersion[0] || (ebusdVersion[0] >= ebusdMinVersion[0] && ebusdVersion[1] > ebusdMinVersion[1])) {
+            adapter.log.info("unsupported ebusd version found (too new): " + ebusdVersion[0] + "." + ebusdVersion[1] + " supported version is " + ebusdMinVersion[0] + "." + ebusdMinVersion[1]);
+        }
+    }
+
+    if (ebusdUpdateVersion[0] > 0 && ebusdVersion[0] > 0) {
+
+        if (ebusdUpdateVersion[0] > ebusdVersion[0] || (ebusdUpdateVersion[0] == ebusdVersion[0] && ebusdUpdateVersion[1] > ebusdVersion[1])) {
+            adapter.log.info("new ebusd version found: " + ebusdUpdateVersion[0] + "." + ebusdUpdateVersion[1] + " supported version is " + ebusdMinVersion[0] + "." + ebusdMinVersion[1]);
+
+        }
+
+    }
+}
+
 //get data via https in json -> this is the main data receiver; telnet just triggers ebusd to read data;
 //https://github.com/john30/ebusd/wiki/3.2.-HTTP-client
 
@@ -386,14 +410,33 @@ async function ebusd_ReceiveData() {
                 if (versionInfo.length > 1) {
                     adapter.log.info("found ebusd version " + versionInfo[0] + "." + versionInfo[1]);
 
-                    if (versionInfo[0] < ebusdMinVersion[0] || (versionInfo[0] == ebusdMinVersion[0] && versionInfo[1] < ebusdMinVersion[1])) {
-                        adapter.log.info("please update ebusd, old version found: " + versionInfo[0] + "." + versionInfo[1] + " supported version is " + ebusdMinVersion[0] + "." + ebusdMinVersion[1]);
-                    }
-                    if (versionInfo[0] > ebusdMinVersion[0] || (versionInfo[0] >= ebusdMinVersion[0] && versionInfo[1] > ebusdMinVersion[1])) {
-                        adapter.log.info("unsupported ebusd version found (too new): " + versionInfo[0] + "." + versionInfo[1] + " supported version is " + ebusdMinVersion[0] + "." + ebusdMinVersion[1]);
-                    }
+                    ebusdVersion[0] = versionInfo[0];
+                    ebusdVersion[1] = versionInfo[1];
+
+                    VersionCheck();
                 }
             }
+
+            if (key.includes("global.updatecheck")) {
+                let value = newData[org_key];
+                //adapter.log.info("in version, value " + value);
+
+                //revision v21.2 available
+                value = value.replace("revision v", "");
+                value = value.replace(" available", "");
+
+                const versionInfo = value.split('.');
+                if (versionInfo.length > 1) {
+                    adapter.log.info("found ebusd update version " + versionInfo[0] + "." + versionInfo[1]);
+
+                    ebusdUpdateVersion[0] = versionInfo[0];
+                    ebusdUpdateVersion[1] = versionInfo[1];
+
+                    VersionCheck();
+                }
+            }
+
+
 
             if (subnames[temp - 1].includes("name")) {
                 name = newData[org_key];
