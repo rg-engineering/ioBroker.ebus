@@ -12,7 +12,7 @@
 "use strict";
 
 const utils = require("@iobroker/adapter-core");
-
+const ebusdMinVersion = [ 21, 2];
 
 let adapter;
 function startAdapter(options) {
@@ -356,10 +356,42 @@ async function ebusd_ReceiveData() {
         let name = "unknown";
         let sError = "none";
         for (let i = 0; i < keys.length; i++) {
-            const key = keys[i];
+            let key = keys[i];
             const subnames = key.split(".");
             const temp = subnames.length;
             //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key]);
+
+            //
+            //if (key.match(adapter.FORBIDDEN_CHARS)) { continue; }
+            if (key.includes("[") || key.includes("]")) {
+                adapter.log.warn("found unsupported chars in " + key);
+                const start = key.indexOf('[');
+                const end = key.lastIndexOf(']');
+
+                if (start > 0 && end > 0) {
+                    const toReplace = key.slice(start, end + 1);
+                    key = key.replace(toReplace, "");
+                }
+                //adapter.log.warn("new key is " + key);
+            }
+
+
+            if (key.includes("global.version")) {
+                const value = newData[key];
+                //adapter.log.info("in version, value " + value);
+                const versionInfo = value.split('.');
+                if (versionInfo.length > 1) {
+                    adapter.log.info("found ebusd version " + versionInfo[0] + "." + versionInfo[1]);
+
+                    if (versionInfo[0] < ebusdMinVersion[0] || (versionInfo[0] == ebusdMinVersion[0] && versionInfo[1] < ebusdMinVersion[1])) {
+                        adapter.log.info("please update ebusd, old version found: " + versionInfo[0] + "." + versionInfo[1] + " supported version is " + ebusdMinVersion[0] + "." + ebusdMinVersion[1]);
+                    }
+                    if (versionInfo[0] > ebusdMinVersion[0] || (versionInfo[0] >= ebusdMinVersion[0] && versionInfo[1] > ebusdMinVersion[1])) {
+                        adapter.log.info("unsupported ebusd version found (too new): " + versionInfo[0] + "." + versionInfo[1] + " supported version is " + ebusdMinVersion[0] + "." + ebusdMinVersion[1]);
+                    }
+                }
+
+            }
 
 
             if (subnames[temp - 1].includes("name")) {
@@ -370,18 +402,22 @@ async function ebusd_ReceiveData() {
 
                 let value = newData[key];
 
-
                 let type = typeof value;
                 //value
                 await AddObject(key, type);
                 if (name === "hcmode2") {
-                    adapter.log.info("in hcmode2, value " + value);
+                    adapter.log.debug("in hcmode2, value " + value);
                     if (parseInt(value) === 5) {
                         adapter.log.info("with value 5");
                         value = "EVU Sperrzeit";
                     }
                 }
+                
+
                 await UpdateObject(key, value);
+
+
+
 
                 //name parallel to value: used for lists in admin...
                 const keyname = key.replace("value", "name");
@@ -509,7 +545,7 @@ async function UpdateHistory(values, dates) {
                 if (oEbusDates.length > 200) {
 
                     for (let i = oEbusDates.length; i > 200; i--) {
-                        adapter.log.debug("delete");
+                        //adapter.log.debug("delete");
                         oEbusDates.shift();
                     }
                 }
@@ -586,7 +622,7 @@ async function UpdateHistoryValues(values, ctr, curDateCtr) {
             if (oEbusValues.length > 200) {
 
                 for (let i = oEbusValues.length; i > 200; i--) {
-                    adapter.log.debug("delete");
+                    //adapter.log.debug("delete");
                     oEbusValues.shift();
                 }
             }
@@ -631,43 +667,53 @@ async function AddObject(key, type) {
 
     adapter.log.debug("addObject " + key);
 
-    await adapter.setObjectNotExistsAsync(key, {
-        type: "state",
-        common: {
-            name: "data",
-            type: type,
-            role: "value", 
-            unit: "",
-            read: true,
-            write: false
-        },
-        native: {
-            location: key
+    try {
+        await adapter.setObjectNotExistsAsync(key, {
+            type: "state",
+            common: {
+                name: "data",
+                type: type,
+                role: "value",
+                unit: "",
+                read: true,
+                write: false
+            },
+            native: {
+                location: key
+            }
+        });
+
+        const obj = await adapter.getObjectAsync(key);
+
+        if (obj != null) {
+            //adapter.log.debug(" got Object " + JSON.stringify(obj));
+            if (obj.common.role != "value"
+                || obj.common.type != type) {
+                //adapter.log.debug(" !!! need to extend for " + key);
+                await adapter.extendObject(key, {
+                    common: {
+                        type: type,
+                        role: "value",
+                    }
+                });
+            }
+
         }
-    });
 
-    const obj = await adapter.getObjectAsync(key);
-
-    if (obj != null) {
-        //adapter.log.debug(" got Object " + JSON.stringify(obj));
-        if (obj.common.role != "value"
-            || obj.common.type != type ) {
-            //adapter.log.debug(" !!! need to extend for " + key);
-            await adapter.extendObject(key, {
-                common: {
-                    type: type,
-                    role: "value",
-                }
-            });
-        }
-
+    } catch (e) {
+        adapter.log.error("exception in AddObject " + "[" + e + "]");
     }
 }
 
 
 
 async function UpdateObject(key, value) {
-    await adapter.setStateAsync(key, { ack: true, val: value });
+    try {
+        await adapter.setStateAsync(key, { ack: true, val: value });
+
+    } catch (e) {
+        adapter.log.error("exception in UpdateObject " + "[" + e + "]");
+    }
 }
 
 

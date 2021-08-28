@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ebus",
-        "version": "2.2.7",
+        "version": "2.3.0",
         "news": {
+            "2.3.0": {
+                "en": "support for ebusd 21.1",
+                "de": "Unterstützung für ebusd 21.1",
+                "ru": "поддержка ebusd 21.1",
+                "pt": "suporte para ebusd 21.1",
+                "nl": "ondersteuning voor ebusd 21.1",
+                "fr": "prise en charge de l'ebusd 21.1",
+                "it": "supporto per ebusd 21.1",
+                "es": "soporte para ebusd 21.1",
+                "pl": "obsługa ebusd 21.1",
+                "zh-cn": "支持 ebusd 21.1"
+            },
             "2.2.7": {
                 "en": "bug fix for wrong data type logs",
                 "de": "Bugfix für falsche Datentyp-Logs",
