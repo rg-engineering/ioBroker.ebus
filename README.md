@@ -41,6 +41,8 @@ current supported ebusd-version: 21.2
 
 ## 2.3.0 (2021-09-02)
 * (René) see issue #49: support for ebusd 21.2
+* (René) see issue #40: option to use boolean instead string for values with on/off
+* (René) dependencies updated
 
 ## 2.2.7 (2021-07-03)
 * (René) dependencies updated

@@ -10,5 +10,6 @@
     "parse_timeout": "tempo de download e poll timeout [segundos]",
     "target_HTTPPort": "porta HTTP de destino para ler dados",
     "target_IP": "IP alvo",
-    "target_TelnetPort": "destino telnet porta para escrever dados"
+    "target_TelnetPort": "destino telnet porta para escrever dados",
+    "useBoolean4Onoff": "use booleano em vez de string para pontos de dados com valores on / off"
 }

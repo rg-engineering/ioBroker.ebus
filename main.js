@@ -450,22 +450,36 @@ async function ebusd_ReceiveData() {
                     adapter.log.warn('Key : ' + key + ', Value : ' + newData[org_key] + " name " + name);
                 }
 
-                let type = typeof value;
-                //value
-                await AddObject(key, type);
+
                 if (name === "hcmode2") {
                     adapter.log.debug("in hcmode2, value " + value);
                     if (parseInt(value) === 5) {
-                        adapter.log.info("with value 5");
+                        adapter.log.info(key + " with value 5");
                         value = "EVU Sperrzeit";
                     }
                 }
-                
 
+                let type = typeof value;
+
+                if (adapter.config.useBoolean4Onoff) {
+                    if (type == "string" && (value == "on" || value == "off")) {
+                        adapter.log.warn('Key ' + key + " change to boolean " + value);
+                        //Key mc.messages.Status.fields.1.value could be boolean off
+
+                        type = "boolean";
+
+                        if (value == "on") {
+                            value = true;
+                        }
+                        else {
+                            value = false;
+                        }
+
+                    }
+                }
+                //value, change type if necessary
+                await AddObject(key, type);
                 await UpdateObject(key, value);
-
-
-
 
                 //name parallel to value: used for lists in admin...
                 const keyname = key.replace("value", "name");

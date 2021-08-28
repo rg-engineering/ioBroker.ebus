@@ -10,5 +10,6 @@
     "parse_timeout": "czas pobierania i odpytywania [sekundy]",
     "target_HTTPPort": "docelowy port HTTP do odczytu danych",
     "target_IP": "docelowy adres IP",
-    "target_TelnetPort": "docelowy port telnet do zapisu danych"
+    "target_TelnetPort": "docelowy port telnet do zapisu danych",
+    "useBoolean4Onoff": "użyj wartości logicznej zamiast ciągu dla punktów danych z wartościami włączonymi / wyłączonymi"
 }

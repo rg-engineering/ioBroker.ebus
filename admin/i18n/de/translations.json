@@ -10,5 +10,6 @@
     "parse_timeout": "Download und Abfrage-Timeout [Sekunden]",
     "target_HTTPPort": "target HTTP Port zum Lesen von Daten",
     "target_IP": "Ziel-IP",
-    "target_TelnetPort": "target telnet Port zum Schreiben von Daten"
+    "target_TelnetPort": "target telnet Port zum Schreiben von Daten",
+    "useBoolean4Onoff": "Verwenden Sie Boolean anstelle von Strings für Datenpunkte mit Ein-/Aus-Werten"
 }

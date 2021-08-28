@@ -4,16 +4,16 @@
         "version": "2.3.0",
         "news": {
             "2.3.0": {
-                "en": "support for ebusd 21.1",
-                "de": "Unterstützung für ebusd 21.1",
-                "ru": "поддержка ebusd 21.1",
-                "pt": "suporte para ebusd 21.1",
-                "nl": "ondersteuning voor ebusd 21.1",
-                "fr": "prise en charge de l'ebusd 21.1",
-                "it": "supporto per ebusd 21.1",
-                "es": "soporte para ebusd 21.1",
-                "pl": "obsługa ebusd 21.1",
-                "zh-cn": "支持 ebusd 21.1"
+                "en": "support for ebusd 21.2",
+                "de": "unterstützung für ebusd 21.2",
+                "ru": "поддержка ebusd 21.2",
+                "pt": "suporte para ebusd 21.2",
+                "nl": "ondersteuning voor ebusd 21.2",
+                "fr": "prise en charge d'ebusd 21.2",
+                "it": "supporto per ebusd 21.2",
+                "es": "soporte para ebusd 21.2",
+                "pl": "obsługa ebusd 21,2",
+                "zh-cn": "支持 ebusd 21.2"
             },
             "2.2.7": {
                 "en": "bug fix for wrong data type logs",
@@ -163,6 +163,7 @@
         "targetTelnetPort": 8890,
         "PolledValues": "",
         "HistoryValues": "",
-        "parseTimeout": 60
+        "parseTimeout": 60,
+        "useBoolean4Onoff": false
     }
 }

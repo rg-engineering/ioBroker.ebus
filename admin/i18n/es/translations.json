@@ -10,5 +10,6 @@
     "parse_timeout": "tiempo de espera de descarga y encuesta [segundos]",
     "target_HTTPPort": "target HTTP Port para leer datos",
     "target_IP": "IP objetivo",
-    "target_TelnetPort": "target telnet Port para escribir datos"
+    "target_TelnetPort": "target telnet Port para escribir datos",
+    "useBoolean4Onoff": "use booleano en lugar de cadena para puntos de datos con valores de encendido / apagado"
 }

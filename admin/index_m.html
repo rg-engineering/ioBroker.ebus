@@ -17,6 +17,7 @@
         .polled {
             height: 100px !important;
         }
+
         .adapter-body {
             overflow: hidden !important;
         }
@@ -68,7 +69,14 @@
             var obj = {};
             $('.value').each(function () {
                 var $this = $(this);
-                obj[$this.attr('id')] = $this.val();
+
+                var id = $this.attr('id');
+
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+                } else {
+                    obj[$this.attr('id')] = $this.val();
+                }
             });
             callback(obj);
         }
@@ -99,9 +107,6 @@
                     </div>
                 </div>
 
-
-                
-
                 <div class="row">
                     <div class="input-field col s12 m8 l5">
                         <input type="text" id="targetIP" class="value" />
@@ -109,11 +114,12 @@
                     </div>
                 </div>
 
-
-
-
-   
-
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="checkbox" id="useBoolean4Onoff" class="value" />
+                        <label for="useBoolean4Onoff" class="translate">useBoolean4Onoff</label>
+                    </div>
+                </div>
 
             </div>
 
@@ -172,11 +178,11 @@
                         <span class="translate">hint_ebusd_history</span>
                     </div>
                 </div>
-                
+
 
             </div>
 
-            
+
 
 
         </div>

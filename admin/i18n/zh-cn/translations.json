@@ -10,5 +10,6 @@
     "parse_timeout": "下载和轮询超时[秒]",
     "target_HTTPPort": "目标HTTP端口以读取数据",
     "target_IP": "目标IP",
-    "target_TelnetPort": "目标telnet用于写入数据的端口"
+    "target_TelnetPort": "目标telnet用于写入数据的端口",
+    "useBoolean4Onoff": "对具有开/关值的数据点使用布尔值代替字符串"
 }

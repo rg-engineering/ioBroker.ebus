@@ -10,5 +10,6 @@
     "parse_timeout": "délai de téléchargement et d'interrogation [secondes]",
     "target_HTTPPort": "Port HTTP cible pour lire les données",
     "target_IP": "cible IP",
-    "target_TelnetPort": "Port telnet cible pour écrire des données"
+    "target_TelnetPort": "Port telnet cible pour écrire des données",
+    "useBoolean4Onoff": "utiliser une chaîne booléenne à la place pour les points de données avec des valeurs activées/désactivées"
 }
