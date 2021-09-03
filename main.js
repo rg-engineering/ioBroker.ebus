@@ -384,7 +384,7 @@ async function ebusd_ReceiveData() {
             const org_key = key;
 
             if (key.includes("[") || key.includes("]")) {
-                adapter.log.warn("found unsupported chars in " + key);
+                adapter.log.debug("found unsupported chars in " + key);
                 const start = key.indexOf('[');
                 const end = key.lastIndexOf(']');
 
@@ -463,7 +463,7 @@ async function ebusd_ReceiveData() {
 
                 if (adapter.config.useBoolean4Onoff) {
                     if (type == "string" && (value == "on" || value == "off")) {
-                        adapter.log.warn('Key ' + key + " change to boolean " + value);
+                        adapter.log.debug('Key ' + key + " change to boolean " + value);
                         //Key mc.messages.Status.fields.1.value could be boolean off
 
                         type = "boolean";
