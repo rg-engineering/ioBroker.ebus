@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "ebus",
-        "version": "2.3.0",
+        "version": "2.3.1",
         "news": {
-            "2.3.0": {
+            "2.3.1": {
                 "en": "support for ebusd 21.2",
                 "de": "unterstützung für ebusd 21.2",
                 "ru": "поддержка ebusd 21.2",

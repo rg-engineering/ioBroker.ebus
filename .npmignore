@@ -9,3 +9,13 @@ appveyor.yml
 admin/i18n
 package-lock.json
 iob_npm.done
+
+*.njsproj
+*.txt
+test.js
+test1.js
+.project
+*.org
+typings
+
+ebus.njsproj.user
