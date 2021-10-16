@@ -49,16 +49,6 @@ let killTimer;
 
 async function main() {
 
-    /*
-    const options = {
-        targetIP: adapter.config.targetIP || "192.168.0.100",
-        targetHTTPPort: parseInt(adapter.config.targetHTTPPort),
-        targetTelnetPort: parseInt(adapter.config.targetTelnetPort),
-        polledValues: adapter.config.PolledValues,
-        historyValues: adapter.config.HistoryValues
-    };
-    */
-
     let nParseTimeout = 60;
     if (adapter.config.parseTimeout > 0) {
         nParseTimeout = adapter.config.parseTimeout;
@@ -74,18 +64,18 @@ async function main() {
     }, nParseTimeout);
 
     adapter.log.debug("start with interface ebusd ");
+
+    FillPolledVars();
+    FillHistoryVars();
+
     await ebusd_checkVariables();
 
     await ebusd_Command();
     await ebusd_ReadValues();
-    //await ebusd_StartReceive(options);
-
 
     //await TestFunction();
 
     await ebusd_ReceiveData();
-
-    
 
     if (killTimer) {
         clearTimeout(killTimer);
@@ -96,31 +86,74 @@ async function main() {
 
 }
 
+let oPolledVars = [];
+function FillPolledVars() {
+
+    if (typeof adapter.config.PolledDPs !== 'undefined' && adapter.config.PolledDPs != null && adapter.config.PolledDPs.length > 0) {
+        adapter.log.debug("use new object list for polled vars");
+        oPolledVars = adapter.config.PolledDPs;
+    }
+    else {
+        //make it compatible to old versions
+        adapter.log.debug("check old comma separeted list for polled vars");
+        const oPolled = adapter.config.PolledValues.split(",");
+
+        if (oPolled.length > 0) {
+
+            for (let i = 0; i < oPolled.length; i++) {
+                console.log('add ' + oPolled[i]);
+                const value = {
+                    circuit: "",
+                    name: oPolled[i],
+                }
+                oPolledVars.push(value);
+            }
+        }
+    }
+}
+
+let oHistoryVars = [];
+function FillHistoryVars() {
+    
+    if (typeof adapter.config.HistoryDPs !== 'undefined' && adapter.config.HistoryDPs != null && adapter.config.HistoryDPs.length > 0) {
+        adapter.log.debug("use new object list for history vars");
+        oHistoryVars = adapter.config.HistoryDPs;
+    }
+    else {
+        //make it compatible to old versions
+        adapter.log.debug("check old comma separeted list for history vars");
+        const oHistory = adapter.config.HistoryValues.split(",");
+
+        if (oHistory.length > 0) {
+
+            for (let i = 0; i < oHistory.length; i++) {
+                console.log('add ' + oHistory[i]);
+                const value = {
+                    name: oHistory[i],
+                }
+                oHistoryVars.push(value);
+            }
+        }
+    }
+}
 
 
 async function Common_checkVariables() {
 
-    // histories
-    let nCtr = 0;
-
-    const oHistory = adapter.config.HistoryValues.split(",");
-    nCtr = oHistory.length;
-
-    adapter.log.debug("init common variables and " + nCtr + " history DP's");
+    adapter.log.debug("init common variables and " + oHistoryVars.length + " history DP's");
     let key;
     let obj;
-    //adapter.log.debug("_____ ctr " + nCtr);
 
-    if (adapter.config.HistoryValues.length>0 && nCtr > 0) {
+    if (oHistoryVars.length > 0) {
 
-        if (nCtr > 4) {
-            adapter.log.warn("too many history values " + nCtr + " -> maximum is  4");
+        if (oHistoryVars.length > 4) {
+            adapter.log.warn("too many history values " + oHistoryVars.length + " -> maximum is  4");
         }
 
-        for (let n = 1; n <= nCtr; n++) {
+        for (let n = 1; n <= oHistoryVars.length; n++) {
 
-            if (oHistory[n - 1].length > 0) {
-                const name = "history value " + n + " as JSON " + oHistory[n - 1];
+            if (oHistoryVars[n - 1].name.length > 0) {
+                const name = "history value " + n + " as JSON " + oHistoryVars[n - 1].name;
                 key = "history.value" + n;
                 await adapter.setObjectNotExistsAsync(key, {
                     type: "state",
@@ -191,9 +224,6 @@ async function Common_checkVariables() {
             });
         }
     }
-
-
-
 }
 
 
@@ -212,11 +242,11 @@ async function ebusd_Command() {
 
             adapter.log.debug("connect telnet to IP " + adapter.config.targetIP + " port " + parseInt(adapter.config.targetTelnetPort));
 
-
-            const socket = new net.Socket();
-            const promiseSocket = new PromiseSocket(socket);
-
             try {
+                const socket = new net.Socket();
+                const promiseSocket = new PromiseSocket(socket);
+
+            
                 await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
                 adapter.log.debug("telnet connected for cmd");
                 promiseSocket.setTimeout(5000);
@@ -224,6 +254,8 @@ async function ebusd_Command() {
                 await promiseSocket.write(cmd + "\n");
 
                 const data = await promiseSocket.read();
+
+                
 
                 adapter.log.debug("received " + data);
 
@@ -234,6 +266,8 @@ async function ebusd_Command() {
 
                 await adapter.setStateAsync("cmd", { ack: true, val: "" });
 
+                promiseSocket.destroy();
+
             } catch (e) {
                 //if (e instanceof TimeoutError) {
                 //    adapter.log.error("Socket timeout");
@@ -242,14 +276,7 @@ async function ebusd_Command() {
                 adapter.log.error("exception from tcp socket" + "[" + e + "]");
                 //}
             }
-
-            promiseSocket.destroy();
-
-
-
-            
         }
-       
     }
     else {
         adapter.log.debug("object cmd not found " + JSON.stringify(obj));
@@ -362,8 +389,6 @@ async function ebusd_ReceiveData() {
         const keys = Object.keys(newData);
 
         //adapter.log.debug("history: " + options.historyValues);
-
-        const oHistory = adapter.config.HistoryValues.split(",");
 
         const historyvalues = [];
         const historydates = [];
@@ -493,9 +518,9 @@ async function ebusd_ReceiveData() {
                 if (!subnames[temp - 2].includes("sensor") //ignore sensor states
                     && !subnames[temp - 2].includes("mirror") //ignore mirror-data
                 ) { 
-                    for (let ii = 0; ii < oHistory.length; ii++) {
+                    for (let ii = 0; ii < oHistoryVars.length; ii++) {
 
-                        if (name === oHistory[ii]) {
+                        if (name === oHistoryVars[ii].name) {
 
                             const sTemp = '{"' + name + '": "' + value + '"}';
                             //adapter.log.debug(sTemp);
@@ -586,7 +611,7 @@ async function ebusd_ReceiveData() {
 
 async function UpdateHistory(values, dates) {
 
-    if (adapter.config.HistoryValues.length > 0) {
+    if (oHistoryVars.length > 0) {
         //prüfen ob alle json gleich lang sind
         let NoOfDates = -1;
 
@@ -625,13 +650,11 @@ async function UpdateHistory(values, dates) {
             await adapter.setStateAsync("history.date", { ack: true, val: "[]" });
             NoOfDates = 0;
         }
+        
+        if (oHistoryVars.length > 0) {
+            for (let ctr = 1; ctr <= oHistoryVars.length; ctr++) {
 
-        const oHistory = adapter.config.HistoryValues.split(",");
-
-        if (oHistory.length > 0) {
-            for (let ctr = 1; ctr <= oHistory.length; ctr++) {
-
-                if (oHistory[ctr - 1].length > 0) {
+                if (oHistoryVars[ctr - 1].name.length > 0) {
                     const ctrOkay = await UpdateHistoryValues(values, ctr, NoOfDates);
 
                     if (!ctrOkay) {
@@ -802,32 +825,50 @@ read LegioProtectionEnabled
 //this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
 //here we need a loop over all configured read data in admin-page
 async function ebusd_ReadValues() {
-   
 
-    //adapter.log.debug("polled: " + options.polledValues);
-    //adapter.log.debug("history: " + options.historyValues);
+    
 
-    const oPolled = adapter.config.PolledValues.split(",");
-    let nCtr = 0;
 
-    if (oPolled.length > 0 && adapter.config.PolledValues.length>0) {
 
-        adapter.log.debug("to poll ctr " + oPolled.length + " vals:  " + oPolled + " org " + adapter.config.PolledValues + " org length " + adapter.config.PolledValues.length);
+    if (oPolledVars.length > 0) {
 
-        const socket = new net.Socket();
-        const promiseSocket = new PromiseSocket(socket);
+        adapter.log.debug("to poll ctr " + oPolledVars.length + " vals:  " + JSON.stringify(oPolledVars));
 
+        /*
+        to poll ctr 17 vals: [
+            { "circuit": "", "name": "ActualEnvironmentPower" }, 
+            { "circuit": "", "name": "ActualEnvironmentPowerPercentage" }, 
+            { "circuit": "", "name": "YieldTotal" }, 
+            { "circuit": "", "name": "outsidetemp" }, 
+            { "circuit": "", "name": "HwcTemp" }, 
+            { "circuit": "", "name": "CirPump" }, 
+            { "circuit": "", "name": "Hc1Pump" }, 
+            { "circuit": "", "name": "HcPress" }, 
+            { "circuit": "", "name": "HcReturnTemp" }, 
+            { "circuit": "", "name": "HcFlowTemp" }, 
+            { "circuit": "", "name": "Source" }, 
+            { "circuit": "", "name": "SourcePress" }, 
+            { "circuit": "", "name": "SourceTempOutput" }, 
+            { "circuit": "", "name": "SourceTempInput" }, 
+            { "circuit": "", "name": "YieldLastYear" }, 
+            { "circuit": "", "name": "YieldThisYear" }, 
+            { "circuit": "", "name": "currenterror" }]
+        */
         try {
+            const socket = new net.Socket();
+            const promiseSocket = new PromiseSocket(socket);
+
             await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
-            adapter.log.debug("telnet connected for cmd");
+            adapter.log.debug("telnet connected to poll variables " + adapter.config.targetIP + " port " + adapter.config.targetTelnetPort);
             promiseSocket.setTimeout(5000);
 
+            for (let nCtr = 0; nCtr < oPolledVars.length; nCtr++) {
 
-
-
-            for (nCtr = 0; nCtr < oPolled.length; nCtr++) {
-
-                let cmd = "read -f " + oPolled[nCtr];
+                let circuit = "";
+                if (oPolledVars[nCtr].circuit.length > 0) {
+                    circuit = "-c " + oPolledVars[nCtr].circuit;
+                }
+                let cmd = "read -f " + circuit + oPolledVars[nCtr].name;
 
                 adapter.log.debug("send cmd " + cmd);
 
@@ -836,23 +877,25 @@ async function ebusd_ReadValues() {
 
                 const data = await promiseSocket.read();
 
-                adapter.log.debug("received " + data + " for " + oPolled[nCtr]);
-
+                //received ERR: arbitration lost for YieldThisYear
+                if (data.includes("ERR")) {
+                    adapter.log.error("sent " + cmd + ", received " + data + " for " + JSON.stringify(oPolledVars[nCtr]));
+                }
+                else {
+                    adapter.log.debug("received " + data + " for " + JSON.stringify(oPolledVars[nCtr]));
+                }
             }
+            promiseSocket.destroy();
+            adapter.log.debug("telnet disonnected");
 
         } catch (e) {
             adapter.log.error("exception from tcp socket in ebusd_ReadValues " + "[" + e + "]");
         }
 
-        promiseSocket.destroy();
 
-
-        
     }
     else {
         adapter.log.debug("nothing to poll; skip telnet");
-
-        //ebusd_StartReceive(options);
     }
 
 }

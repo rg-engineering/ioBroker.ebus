@@ -1,36 +1,60 @@
 ﻿<html>
 
 <head>
+    <!-- Load ioBroker scripts and styles-->
+    <link rel="stylesheet" type="text/css" href="../../lib/css/fancytree/ui.fancytree.min.css" />
     <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
     <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
     <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 
-    <script type="text/javascript" src="../../js/translate.js"></script>
     <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery.fancytree-all.min.js"></script>
+
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/selectID.js"></script>
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+    <!-- my own styles -->
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="words.js"></script>
 
 
     <style>
-        .polled {
-            height: 100px !important;
+
+        #dialog-room-edit {
+            max-height: 95% !important;
+            max-width: 85% !important;
+            width: 80% !important;
+            height: 90% !important;
+            overflow: visible !important;
+            top: 10px !important;
         }
 
-        .adapter-body {
-            overflow: hidden !important;
+        #dialog-select-member {
+            max-height: 95% !important;
+            max-width: 85% !important;
+            width: 80% !important;
+            height: 90% !important;
+            overflow: visible !important;
+            top: 10px !important;
+        }
+
+        .collapsible-body {
+            margin-left: 2rem !important;
+            padding-top: 0 !important;
+        }
+
+        redlabel {
+            color: red;
         }
     </style>
 
 
     <!-- you have to define 2 functions in the global scope: -->
     <script type="text/javascript">
-
-
-
-
-
 
         // the function loadSettings has to exist ...
         function load(settings, onChange) {
@@ -53,14 +77,93 @@
                 }
             }
 
-
+            myOnChange = onChange;
             // Signal to admin, that no changes yet
             onChange(false);
 
             M.updateTextFields();
 
+            FillTablePolledDP(settings);
+            FillTableHistoryDP(settings);
+
         }
 
+        function FillTablePolledDP(settings) {
+
+            if (typeof settings.PolledDPs !== 'undefined' && settings.PolledDPs != null && settings.PolledDPs.length > 0) {
+
+                values2table('polledDP', settings.PolledDPs, OnChange, tablePolledDPOnReady);
+                console.log('using new PolledDPs from settings ' +  JSON.stringify(settings.PolledDPs));
+            }
+            // make it compatible to older versions
+            else if (typeof settings.PolledValues !== 'undefined' && settings.PolledValues != null) {
+
+                var values = settings.PolledValues.split(",");
+
+                var newValues = [];
+                for (let i = 0; i < values.length; i++) {
+                    console.log('add ' + values[i]);
+                    const value = {
+                        circuit: "",
+                        name: values[i],
+                    }
+                    newValues.push(value);
+                }
+                values2table('polledDP', newValues, OnChange, tablePolledDPOnReady);
+                console.log('using PolledValues from settings ' + JSON.stringify(settings.PolledValues) + " " + JSON.stringify(newValues));
+                
+            }
+
+        }
+
+        function tablePolledDPOnReady() {
+
+            showHideSettings();
+        }
+
+        var myOnChange = null;
+        function OnChange() {
+            //do nothing
+            console.log('on change called');
+
+            if (myOnChange != null) {
+                myOnChange();
+            }
+        }
+
+        function showHideSettings() {
+
+        }
+
+        function FillTableHistoryDP(settings) {
+
+            if (typeof settings.HistoryDPs !== 'undefined' && settings.HistoryDPs != null && settings.HistoryDPs.length > 0) {
+
+                values2table('historyDP', settings.HistoryDPs, OnChange, tableHistoryDPOnReady);
+                console.log('using new HistoryDPs from settings ' + JSON.stringify(settings.HistoryDPs));
+            }
+            // make it compatible to older versions
+            else if (typeof settings.HistoryValues !== 'undefined' && settings.HistoryValues != null) {
+
+                var values = settings.HistoryValues.split(",");
+
+                var newValues = [];
+                for (let i = 0; i < values.length; i++) {
+                    console.log('add ' + values[i]);
+                    const value = {
+                        name: values[i],
+                    }
+                    newValues.push(value);
+                }
+                values2table('historyDP', newValues, OnChange, tableHistoryDPOnReady);
+                console.log('using HistoryValues from settings ' + JSON.stringify(settings.HistoryValues) + " " + JSON.stringify(newValues));
+                
+            }
+        } 
+
+        function tableHistoryDPOnReady() {
+
+        }
 
         // ... and the function save has to exist.
         // you have to make sure the callback is called with the settings object as first param!
@@ -78,10 +181,17 @@
                     obj[$this.attr('id')] = $this.val();
                 }
             });
+
+            obj.PolledDPs = table2values('polledDP');
+            obj.HistoryDPs = table2values('historyDP');
+
+            obj.PolledValues = "";
+            obj.HistoryValues = "";
+
             callback(obj);
         }
 
-
+        
 
     </script>
 </head>
@@ -94,6 +204,8 @@
                 <ul class="tabs">
                     <li class="tab col s2"><a href="#tab-main" class="translate active">Main settings</a></li>
                     <li class="tab col s2 le-settings"><a href="#tab-ebusd" class="translate">ebusd</a></li>
+                    <li class="tab col s2 le-settings"><a href="#tab-polledDP" class="translate">polledDP</a></li>
+                    <li class="tab col s2 le-settings"><a href="#tab-historyDP" class="translate">historyDP</a></li>
                 </ul>
             </div>
 
@@ -140,50 +252,98 @@
                         <input class="value number" id="targetHTTPPort" size="5" maxlength="5" type="number" />
                         <label for="targetHTTPPort" class="translate">target_HTTPPort</label>
                     </div>
-
+                </div>
+                <div class="row">
                     <div class="input-field col s12 m4 l3">
                         <input class="value number" id="targetTelnetPort" size="5" maxlength="5" type="number" />
                         <label for="targetTelnetPort" class="translate">target_TelnetPort</label>
                     </div>
-
-
+                </div>
+                <div class="row">
                     <div class="input-field col s12 m4 l3">
                         <input class="value number" id="parseTimeout" size="3" maxlength="3" type="number" />
                         <label for="parseTimeout" class="translate">parse_timeout</label>
-
                     </div>
-
-
-
                 </div>
 
-                <div class="row">
-                    <div class="input-field col s6">
-                        <textarea class="value materialize-textarea polled" id="PolledValues"></textarea>
-                        <label class="translate" for="PolledValues">ListOfAllPolledValues</label>
-                    </div>
+                <!--
+    <div class="row">
+        <div class="input-field col s6">
+            <textarea class="value materialize-textarea polled" id="PolledValues"></textarea>
+            <label class="translate" for="PolledValues">ListOfAllPolledValues</label>
+        </div>
 
+        <div class="col s6">
+            <span class="translate">hint_ebusd_polled</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <textarea class="value materialize-textarea polled" id="HistoryValues"></textarea>
+            <label class="translate" for="HistoryValues">ListOfAllHistoryValues</label>
+        </div>
+
+        <div class="col s6">
+            <span class="translate">hint_ebusd_history</span>
+        </div>
+    </div>
+        -->
+
+            </div>
+
+            <!-- tab "tab-polledDP" -->
+            <div id="tab-polledDP" class="col s12 page">
+
+                <div class="row">
                     <div class="col s6">
                         <span class="translate">hint_ebusd_polled</span>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="input-field col s6">
-                        <textarea class="value materialize-textarea polled" id="HistoryValues"></textarea>
-                        <label class="translate" for="HistoryValues">ListOfAllHistoryValues</label>
-                    </div>
+                <div class="col s12" id="polledDP">
 
+                    <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+
+                    <div class="table-values-div">
+                        <table id="table_polledDP" class="table-values" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th id="polledDP_col_1" data-name="circuit" style="width: 20%; background: #64b5f6 " class="translate">circuit</th>
+                                    <th id="polledDP_col_2" data-name="name" style="background: #64b5f6" class="translate">name</th>
+                                    <th data-buttons="up down delete" style="width: 100px; background: #64b5f6"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tab "tab-historyDP" -->
+            <div id="tab-historyDP" class="col s12 page">
+
+                <div class="row">
                     <div class="col s6">
                         <span class="translate">hint_ebusd_history</span>
                     </div>
                 </div>
 
+                <div class="col s12" id="historyDP">
 
+                    <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+
+                    <div class="table-values-div">
+                        <table id="table_historyDP" class="table-values" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th id="historyDP_col_1" data-name="name" style="width: 20%; background: #64b5f6 " class="translate">name</th>
+                                    <th data-buttons="add up down delete" style="width: 100px; background: #64b5f6"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
             </div>
-
-
-
 
         </div>
     </div>

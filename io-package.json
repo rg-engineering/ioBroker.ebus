@@ -1,169 +1,186 @@
 {
-    "common": {
-        "name": "ebus",
-        "version": "2.3.2",
-        "news": {
-            "2.3.1": {
-                "en": "support for ebusd 21.2",
-                "de": "unterstützung für ebusd 21.2",
-                "ru": "поддержка ebusd 21.2",
-                "pt": "suporte para ebusd 21.2",
-                "nl": "ondersteuning voor ebusd 21.2",
-                "fr": "prise en charge d'ebusd 21.2",
-                "it": "supporto per ebusd 21.2",
-                "es": "soporte para ebusd 21.2",
-                "pl": "obsługa ebusd 21,2",
-                "zh-cn": "支持 ebusd 21.2"
-            },
-            "2.2.7": {
-                "en": "bug fix for wrong data type logs",
-                "de": "Bugfix für falsche Datentyp-Logs",
-                "ru": "исправление ошибки для журналов неправильного типа данных",
-                "pt": "correção de bug para registros de tipo de dados errado",
-                "nl": "bugfix voor logs van verkeerde gegevenstypes",
-                "fr": "correction de bogues pour les journaux de type de données incorrect",
-                "it": "correzione di bug per log di tipi di dati errati",
-                "es": "corrección de errores para registros de tipo de datos incorrectos",
-                "pl": "poprawka błędów w logach z nieprawidłowymi typami danych",
-                "zh-cn": "错误数据类型日志的错误修复"
-            },
-            "2.2.5": {
-                "en": "dependencies updated",
-                "de": "Abhängigkeiten aktualisiert",
-                "ru": "зависимости обновлены",
-                "pt": "dependências atualizadas",
-                "nl": "afhankelijkheden bijgewerkt",
-                "fr": "dépendances mises à jour",
-                "it": "dipendenze aggiornate",
-                "es": "dependencias actualizadas",
-                "pl": "zaktualizowane zależności",
-                "zh-cn": "依赖关系已更新"
-            },
-            "2.2.4": {
-                "en": "bug fix: exception in widget removed",
-                "de": "Fehlerbehebung: Ausnahme im Widget entfernt",
-                "ru": "исправление ошибки: исключение в виджете удалено",
-                "pt": "correção de bug: exceção no widget removida",
-                "nl": "bug fix: uitzondering in widget verwijderd",
-                "fr": "correction de bogue: exception dans le widget supprimée",
-                "it": "correzione bug: eccezione nel widget rimossa",
-                "es": "corrección de errores: excepción en el widget eliminado",
-                "pl": "poprawka: wyjątek w widżecie został usunięty",
-                "zh-cn": "错误修复：删除了小部件中的异常"
-            },
-            "2.2.3": {
-                "en": "create history DP if not available ",
-                "de": "History-DP erstellen, falls nicht verfügbar",
-                "ru": "создать историю DP, если недоступен",
-                "pt": "criar histórico DP se não estiver disponível",
-                "nl": "maak een geschiedenis-DP als deze niet beschikbaar is",
-                "fr": "créer l'historique DP s'il n'est pas disponible",
-                "it": "creare la cronologia DP se non disponibile",
-                "es": "crear historial DP si no está disponible",
-                "pl": "utwórz historię DP, jeśli nie jest dostępna",
-                "zh-cn": "创建历史记录DP（如果不可用）"
-            },
-            "2.2.0": {
-                "en": "change DP only if necessary to reduce system load",
-                "de": "Ändern Sie den DP nur bei Bedarf, um die Systemlast zu verringern",
-                "ru": "изменяйте DP только в случае необходимости для снижения нагрузки на систему",
-                "pt": "mude DP apenas se necessário para reduzir a carga do sistema",
-                "nl": "verander DP alleen indien nodig om de systeembelasting te verminderen",
-                "fr": "changer DP uniquement si nécessaire pour réduire la charge du système",
-                "it": "cambiare DP solo se necessario per ridurre il carico del sistema",
-                "es": "cambie DP solo si es necesario para reducir la carga del sistema",
-                "pl": "zmień DP tylko wtedy, gdy jest to konieczne, aby zmniejszyć obciążenie systemu",
-                "zh-cn": "仅在需要减少系统负载时才更改DP"
-            },
-            "2.1.1": {
-                "en": "refactoring:  'async/await' used",
-                "de": "Refactoring: 'async / await' verwendet",
-                "ru": "рефакторинг: используется async / await",
-                "pt": "refatoração: 'async / waitit' usado",
-                "nl": "refactoring: 'async / await' gebruikt",
-                "fr": "refactoring: 'async / wait' utilisé",
-                "it": "refactoring: 'async / await' usato",
-                "es": "refactorización: 'async / await' usado",
-                "pl": "refaktoryzacja: użyto opcji „asynchronizuj / czekaj”",
-                "zh-cn": "重构：使用“异步/等待”"
-            },
-            "1.0.0": {
-                "en": "update to flot 3.0",
-                "de": "Update auf Flot 3.0",
-                "ru": "обновление до флота 3.0",
-                "pt": "atualizar para o flot 3.0",
-                "nl": "update naar flot 3.0",
-                "fr": "mise à jour vers flot 3.0",
-                "it": "aggiornamento a flot 3.0",
-                "es": "actualizar a flot 3.0",
-                "pl": "aktualizacja do flot 3.0",
-                "zh-cn": "更新到flot 3.0"
-            }
-        },
-        "title": "ebus",
-        "titleLang": {
-            "en": "ebus",
-            "de": "ebus",
-            "ru": "ebus",
-            "pt": "ebus",
-            "nl": "ebus",
-            "fr": "ebus",
-            "it": "ebus",
-            "es": "ebus",
-            "pl": "ebus",
-            "zh-cn": "巴士"
-        },
-        "desc": {
-            "en": "ebus Adapter; reads data from ebusd Interface",
-            "de": "ebus Adapter; liest Daten von der ebusd Schnittstelle",
-            "ru": "Адаптер ebus; считывает данные из интерфейса ebusd",
-            "pt": "Adaptador ebus; lê dados da interface ebusd",
-            "nl": "ebus-adapter; leest gegevens van ebusd Interface",
-            "fr": "adaptateur ebus; lit les données de l'interface ebusd",
-            "it": "ebus Adapter; legge i dati dall'interfaccia ebusd",
-            "es": "adaptador ebus; lee datos de la interfaz ebusd",
-            "pl": "Adapter ebus; odczytuje dane z interfejsu ebusd",
-            "zh-cn": "ebus适配器；"
-        },
-        "platform": "Javascript/Node.js",
-        "mode": "schedule",
-        "schedule": "*/5 * * * *",
-        "icon": "ebus.png",
-        "enabled": true,
-        "messagebox": true,
-        "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/ebus.png",
-        "keywords": [
-            "ebus"
-        ],
-        "readme": "https://github.com/rg-engineering/ioBroker.ebus/blob/master/README.md",
-        "loglevel": "info",
-        "stopBeforeUpdate": true,
-        "type": "hardware",
-        "license": "MIT",
-        "materialize": true,
-        "plugins": {
-            "sentry": {
-                "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
-            }
-        },
-        "compact": true,
-        "authors": [
-            {
-                "name": "René G.",
-                "email": "info@rg-engineering.eu"
-            }
-        ],
-        "connectionType": "local",
-        "dataSource": "push"
+  "common": {
+    "name": "ebus",
+    "version": "2.4.0",
+    "news": {
+      "2.4.0": {
+        "en": "overwork handling of read datapoints",
+        "de": "Überarbeitung des Umgangs mit gelesenen Datenpunkten",
+        "ru": "чрезмерная работа с прочитанными точками данных",
+        "pt": "excesso de trabalho de leitura de pontos de dados",
+        "nl": "overwerk behandeling van gelezen datapunten",
+        "fr": "surmenage traitement des points de données lus",
+        "it": "gestione del lavoro eccessivo dei punti dati letti",
+        "es": "manejo excesivo de puntos de datos leídos",
+        "pl": "przepracowanie obsługi odczytanych punktów danych",
+        "zh-cn": "读取数据点的过度处理"
+      },
+      "2.3.1": {
+        "en": "support for ebusd 21.2",
+        "de": "unterstützung für ebusd 21.2",
+        "ru": "поддержка ebusd 21.2",
+        "pt": "suporte para ebusd 21.2",
+        "nl": "ondersteuning voor ebusd 21.2",
+        "fr": "prise en charge d'ebusd 21.2",
+        "it": "supporto per ebusd 21.2",
+        "es": "soporte para ebusd 21.2",
+        "pl": "obsługa ebusd 21,2",
+        "zh-cn": "支持 ebusd 21.2"
+      },
+      "2.2.7": {
+        "en": "bug fix for wrong data type logs",
+        "de": "Bugfix für falsche Datentyp-Logs",
+        "ru": "исправление ошибки для журналов неправильного типа данных",
+        "pt": "correção de bug para registros de tipo de dados errado",
+        "nl": "bugfix voor logs van verkeerde gegevenstypes",
+        "fr": "correction de bogues pour les journaux de type de données incorrect",
+        "it": "correzione di bug per log di tipi di dati errati",
+        "es": "corrección de errores para registros de tipo de datos incorrectos",
+        "pl": "poprawka błędów w logach z nieprawidłowymi typami danych",
+        "zh-cn": "错误数据类型日志的错误修复"
+      },
+      "2.2.5": {
+        "en": "dependencies updated",
+        "de": "Abhängigkeiten aktualisiert",
+        "ru": "зависимости обновлены",
+        "pt": "dependências atualizadas",
+        "nl": "afhankelijkheden bijgewerkt",
+        "fr": "dépendances mises à jour",
+        "it": "dipendenze aggiornate",
+        "es": "dependencias actualizadas",
+        "pl": "zaktualizowane zależności",
+        "zh-cn": "依赖关系已更新"
+      },
+      "2.2.4": {
+        "en": "bug fix: exception in widget removed",
+        "de": "Fehlerbehebung: Ausnahme im Widget entfernt",
+        "ru": "исправление ошибки: исключение в виджете удалено",
+        "pt": "correção de bug: exceção no widget removida",
+        "nl": "bug fix: uitzondering in widget verwijderd",
+        "fr": "correction de bogue: exception dans le widget supprimée",
+        "it": "correzione bug: eccezione nel widget rimossa",
+        "es": "corrección de errores: excepción en el widget eliminado",
+        "pl": "poprawka: wyjątek w widżecie został usunięty",
+        "zh-cn": "错误修复：删除了小部件中的异常"
+      },
+      "2.2.3": {
+        "en": "create history DP if not available ",
+        "de": "History-DP erstellen, falls nicht verfügbar",
+        "ru": "создать историю DP, если недоступен",
+        "pt": "criar histórico DP se não estiver disponível",
+        "nl": "maak een geschiedenis-DP als deze niet beschikbaar is",
+        "fr": "créer l'historique DP s'il n'est pas disponible",
+        "it": "creare la cronologia DP se non disponibile",
+        "es": "crear historial DP si no está disponible",
+        "pl": "utwórz historię DP, jeśli nie jest dostępna",
+        "zh-cn": "创建历史记录DP（如果不可用）"
+      },
+      "2.2.0": {
+        "en": "change DP only if necessary to reduce system load",
+        "de": "Ändern Sie den DP nur bei Bedarf, um die Systemlast zu verringern",
+        "ru": "изменяйте DP только в случае необходимости для снижения нагрузки на систему",
+        "pt": "mude DP apenas se necessário para reduzir a carga do sistema",
+        "nl": "verander DP alleen indien nodig om de systeembelasting te verminderen",
+        "fr": "changer DP uniquement si nécessaire pour réduire la charge du système",
+        "it": "cambiare DP solo se necessario per ridurre il carico del sistema",
+        "es": "cambie DP solo si es necesario para reducir la carga del sistema",
+        "pl": "zmień DP tylko wtedy, gdy jest to konieczne, aby zmniejszyć obciążenie systemu",
+        "zh-cn": "仅在需要减少系统负载时才更改DP"
+      },
+      "2.1.1": {
+        "en": "refactoring:  'async/await' used",
+        "de": "Refactoring: 'async / await' verwendet",
+        "ru": "рефакторинг: используется async / await",
+        "pt": "refatoração: 'async / waitit' usado",
+        "nl": "refactoring: 'async / await' gebruikt",
+        "fr": "refactoring: 'async / wait' utilisé",
+        "it": "refactoring: 'async / await' usato",
+        "es": "refactorización: 'async / await' usado",
+        "pl": "refaktoryzacja: użyto opcji „asynchronizuj / czekaj”",
+        "zh-cn": "重构：使用“异步/等待”"
+      },
+      "1.0.0": {
+        "en": "update to flot 3.0",
+        "de": "Update auf Flot 3.0",
+        "ru": "обновление до флота 3.0",
+        "pt": "atualizar para o flot 3.0",
+        "nl": "update naar flot 3.0",
+        "fr": "mise à jour vers flot 3.0",
+        "it": "aggiornamento a flot 3.0",
+        "es": "actualizar a flot 3.0",
+        "pl": "aktualizacja do flot 3.0",
+        "zh-cn": "更新到flot 3.0"
+      }
     },
-    "native": {
-        "targetIP": "192.168.0.1",
-        "interfacetype": "ebusd",
-        "targetHTTPPort": 8889,
-        "targetTelnetPort": 8890,
-        "PolledValues": "",
-        "HistoryValues": "",
-        "parseTimeout": 60,
-        "useBoolean4Onoff": false
+    "title": "ebus",
+    "titleLang": {
+      "en": "ebus",
+      "de": "ebus",
+      "ru": "ebus",
+      "pt": "ebus",
+      "nl": "ebus",
+      "fr": "ebus",
+      "it": "ebus",
+      "es": "ebus",
+      "pl": "ebus",
+      "zh-cn": "巴士"
+    },
+    "desc": {
+      "en": "ebus Adapter; reads data from ebusd Interface",
+      "de": "ebus Adapter; liest Daten von der ebusd Schnittstelle",
+      "ru": "Адаптер ebus; считывает данные из интерфейса ebusd",
+      "pt": "Adaptador ebus; lê dados da interface ebusd",
+      "nl": "ebus-adapter; leest gegevens van ebusd Interface",
+      "fr": "adaptateur ebus; lit les données de l'interface ebusd",
+      "it": "ebus Adapter; legge i dati dall'interfaccia ebusd",
+      "es": "adaptador ebus; lee datos de la interfaz ebusd",
+      "pl": "Adapter ebus; odczytuje dane z interfejsu ebusd",
+      "zh-cn": "ebus适配器；"
+    },
+    "platform": "Javascript/Node.js",
+    "mode": "schedule",
+    "schedule": "*/5 * * * *",
+    "icon": "ebus.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/ebus.png",
+    "keywords": [
+      "ebus"
+    ],
+    "readme": "https://github.com/rg-engineering/ioBroker.ebus/blob/master/README.md",
+    "loglevel": "info",
+    "stopBeforeUpdate": true,
+    "type": "hardware",
+    "license": "MIT",
+    "materialize": true,
+    "plugins": {
+      "sentry": {
+        "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
+      }
+    },
+    "compact": true,
+    "authors": [
+      {
+        "name": "René G.",
+        "email": "info@rg-engineering.eu"
+      }
+    ],
+    "connectionType": "local",
+    "dataSource": "push",
+    "adminUI": {
+      "config": "materialize"
     }
+  },
+  "native": {
+    "targetIP": "192.168.0.1",
+    "interfacetype": "ebusd",
+    "targetHTTPPort": 8889,
+    "targetTelnetPort": 8890,
+    "PolledValues": "",
+    "HistoryValues": "",
+    "parseTimeout": 60,
+    "useBoolean4Onoff": false,
+    "PolledDPs": [],
+    "HistoryDPs": []
+  }
 }
