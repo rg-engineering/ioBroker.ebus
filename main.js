@@ -105,6 +105,7 @@ function FillPolledVars() {
                 const value = {
                     circuit: "",
                     name: oPolled[i],
+                    parameter: ""
                 }
                 oPolledVars.push(value);
             }
@@ -236,9 +237,9 @@ async function ebusd_Command() {
     const obj = await adapter.getStateAsync("cmd");
 
     if (typeof obj != undefined && obj != null) {
-        const cmd = obj.val;
-        if (cmd !== "") {
-            adapter.log.debug("got command " + cmd);
+        const cmds = obj.val;
+        if (cmds !== "") {
+            adapter.log.debug("got command(s): " + cmds);
 
             adapter.log.debug("connect telnet to IP " + adapter.config.targetIP + " port " + parseInt(adapter.config.targetTelnetPort));
 
@@ -246,35 +247,43 @@ async function ebusd_Command() {
                 const socket = new net.Socket();
                 const promiseSocket = new PromiseSocket(socket);
 
-            
                 await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
                 adapter.log.debug("telnet connected for cmd");
                 promiseSocket.setTimeout(5000);
 
-                await promiseSocket.write(cmd + "\n");
+                const oCmds = cmds.split(",");
 
-                const data = await promiseSocket.read();
+                if (oCmds.length > 0) {
+                    let received = "";
+                    for (let n = 0; n < oCmds.length; n++) {
 
-                
+                        adapter.log.debug("send " + oCmds[n]);
+                        await promiseSocket.write(oCmds[n] + "\n");
 
-                adapter.log.debug("received " + data);
+                        const data = await promiseSocket.read();
 
-                //set result to cmdResult 
-                await adapter.setStateAsync("cmdResult", { ack: true, val: data.toString() });
-                //aufruf next step
-                //ebusd_ReadValues(options); // to trigger read over ebus
+                        if (data.includes("ERR")) {
+                            adapter.log.error("sent " + oCmds[n] + ", received " + data);
+                        }
+                        else {
+                            adapter.log.debug("received " + data);
+                        }
+                        received += data.toString();
+                        received += ", ";
+                    }
 
+                    //set result to cmdResult 
+                    await adapter.setStateAsync("cmdResult", { ack: true, val: received });
+                }
+                else {
+                    adapter.log.warn("no commands in list " + cmds + " " + JSON.stringify(oCmds));
+                }
                 await adapter.setStateAsync("cmd", { ack: true, val: "" });
 
                 promiseSocket.destroy();
 
             } catch (e) {
-                //if (e instanceof TimeoutError) {
-                //    adapter.log.error("Socket timeout");
-                //}
-                //else {
                 adapter.log.error("exception from tcp socket" + "[" + e + "]");
-                //}
             }
         }
     }
@@ -819,6 +828,8 @@ find -f  YieldTotal
 read -f YieldTotal
 read LegioProtectionEnabled
 
+read -f YieldTotal,read LegioProtectionEnabled,read -f -c broadcast outsidetemp
+
 */
 
 
@@ -834,26 +845,6 @@ async function ebusd_ReadValues() {
 
         adapter.log.debug("to poll ctr " + oPolledVars.length + " vals:  " + JSON.stringify(oPolledVars));
 
-        /*
-        to poll ctr 17 vals: [
-            { "circuit": "", "name": "ActualEnvironmentPower" }, 
-            { "circuit": "", "name": "ActualEnvironmentPowerPercentage" }, 
-            { "circuit": "", "name": "YieldTotal" }, 
-            { "circuit": "", "name": "outsidetemp" }, 
-            { "circuit": "", "name": "HwcTemp" }, 
-            { "circuit": "", "name": "CirPump" }, 
-            { "circuit": "", "name": "Hc1Pump" }, 
-            { "circuit": "", "name": "HcPress" }, 
-            { "circuit": "", "name": "HcReturnTemp" }, 
-            { "circuit": "", "name": "HcFlowTemp" }, 
-            { "circuit": "", "name": "Source" }, 
-            { "circuit": "", "name": "SourcePress" }, 
-            { "circuit": "", "name": "SourceTempOutput" }, 
-            { "circuit": "", "name": "SourceTempInput" }, 
-            { "circuit": "", "name": "YieldLastYear" }, 
-            { "circuit": "", "name": "YieldThisYear" }, 
-            { "circuit": "", "name": "currenterror" }]
-        */
         try {
             const socket = new net.Socket();
             const promiseSocket = new PromiseSocket(socket);
@@ -865,10 +856,14 @@ async function ebusd_ReadValues() {
             for (let nCtr = 0; nCtr < oPolledVars.length; nCtr++) {
 
                 let circuit = "";
-                if (oPolledVars[nCtr].circuit.length > 0) {
+                let params = "";
+                if (oPolledVars[nCtr].circuit != null && oPolledVars[nCtr].circuit.length > 0) {
                     circuit = "-c " + oPolledVars[nCtr].circuit;
                 }
-                let cmd = "read -f " + circuit + oPolledVars[nCtr].name;
+                if (oPolledVars[nCtr].parameter != null && oPolledVars[nCtr].parameter.length > 0) {
+                    params = " " + oPolledVars[nCtr].parameter;
+                }
+                let cmd = "read -f " + circuit + oPolledVars[nCtr].name + params;
 
                 adapter.log.debug("send cmd " + cmd);
 

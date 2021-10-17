@@ -11,10 +11,8 @@
 [![NPM](https://nodei.co/npm/iobroker.ebus.png?downloads=true)](https://nodei.co/npm/iobroker.ebus/)
 
 
-
 **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** 
 For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
-
 
 
 **If you like it, please consider a donation:**
@@ -34,6 +32,21 @@ Another feature is to send any command to ebusd and receive answer to work with 
 
 current supported ebusd-version: 21.2
 
+
+## how to send commands to ebusd
+1. write a single command or an command list on datapoint ebus.0.cmd
+If you want to use more then one command, use , to separate single commands.
+example:
+read -f YieldTotal,read LegioProtectionEnabled,read -f -c broadcast outsidetemp
+
+2. when command is executed you will receive results per command in datapoint ebus.0.cmdResult
+The result is also comma-separeted
+example:
+2000, ERR: element not found, 10.5
+
+Attention: command in datapoint ebus.0.cmd is deleted after executing of command!
+
+
 ## known issues
 * please create issues at [github](https://github.com/rg-engineering/ioBroker.ebus/issues) if you find bugs or whish new features
    
@@ -41,6 +54,7 @@ current supported ebusd-version: 21.2
 
 ## 2.4.0 (in progress)
 * (René) overwork handling of read datapoints and history datapoints, circuit added optionally
+* (René) command can now include more then one command, just separate commands with ','
 
 ## 2.3.2 (2021-09-02)
 * (René) see issue #49: support for ebusd 21.2

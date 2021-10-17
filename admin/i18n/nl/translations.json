@@ -1,7 +1,10 @@
 {
+    "addParameter": "extra parameter",
     "circuit": "stroomkring",
     "ebus_adapter_settings": "ebus-adapterinstellingen",
     "hint_ebusd": "voor ebusd-interface heeft u een lopende ebusd nodig. alle noodzakelijke configuraties. Deze adapter gebruikt HTML om gegevens van ebusd en TCP te lezen om naar ebusd te schrijven",
+    "hint_ebusd_history": "lijst met alle datapuntnamen die moeten worden gebruikt met de ebus-geschiedeniswidget.",
+    "hint_ebusd_polled": "lijst met alle datapuntnamen die van de adapter moeten worden opgevraagd. ",
     "historyDP": "geschiedenis datapunten",
     "name": "naam",
     "parse_timeout": "downloaden en poll time-out [seconden]",

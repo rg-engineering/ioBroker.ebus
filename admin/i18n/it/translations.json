@@ -1,7 +1,10 @@
 {
+    "addParameter": "parametro aggiuntivo",
     "circuit": "circuito",
     "ebus_adapter_settings": "impostazioni dell'adattatore ebus",
     "hint_ebusd": "per l'interfaccia ebusd hai bisogno di un ebusd in esecuzione incl. tutte le configurazioni necessarie Questo adattatore utilizza l'HTML per leggere i dati da ebusd e TCP per scrivere su ebusd",
+    "hint_ebusd_history": "elenco di tutti i nomi dei punti dati che dovrebbero essere utilizzati con il widget cronologia ebus.",
+    "hint_ebusd_polled": "elenco di tutti i nomi dei punti dati che devono essere interrogati dall'adattatore. ",
     "historyDP": "punti dati della cronologia",
     "name": "nome",
     "parse_timeout": "download e polling timeout [secondi]",

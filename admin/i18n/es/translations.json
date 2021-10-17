@@ -1,7 +1,10 @@
 {
+    "addParameter": "parámetro adicional",
     "circuit": "circuito",
     "ebus_adapter_settings": "configuración del adaptador ebus",
     "hint_ebusd": "para la interfaz ebusd necesita un ebusd eb todas las configuraciones necesarias. Este adaptador usa HTML para leer datos de ebusd y TCP para escribir en ebusd",
+    "hint_ebusd_history": "lista de todos los nombres de puntos de datos que deben usarse con el widget de historial de ebus.",
+    "hint_ebusd_polled": "lista de todos los nombres de puntos de datos que deben consultarse desde el adaptador. ",
     "historyDP": "puntos de datos históricos",
     "name": "nombre",
     "parse_timeout": "tiempo de espera de descarga y encuesta [segundos]",
