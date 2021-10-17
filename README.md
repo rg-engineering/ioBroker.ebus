@@ -52,7 +52,7 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
    
 ## Changelog
 
-## 2.4.0 (in progress)
+## 2.4.0 (2021-10-17)
 * (René) overwork handling of read datapoints and history datapoints, circuit added optionally
 * (René) command can now include more then one command, just separate commands with ','
 * (René) see issue #55: warnings changed to debug messages
