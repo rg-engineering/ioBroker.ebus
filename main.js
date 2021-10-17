@@ -481,7 +481,7 @@ async function ebusd_ReceiveData() {
                 let value = newData[org_key];
 
                 if (value == null || value == undefined) {
-                    adapter.log.warn('Key : ' + key + ', Value : ' + newData[org_key] + " name " + name);
+                    adapter.log.debug('Key : ' + key + ', Value : ' + newData[org_key] + " name " + name);
                 }
 
 
