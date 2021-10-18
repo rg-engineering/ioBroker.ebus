@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ebus",
-        "version": "2.4.0",
+        "version": "2.4.1",
         "news": {
+            "2.4.1": {
+                "en": "small bugs solved",
+                "de": "kleine Fehler behoben",
+                "ru": "исправлены мелкие ошибки",
+                "pt": "pequenos bugs resolvidos",
+                "nl": "kleine bugs opgelost",
+                "fr": "petits bugs résolus",
+                "it": "piccoli bug risolti",
+                "es": "pequeños errores resueltos",
+                "pl": "małe błędy rozwiązane",
+                "zh-cn": "小错误已解决"
+            },
             "2.4.0": {
                 "en": "overwork handling of read and history datapoints; support of list of commands ",
                 "de": "Überarbeitung von Lese- und Verlaufsdatenpunkten; ",
