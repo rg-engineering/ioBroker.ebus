@@ -101,13 +101,15 @@ function FillPolledVars() {
         if (oPolled.length > 0) {
 
             for (let i = 0; i < oPolled.length; i++) {
-                console.log('add ' + oPolled[i]);
-                const value = {
-                    circuit: "",
-                    name: oPolled[i],
-                    parameter: ""
+                if (oPolled[i].length > 0) {
+                    console.log('add ' + oPolled[i]);
+                    const value = {
+                        circuit: "",
+                        name: oPolled[i],
+                        parameter: ""
+                    }
+                    oPolledVars.push(value);
                 }
-                oPolledVars.push(value);
             }
         }
     }
@@ -128,11 +130,13 @@ function FillHistoryVars() {
         if (oHistory.length > 0) {
 
             for (let i = 0; i < oHistory.length; i++) {
-                console.log('add ' + oHistory[i]);
-                const value = {
-                    name: oHistory[i],
+                if (oHistory[i].length > 0) {
+                    console.log('add ' + oHistory[i]);
+                    const value = {
+                        name: oHistory[i],
+                    }
+                    oHistoryVars.push(value);
                 }
-                oHistoryVars.push(value);
             }
         }
     }

@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "ebus",
-        "version": "2.4.2",
+        "version": "2.4.3",
         "news": {
-            "2.4.2": {
+            "2.4.3": {
                 "en": "small bugs solved",
                 "de": "kleine Fehler behoben",
                 "ru": "исправлены мелкие ошибки",

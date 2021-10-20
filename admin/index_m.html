@@ -102,16 +102,18 @@
 
                 var newValues = [];
                 for (let i = 0; i < values.length; i++) {
-                    console.log('add ' + values[i]);
-                    const value = {
-                        circuit: "",
-                        name: values[i],
-                        parameter: "",
+                    if (values[i].length > 0) {
+                        console.log('add ' + values[i]);
+                        const value = {
+                            circuit: "",
+                            name: values[i],
+                            parameter: "",
+                        }
+                        newValues.push(value);
                     }
-                    newValues.push(value);
                 }
                 values2table('polledDP', newValues, OnChange, tablePolledDPOnReady);
-                console.log('using PolledValues from settings ' + JSON.stringify(settings.PolledValues) + " " + JSON.stringify(newValues));
+                console.log('using PolledValues from old settings ' + JSON.stringify(settings.PolledValues) + " " + JSON.stringify(newValues));
                 
             }
 
@@ -150,14 +152,16 @@
 
                 var newValues = [];
                 for (let i = 0; i < values.length; i++) {
-                    console.log('add ' + values[i]);
-                    const value = {
-                        name: values[i],
+                    if (values[i].length > 0) {
+                        console.log('add ' + values[i]);
+                        const value = {
+                            name: values[i],
+                        }
+                        newValues.push(value);
                     }
-                    newValues.push(value);
                 }
                 values2table('historyDP', newValues, OnChange, tableHistoryDPOnReady);
-                console.log('using HistoryValues from settings ' + JSON.stringify(settings.HistoryValues) + " " + JSON.stringify(newValues));
+                console.log('using HistoryValues from old settings ' + JSON.stringify(settings.HistoryValues) + " " + JSON.stringify(newValues));
                 
             }
         } 
@@ -184,7 +188,10 @@
             });
 
             obj.PolledDPs = table2values('polledDP');
+            console.log('saving polledDP ' + JSON.stringify(obj.PolledDPs));
+
             obj.HistoryDPs = table2values('historyDP');
+            console.log('saving historyDP ' + JSON.stringify(obj.HistoryDPs));
 
             obj.PolledValues = "";
             obj.HistoryValues = "";
