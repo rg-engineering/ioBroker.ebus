@@ -10,3 +10,9 @@ lib/i18n/*/flat.txt
 /*.njsproj
 /.project
 /.settings/
+/ebus.njsproj.user
+/*.orig
+/typings/
+/readme.txt
+/test.js
+/test1.js
