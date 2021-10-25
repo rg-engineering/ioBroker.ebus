@@ -1277,7 +1277,7 @@
 
     // this code can be placed directly in template.html
     vis.binds.ebus = {
-        version: "2.2.4",
+        version: "2.4.4",
         showVersion: function () {
             if (vis.binds.ebus.version) {
                 console.log('Version vis-ebus: ' + vis.binds.ebus.version);
@@ -1317,130 +1317,135 @@
                 }
 
 
-    function SetMarkingColor(color) {
-        MarkingColor = color;
-    }
-    function noneFormatter(v, axis) {
-        return v.toFixed(axis.tickDecimals);
-    }
+                function SetMarkingColor(color) {
+                    MarkingColor = color;
+                }
+                function noneFormatter(v, axis) {
+                    return v.toFixed(axis.tickDecimals);
+                }
 
-    function degreeFormatter(v, axis) {
-        return v.toFixed(axis.tickDecimals) + "°C";
-    }
+                function degreeFormatter(v, axis) {
+                    return v.toFixed(axis.tickDecimals) + "°C";
+                }
 
-    function xwhFormatter(val, axis) {
-        if (val > 1000000)
-            return (val / 1000000).toFixed(axis.tickDecimals) + " MWh";
-        else if (val > 1000)
-            return (val / 1000).toFixed(axis.tickDecimals) + " kWh";
-        else
-            return val.toFixed(axis.tickDecimals) + " Wh";
-    }
-    function xwFormatter(val, axis) {
-        if (val > 1000000)
-            return (val / 1000000).toFixed(axis.tickDecimals) + " MW";
-        else if (val > 1000)
-            return (val / 1000).toFixed(axis.tickDecimals) + " kW";
-        else
-            return val.toFixed(axis.tickDecimals) + " W";
-    }
+                function xwhFormatter(val, axis) {
+                    if (val > 1000000)
+                        return (val / 1000000).toFixed(axis.tickDecimals) + " MWh";
+                    else if (val > 1000)
+                        return (val / 1000).toFixed(axis.tickDecimals) + " kWh";
+                    else
+                        return val.toFixed(axis.tickDecimals) + " Wh";
+                }
+                function xwFormatter(val, axis) {
+                    if (val > 1000000)
+                        return (val / 1000000).toFixed(axis.tickDecimals) + " MW";
+                    else if (val > 1000)
+                        return (val / 1000).toFixed(axis.tickDecimals) + " kW";
+                    else
+                        return val.toFixed(axis.tickDecimals) + " W";
+                }
 
-    function legendformater(label, series) {
+                function legendformater(label, series) {
 
-        //wenn keine Daten, dann ausblenden ->  (return null)
-        if (series.data == null || typeof series.data == "undefined" || typeof series.data[0] == "undefined") {
+                    //wenn keine Daten, dann ausblenden ->  (return null)
+                    if (series.data == null || typeof series.data == "undefined" || typeof series.data[0] == "undefined") {
 
-            console.log('legendformater no label because no data ');
-            return null;
-        }
-        else {
-            console.log('legendformater label ' + label);
-            return label;
-        }
-    }
+                        console.log('legendformater no label because no data ');
+                        return null;
+                    }
+                    else {
+                        console.log('legendformater label ' + label);
+                        return label;
+                    }
+                }
 
-    function GridMarkings(axes) {
+                function GridMarkings(axes) {
 
-        var markings = [];
-        var minDate = new Date(axes.xaxis.min);
+                    var markings = [];
+                    var minDate = new Date(axes.xaxis.min);
 
-        const dayDiff = (axes.xaxis.max - axes.xaxis.min) / 1000 / 60 / 60 / 24;
-        console.log('GridMarkings: DayDiff ' + dayDiff + ' (' + axes.xaxis.max + ' ' + axes.xaxis.min + ')');
+                    const dayDiff = (axes.xaxis.max - axes.xaxis.min) / 1000 / 60 / 60 / 24;
+                    console.log('GridMarkings: DayDiff ' + dayDiff + ' (' + axes.xaxis.max + ' ' + axes.xaxis.min + ')');
 
-        var i = minDate.getTime();
+                    var i = minDate.getTime();
 
-        //if we only few hours then we need markings per hour otherwise per day
-        if (dayDiff > 2) {
-            do {
-                markings.push({ xaxis: { from: i, to: i + 24 * 60 * 60 * 1000 }, color: MarkingColor });
-                i += 2 * 24 * 60 * 60 * 1000;
-            } while (i < axes.xaxis.max);
+                    //if we only few hours then we need markings per hour otherwise per day
+                    if (dayDiff > 2) {
+                        do {
+                            markings.push({ xaxis: { from: i, to: i + 24 * 60 * 60 * 1000 }, color: MarkingColor });
+                            i += 2 * 24 * 60 * 60 * 1000;
+                        } while (i < axes.xaxis.max);
 
-        }
-        else {
-            do {
-                markings.push({ xaxis: { from: i, to: i + 60 * 60 * 1000 }, color: MarkingColor });
-                i += 2 * 60 * 60 * 1000;
-            } while (i < axes.xaxis.max);
-        }
-        return markings;
+                    }
+                    else {
+                        do {
+                            markings.push({ xaxis: { from: i, to: i + 60 * 60 * 1000 }, color: MarkingColor });
+                            i += 2 * 60 * 60 * 1000;
+                        } while (i < axes.xaxis.max);
+                    }
+                    return markings;
 
-    }
+                }
 
-    function CalcTicks4X(axis) {
+                function CalcTicks4X(axis) {
 
-        var ticks = [];
+                    var ticks = [];
 
-        var minDate = new Date(axis.min);
+                    var minDate = new Date(axis.min);
 
-        const dayDiff = (axis.max - axis.min) / 1000 / 60 / 60 / 24;
+                    const dayDiff = (axis.max - axis.min) / 1000 / 60 / 60 / 24;
 
-        console.log('CalcTicks4X: DayDiff ' + dayDiff + ' (' + axis.max + ' ' + axis.min + ')');
+                    console.log('CalcTicks4X: DayDiff ' + dayDiff + ' (' + axis.max + ' ' + axis.min + ')');
 
-        //if we only few hours then we need markings per hour otherwise per day
-        if (dayDiff > 2) {
-            minDate.setHours(12);
-            minDate.setMinutes(0);
-            var i = minDate.getTime();
-            do {
-                ticks.push([i]);
-                i += 24 * 60 * 60 * 1000;
-            } while (i < axis.max);
-        }
-        else {
-            minDate.setHours(0);
-            minDate.setMinutes(0);
-            var i = minDate.getTime();
-            do {
-                ticks.push([i]);
-                i += 6 * 60 * 60 * 1000;
-            } while (i < axis.max);
-        }
-        return ticks;
-    }
-
-
+                    //if we only few hours then we need markings per hour otherwise per day
+                    if (dayDiff > 2) {
+                        minDate.setHours(12);
+                        minDate.setMinutes(0);
+                        var i = minDate.getTime();
+                        do {
+                            ticks.push([i]);
+                            i += 24 * 60 * 60 * 1000;
+                        } while (i < axis.max);
+                    }
+                    else {
+                        minDate.setHours(0);
+                        minDate.setMinutes(0);
+                        var i = minDate.getTime();
+                        do {
+                            ticks.push([i]);
+                            i += 6 * 60 * 60 * 1000;
+                        } while (i < axis.max);
+                    }
+                    return ticks;
+                }
 
 
 
 
+
+                //should avoid endles loops
+                let UpdateRetryCounter = 0;
 
 
 
 
                 function update() {
 
-                    console.log("ShowChart ebus  (" + widgetID + ")");
+                    console.log("ShowChart ebus  (" + widgetID + ") retry counter " + UpdateRetryCounter);
 
                     var $div = $('#' + widgetID);
                     // if nothing found => wait
                     if (!$div.length) {
                         return setTimeout(function () {
                             console.log("need to wait... (" + widgetID + ")");
-                            update();
+                            if (UpdateRetryCounter < 5) {
+                                UpdateRetryCounter++;
+                                update();
+                            }
                         }, 1000);
                     }
 
+                    UpdateRetryCounter = 0;
                     console.log("ShowChart ebus begin (" + widgetID + ")");
 
                     if (!data || !data.ebusinstance) {
@@ -2023,7 +2028,7 @@
 
                                     // backgroundColor: data.nobgcolor ? null : { colors: ["#fff", "#eee"] },
                                     backgroundColor: data.nobgcolor ? null : data.bgcolor,
-                                    borderWidth:  parseFloat(data.borderWidth), //data.withborder,
+                                    borderWidth: parseFloat(data.borderWidth), //data.withborder,
                                     borderColor: data.bordercolor,
                                     margin: 1,
                                     /*
@@ -2088,7 +2093,7 @@
 
                         $div.data('timer', setInterval(function () {
                             update();
-                        }, parseInt(vis.binds.ebus.setup.intervals[data.time_interval] , 10)));
+                        }, parseInt(vis.binds.ebus.setup.intervals[data.time_interval], 10)));
                     }
 
                 }
