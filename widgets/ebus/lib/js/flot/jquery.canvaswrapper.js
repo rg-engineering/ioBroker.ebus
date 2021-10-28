@@ -175,7 +175,7 @@ don't work unless the canvas is attached to the DOM.
         }
     };
 
-    /*
+    /**
     - getSVGLayer(classes)
 
      Creates (if necessary) and returns the SVG overlay container.
@@ -226,7 +226,7 @@ don't work unless the canvas is attached to the DOM.
         return layer;
     };
 
-    /*
+    /**
     - getTextInfo(layer, text, font, angle, width)
 
      Creates (if necessary) and returns a text info object.
@@ -354,7 +354,7 @@ don't work unless the canvas is attached to the DOM.
         }
     }
 
-    /*
+    /**
     - addText (layer, x, y, text, font, angle, width, halign, valign, transforms)
 
      Adds a text string to the canvas text overlay.
@@ -367,12 +367,10 @@ don't work unless the canvas is attached to the DOM.
      and text is the string to draw
     */
     Canvas.prototype.addText = function(layer, x, y, text, font, angle, width, halign, valign, transforms) {
-        var info = this.getTextInfo(layer, text, font, angle, width);
-        positions = info.positions;
+        var info = this.getTextInfo(layer, text, font, angle, width),
+            positions = info.positions;
 
         // Tweak the div's position to match the text's alignment
-
-        console.log('add text ' + text);
 
         if (halign === 'center') {
             x -= info.width / 2;
@@ -387,7 +385,6 @@ don't work unless the canvas is attached to the DOM.
         }
 
         y += 0.75 * info.height;
-
 
         // Determine whether this text already exists at this position.
         // If so, mark it for inclusion in the next render pass.
@@ -449,7 +446,7 @@ don't work unless the canvas is attached to the DOM.
         position.element.style.textAlign = halign;
         // update the transforms
         updateTransforms(position.element, transforms);
-   };
+    };
 
     var addTspanElements = function(text, element, x) {
         var lines = text.split('<br>'),
@@ -463,7 +460,7 @@ don't work unless the canvas is attached to the DOM.
                 tspan = element.childNodes[i];
             }
             tspan.textContent = lines[i];
-            offset = i * 1 + 'em';
+            offset = (i === 0 ? 0 : 1) + 'em';
             tspan.setAttributeNS(null, 'dy', offset);
             tspan.setAttributeNS(null, 'x', x);
         }
