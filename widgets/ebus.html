@@ -1582,7 +1582,7 @@
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph1 = sVal[0][names[0]];
                                     //console.log("graph1 " + sDate + " " + sTime + ": " + sValGraph1);
-                                    console.log("graph1 " + oDate.toISOString() + " " + sValGraph1);
+                                    //console.log("graph1 " + oDate.toISOString() + " " + sValGraph1);
                                     values_graph1.push([oDate, sValGraph1]);
 
                                     if (sValGraph1 > maxY_graph[0]) maxY_graph[0] = sValGraph1;
@@ -1602,7 +1602,7 @@
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph2 = sVal[0][names[0]];
                                     //console.log("graph2 " + sDate + " " + sTime + ": " + sValGraph2);
-                                    console.log("graph2 " + oDate.toISOString() + " " + sValGraph2);
+                                    //console.log("graph2 " + oDate.toISOString() + " " + sValGraph2);
                                     values_graph2.push([oDate, sValGraph2]);
 
                                     if (sValGraph2 > maxY_graph[1]) maxY_graph[1] = sValGraph2;
@@ -1621,7 +1621,7 @@
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph3 = sVal[0][names[0]];
                                     //console.log("graph3 " + sDate + " " + sTime + ": " + sValGraph3);
-                                    console.log("graph3 " + oDate.toISOString() + " " + sValGraph3);
+                                    //console.log("graph3 " + oDate.toISOString() + " " + sValGraph3);
                                     values_graph3.push([oDate, sValGraph3]);
 
                                     if (sValGraph3 > maxY_graph[2]) maxY_graph[2] = sValGraph3;
@@ -1640,7 +1640,7 @@
                                     var names = Object.keys(sVal[0]);
                                     var sValGraph4 = sVal[0][names[0]];
                                     //console.log("graph4 " + sDate + " " + sTime + ": " + sValGraph4);
-                                    console.log("graph4 " + oDate.toISOString() + " " + sValGraph4);
+                                    //console.log("graph4 " + oDate.toISOString() + " " + sValGraph4);
                                     values_graph4.push([oDate, sValGraph4]);
 
                                     if (sValGraph4 > maxY_graph[3]) maxY_graph[3] = sValGraph4;
@@ -1666,7 +1666,7 @@
 
                         for (var n = 0; n < 4; n++) {
 
-                            console.log("****** before Graph" + n + " max " + maxY_graph[n] + " min " + minY_graph[n]);
+                            //console.log("****** before Graph" + n + " max " + maxY_graph[n] + " min " + minY_graph[n]);
 
                             var nTemp = parseFloat(maxY_graph[n]);
                             //console.log(nTemp);
@@ -1693,7 +1693,7 @@
                                 //console.log(nTemp);
                                 minY_graph[n] = Math.ceil(nTemp) * 10;
                             }
-                            console.log("****** after Graph" + n + "max " + maxY_graph[n] + " min " + minY_graph[n]);
+                            //console.log("****** after Graph" + n + "max " + maxY_graph[n] + " min " + minY_graph[n]);
                         }
 
                         var barwidth = 1000 * 60 * 5; //5 Minuten
