@@ -862,7 +862,7 @@ async function ebusd_ReadValues() {
                 let circuit = "";
                 let params = "";
                 if (oPolledVars[nCtr].circuit != null && oPolledVars[nCtr].circuit.length > 0) {
-                    circuit = "-c " + oPolledVars[nCtr].circuit;
+                    circuit = "-c " + oPolledVars[nCtr].circuit + " ";
                 }
                 if (oPolledVars[nCtr].parameter != null && oPolledVars[nCtr].parameter.length > 0) {
                     params = " " + oPolledVars[nCtr].parameter;
