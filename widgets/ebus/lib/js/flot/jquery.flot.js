@@ -1777,34 +1777,35 @@ Licensed under the MIT license.
             surface.clear();
             executeHooks(hooks.drawBackground, [ctx]);
 
+           
             var grid = options.grid;
-
+            
             // draw background, if any
             if (grid.show && grid.backgroundColor) {
                 drawBackground();
             }
-
+            
             if (grid.show && !grid.aboveData) {
                 drawGrid();
             }
-
+            
             for (var i = 0; i < series.length; ++i) {
                 executeHooks(hooks.drawSeries, [ctx, series[i], i, getColorOrGradient]);
                 drawSeries(series[i]);
             }
-
+            
             executeHooks(hooks.draw, [ctx]);
-
+            
             if (grid.show && grid.aboveData) {
                 drawGrid();
             }
-
+            
             surface.render();
-
+            
             // A draw implies that either the axes or data have changed, so we
             // should probably update the overlay highlights as well.
             triggerRedrawOverlay();
-
+            
             ShowTickLabels();
 
         }
@@ -2376,6 +2377,9 @@ Licensed under the MIT license.
                         });
                     },
                     drawAxisLabel = function (tick, labelBoxes) {
+
+                        console.log('drawAxisLabel called');
+
                         if (!tick || !tick.label || tick.v < axis.min || tick.v > axis.max) {
                             return nullBox;
                         }
@@ -2429,21 +2433,33 @@ Licensed under the MIT license.
                     case 'none':
                         break;
                     case 'endpoints':
-                        labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
-                        labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        //*******************************************************************
+                        // this is to overcome problem with colored ticks and axis labels
+                        // xxx
+                        //*******************************************************************
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
                         break;
                     case 'major':
-                        labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
-                        labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        //*******************************************************************
+                        // this is to overcome problem with colored ticks and axis labels
+                        // xxx
+                        //*******************************************************************
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
                         for (i = 1; i < axis.ticks.length - 1; ++i) {
-                            labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+                            //labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
                         }
                         break;
                     case 'all':
-                        labelBoxes.push(drawAxisLabel(axis.ticks[0], []));
-                        labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
+                        //*******************************************************************
+                        // this is to overcome problem with colored ticks and axis labels
+                        // xxx
+                        //*******************************************************************
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[0], []));
+                        //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
                         for (i = 1; i < axis.ticks.length - 1; ++i) {
-                            labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+                            //labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
                         }
                         break;
                 }
