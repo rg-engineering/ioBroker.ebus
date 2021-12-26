@@ -3,6 +3,18 @@
         "name": "ebus",
         "version": "2.4.5",
         "news": {
+            "2.5.0": {
+                "en": "support ebusd 21.3",
+                "de": "ebusd 21,3 . unterstützen",
+                "ru": "поддержка ebusd 21.3",
+                "pt": "suporte ebusd 21.3",
+                "nl": "ondersteuning ebusd 21.3",
+                "fr": "soutien ebusd 21.3",
+                "it": "supporto ebusd 21.3",
+                "es": "soporte ebusd 21.3",
+                "pl": "wsparcie ebusd 21.3",
+                "zh-cn": "支持 ebusd 21.3"
+            },
             "2.4.5": {
                 "en": "bug fix color of labels in widget",
                 "de": "Fehlerkorrektur Farbe der Labels im Widget",

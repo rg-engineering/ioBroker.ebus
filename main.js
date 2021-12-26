@@ -11,8 +11,11 @@
 /*jslint node: true */
 "use strict";
 
+
+
+
 const utils = require("@iobroker/adapter-core");
-const ebusdMinVersion = [21, 2];
+const ebusdMinVersion = [21, 3];
 let ebusdVersion = [0, 0];
 let ebusdUpdateVersion = [0, 0];
 
@@ -879,6 +882,13 @@ async function ebusd_ReadValues() {
                 //received ERR: arbitration lost for YieldThisYear
                 if (data.includes("ERR")) {
                     adapter.log.error("sent " + cmd + ", received " + data + " for " + JSON.stringify(oPolledVars[nCtr]));
+
+                    /*
+                    * sent read -f YieldLastYear, received ERR: arbitration lost for {"circuit":"","name":"YieldLastYear","parameter":""}
+                    * */
+                    if (data.includes("arbitration lost")) {
+                        nCtr--;
+                    }
                 }
                 else {
                     adapter.log.debug("received " + data + " for " + JSON.stringify(oPolledVars[nCtr]));
