@@ -6,6 +6,7 @@
     "hint_ebusd_history": "lista wszystkich nazw punktów danych, które powinny być używane z widżetem historii ebus.",
     "hint_ebusd_polled": "lista wszystkich nazw punktów danych, które powinny być odpytywane z adaptera. ",
     "historyDP": "punkty danych historii",
+    "maxretries": "maksymalna liczba ponownych prób wysłania polecenia",
     "name": "Nazwa",
     "parse_timeout": "czas pobierania i odpytywania [sekundy]",
     "polledDP": "odpytywane punkty danych",

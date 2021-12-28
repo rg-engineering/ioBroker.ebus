@@ -6,6 +6,7 @@
     "hint_ebusd_history": "lijst met alle datapuntnamen die moeten worden gebruikt met de ebus-geschiedeniswidget.",
     "hint_ebusd_polled": "lijst met alle datapuntnamen die van de adapter moeten worden opgevraagd. ",
     "historyDP": "geschiedenis datapunten",
+    "maxretries": "maximum aantal pogingen om een ​​opdracht te verzenden",
     "name": "naam",
     "parse_timeout": "downloaden en poll time-out [seconden]",
     "polledDP": "opgevraagde datapunten",

@@ -6,6 +6,7 @@
     "hint_ebusd_history": "elenco di tutti i nomi dei punti dati che dovrebbero essere utilizzati con il widget cronologia ebus.",
     "hint_ebusd_polled": "elenco di tutti i nomi dei punti dati che devono essere interrogati dall'adattatore. ",
     "historyDP": "punti dati della cronologia",
+    "maxretries": "numero massimo di tentativi per inviare un comando",
     "name": "nome",
     "parse_timeout": "download e polling timeout [secondi]",
     "polledDP": "punti dati interrogati",

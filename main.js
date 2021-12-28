@@ -844,10 +844,6 @@ read -f YieldTotal,read LegioProtectionEnabled,read -f -c broadcast outsidetemp
 //here we need a loop over all configured read data in admin-page
 async function ebusd_ReadValues() {
 
-    
-
-
-
     if (oPolledVars.length > 0) {
 
         adapter.log.debug("to poll ctr " + oPolledVars.length + " vals:  " + JSON.stringify(oPolledVars));
@@ -860,6 +856,7 @@ async function ebusd_ReadValues() {
             adapter.log.debug("telnet connected to poll variables " + adapter.config.targetIP + " port " + adapter.config.targetTelnetPort);
             promiseSocket.setTimeout(5000);
 
+            let retries = 0;
             for (let nCtr = 0; nCtr < oPolledVars.length; nCtr++) {
 
                 let circuit = "";
@@ -887,7 +884,16 @@ async function ebusd_ReadValues() {
                     * sent read -f YieldLastYear, received ERR: arbitration lost for {"circuit":"","name":"YieldLastYear","parameter":""}
                     * */
                     if (data.includes("arbitration lost")) {
-                        nCtr--;
+
+                        retries++;
+                        if (retries > adapter.config.maxretries) {
+                            adapter.log.error("max retries, skip cmd " + cmd);
+                            retries = 0;
+                        }
+                        else {
+                            nCtr--;
+                            adapter.log.debug("retry to send data ");
+                        }
                     }
                 }
                 else {

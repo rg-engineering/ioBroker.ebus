@@ -6,6 +6,7 @@
     "hint_ebusd_history": "应与 ebus 历史小部件一起使用的所有数据点名称的列表。",
     "hint_ebusd_polled": "应从适配器轮询的所有数据点名称的列表。",
     "historyDP": "历史数据点",
+    "maxretries": "发送命令的最大重试次数",
     "name": "姓名",
     "parse_timeout": "下载和轮询超时[秒]",
     "polledDP": "轮询数据点",

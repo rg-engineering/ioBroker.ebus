@@ -6,6 +6,7 @@
     "hint_ebusd_history": "Liste aller Datenpunktnamen, die mit dem ebus-History-Widget verwendet werden sollen.",
     "hint_ebusd_polled": "Liste aller Datenpunktnamen, die vom Adapter abgefragt werden sollen. ",
     "historyDP": "Verlaufsdatenpunkte",
+    "maxretries": "maximale Anzahl von Wiederholungen, um einen Befehl zu senden",
     "name": "Name",
     "parse_timeout": "Download und Abfrage-Timeout [Sekunden]",
     "polledDP": "abgefragte Datenpunkte",

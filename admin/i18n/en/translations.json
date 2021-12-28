@@ -6,6 +6,7 @@
     "hint_ebusd_history": "list of all datapoint names which should be used with ebus history widget. ",
     "hint_ebusd_polled": "list of all datapoint names which should be polled from adapter. Do not add datapoints which are already polled from ebusd. Circuit and additional parameter are optionally.",
     "historyDP": "history datapoints",
+    "maxretries": "maximum number of retries to send a command ",
     "name": "name",
     "parse_timeout": "download and poll timeout [seconds]",
     "polledDP": "polled datapoints",

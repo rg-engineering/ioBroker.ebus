@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ebus",
-        "version": "2.5.0",
+        "version": "2.5.1",
         "news": {
+            "2.5.1": {
+                "en": "maximum retries to send data in case of arbitration error",
+                "de": "maximale Wiederholungsversuche zum Senden von Daten im Falle eines Vermittlungsfehlers",
+                "ru": "максимальное количество попыток отправки данных в случае ошибки арбитража",
+                "pt": "máximo de tentativas para enviar dados em caso de erro de arbitragem",
+                "nl": "maximaal aantal pogingen om gegevens te verzenden in geval van arbitragefout",
+                "fr": "nombre maximum de tentatives d'envoi de données en cas d'erreur d'arbitrage",
+                "it": "numero massimo di tentativi di invio dei dati in caso di errore di arbitrato",
+                "es": "reintentos máximos para enviar datos en caso de error de arbitraje",
+                "pl": "maksymalna liczba prób wysłania danych w przypadku błędu arbitrażu",
+                "zh-cn": "仲裁错误时发送数据的最大重试次数"
+            },
             "2.5.0": {
                 "en": "support ebusd 21.3",
                 "de": "ebusd 21,3 . unterstützen",
@@ -229,6 +241,7 @@
         "parseTimeout": 60,
         "useBoolean4Onoff": false,
         "PolledDPs": [],
-        "HistoryDPs": []
+        "HistoryDPs": [],
+        "maxretries": 5
     }
 }

@@ -6,6 +6,7 @@
     "hint_ebusd_history": "lista de todos os nomes de pontos de dados que devem ser usados ​​com o widget de histórico do ebus.",
     "hint_ebusd_polled": "lista de todos os nomes de pontos de dados que devem ser pesquisados ​​no adaptador. ",
     "historyDP": "pontos de dados de história",
+    "maxretries": "número máximo de tentativas para enviar um comando",
     "name": "nome",
     "parse_timeout": "tempo de download e poll timeout [segundos]",
     "polledDP": "pontos de dados sondados",
