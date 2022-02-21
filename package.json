@@ -20,7 +20,7 @@
     "url": "https://github.com/rg-engineering/ioBroker.ebus"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "2.5.1",
+    "@iobroker/adapter-core": "2.6.0",
     "@sentry/node": "6.16.1",
     "bent": "7.3.12",
     "flat": "5.0.2",
