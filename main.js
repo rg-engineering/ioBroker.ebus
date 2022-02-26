@@ -40,7 +40,8 @@ function startAdapter(options) {
 }
 
 //var request = require('request');
-const bent = require("bent");
+//const bent = require("bent");
+const axios = require('axios');
 //const parseString = require("xml2js").parseString;
 const net = require("net");
 const { PromiseSocket } = require("promise-socket");
@@ -390,10 +391,13 @@ async function ebusd_ReceiveData() {
     adapter.log.debug("request data from " + sUrl);
 
     try {
-
+        /*
         const getBuffer = bent("string");
         const buffer = await getBuffer(sUrl);
+        */
 
+        const buffer = await axios.get(sURL);
+        
         const oData = JSON.parse(buffer);
 
         adapter.log.debug("oData " + JSON.stringify(oData));
