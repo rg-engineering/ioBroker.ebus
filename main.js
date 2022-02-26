@@ -396,11 +396,14 @@ async function ebusd_ReceiveData() {
         const buffer = await getBuffer(sUrl);
         */
 
-        const buffer = await axios.get(sURL);
-        
-        const oData = JSON.parse(buffer);
+        const buffer = await axios.get(sUrl);
 
-        adapter.log.debug("oData " + JSON.stringify(oData));
+        adapter.log.debug("got data " + typeof buffer.data + " " + JSON.stringify(buffer.data));
+
+        //const oData = JSON.parse(buffer.data);
+        const oData = buffer.data;
+
+        //adapter.log.debug("oData " + oData);
 
         const flatten = require("flat");
 
