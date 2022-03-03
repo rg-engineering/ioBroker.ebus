@@ -1,6 +1,6 @@
 {
   "name": "iobroker.ebus",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "description": "ioBroker ebus Adapter",
   "author": {
     "name": "René G.",
@@ -24,7 +24,8 @@
     "@sentry/node": "6.18.0",
     "flat": "5.0.2",
     "net": "1.0.2",
-    "promise-socket": "7.0.0"
+    "promise-socket": "7.0.0",
+    "cron": "1.8.2"
   },
   "devDependencies": {
     "@iobroker/testing": "2.5.4",

@@ -24,6 +24,8 @@ function startAdapter(options) {
     options = options || {};
     Object.assign(options, {
         name: "ebus",
+        //#######################################
+        //
         ready: function () {
             try {
                 //adapter.log.debug('start');
@@ -32,7 +34,39 @@ function startAdapter(options) {
             catch (e) {
                 adapter.log.error("exception catch after ready [" + e + "]");
             }
-        }
+        },
+        //#######################################
+        //  is called when adapter shuts down
+        unload: function (callback) {
+            try {
+                adapter && adapter.log && adapter.log.info && adapter.log.info("cleaned everything up...");
+                //to do stop intervall
+                callback();
+            } catch (e) {
+                callback();
+            }
+        },
+        //#######################################
+        //
+        SIGINT: function () {
+            adapter && adapter.log && adapter.log.info && adapter.log.info("cleaned everything up...");
+            CronStop();
+        },
+        //#######################################
+        //  is called if a subscribed object changes
+        //objectChange: function (id, obj) {
+        //    adapter.log.debug("[OBJECT CHANGE] ==== " + id + " === " + JSON.stringify(obj));
+        //},
+        //#######################################
+        // is called if a subscribed state changes
+        //stateChange: function (id, state) {
+        //HandleStateChange(id, state);
+        //},
+        stateChange: async (id, state) => {
+            await HandleStateChange(id, state);
+        },
+        //#######################################
+        //
     });
     adapter = new utils.Adapter(options);
 
@@ -48,11 +82,13 @@ const { PromiseSocket } = require("promise-socket");
 
 
 
-let killTimer;
+//let killTimer;
+let intervalID;
 
 
 async function main() {
 
+    /*
     let nParseTimeout = 60;
     if (adapter.config.parseTimeout > 0) {
         nParseTimeout = adapter.config.parseTimeout;
@@ -66,29 +102,67 @@ async function main() {
         //process.exit(0);
         adapter.terminate ? adapter.terminate(15) : process.exit(15);
     }, nParseTimeout);
+    */
 
     adapter.log.debug("start with interface ebusd ");
 
     FillPolledVars();
     FillHistoryVars();
 
-    await ebusd_checkVariables();
+    await checkVariables();
 
-    await ebusd_Command();
-    await ebusd_ReadValues();
+    subscribeVars();
 
     //await TestFunction();
 
-    await ebusd_ReceiveData();
+    let readInterval = 5;
+    if (parseInt(adapter.config.readInterval) > 0) {
+        readInterval = adapter.config.readInterval;
+    }
+    adapter.log.debug("read every  " + readInterval + " minutes");
+    intervalID = setInterval(Do, readInterval * 60 * 1000);
 
+    /*
     if (killTimer) {
         clearTimeout(killTimer);
         adapter.log.debug("timer killed");
     }
 
     adapter.terminate ? adapter.terminate(0) : process.exit(0);
+    */
+}
+
+async function Do() {
+
+    adapter.log.debug("starting ... " );
+
+    await ebusd_Command();
+
+    await ebusd_ReadValues();
+
+    await ebusd_ReceiveData();
+}
+
+
+async function HandleStateChange(id, state) {
+   
+
+    if (state.ack !== true) {
+
+        adapter.log.debug("handle state change " + id);
+        const ids = id.split(".");
+
+        if (ids[2] === "cmd") {
+            await ebusd_Command();
+        }
+        else {
+            adapter.log.warn("unhandled state change " + id);
+        }
+    }
 
 }
+
+
 
 let oPolledVars = [];
 function FillPolledVars() {
@@ -147,93 +221,7 @@ function FillHistoryVars() {
 }
 
 
-async function Common_checkVariables() {
 
-    adapter.log.debug("init common variables and " + oHistoryVars.length + " history DP's");
-    let key;
-    let obj;
-
-    if (oHistoryVars.length > 0) {
-
-        if (oHistoryVars.length > 4) {
-            adapter.log.warn("too many history values " + oHistoryVars.length + " -> maximum is  4");
-        }
-
-        for (let n = 1; n <= oHistoryVars.length; n++) {
-
-            if (oHistoryVars[n - 1].name.length > 0) {
-                const name = "history value " + n + " as JSON " + oHistoryVars[n - 1].name;
-                key = "history.value" + n;
-                await adapter.setObjectNotExistsAsync(key, {
-                    type: "state",
-                    common: {
-                        name: name,
-                        type: "string",
-                        role: "value",
-                        unit: "",
-                        read: true,
-                        write: false
-                    },
-                    native: { location: key }
-                });
-
-                obj = await adapter.getObjectAsync(key);
-
-                if (obj != null) {
-
-                    if (obj.common.role != "value" || obj.common.name != name) {
-                        await adapter.extendObject(key, {
-                            common: {
-                                name: name,
-                                role: "value",
-                            }
-                        });
-                    }
-                }
-            }
-            else {
-                adapter.log.warn("ignoring history value " + n + " (invalid name)");
-            }
-        }
-
-        key = "history.date";
-        await adapter.setObjectNotExistsAsync(key, {
-            type: "state",
-            common: { name: "ebus history date as JSON", type: "string", role: "value", unit: "", read: true, write: false },
-            native: { location: key }
-        });
-        obj = await adapter.getObjectAsync(key);
-
-        if (obj != null) {
-
-            if (obj.common.role != "value") {
-                await adapter.extendObject(key, {
-                    common: {
-                        role: "value",
-                    }
-                });
-            }
-        }
-    }
-    key = "history.error"; 
-    await adapter.setObjectNotExistsAsync(key, {
-        type: "state",
-        common: { name: "ebus error", type: "string", role: "value", unit: "", read: true, write: false },
-        native: { location: key }
-    });
-    obj = await adapter.getObjectAsync(key);
-
-    if (obj != null) {
-        
-        if (obj.common.role != "value") {
-            await adapter.extendObject(key, {
-                common: {
-                    role: "value",
-                }
-            });
-        }
-    }
-}
 
 
 
@@ -303,7 +291,12 @@ async function ebusd_Command() {
 
 //just call http://192.168.0.123:8889/data
 
-async function ebusd_checkVariables() {
+function subscribeVars() {
+    adapter.subscribeStates("cmd");
+}
+
+
+async function checkVariables() {
     adapter.log.debug("init variables ");
 
     let key;
@@ -357,7 +350,92 @@ async function ebusd_checkVariables() {
             });
         }
     }
-    Common_checkVariables();
+
+
+
+    adapter.log.debug("init common variables and " + oHistoryVars.length + " history DP's");
+    
+
+    if (oHistoryVars.length > 0) {
+
+        if (oHistoryVars.length > 4) {
+            adapter.log.warn("too many history values " + oHistoryVars.length + " -> maximum is  4");
+        }
+
+        for (let n = 1; n <= oHistoryVars.length; n++) {
+
+            if (oHistoryVars[n - 1].name.length > 0) {
+                const name = "history value " + n + " as JSON " + oHistoryVars[n - 1].name;
+                key = "history.value" + n;
+                await adapter.setObjectNotExistsAsync(key, {
+                    type: "state",
+                    common: {
+                        name: name,
+                        type: "string",
+                        role: "value",
+                        unit: "",
+                        read: true,
+                        write: false
+                    },
+                    native: { location: key }
+                });
+
+                obj = await adapter.getObjectAsync(key);
+
+                if (obj != null) {
+
+                    if (obj.common.role != "value" || obj.common.name != name) {
+                        await adapter.extendObject(key, {
+                            common: {
+                                name: name,
+                                role: "value",
+                            }
+                        });
+                    }
+                }
+            }
+            else {
+                adapter.log.warn("ignoring history value " + n + " (invalid name)");
+            }
+        }
+
+        key = "history.date";
+        await adapter.setObjectNotExistsAsync(key, {
+            type: "state",
+            common: { name: "ebus history date as JSON", type: "string", role: "value", unit: "", read: true, write: false },
+            native: { location: key }
+        });
+        obj = await adapter.getObjectAsync(key);
+
+        if (obj != null) {
+
+            if (obj.common.role != "value") {
+                await adapter.extendObject(key, {
+                    common: {
+                        role: "value",
+                    }
+                });
+            }
+        }
+    }
+    key = "history.error";
+    await adapter.setObjectNotExistsAsync(key, {
+        type: "state",
+        common: { name: "ebus error", type: "string", role: "value", unit: "", read: true, write: false },
+        native: { location: key }
+    });
+    obj = await adapter.getObjectAsync(key);
+
+    if (obj != null) {
+
+        if (obj.common.role != "value") {
+            await adapter.extendObject(key, {
+                common: {
+                    role: "value",
+                }
+            });
+        }
+    }
 }
 
 
