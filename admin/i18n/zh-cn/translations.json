@@ -10,6 +10,7 @@
     "name": "姓名",
     "parse_timeout": "下载和轮询超时[秒]",
     "polledDP": "轮询数据点",
+    "readInterval": "从 ebusd 读取数据的间隔 [分钟]",
     "target_HTTPPort": "目标HTTP端口以读取数据",
     "target_IP": "目标IP",
     "target_TelnetPort": "目标telnet用于写入数据的端口",

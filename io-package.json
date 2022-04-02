@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.0.0",
+        "version": "3.0.1",
         "news": {
+            "3.0.1": {
+                "en": "read interval in admin added",
+                "de": "Leseintervall im Admin hinzugefügt",
+                "ru": "добавлен интервал чтения в админке",
+                "pt": "intervalo de leitura no admin adicionado",
+                "nl": "leesinterval in admin toegevoegd",
+                "fr": "intervalle de lecture ajouté dans l'administrateur",
+                "it": "intervallo di lettura in admin aggiunto",
+                "es": "Intervalo de lectura en el administrador agregado",
+                "pl": "dodano interwał odczytu w admin",
+                "zh-cn": "添加了管理员中的读取间隔"
+            },
             "3.0.0": {
                 "en": "from 'scheduled' to 'daemon' adapter changed",
                 "de": "von 'geplant' zu 'daemon' Adapter geändert",

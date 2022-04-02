@@ -10,6 +10,7 @@
     "name": "nome",
     "parse_timeout": "download e polling timeout [secondi]",
     "polledDP": "punti dati interrogati",
+    "readInterval": "intervallo per leggere i dati da ebusd [min]",
     "target_HTTPPort": "Porta HTTP di destinazione per leggere i dati",
     "target_IP": "IP di destinazione",
     "target_TelnetPort": "Porta telnet target per scrivere dati",

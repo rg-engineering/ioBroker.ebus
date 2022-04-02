@@ -10,6 +10,7 @@
     "name": "Nazwa",
     "parse_timeout": "czas pobierania i odpytywania [sekundy]",
     "polledDP": "odpytywane punkty danych",
+    "readInterval": "interwał odczytu danych z ebusd [min]",
     "target_HTTPPort": "docelowy port HTTP do odczytu danych",
     "target_IP": "docelowy adres IP",
     "target_TelnetPort": "docelowy port telnet do zapisu danych",

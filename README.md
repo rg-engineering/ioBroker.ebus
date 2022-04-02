@@ -55,6 +55,9 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
    
 ## Changelog
 
+### 3.0.1 (2022-04-02)
+* (René) read interval in admin added
+
 ### 3.0.0 (2022-04-02)
 * (René) **ATTENTION** change from scheduled to daemon adapter
 * (René) bent by axios replaced
