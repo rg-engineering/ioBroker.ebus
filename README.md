@@ -30,7 +30,10 @@ There is a possibillity to poll data which are not polled by ebusd directly. Com
 
 Another feature is to send any command to ebusd and receive answer to work with e.g. scripts.
 
-current supported ebusd-version: 21.3
+current supported ebusd-version: 22.2
+
+**Attention** with ebusd - version 22.1 config path has been changed to http://cfg.ebusd.eu/. Make sure you change it in your installation of ebusd.
+details see in [changelog](https://github.com/john30/ebusd/blob/master/ChangeLog.md)
 
 
 ## how to send commands to ebusd
@@ -52,7 +55,8 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
    
 ## Changelog
 
-### 2.6.0 (in progress)
+### 3.0.0 (in progress)
+* (René) change from scheduled to daemon adapter
 * (René) replace bent by axios
 
 ### 2.5.1 (2021-12-29)
