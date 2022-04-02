@@ -1,105 +1,120 @@
 {
-  "common": {
-    "name": "ebus",
-    "version": "3.0.0",
-    "news": {
-      "3.0.0": {
-        "en": "change from scheduled to daemon adapter"
-      },
-      "2.6.0": {
-        "en": "bent replaced by axios"
-      },
-      "2.5.1": {
-        "en": "maximum retries to send data in case of arbitration error",
-        "de": "maximale Wiederholungsversuche zum Senden von Daten im Falle eines Vermittlungsfehlers",
-        "ru": "максимальное количество попыток отправки данных в случае ошибки арбитража",
-        "pt": "máximo de tentativas para enviar dados em caso de erro de arbitragem",
-        "nl": "maximaal aantal pogingen om gegevens te verzenden in geval van arbitragefout",
-        "fr": "nombre maximum de tentatives d'envoi de données en cas d'erreur d'arbitrage",
-        "it": "numero massimo di tentativi di invio dei dati in caso di errore di arbitrato",
-        "es": "reintentos máximos para enviar datos en caso de error de arbitraje",
-        "pl": "maksymalna liczba prób wysłania danych w przypadku błędu arbitrażu",
-        "zh-cn": "仲裁错误时发送数据的最大重试次数"
-      }
-
-
+    "common": {
+        "name": "ebus",
+        "version": "3.0.0",
+        "news": {
+            "3.0.0": {
+                "en": "from 'scheduled' to 'daemon' adapter changed",
+                "de": "von 'geplant' zu 'daemon' Adapter geändert",
+                "ru": "изменен адаптер с «запланированного» на «демон»",
+                "pt": "adaptador 'agendado' para 'daemon' alterado",
+                "nl": "van 'scheduled' naar 'daemon' adapter gewijzigd",
+                "fr": "de l'adaptateur 'scheduled' à 'daemon' changé",
+                "it": "adattatore da \"programmato\" a \"demone\" modificato",
+                "es": "Se cambió el adaptador de 'programado' a 'daemon'",
+                "pl": "Zmieniono adapter z „zaplanowanego” na „demon”",
+                "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改"
+            },
+            "2.6.0": {
+                "en": " 'bent' replaced by 'axios'",
+                "de": "'bent' ersetzt durch 'axios'",
+                "ru": "«согнутый» заменен на «аксиос»",
+                "pt": "'curvado' substituído por 'axios'",
+                "nl": "'gebogen' vervangen door 'axios'",
+                "fr": "'plié' remplacé par 'axios'",
+                "it": "'piegato' sostituito da 'assios'",
+                "es": "'doblado' reemplazado por 'axios'",
+                "pl": "„wygięty” zastąpiony przez „axios”",
+                "zh-cn": "'bent' 替换为 'axios'"
+            },
+            "2.5.1": {
+                "en": "maximum retries to send data in case of arbitration error",
+                "de": "maximale Wiederholungsversuche zum Senden von Daten im Falle eines Vermittlungsfehlers",
+                "ru": "максимальное количество попыток отправки данных в случае ошибки арбитража",
+                "pt": "máximo de tentativas para enviar dados em caso de erro de arbitragem",
+                "nl": "maximaal aantal pogingen om gegevens te verzenden in geval van arbitragefout",
+                "fr": "nombre maximum de tentatives d'envoi de données en cas d'erreur d'arbitrage",
+                "it": "numero massimo di tentativi di invio dei dati in caso di errore di arbitrato",
+                "es": "reintentos máximos para enviar datos en caso de error de arbitraje",
+                "pl": "maksymalna liczba prób wysłania danych w przypadku błędu arbitrażu",
+                "zh-cn": "仲裁错误时发送数据的最大重试次数"
+            }
+        },
+        "title": "ebus",
+        "titleLang": {
+            "en": "ebus",
+            "de": "ebus",
+            "ru": "ebus",
+            "pt": "ebus",
+            "nl": "ebus",
+            "fr": "ebus",
+            "it": "ebus",
+            "es": "ebus",
+            "pl": "ebus",
+            "zh-cn": "巴士"
+        },
+        "desc": {
+            "en": "ebus Adapter; reads data from ebusd Interface",
+            "de": "ebus Adapter; liest Daten von der ebusd Schnittstelle",
+            "ru": "Адаптер ebus; считывает данные из интерфейса ebusd",
+            "pt": "Adaptador ebus; lê dados da interface ebusd",
+            "nl": "ebus-adapter; leest gegevens van ebusd Interface",
+            "fr": "adaptateur ebus; lit les données de l'interface ebusd",
+            "it": "ebus Adapter; legge i dati dall'interfaccia ebusd",
+            "es": "adaptador ebus; lee datos de la interfaz ebusd",
+            "pl": "Adapter ebus; odczytuje dane z interfejsu ebusd",
+            "zh-cn": "ebus适配器；"
+        },
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "icon": "ebus.png",
+        "enabled": true,
+        "messagebox": true,
+        "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/ebus.png",
+        "keywords": [
+            "ebus"
+        ],
+        "readme": "https://github.com/rg-engineering/ioBroker.ebus/blob/master/README.md",
+        "loglevel": "info",
+        "stopBeforeUpdate": true,
+        "type": "hardware",
+        "license": "MIT",
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ],
+        "plugins": {
+            "sentry": {
+                "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
+            }
+        },
+        "compact": true,
+        "authors": [
+            {
+                "name": "René G.",
+                "email": "info@rg-engineering.eu"
+            }
+        ],
+        "connectionType": "local",
+        "dataSource": "push",
+        "adminUI": {
+            "config": "materialize"
+        }
     },
-    "title": "ebus",
-    "titleLang": {
-      "en": "ebus",
-      "de": "ebus",
-      "ru": "ebus",
-      "pt": "ebus",
-      "nl": "ebus",
-      "fr": "ebus",
-      "it": "ebus",
-      "es": "ebus",
-      "pl": "ebus",
-      "zh-cn": "巴士"
-    },
-    "desc": {
-      "en": "ebus Adapter; reads data from ebusd Interface",
-      "de": "ebus Adapter; liest Daten von der ebusd Schnittstelle",
-      "ru": "Адаптер ebus; считывает данные из интерфейса ebusd",
-      "pt": "Adaptador ebus; lê dados da interface ebusd",
-      "nl": "ebus-adapter; leest gegevens van ebusd Interface",
-      "fr": "adaptateur ebus; lit les données de l'interface ebusd",
-      "it": "ebus Adapter; legge i dati dall'interfaccia ebusd",
-      "es": "adaptador ebus; lee datos de la interfaz ebusd",
-      "pl": "Adapter ebus; odczytuje dane z interfejsu ebusd",
-      "zh-cn": "ebus适配器；"
-    },
-    "platform": "Javascript/Node.js",
-    "mode": "daemon",
-    "icon": "ebus.png",
-    "enabled": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/ebus.png",
-    "keywords": [
-      "ebus"
-    ],
-    "readme": "https://github.com/rg-engineering/ioBroker.ebus/blob/master/README.md",
-    "loglevel": "info",
-    "stopBeforeUpdate": true,
-    "type": "hardware",
-    "license": "MIT",
-    "materialize": true,
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
-    ],
-    "plugins": {
-      "sentry": {
-        "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
-      }
-    },
-    "compact": true,
-    "authors": [
-      {
-        "name": "René G.",
-        "email": "info@rg-engineering.eu"
-      }
-    ],
-    "connectionType": "local",
-    "dataSource": "push",
-    "adminUI": {
-      "config": "materialize"
+    "native": {
+        "targetIP": "192.168.0.1",
+        "interfacetype": "ebusd",
+        "targetHTTPPort": 8889,
+        "targetTelnetPort": 8890,
+        "PolledValues": "",
+        "HistoryValues": "",
+        "parseTimeout": 60,
+        "useBoolean4Onoff": false,
+        "PolledDPs": [],
+        "HistoryDPs": [],
+        "maxretries": 5,
+        "readInterval": 5
     }
-  },
-  "native": {
-    "targetIP": "192.168.0.1",
-    "interfacetype": "ebusd",
-    "targetHTTPPort": 8889,
-    "targetTelnetPort": 8890,
-    "PolledValues": "",
-    "HistoryValues": "",
-    "parseTimeout": 60,
-    "useBoolean4Onoff": false,
-    "PolledDPs": [],
-    "HistoryDPs": [],
-    "maxretries": 5,
-    "readInterval": 5
-
-  }
 }

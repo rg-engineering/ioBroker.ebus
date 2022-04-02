@@ -55,9 +55,9 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
    
 ## Changelog
 
-### 3.0.0 (in progress)
-* (René) change from scheduled to daemon adapter
-* (René) replace bent by axios
+### 3.0.0 (2022-04-02)
+* (René) **ATTENTION** change from scheduled to daemon adapter
+* (René) bent by axios replaced
 
 ### 2.5.1 (2021-12-29)
 * (René) adjustable retries to send data if arbitration error appeared
