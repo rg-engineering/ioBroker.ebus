@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.0.1",
+        "version": "3.0.2",
         "news": {
+            "3.0.2": {
+                "en": "message installation hint added",
+                "de": "Nachricht Installationshinweis hinzugefügt",
+                "ru": "добавлена ​​подсказка установки сообщения",
+                "pt": "dica de instalação de mensagem adicionada",
+                "nl": "bericht installatie hint toegevoegd",
+                "fr": "astuce d'installation de message ajoutée",
+                "it": "suggerimento per l'installazione del messaggio aggiunto",
+                "es": "sugerencia de instalación de mensajes agregada",
+                "pl": "dodano wskazówkę dotyczącą instalacji wiadomości",
+                "zh-cn": "添加了消息安装提示"
+            },
             "3.0.1": {
                 "en": "read interval in admin added",
                 "de": "Leseintervall im Admin hinzugefügt",
@@ -113,7 +125,47 @@
         "dataSource": "push",
         "adminUI": {
             "config": "materialize"
-        }
+        },
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<3.0.0",
+                        "newVersion>=3.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "from 'scheduled' to 'daemon' adapter changed",
+                    "de": "von 'geplant' zu 'daemon' Adapter geändert",
+                    "ru": "изменен адаптер с «запланированного» на «демон»",
+                    "pt": "adaptador 'agendado' para 'daemon' alterado",
+                    "nl": "van 'scheduled' naar 'daemon' adapter gewijzigd",
+                    "fr": "de l'adaptateur 'scheduled' à 'daemon' changé",
+                    "it": "adattatore da \"programmato\" a \"demone\" modificato",
+                    "es": "Se cambió el adaptador de 'programado' a 'daemon'",
+                    "pl": "Zmieniono adapter z „zaplanowanego” na „demon”",
+                    "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改"
+                },
+                "text": {
+                    "en": "it might be necessary to deinstall old version and then install new version",
+                    "de": "Es kann erforderlich sein, die alte Version zu deinstallieren und dann die neue Version zu installieren",
+                    "ru": "может быть необходимо удалить старую версию, а затем установить новую версию",
+                    "pt": "pode ser necessário desinstalar a versão antiga e depois instalar a nova versão",
+                    "nl": "het kan nodig zijn om de oude versie te deïnstalleren en vervolgens de nieuwe versie te installeren",
+                    "fr": "il peut être nécessaire de désinstaller l'ancienne version puis d'installer la nouvelle version",
+                    "it": "potrebbe essere necessario disinstallare la vecchia versione e quindi installare la nuova versione",
+                    "es": "puede ser necesario desinstalar la versión anterior y luego instalar la nueva versión",
+                    "pl": "może być konieczne odinstalowanie starej wersji, a następnie zainstalowanie nowej wersji",
+                    "zh-cn": "可能需要卸载旧版本，然后安装新版本"
+                },
+                "level": "warn",
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            }
+        ]
     },
     "native": {
         "targetIP": "192.168.0.1",

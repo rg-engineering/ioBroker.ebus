@@ -55,6 +55,9 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
    
 ## Changelog
 
+### 3.0.2 (2022-04-02)
+* (René) message for installation added
+
 ### 3.0.1 (2022-04-02)
 * (René) read interval in admin added
 
