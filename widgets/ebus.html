@@ -1436,13 +1436,28 @@
 
                     let limit = 0;
                     //if we only few hours then we need markings per hour otherwise per day
+                    //Achtung, wenn zuwenige Punkte, dann wird X-Achse nicht angezeigt
                     if (dayDiff > 2) {
                         minDate.setHours(12);
                         minDate.setMinutes(0);
                         var i = minDate.getTime();
+                        console.log('CalcTicks4X: start ' + i);
                         do {
                             ticks.push([i]);
                             i += 24 * 60 * 60 * 1000;
+                            console.log('CalcTicks4X: next ' + i + " limit " + limit);
+                            limit++;
+                        } while (i < axis.max || limit > 200);
+                    }
+                    else if (dayDiff > 0.24) {
+                        minDate.setHours(12);
+                        minDate.setMinutes(0);
+                        var i = minDate.getTime();
+                        console.log('CalcTicks4X: start ' + i);
+                        do {
+                            ticks.push([i]);
+                            i += 24 * 60 * 60 * 1000;
+                            console.log('CalcTicks4X: next ' + i + " limit " + limit);
                             limit++;
                         } while (i < axis.max || limit > 200);
                     }
@@ -1450,9 +1465,11 @@
                         minDate.setHours(0);
                         minDate.setMinutes(0);
                         var i = minDate.getTime();
+                        console.log('CalcTicks4X: start ' + i);
                         do {
                             ticks.push([i]);
-                            i += 6 * 60 * 60 * 1000;
+                            i += 1 * 60 * 60 * 1000;
+                            console.log('CalcTicks4X: next ' + i + " limit " + limit);
                             limit++;
                         } while (i < axis.max || limit > 200);
                     }
