@@ -1456,7 +1456,7 @@
                         console.log('CalcTicks4X: start ' + i);
                         do {
                             ticks.push([i]);
-                            i += 24 * 60 * 60 * 1000;
+                            i += 4 * 60 * 60 * 1000;
                             console.log('CalcTicks4X: next ' + i + " limit " + limit);
                             limit++;
                         } while (i < axis.max || limit > 200);
