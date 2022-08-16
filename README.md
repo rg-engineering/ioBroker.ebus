@@ -58,6 +58,8 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
 ### 3.0.3 (2022-08-16)
 * (René) tooltip in wizard added
 * (René) flot and dependencies updated
+* (René) errors from ebusd are shown as warning here in adapter, details schould be checked in logs of ebusd
++ (René) bug fix in widget: if less data available x axes grid point were not shown
 
 ### 3.0.2 (2022-04-02)
 * (René) message for installation added
