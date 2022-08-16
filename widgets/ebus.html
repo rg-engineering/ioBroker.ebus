@@ -1506,48 +1506,64 @@
                         var oid_historygraph2 = data.oid_historygraph2;
                         var oid_historygraph3 = data.oid_historygraph3;
                         var oid_historygraph4 = data.oid_historygraph4;
-                        try {
-                            var data_date = JSON.parse(vis.states[oid_historydate + '.val']);
-                            var data_value1 = null;
-                            if (oid_historygraph1 != "") {
-                                data_value1 = JSON.parse(vis.states[oid_historygraph1 + '.val']);
-                            }
-                        } catch (e) {
-                            console.warn('parse error [' + e + ']');
-                            $div.html("<br> <center> <font color='red'>exception in parse data graph1 </font> </center></br>");
-                            return;
-                        }
-                        try {
-                            data_value2 = null;
-                            if (oid_historygraph2 != "") {
-                                var data_value2 = JSON.parse(vis.states[oid_historygraph2 + '.val']);
-                            }
-                        } catch (e) {
-                            console.warn('parse error [' + e + ']');
-                            $div.html("<br> <center> <font color='red'>exception in parse data graph2 </font> </center></br>");
-                            return;
-                        }
-                        try {
-                            data_value3 = null;
-                            if (oid_historygraph3 != "") {
-                                var data_value3 = JSON.parse(vis.states[oid_historygraph3 + '.val']);
-                            }
-                        } catch (e) {
-                            console.warn('parse error [' + e + ']');
-                            $div.html("<br> <center> <font color='red'>exception in parse data graph3 </font> </center></br>");
-                            return;
-                        }
-                        try {
-                            data_value4 = null;
-                            if (oid_historygraph4 != "") {
-                                var data_value4 = JSON.parse(vis.states[oid_historygraph4 + '.val']);
-                            }
-                        } catch (e) {
-                            console.warn('parse error [' + e + ']');
-                            $div.html("<br> <center> <font color='red'>exception in parse data graph4 </font> </center></br>");
-                            return;
-                        }
 
+                        var data_value1 = null;
+                        var data_value2 = null;
+                        var data_value3 = null;
+                        var data_value4 = null;
+
+                        if (data.graph1visible) {
+                            try {
+                                var data_date = JSON.parse(vis.states[oid_historydate + '.val']);
+                                
+                                if (oid_historygraph1 != "") {
+                                    data_value1 = JSON.parse(vis.states[oid_historygraph1 + '.val']);
+                                }
+                            } catch (e) {
+                                console.warn('parse error [' + e + ']');
+                                $div.html("<br> <center> <font color='red'>exception in parse data graph1 </font> </center></br>");
+                                return;
+                            }
+                        }
+                        if (data.graph2visible) {
+
+                            try {
+                                
+                                if (oid_historygraph2 != "") {
+                                    data_value2 = JSON.parse(vis.states[oid_historygraph2 + '.val']);
+                                }
+                            } catch (e) {
+                                console.warn('parse error [' + e + ']');
+                                $div.html("<br> <center> <font color='red'>exception in parse data graph2 </font> </center></br>");
+                                return;
+                            }
+                        }
+                        if (data.graph3visible) {
+
+                            try {
+                                
+                                if (oid_historygraph3 != "") {
+                                    data_value3 = JSON.parse(vis.states[oid_historygraph3 + '.val']);
+                                }
+                            } catch (e) {
+                                console.warn('parse error [' + e + ']');
+                                $div.html("<br> <center> <font color='red'>exception in parse data graph3 </font> </center></br>");
+                                return;
+                            }
+                        }
+                        if (data.graph4visible) {
+
+                            try {
+                                
+                                if (oid_historygraph4 != "") {
+                                    data_value4 = JSON.parse(vis.states[oid_historygraph4 + '.val']);
+                                }
+                            } catch (e) {
+                                console.warn('parse error [' + e + ']');
+                                $div.html("<br> <center> <font color='red'>exception in parse data graph4 </font> </center></br>");
+                                return;
+                            }
+                        }
                         if (data_date === null || typeof data_date == "undefined" || data_date.length < 1) {
                             $div.html("<br> <center> <font color='red'>no data available yet for ebus </font> </center></br>");
                             return;
@@ -1559,9 +1575,7 @@
 
                         var values_graph2 = [];
 
-
                         var values_graph3 = [];
-
 
                         var values_graph4 = [];
 
