@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.0.2",
+        "version": "3.0.3",
         "news": {
+            "3.0.3": {
+                "en": "widget with tooltip",
+                "de": "Widget mit Tooltip",
+                "ru": "виджет с подсказкой",
+                "pt": "widget com dica de ferramenta",
+                "nl": "widget met knopinfo",
+                "fr": "widget avec info-bulle",
+                "it": "widget con descrizione comando",
+                "es": "widget con información sobre herramientas",
+                "pl": "widżet z podpowiedź",
+                "zh-cn": "带有工具提示的小部件"
+            },
             "3.0.2": {
                 "en": "message installation hint added",
                 "de": "Nachricht Installationshinweis hinzugefügt",

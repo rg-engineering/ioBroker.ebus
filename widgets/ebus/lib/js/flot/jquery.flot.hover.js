@@ -45,6 +45,8 @@ the tooltip from webcharts).
         var lastMouseMoveEvent;
         var highlights = [];
 
+        console.log("hover init");
+
         function bindEvents(plot, eventHolder) {
             var o = plot.getOptions();
 

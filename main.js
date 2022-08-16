@@ -48,10 +48,12 @@ function startAdapter(options) {
         },
         //#######################################
         //
-        SIGINT: function () {
-            adapter && adapter.log && adapter.log.info && adapter.log.info("cleaned everything up...");
-            CronStop();
-        },
+        //SIGINT: function () {
+        //    clearInterval(intervalID);
+        //    intervalID = null;
+        //    adapter && adapter.log && adapter.log.info && adapter.log.info("cleaned everything up...");
+        //    CronStop();
+        //},
         //#######################################
         //  is called if a subscribed object changes
         //objectChange: function (id, obj) {
@@ -578,10 +580,16 @@ async function ebusd_ReceiveData() {
 
 
                 if (name === "hcmode2") {
-                    adapter.log.debug("in hcmode2, value " + value);
-                    if (parseInt(value) === 5) {
-                        adapter.log.info(key + " with value 5");
+                    if (parseInt(value) === 0) {
+                        adapter.log.info(key + "in hcmode2 with value 0: off");
+                        value = "off";
+                    }
+                    else if (parseInt(value) === 5) {
+                        adapter.log.info(key + " with value 5: EVU Sperrzeit");
                         value = "EVU Sperrzeit";
+                    }
+                    else {
+                        adapter.log.debug("in hcmode2, value " + value);
                     }
                 }
 

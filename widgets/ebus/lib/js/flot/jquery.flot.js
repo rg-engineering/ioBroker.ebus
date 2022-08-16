@@ -99,6 +99,8 @@ Licensed under the MIT license.
         // where series is either just the data as [ [x1, y1], [x2, y2], ... ]
         // or { data: [ [x1, y1], [x2, y2], ... ], label: "some label", ... }
 
+        console.log("xxx Plot started...");
+
         var series = [],
             options = {
                 // the color theme used for graphs
@@ -379,6 +381,8 @@ Licensed under the MIT license.
             var classes = {
                 Canvas: Canvas
             };
+
+            console.log("init plugins " + plugins.length);
 
             for (var i = 0; i < plugins.length; ++i) {
                 var p = plugins[i];
@@ -1520,7 +1524,7 @@ Licensed under the MIT license.
             var magn = parseFloat('1e' + (-dec)),
                 norm = delta / magn;
 
-            if (norm > 2.25 && norm < 3 && (dec + 1) <= tickDecimals) {
+            if (norm > 2.25 && norm < 3 && (tickDecimals == null || (dec + 1) <= tickDecimals)) {
                 //we need an extra decimals when tickSize is 2.5
                 ++dec;
             }
@@ -1777,37 +1781,35 @@ Licensed under the MIT license.
             surface.clear();
             executeHooks(hooks.drawBackground, [ctx]);
 
-           
             var grid = options.grid;
-            
+
             // draw background, if any
             if (grid.show && grid.backgroundColor) {
                 drawBackground();
             }
-            
+
             if (grid.show && !grid.aboveData) {
                 drawGrid();
             }
-            
+
             for (var i = 0; i < series.length; ++i) {
                 executeHooks(hooks.drawSeries, [ctx, series[i], i, getColorOrGradient]);
                 drawSeries(series[i]);
             }
-            
+
             executeHooks(hooks.draw, [ctx]);
-            
+
             if (grid.show && grid.aboveData) {
                 drawGrid();
             }
-            
+
             surface.render();
-            
+
             // A draw implies that either the axes or data have changed, so we
             // should probably update the overlay highlights as well.
             triggerRedrawOverlay();
-            
-            ShowTickLabels();
 
+            ShowTickLabels();
         }
 
         //*******************************************************************
@@ -2447,9 +2449,9 @@ Licensed under the MIT license.
                         //*******************************************************************
                         //labelBoxes.push(drawAxisLabel(axis.ticks[0], labelBoxes));
                         //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
-                        for (i = 1; i < axis.ticks.length - 1; ++i) {
-                            //labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
-                        }
+                        //for (i = 1; i < axis.ticks.length - 1; ++i) {
+                        //    labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+                        //}
                         break;
                     case 'all':
                         //*******************************************************************
@@ -2458,9 +2460,9 @@ Licensed under the MIT license.
                         //*******************************************************************
                         //labelBoxes.push(drawAxisLabel(axis.ticks[0], []));
                         //labelBoxes.push(drawAxisLabel(axis.ticks[axis.ticks.length - 1], labelBoxes));
-                        for (i = 1; i < axis.ticks.length - 1; ++i) {
-                            //labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
-                        }
+                        //for (i = 1; i < axis.ticks.length - 1; ++i) {
+                        //    labelBoxes.push(drawAxisLabel(axis.ticks[i], labelBoxes));
+                        //}
                         break;
                 }
             });

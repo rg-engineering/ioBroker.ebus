@@ -6,10 +6,15 @@
     Copyright 2017,2018,2019 René G. info@rg-engineering.eu
 -->
 <!--
-<script language="javascript" type="text/javascript" src="widgets/weather/lib/js/flot/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.js"></script>
 -->
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/lib/jquery.event.drag.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/lib/jquery.mousewheel.js"></script>
+
 <script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.canvaswrapper.js"></script>
 <script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.colorhelpers.js"></script>
+
+
 <script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.js"></script>
 <script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.saturated.js"></script>
 <script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.browser.js"></script>
@@ -17,8 +22,13 @@
 <script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.uiConstants.js"></script>
 <script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.time.js"></script>
 <script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.legend.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.navigate.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.touchNavigate.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.hover.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.touch.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.selection.js"></script>
 
-<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.axislabels_V2.js"></script>
+<script language="javascript" type="text/javascript" src="widgets/ebus/lib/js/flot/jquery.flot.axislabels.js"></script>
 
 <!-- doku for flot : -->
 <!--  https://github.com/flot/flot/blob/master/API.md -->
@@ -261,7 +271,7 @@
                 "es": "mostrar eje X",
                 "pl": "pokaż oś X.",
             },
-            
+
 
             "xDateFormat": {
                 "en": "format for date/time on x-axis",
@@ -351,60 +361,60 @@
                 "zh-cn": "图例位置"
             },
 
-           
-   
+
+
             "none": {
-                    "en": "none",
-    "de": "kein",
-    "ru": "никто",
-    "pt": "Nenhum",
-    "nl": "geen",
-    "fr": "aucun",
-    "it": "nessuna",
-    "es": "ninguna",
-    "pl": "Żaden",
-    "zh-cn": "没有"
+                "en": "none",
+                "de": "kein",
+                "ru": "никто",
+                "pt": "Nenhum",
+                "nl": "geen",
+                "fr": "aucun",
+                "it": "nessuna",
+                "es": "ninguna",
+                "pl": "Żaden",
+                "zh-cn": "没有"
             },
             "kWh": {
-                    "en": "kWh",
-    "de": "kWh",
-    "ru": "кВтч",
-    "pt": "kWh",
-    "nl": "kWh",
-    "fr": "kWh",
-    "it": "kWh",
-    "es": "kWh",
-    "pl": "kWh",
-    "zh-cn": "千瓦时"
+                "en": "kWh",
+                "de": "kWh",
+                "ru": "кВтч",
+                "pt": "kWh",
+                "nl": "kWh",
+                "fr": "kWh",
+                "it": "kWh",
+                "es": "kWh",
+                "pl": "kWh",
+                "zh-cn": "千瓦时"
             },
             "degree": {
-                    "en": "degree",
-    "de": "Grad",
-    "ru": "степень",
-    "pt": "grau",
-    "nl": "mate",
-    "fr": "diplôme",
-    "it": "grado",
-    "es": "la licenciatura",
-    "pl": "stopień",
-    "zh-cn": "学位"
+                "en": "degree",
+                "de": "Grad",
+                "ru": "степень",
+                "pt": "grau",
+                "nl": "mate",
+                "fr": "diplôme",
+                "it": "grado",
+                "es": "la licenciatura",
+                "pl": "stopień",
+                "zh-cn": "学位"
             },
 
             "group_graph1": {
                 "en": "graph 1",
-    "de": "Grafik 1",
-    "ru": "график 1",
-    "pt": "gráfico 1",
-    "nl": "grafiek 1",
-    "fr": "graphique 1",
-    "it": "grafico 1",
-    "es": "gráfico 1",
-    "pl": "wykres 1",
+                "de": "Grafik 1",
+                "ru": "график 1",
+                "pt": "gráfico 1",
+                "nl": "grafiek 1",
+                "fr": "graphique 1",
+                "it": "grafico 1",
+                "es": "gráfico 1",
+                "pl": "wykres 1",
                 "zh-cn": "图1"
             },
 
             "graph1charttype": {
-                 "en": "chart type",
+                "en": "chart type",
                 "de": "Diagramm Typ",
                 "ru": "тип диаграммы",
                 "pt": "tipo de gráfico",
@@ -454,19 +464,19 @@
             "graph1YAxisFomat": { "en": "Y axis fomat", "de": "Y-Achsenformat", "ru": "graph1YAxisFomat" },
 
             "group_graph2": {
-                    "en": "graph 2",
-    "de": "Grafik 2",
-    "ru": "график 2",
-    "pt": "gráfico 2",
-    "nl": "grafiek 2",
-    "fr": "graphique 2",
-    "it": "grafico 2",
-    "es": "gráfico 2",
-    "pl": "wykres 2",
-    "zh-cn": "图2"
+                "en": "graph 2",
+                "de": "Grafik 2",
+                "ru": "график 2",
+                "pt": "gráfico 2",
+                "nl": "grafiek 2",
+                "fr": "graphique 2",
+                "it": "grafico 2",
+                "es": "gráfico 2",
+                "pl": "wykres 2",
+                "zh-cn": "图2"
             },
             "graph2charttype": {
-                 "en": "chart type",
+                "en": "chart type",
                 "de": "Diagramm Typ",
                 "ru": "тип диаграммы",
                 "pt": "tipo de gráfico",
@@ -516,19 +526,19 @@
             "graph2YAxisFomat": { "en": "Y axis fomat", "de": "Y-Achsenformat", "ru": "graph1YAxisFomat" },
 
             "group_graph3": {
-                    "en": "graph 3",
-    "de": "Grafik 3",
-    "ru": "график 3",
-    "pt": "gráfico 3",
-    "nl": "grafiek 3",
-    "fr": "graphique 3",
-    "it": "grafico 3",
-    "es": "gráfico 3",
-    "pl": "wykres 3",
-    "zh-cn": "图3"
+                "en": "graph 3",
+                "de": "Grafik 3",
+                "ru": "график 3",
+                "pt": "gráfico 3",
+                "nl": "grafiek 3",
+                "fr": "graphique 3",
+                "it": "grafico 3",
+                "es": "gráfico 3",
+                "pl": "wykres 3",
+                "zh-cn": "图3"
             },
             "graph3charttype": {
-                 "en": "chart type",
+                "en": "chart type",
                 "de": "Diagramm Typ",
                 "ru": "тип диаграммы",
                 "pt": "tipo de gráfico",
@@ -578,19 +588,19 @@
             "graph3YAxisFomat": { "en": "Y axis fomat", "de": "Y-Achsenformat", "ru": "graph1YAxisFomat" },
 
             "group_graph4": {
-                    "en": "graph 4",
-    "de": "Grafik 4",
-    "ru": "график 4",
-    "pt": "gráfico 4",
-    "nl": "grafiek 4",
-    "fr": "graphique 4",
-    "it": "grafico 4",
-    "es": "gráfico 4",
-    "pl": "wykres 4",
-    "zh-cn": "图4"
+                "en": "graph 4",
+                "de": "Grafik 4",
+                "ru": "график 4",
+                "pt": "gráfico 4",
+                "nl": "grafiek 4",
+                "fr": "graphique 4",
+                "it": "grafico 4",
+                "es": "gráfico 4",
+                "pl": "wykres 4",
+                "zh-cn": "图4"
             },
             "graph4charttype": {
-                 "en": "chart type",
+                "en": "chart type",
                 "de": "Diagramm Typ",
                 "ru": "тип диаграммы",
                 "pt": "tipo de gráfico",
@@ -638,77 +648,77 @@
                 "zh-cn": "显示y轴"
             },
             "graph4YAxisFomat": {
-                    "en": "Y axis format",
-    "de": "Y-Achsen-Format",
-    "ru": "Формат оси Y",
-    "pt": "Formato do eixo Y",
-    "nl": "Y-as formaat",
-    "fr": "Format de l'axe Y",
-    "it": "Formato dell'asse Y.",
-    "es": "Formato del eje Y",
-    "pl": "Format osi Y.",
-    "zh-cn": "Y轴格式"
+                "en": "Y axis format",
+                "de": "Y-Achsen-Format",
+                "ru": "Формат оси Y",
+                "pt": "Formato do eixo Y",
+                "nl": "Y-as formaat",
+                "fr": "Format de l'axe Y",
+                "it": "Formato dell'asse Y.",
+                "es": "Formato del eje Y",
+                "pl": "Format osi Y.",
+                "zh-cn": "Y轴格式"
             },
 
             "oid_historygraph1": {
-                    "en": "OID",
-    "de": "OID",
-    "ru": "OID",
-    "pt": "OID",
-    "nl": "OID",
-    "fr": "OID",
-    "it": "OID",
-    "es": "OID",
-    "pl": "OID",
-    "zh-cn": "OID"
+                "en": "OID",
+                "de": "OID",
+                "ru": "OID",
+                "pt": "OID",
+                "nl": "OID",
+                "fr": "OID",
+                "it": "OID",
+                "es": "OID",
+                "pl": "OID",
+                "zh-cn": "OID"
             },
             "oid_historygraph2": {
-                    "en": "OID",
-    "de": "OID",
-    "ru": "OID",
-    "pt": "OID",
-    "nl": "OID",
-    "fr": "OID",
-    "it": "OID",
-    "es": "OID",
-    "pl": "OID",
-    "zh-cn": "OID"
+                "en": "OID",
+                "de": "OID",
+                "ru": "OID",
+                "pt": "OID",
+                "nl": "OID",
+                "fr": "OID",
+                "it": "OID",
+                "es": "OID",
+                "pl": "OID",
+                "zh-cn": "OID"
             },
             "oid_historygraph3": {
-                    "en": "OID",
-    "de": "OID",
-    "ru": "OID",
-    "pt": "OID",
-    "nl": "OID",
-    "fr": "OID",
-    "it": "OID",
-    "es": "OID",
-    "pl": "OID",
-    "zh-cn": "OID"
+                "en": "OID",
+                "de": "OID",
+                "ru": "OID",
+                "pt": "OID",
+                "nl": "OID",
+                "fr": "OID",
+                "it": "OID",
+                "es": "OID",
+                "pl": "OID",
+                "zh-cn": "OID"
             },
             "oid_historygraph4": {
-                    "en": "OID",
-    "de": "OID",
-    "ru": "OID",
-    "pt": "OID",
-    "nl": "OID",
-    "fr": "OID",
-    "it": "OID",
-    "es": "OID",
-    "pl": "OID",
-    "zh-cn": "OID"
+                "en": "OID",
+                "de": "OID",
+                "ru": "OID",
+                "pt": "OID",
+                "nl": "OID",
+                "fr": "OID",
+                "it": "OID",
+                "es": "OID",
+                "pl": "OID",
+                "zh-cn": "OID"
             },
             "oid_historydate": {
-                    "en": "OID",
-    "de": "OID",
-    "ru": "OID",
-    "pt": "OID",
-    "nl": "OID",
-    "fr": "OID",
-    "it": "OID",
-    "es": "OID",
-    "pl": "OID",
-    "zh-cn": "OID"
+                "en": "OID",
+                "de": "OID",
+                "ru": "OID",
+                "pt": "OID",
+                "nl": "OID",
+                "fr": "OID",
+                "it": "OID",
+                "es": "OID",
+                "pl": "OID",
+                "zh-cn": "OID"
             },
 
             "graph1Name": {
@@ -783,7 +793,7 @@
                 "pl": "kolor znaczników osi",
                 "zh-cn": "轴刻度的颜色"
             },
-             "markingcolor": {
+            "markingcolor": {
                 "en": "color of marking",
                 "de": "Farbe der Markierung",
                 "ru": "цвет маркировки",
@@ -979,7 +989,7 @@
                 "zh-cn": "小数点"
             },
             "graph1tickSize": {
-                 "en": "tick size",
+                "en": "tick size",
                 "de": "Tick-Größe",
                 "ru": "размер галочки",
                 "pt": "tamanho do carrapato",
@@ -991,7 +1001,7 @@
                 "zh-cn": "刻度大小"
             },
             "graph1minTickSize": {
-                 "en": "min. tick size",
+                "en": "min. tick size",
                 "de": "Mindest. Tick-Größe",
                 "ru": "минимум размер галочки",
                 "pt": "min. tamanho do carrapato",
@@ -1064,7 +1074,7 @@
                 "zh-cn": "小数点"
             },
             "graph2tickSize": {
-                 "en": "tick size",
+                "en": "tick size",
                 "de": "Tick-Größe",
                 "ru": "размер галочки",
                 "pt": "tamanho do carrapato",
@@ -1076,7 +1086,7 @@
                 "zh-cn": "刻度大小"
             },
             "graph2minTickSize": {
-                 "en": "min. tick size",
+                "en": "min. tick size",
                 "de": "Mindest. Tick-Größe",
                 "ru": "минимум размер галочки",
                 "pt": "min. tamanho do carrapato",
@@ -1149,7 +1159,7 @@
                 "zh-cn": "小数点"
             },
             "graph3tickSize": {
-                 "en": "tick size",
+                "en": "tick size",
                 "de": "Tick-Größe",
                 "ru": "размер галочки",
                 "pt": "tamanho do carrapato",
@@ -1161,7 +1171,7 @@
                 "zh-cn": "刻度大小"
             },
             "graph3minTickSize": {
-                 "en": "min. tick size",
+                "en": "min. tick size",
                 "de": "Mindest. Tick-Größe",
                 "ru": "минимум размер галочки",
                 "pt": "min. tamanho do carrapato",
@@ -1234,7 +1244,7 @@
                 "zh-cn": "小数点"
             },
             "graph4tickSize": {
-                 "en": "tick size",
+                "en": "tick size",
                 "de": "Tick-Größe",
                 "ru": "размер галочки",
                 "pt": "tamanho do carrapato",
@@ -1246,7 +1256,7 @@
                 "zh-cn": "刻度大小"
             },
             "graph4minTickSize": {
-                 "en": "min. tick size",
+                "en": "min. tick size",
                 "de": "Mindest. Tick-Größe",
                 "ru": "минимум размер галочки",
                 "pt": "min. tamanho do carrapato",
@@ -1268,6 +1278,30 @@
                 "es": "ancho de etiqueta",
                 "pl": "szerokość etykiety",
                 "zh-cn": "标签宽度"
+            },
+            "WithHOver": {
+                "en": "With Value box",
+                "de": "Mit Wertbox",
+                "ru": "С коробкой ценности",
+                "pt": "Com caixa de valor",
+                "nl": "Met Value box",
+                "fr": "Avec boîte de valeur",
+                "it": "Con Valore",
+                "es": "Con caja de valor",
+                "pl": "Wagon z Value",
+                "zh-cn": "价值箱"
+            },
+            "WithPoints": {
+                "en": "with points",
+                "de": "mit Punkten",
+                "ru": "с точками",
+                "pt": "com pontos",
+                "nl": "met punten",
+                "fr": "avec points",
+                "it": "con punti",
+                "es": "con puntos",
+                "pl": "punkty",
+                "zh-cn": "要点"
             }
 
         });
@@ -1384,7 +1418,7 @@
                             markings.push({ xaxis: { from: i, to: i + 60 * 60 * 1000 }, color: MarkingColor });
                             i += 2 * 60 * 60 * 1000;
                             limit++;
-                        } while (i < axes.xaxis.max || limit>200);
+                        } while (i < axes.xaxis.max || limit > 200);
                     }
                     return markings;
 
@@ -1410,7 +1444,7 @@
                             ticks.push([i]);
                             i += 24 * 60 * 60 * 1000;
                             limit++;
-                        } while (i < axis.max || limit>200);
+                        } while (i < axis.max || limit > 200);
                     }
                     else {
                         minDate.setHours(0);
@@ -1420,7 +1454,7 @@
                             ticks.push([i]);
                             i += 6 * 60 * 60 * 1000;
                             limit++;
-                        } while (i < axis.max || limit>200);
+                        } while (i < axis.max || limit > 200);
                     }
                     return ticks;
                 }
@@ -1791,6 +1825,7 @@
                                     xaxis: 1,
                                     yaxis: 1,
                                     lines: { show: data.graph1charttype == "charttypeline" },
+                                    points: { show: data.WithPoints },
                                     bars:
                                     {
                                         show: data.graph1charttype == "charttypebar",
@@ -1806,6 +1841,7 @@
                                     xaxis: 1,
                                     yaxis: 2,
                                     lines: { show: data.graph2charttype == "charttypeline" },
+                                    points: { show: data.WithPoints },
                                     bars:
                                     {
                                         show: data.graph2charttype == "charttypebar",
@@ -1821,6 +1857,7 @@
                                     xaxis: 1,
                                     yaxis: 3,
                                     lines: { show: data.graph3charttype == "charttypeline" },
+                                    points: { show: data.WithPoints },
                                     bars:
                                     {
                                         show: data.graph3charttype == "charttypebar",
@@ -1836,6 +1873,7 @@
                                     xaxis: 1,
                                     yaxis: 4,
                                     lines: { show: data.graph4charttype == "charttypeline" },
+                                    points: { show: data.WithPoints },
                                     bars:
                                     {
                                         show: data.graph4charttype == "charttypebar",
@@ -2030,6 +2068,10 @@
                                     ],
                                 grid:
                                 {
+                                    //hover
+                                    hoverable: true, //to trigger plothover event on mouse hover or tap on a point
+                                    clickable: true, //to trigger plotclick event on mouse hover
+
                                     markings: data.withmarking ? GridMarkings : null,
 
                                     // backgroundColor: data.nobgcolor ? null : { colors: ["#fff", "#eee"] },
@@ -2060,6 +2102,48 @@
                                 }
                             }
                         );
+
+
+                        //****************************************************************************************
+                        //hover
+
+                        console.log("hover start " + widgetID + " " + data.WithHOver);
+                        if (data.WithHOver) {
+                            console.log("hover start " + widgetID);
+                            $('#' + widgetID).bind("plotclick", function (event, pos, item) {
+                                console.log("clicked at " + pos.x + ", " + pos.y);
+                                // axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...
+                                // if you need global screen coordinates, they are pos.pageX, pos.pageY
+
+                                if (item) {
+
+                                    let x = item.datapoint[0];
+                                    let y = item.datapoint[1].toFixed(2);
+
+                                    var xDate = new Date(x);
+
+                                    console.log("clicked a point!" + item.series.label + " " + y + " on " + xDate.toLocaleString());
+
+                                    $("#tooltip").html("Wert " + y)
+                                        .css({ top: item.pageY + 5, left: item.pageX + 5 })
+                                        .fadeIn(200);
+
+                                }
+                                else {
+                                    $("#tooltip").stop().hide();
+                                }
+                            });
+
+                            $("<div id='tooltip'></div>").css({
+                                position: "absolute",
+                                display: "none",
+                                border: "1px solid #fdd",
+                                padding: "2px",
+                                "background-color": "#fee",
+                                opacity: 0.80
+                            }).appendTo("body");
+                            //****************************************************************************************
+                        }
                     }
                 };
 
@@ -2162,7 +2246,7 @@
         data-vis-name="ebus"
         data-vis-update-style="true"
         data-vis-attrs="ebusinstance/ebus/onInstanceChanged;"
-        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;LabelFontSize[8];LabelFontFamily[Arial]/fontname;withmarking[true]/checkbox;markingcolor[#eaebe5]/color;xDateFormat[%H:%M];borderWidth[1];bordercolor[#000000]/color;nobgcolor[true]/checkbox;bgcolor[#FFFFFF]/color;withlegend[false]/checkbox;legendposition[ne]/select,ne,nw,se,sw;"
+        data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;LabelFontSize[8];LabelFontFamily[Arial]/fontname;withmarking[true]/checkbox;markingcolor[#eaebe5]/color;xDateFormat[%H:%M];borderWidth[1];bordercolor[#000000]/color;nobgcolor[true]/checkbox;bgcolor[#FFFFFF]/color;withlegend[false]/checkbox;legendposition[ne]/select,ne,nw,se,sw;WithHOver[true]/checkbox;WithPoints[true]/checkbox;"
         data-vis-attrs1="group.graph1;graph1visible[true]/checkbox;oid_historygraph1/id;graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1Name;graph1color[#f1f113]/color;graph1coloraxis[#1d0ed8]/color;graph1colorticklabel[#1d0ed8]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,kW,degree;graph1tickLength[5];graph1showMinorTicks[true]/checkbox;graph1showTicks[true]/checkbox;graph1tickDecimals[1];graph1tickSize[3];graph1minTickSize[2];graph1labelwidth[30];"
         data-vis-attrs2="group.graph2;graph2visible[true]/checkbox;oid_historygraph2/id;graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2Name;graph2color[#f1f113]/color;graph2coloraxis[#1d0ed8]/color;graph2colorticklabel[#1d0ed8]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,kW,degree;graph2tickLength[5];graph2showMinorTicks[true]/checkbox;graph2showTicks[true]/checkbox;graph2tickDecimals[1];graph2tickSize[3];graph2minTickSize[2];graph2labelwidth[30];"
         data-vis-attrs3="group.graph3;graph3visible[true]/checkbox;oid_historygraph3/id;graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3Name;graph3color[#f1f113]/color;graph3coloraxis[#1d0ed8]/color;graph3colorticklabel[#1d0ed8]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,kW,degree;graph3tickLength[5];graph3showMinorTicks[true]/checkbox;graph3showTicks[true]/checkbox;graph3tickDecimals[1];graph3tickSize[3];graph3minTickSize[2];graph3labelwidth[30];"

@@ -144,10 +144,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     function init(plot) {
-        plot.hooks.processOptions.push(function (plot, options) {
-
-            console.log('??????? ');
-
+        plot.hooks.processOptions.push(function(plot, options) {
             if (!options.axisLabels.show) {
                 return;
             }

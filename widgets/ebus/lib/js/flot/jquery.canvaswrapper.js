@@ -372,8 +372,6 @@ don't work unless the canvas is attached to the DOM.
 
         // Tweak the div's position to match the text's alignment
 
-        console.log('add text ' + text);
-
         if (halign === 'center') {
             x -= info.width / 2;
         } else if (halign === 'right') {
