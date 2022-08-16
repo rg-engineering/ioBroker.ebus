@@ -261,7 +261,7 @@ async function ebusd_Command() {
                         const data = await promiseSocket.read();
 
                         if (data.includes("ERR")) {
-                            adapter.log.error("sent " + oCmds[n] + ", received " + data);
+                            adapter.log.warn("sent " + oCmds[n] + ", received " + data + " please check ebusd logs for details!";
                         }
                         else {
                             adapter.log.debug("received " + data);
@@ -971,7 +971,7 @@ async function ebusd_ReadValues() {
 
                 //received ERR: arbitration lost for YieldThisYear
                 if (data.includes("ERR")) {
-                    adapter.log.error("sent " + cmd + ", received " + data + " for " + JSON.stringify(oPolledVars[nCtr]));
+                    adapter.log.warn("sent " + cmd + ", received " + data + " for " + JSON.stringify(oPolledVars[nCtr]) + " please check ebusd logs for details!");
 
                     /*
                     * sent read -f YieldLastYear, received ERR: arbitration lost for {"circuit":"","name":"YieldLastYear","parameter":""}
