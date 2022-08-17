@@ -1363,20 +1363,64 @@
                 }
 
                 function xwhFormatter(val, axis) {
-                    if (val > 1000000)
-                        return (val / 1000000).toFixed(axis.tickDecimals) + " MWh";
-                    else if (val > 1000)
-                        return (val / 1000).toFixed(axis.tickDecimals) + " kWh";
+                    let myval;
+                    if (typeof val == "string") {
+                        console.log('xwhFormatter convert to number ');
+                        myval = Number(val);
+                    }
+                    else {
+                        myval = val;
+                    }
+
+                    console.log('xwhFormatter for ' + val + " " + typeof val);
+
+                    if (myval > 1000000)
+                        return (myval / 1000000).toFixed(axis.tickDecimals) + " MWh";
+                    else if (myval > 1000)
+                        return (myval / 1000).toFixed(axis.tickDecimals) + " kWh";
                     else
-                        return val.toFixed(axis.tickDecimals) + " Wh";
+                        return (myval*1).toFixed(axis.tickDecimals) + " Wh";
                 }
                 function xwFormatter(val, axis) {
-                    if (val > 1000000)
-                        return (val / 1000000).toFixed(axis.tickDecimals) + " MW";
-                    else if (val > 1000)
-                        return (val / 1000).toFixed(axis.tickDecimals) + " kW";
+
+                    let myval;
+                    if (typeof val == "string") {
+                        console.log('xwFormatter convert to number ');
+                        myval = Number(val);
+                    }
+                    else {
+                        myval = val;
+                    }
+
+                    console.log('xwFormatter for ' + val + " " + typeof val);
+
+                    if (myval > 1000000)
+                        return (myval / 1000000).toFixed(axis.tickDecimals) + " MW";
+                    else if (myval > 1000)
+                        return (myval / 1000).toFixed(axis.tickDecimals) + " kW";
                     else
-                        return val.toFixed(axis.tickDecimals) + " W";
+                        return (myval*1).toFixed(axis.tickDecimals) + " W";
+                }
+
+                function xkwFormatter(val, axis) {
+
+                    let myval;
+                    if (typeof val == "string") {
+                        console.log('xkwFormatter convert to number ');
+                        myval = Number(val);
+                    }
+                    else {
+                        myval = val;
+                    }
+
+                    console.log('xkwFormatter for ' + val + " " + typeof val);
+
+                    if (myval > 1000)
+                        return (myval / 1000).toFixed(axis.tickDecimals) + " MW";
+                    else if (myval > 1)
+                        return (myval / 1).toFixed(axis.tickDecimals) + " kW";
+                    else
+                        return (myval * 0.001).toFixed(axis.tickDecimals) + " W";
                 }
 
                 function legendformater(label, series) {
@@ -1436,7 +1480,7 @@
 
                     let limit = 0;
                     //if we only few hours then we need markings per hour otherwise per day
-                    //Achtung, wenn zuwenige Punkte, dann wird X-Achse nicht angezeigt
+                    //Achtung, wenn zuwenige Punkte, dann wird X-Achse Beschriftung nicht angezeigt
                     if (dayDiff > 2) {
                         minDate.setHours(12);
                         minDate.setMinutes(0);
@@ -1771,8 +1815,12 @@
                                 Graph1Formatter = xwhFormatter;
                                 console.log("kWh format");
                                 break;
-                            case "kW":
+                            case "W":
                                 Graph1Formatter = xwFormatter;
+                                console.log("W format");
+                                break;
+                            case "kW":
+                                Graph1Formatter = xkwFormatter;
                                 console.log("kW format");
                                 break;
                             case "degree":
@@ -1791,8 +1839,12 @@
                                 Graph2Formatter = xwhFormatter;
                                 console.log("kWh format");
                                 break;
+                            case "W":
+                                Graph1Formatter = xwFormatter;
+                                console.log("W format");
+                                break;
                             case "kW":
-                                Graph2Formatter = xwFormatter;
+                                Graph2Formatter = xkwFormatter;
                                 console.log("kW format");
                                 break;
                             case "degree":
@@ -1811,8 +1863,12 @@
                                 Graph3Formatter = xwhFormatter;
                                 console.log("kWh format");
                                 break;
+                            case "W":
+                                Graph1Formatter = xwFormatter;
+                                console.log("W format");
+                                break;
                             case "kW":
-                                Graph3Formatter = xwFormatter;
+                                Graph3Formatter = xkwFormatter;
                                 console.log("kW format");
                                 break;
 
@@ -1832,8 +1888,12 @@
                                 Graph4Formatter = xwhFormatter;
                                 console.log("kWh format");
                                 break;
+                            case "W":
+                                Graph1Formatter = xwFormatter;
+                                console.log("W format");
+                                break;
                             case "kW":
-                                Graph4Formatter = xwFormatter;
+                                Graph4Formatter = xkwFormatter;
                                 console.log("kW format");
                                 break;
                             case "degree":
@@ -2153,9 +2213,9 @@
 
                                     var xDate = new Date(x);
 
-                                    console.log("clicked a point!" + item.series.label + " " + y + " on " + xDate.toLocaleString());
+                                    console.log("clicked a point!" + item.series.label + " " + y + " on " + xDate.toLocaleString() + " = " + $.plot.formatDate(xDate, data.xDateFormat));
 
-                                    $("#tooltip").html("Wert " + y)
+                                    $("#tooltip").html($.plot.formatDate(xDate, data.xDateFormat) + "<br> " + item.series.yaxis.tickFormatter(y, item.series.yaxis))
                                         .css({ top: item.pageY + 5, left: item.pageX + 5 })
                                         .fadeIn(200);
 
@@ -2165,13 +2225,15 @@
                                 }
                             });
 
+                            //damit Tooltip in Vordergrund erscheind, muss z-index vom widget 0 sein...
+
                             $("<div id='tooltip'></div>").css({
                                 position: "absolute",
                                 display: "none",
                                 border: "1px solid #fdd",
                                 padding: "2px",
                                 "background-color": "#fee",
-                                opacity: 0.80
+                                opacity: 1
                             }).appendTo("body");
                             //****************************************************************************************
                         }
@@ -2278,10 +2340,10 @@
         data-vis-update-style="true"
         data-vis-attrs="ebusinstance/ebus/onInstanceChanged;"
         data-vis-attrs0="time_interval[30 minutes]/select,1 second,10 seconds,30 seconds,1 minute,2 minutes,5 minutes,10 minutes,30 minutes,1 hour,2 hours,4 hours,8 hours,12 hours,24 hours;withxaxix[true]/checkbox;axislabelcolor[#ffffff]/color;tickscolor[#ffffff]/color;LabelFontSize[8];LabelFontFamily[Arial]/fontname;withmarking[true]/checkbox;markingcolor[#eaebe5]/color;xDateFormat[%H:%M];borderWidth[1];bordercolor[#000000]/color;nobgcolor[true]/checkbox;bgcolor[#FFFFFF]/color;withlegend[false]/checkbox;legendposition[ne]/select,ne,nw,se,sw;WithHOver[true]/checkbox;WithPoints[true]/checkbox;"
-        data-vis-attrs1="group.graph1;graph1visible[true]/checkbox;oid_historygraph1/id;graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1Name;graph1color[#f1f113]/color;graph1coloraxis[#1d0ed8]/color;graph1colorticklabel[#1d0ed8]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,kW,degree;graph1tickLength[5];graph1showMinorTicks[true]/checkbox;graph1showTicks[true]/checkbox;graph1tickDecimals[1];graph1tickSize[3];graph1minTickSize[2];graph1labelwidth[30];"
-        data-vis-attrs2="group.graph2;graph2visible[true]/checkbox;oid_historygraph2/id;graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2Name;graph2color[#f1f113]/color;graph2coloraxis[#1d0ed8]/color;graph2colorticklabel[#1d0ed8]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,kW,degree;graph2tickLength[5];graph2showMinorTicks[true]/checkbox;graph2showTicks[true]/checkbox;graph2tickDecimals[1];graph2tickSize[3];graph2minTickSize[2];graph2labelwidth[30];"
-        data-vis-attrs3="group.graph3;graph3visible[true]/checkbox;oid_historygraph3/id;graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3Name;graph3color[#f1f113]/color;graph3coloraxis[#1d0ed8]/color;graph3colorticklabel[#1d0ed8]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,kW,degree;graph3tickLength[5];graph3showMinorTicks[true]/checkbox;graph3showTicks[true]/checkbox;graph3tickDecimals[1];graph3tickSize[3];graph3minTickSize[2];graph3labelwidth[30];"
-        data-vis-attrs4="group.graph4;graph4visible[true]/checkbox;oid_historygraph4/id;graph4charttype[charttypeline]/select,charttypeline,charttypebar;graph4Name;graph4color[#f1f113]/color;graph4coloraxis[#1d0ed8]/color;graph4colorticklabel[#1d0ed8]/color;graph4withyaxix[true]/checkbox;graph4YAxisFomat[none]/select,none,kWh,kW,degree;graph4tickLength[5];graph4showMinorTicks[true]/checkbox;graph4showTicks[true]/checkbox;graph4tickDecimals[1];graph4tickSize[3];graph4minTickSize[2];graph4labelwidth[30];"
+        data-vis-attrs1="group.graph1;graph1visible[true]/checkbox;oid_historygraph1/id;graph1charttype[charttypeline]/select,charttypeline,charttypebar;graph1Name;graph1color[#f1f113]/color;graph1coloraxis[#1d0ed8]/color;graph1colorticklabel[#1d0ed8]/color;graph1withyaxix[true]/checkbox;graph1YAxisFomat[none]/select,none,kWh,W,kW,degree;graph1tickLength[5];graph1showMinorTicks[true]/checkbox;graph1showTicks[true]/checkbox;graph1tickDecimals[1];graph1tickSize[3];graph1minTickSize[2];graph1labelwidth[30];"
+        data-vis-attrs2="group.graph2;graph2visible[true]/checkbox;oid_historygraph2/id;graph2charttype[charttypeline]/select,charttypeline,charttypebar;graph2Name;graph2color[#f1f113]/color;graph2coloraxis[#1d0ed8]/color;graph2colorticklabel[#1d0ed8]/color;graph2withyaxix[true]/checkbox;graph2YAxisFomat[none]/select,none,kWh,W,kW,degree;graph2tickLength[5];graph2showMinorTicks[true]/checkbox;graph2showTicks[true]/checkbox;graph2tickDecimals[1];graph2tickSize[3];graph2minTickSize[2];graph2labelwidth[30];"
+        data-vis-attrs3="group.graph3;graph3visible[true]/checkbox;oid_historygraph3/id;graph3charttype[charttypeline]/select,charttypeline,charttypebar;graph3Name;graph3color[#f1f113]/color;graph3coloraxis[#1d0ed8]/color;graph3colorticklabel[#1d0ed8]/color;graph3withyaxix[true]/checkbox;graph3YAxisFomat[none]/select,none,kWh,W,kW,degree;graph3tickLength[5];graph3showMinorTicks[true]/checkbox;graph3showTicks[true]/checkbox;graph3tickDecimals[1];graph3tickSize[3];graph3minTickSize[2];graph3labelwidth[30];"
+        data-vis-attrs4="group.graph4;graph4visible[true]/checkbox;oid_historygraph4/id;graph4charttype[charttypeline]/select,charttypeline,charttypebar;graph4Name;graph4color[#f1f113]/color;graph4coloraxis[#1d0ed8]/color;graph4colorticklabel[#1d0ed8]/color;graph4withyaxix[true]/checkbox;graph4YAxisFomat[none]/select,none,kWh,W,kW,degree;graph4tickLength[5];graph4showMinorTicks[true]/checkbox;graph4showTicks[true]/checkbox;graph4tickDecimals[1];graph4tickSize[3];graph4minTickSize[2];graph4labelwidth[30];"
         data-vis-attrs5="group.oids;oid_historydate/id;">
 
     <div class="vis-widget <%== this.data.attr('class') %>" style="width:210px; height:170px;" id="<%= this.data.attr('wid') %>">
