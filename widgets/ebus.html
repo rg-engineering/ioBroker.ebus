@@ -1350,6 +1350,24 @@
 
                 }
 
+                //****************************************************************************************
+                //hover
+
+                if (data.WithHOver) {
+                    //das muss in's init...
+
+                    
+
+                    $("<div id='ebustooltip'></div>").css({
+                        position: "absolute",
+                        display: "none",
+                        border: "1px solid #fdd",
+                        padding: "2px",
+                        "background-color": "#fee",
+                        opacity: 1
+                    }).appendTo("body");
+                    //****************************************************************************************
+                }
 
                 function SetMarkingColor(color) {
                     MarkingColor = color;
@@ -2215,28 +2233,24 @@
 
                                     console.log("clicked a point!" + item.series.label + " " + y + " on " + xDate.toLocaleString() + " = " + $.plot.formatDate(xDate, data.xDateFormat));
 
-                                    $("#tooltip").html($.plot.formatDate(xDate, data.xDateFormat) + "<br> " + item.series.yaxis.tickFormatter(y, item.series.yaxis))
-                                        .css({ top: item.pageY + 5, left: item.pageX + 5 })
+                                    let zindex = $div.css("z-index");
+                                    zindex++;
+                                    console.log("z-index " + zindex);
+                                    //damit Tooltip in Vordergrund erscheind, muss z-index vom widget kleiner sein...
+
+                                    $("#ebustooltip").html($.plot.formatDate(xDate, data.xDateFormat) + "<br> " + item.series.yaxis.tickFormatter(y, item.series.yaxis))
+                                        .css({ top: item.pageY + 5, left: item.pageX + 5, "z-index": zindex })
                                         .fadeIn(200);
 
                                 }
                                 else {
-                                    $("#tooltip").stop().hide();
+                                    $("#ebustooltip").stop().hide();
                                 }
                             });
-
-                            //damit Tooltip in Vordergrund erscheind, muss z-index vom widget 0 sein...
-
-                            $("<div id='tooltip'></div>").css({
-                                position: "absolute",
-                                display: "none",
-                                border: "1px solid #fdd",
-                                padding: "2px",
-                                "background-color": "#fee",
-                                opacity: 1
-                            }).appendTo("body");
-                            //****************************************************************************************
                         }
+                        //****************************************************************************************
+
+                        
                     }
                 };
 
