@@ -297,6 +297,39 @@ function subscribeVars() {
     adapter.subscribeStates("cmd");
 }
 
+async function CreateObject(key, obj) {
+
+    const obj_new = await adapter.getObjectAsync(key);
+    //adapter.log.warn("got object " + JSON.stringify(obj_new));
+
+    if (obj_new != null) {
+
+        if ((obj_new.common.role != obj.common.role
+            || obj_new.common.type != obj.common.type
+            || (obj_new.common.unit != obj.common.unit && obj.common.unit != null)
+            || obj_new.common.read != obj.common.read
+            || obj_new.common.write != obj.common.write
+            || obj_new.common.name != obj.common.name)
+            && obj.type === "state"
+        ) {
+            adapter.log.warn("change object " + JSON.stringify(obj) + " " + JSON.stringify(obj_new));
+            await adapter.extendObject(key, {
+                common: {
+                    name: obj.common.name,
+                    role: obj.common.role,
+                    type: obj.common.type,
+                    unit: obj.common.unit,
+                    read: obj.common.read,
+                    write: obj.common.write
+                }
+            });
+        }
+    }
+    else {
+        await adapter.setObjectNotExistsAsync(key, obj);
+    }
+}
+
 
 async function checkVariables() {
     adapter.log.debug("init variables ");
@@ -305,7 +338,7 @@ async function checkVariables() {
     let obj;
 
     key = "cmd";
-    await adapter.setObjectNotExistsAsync(key, {
+    obj= {
         type: "state",
         common: {
             name: "ebusd command",
@@ -314,23 +347,11 @@ async function checkVariables() {
             read: true,
             write: true
         }
-    });
-
-    obj = await adapter.getObjectAsync(key);
-
-    if (obj != null) {
-
-        if (obj.common.role != "text") {
-            await adapter.extendObject(key, {
-                common: {
-                    role: "text",
-                }
-            });
-        }
-    }
+    };
+    await CreateObject(key, obj);
 
     key = "cmdResult";
-    await adapter.setObjectNotExistsAsync(key, {
+    obj = {
         type: "state",
         common: {
             name: "ebusd command result",
@@ -339,25 +360,11 @@ async function checkVariables() {
             read: true,
             write: false
         }
-    });
-    obj = await adapter.getObjectAsync(key);
-
-    if (obj != null) {
-
-        if (obj.common.role != "text") {
-            await adapter.extendObject(key, {
-                common: {
-                    role: "text",
-                }
-            });
-        }
-    }
-
-
+    };
+    await CreateObject(key, obj);
 
     adapter.log.debug("init common variables and " + oHistoryVars.length + " history DP's");
     
-
     if (oHistoryVars.length > 0) {
 
         if (oHistoryVars.length > 4) {
@@ -369,7 +376,7 @@ async function checkVariables() {
             if (oHistoryVars[n - 1].name.length > 0) {
                 const name = "history value " + n + " as JSON " + oHistoryVars[n - 1].name;
                 key = "history.value" + n;
-                await adapter.setObjectNotExistsAsync(key, {
+                obj= {
                     type: "state",
                     common: {
                         name: name,
@@ -380,21 +387,8 @@ async function checkVariables() {
                         write: false
                     },
                     native: { location: key }
-                });
-
-                obj = await adapter.getObjectAsync(key);
-
-                if (obj != null) {
-
-                    if (obj.common.role != "value" || obj.common.name != name) {
-                        await adapter.extendObject(key, {
-                            common: {
-                                name: name,
-                                role: "value",
-                            }
-                        });
-                    }
-                }
+                };
+                await CreateObject(key, obj);
             }
             else {
                 adapter.log.warn("ignoring history value " + n + " (invalid name)");
@@ -402,42 +396,36 @@ async function checkVariables() {
         }
 
         key = "history.date";
-        await adapter.setObjectNotExistsAsync(key, {
+        obj= {
             type: "state",
-            common: { name: "ebus history date as JSON", type: "string", role: "value", unit: "", read: true, write: false },
-            native: { location: key }
-        });
-        obj = await adapter.getObjectAsync(key);
-
-        if (obj != null) {
-
-            if (obj.common.role != "value") {
-                await adapter.extendObject(key, {
-                    common: {
-                        role: "value",
-                    }
-                });
+            common: {
+                name: "ebus history date as JSON",
+                type: "string",
+                role: "value",
+                unit: "",
+                read: true,
+                write: false
+            },
+            native: {
+                location: key
             }
-        }
+        };
+        await CreateObject(key, obj);
     }
     key = "history.error";
-    await adapter.setObjectNotExistsAsync(key, {
+    obj= {
         type: "state",
-        common: { name: "ebus error", type: "string", role: "value", unit: "", read: true, write: false },
+        common: {
+            name: "ebus error",
+            type: "string",
+            role: "value",
+            unit: "",
+            read: true,
+            write: false
+        },
         native: { location: key }
-    });
-    obj = await adapter.getObjectAsync(key);
-
-    if (obj != null) {
-
-        if (obj.common.role != "value") {
-            await adapter.extendObject(key, {
-                common: {
-                    role: "value",
-                }
-            });
-        }
-    }
+    };
+    await CreateObject(key, obj);
 }
 
 
@@ -536,7 +524,7 @@ async function ebusd_ReceiveData() {
                 //adapter.log.info("in version, value " + value);
                 const versionInfo = value.split('.');
                 if (versionInfo.length > 1) {
-                    adapter.log.info("found ebusd version " + versionInfo[0] + "." + versionInfo[1]);
+                    adapter.log.info("installed ebusd version is " + versionInfo[0] + "." + versionInfo[1]);
 
                     ebusdVersion[0] = versionInfo[0];
                     ebusdVersion[1] = versionInfo[1];
@@ -902,12 +890,15 @@ async function AddObject(key, type) {
 
 async function UpdateObject(key, value) {
     try {
-        if (value == null || value == undefined) {
-            adapter.log.debug("updateObject: not updated " + key + " value: " + value);
+        if (typeof value == undefined) {
+            adapter.log.warn("updateObject: not updated " + key + " value: " + value + " " + typeof value);
+        }
+        else if (value == null ) {
+            adapter.log.debug("updateObject: update to null " + key + " value: " + value);
+            await adapter.setStateAsync(key, { ack: true, val: null });
         }
         else {
             adapter.log.debug("updateObject " + key + " : " + value);
-
             await adapter.setStateAsync(key, { ack: true, val: value });
         }        
     } catch (e) {
