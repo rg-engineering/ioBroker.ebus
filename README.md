@@ -55,7 +55,7 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
    
 ## Changelog
 
-### 3.0.3 (2022-08-18)
+### 3.0.4 (2022-08-18)
 * (René) tooltip in wizard added
 * (René) flot and dependencies updated
 * (René) errors from ebusd are shown as warning here in adapter, details schould be checked in logs of ebusd
