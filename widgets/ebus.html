@@ -1385,7 +1385,7 @@
 
                     console.log('noneFormatter for ' + val + " " + typeof val);
 
-                    return val.toFixed(axis.tickDecimals);
+                    return (myval * 1).toFixed(axis.tickDecimals);
                 }
 
                 function degreeFormatter(val, axis) {
@@ -1400,7 +1400,7 @@
 
                     console.log('degreeFormatter for ' + val + " " + typeof val);
 
-                    return val.toFixed(axis.tickDecimals) + "°C";
+                    return (myval * 1).toFixed(axis.tickDecimals) + "°C";
                 }
 
                 function xwhFormatter(val, axis) {
