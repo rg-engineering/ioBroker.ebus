@@ -1372,12 +1372,35 @@
                 function SetMarkingColor(color) {
                     MarkingColor = color;
                 }
-                function noneFormatter(v, axis) {
-                    return v.toFixed(axis.tickDecimals);
+                function noneFormatter(val, axis) {
+
+                    let myval;
+                    if (typeof val == "string") {
+                        console.log('noneFormatter convert to number ');
+                        myval = Number(val);
+                    }
+                    else {
+                        myval = val;
+                    }
+
+                    console.log('noneFormatter for ' + val + " " + typeof val);
+
+                    return val.toFixed(axis.tickDecimals);
                 }
 
-                function degreeFormatter(v, axis) {
-                    return v.toFixed(axis.tickDecimals) + "°C";
+                function degreeFormatter(val, axis) {
+                    let myval;
+                    if (typeof val == "string") {
+                        console.log('degreeFormatter convert to number ');
+                        myval = Number(val);
+                    }
+                    else {
+                        myval = val;
+                    }
+
+                    console.log('degreeFormatter for ' + val + " " + typeof val);
+
+                    return val.toFixed(axis.tickDecimals) + "°C";
                 }
 
                 function xwhFormatter(val, axis) {
@@ -1399,6 +1422,7 @@
                     else
                         return (myval*1).toFixed(axis.tickDecimals) + " Wh";
                 }
+
                 function xwFormatter(val, axis) {
 
                     let myval;

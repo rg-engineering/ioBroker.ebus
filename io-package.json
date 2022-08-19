@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.0.4",
+        "version": "3.0.5",
         "news": {
-            "3.0.4": {
+            "3.0.5": {
                 "en": "widget with tooltip",
                 "de": "Widget mit Tooltip",
                 "ru": "виджет с подсказкой",

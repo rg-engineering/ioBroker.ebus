@@ -55,6 +55,9 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
    
 ## Changelog
 
+### 3.0.5 (2022-08-19)
+* (René) bug fix in tooltip in wizard
+
 ### 3.0.4 (2022-08-18)
 * (René) tooltip in wizard added
 * (René) flot and dependencies updated
