@@ -675,7 +675,7 @@ async function ebusd_ReceiveData() {
                         else {
                             sError += sError1;
                         }
-                        adapter.log.debug(sError1);
+                        adapter.log.warn(sError1);
                     }
 
 
