@@ -654,7 +654,7 @@ async function ebusd_ReceiveData() {
 
                     if (subnames[0].includes("scan") ||
                         subnames[0].includes("ehp") ||
-                        subnames[2].includes("currenterror")
+                        (subnames.length>2 && subnames[2].includes("currenterror")) 
 
                         ) {
                         bSkip = true;
