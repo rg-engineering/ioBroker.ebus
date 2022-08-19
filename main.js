@@ -653,7 +653,10 @@ async function ebusd_ReceiveData() {
                     let bSkip = false;
 
                     if (subnames[0].includes("scan") ||
-                        subnames[0].includes("ehp")) {
+                        subnames[0].includes("ehp") ||
+                        subnames[2].includes("currenterror")
+
+                        ) {
                         bSkip = true;
                     }
                     if (temp > 2) {
