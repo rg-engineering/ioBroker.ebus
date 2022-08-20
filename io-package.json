@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.0.6",
+        "version": "3.0.7",
         "news": {
+            "3.0.7": {
+                "en": "support of ebusd 22.3",
+                "de": "Unterstützung von ebusd 22.3",
+                "ru": "поддержка ebusd 22.3",
+                "pt": "suporte de ebusd 22.3",
+                "nl": "ondersteuning van ebusd 22.3",
+                "fr": "prise en charge d'ebusd 22.3",
+                "it": "supporto di ebusd 22.3",
+                "es": "soporte de ebusd 22.3",
+                "pl": "obsługa ebusd 22.3",
+                "zh-cn": "支持 ebusd 22.3"
+            },
             "3.0.6": {
                 "en": "widget with tooltip",
                 "de": "Widget mit Tooltip",
