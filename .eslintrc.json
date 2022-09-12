@@ -1,35 +1,385 @@
 {
-	"env": {
-		"es6": true,
-		"node": true,
-		"mocha": true
-	},
-	"extends": "eslint:recommended",
+	"root": true,
+	"ignorePatterns": [
+		"node_modules/**"
+	],
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint",
+		"import-newlines",
+		"import",
+		"simple-import-sort",
+		"unused-imports"
+	],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended"
+	],
 	"rules": {
+		"quotes": "off", // prefer @typescript-eslint/quote
+		"arrow-body-style": [
+			"error",
+			"as-needed"
+		],
+		"arrow-parens": "off",
+		"default-case": "off",
+		"id-denylist": [
+			"error",
+			"any",
+			"Number",
+			"number",
+			"String",
+			"string",
+			"Boolean",
+			"boolean",
+			"Undefined",
+			"undefined"
+		],
 		"indent": [
 			"error",
 			4,
 			{
-				"SwitchCase": 1
+				"SwitchCase": 1,
+				"MemberExpression": "off"
 			}
 		],
-		"no-console": "off",
-		"no-var": "error",
-		"prefer-const": "error",
-		"quotes": [
+		"linebreak-style": [
 			"error",
-			"double",
+			"unix"
+		],
+		"max-len": [
+			"error",
 			{
-				"avoidEscape": true,
-				"allowTemplateLiterals": true
+				"code": 200
 			}
 		],
-		"semi": [
+		"import-newlines/enforce": [
+			"error",
+			4,
+			200
+		],
+		"no-console": "error",
+		"no-constant-condition": "error",
+		"no-fallthrough": "error",
+		"no-multi-spaces": "error",
+		"no-redeclare": "error",
+		"no-throw-literal": "error",
+		"no-shadow": "off",
+		"no-sparse-arrays": "error",
+		"no-underscore-dangle": "off",
+		"no-unsafe-finally": "error",
+		"getter-return": [
+			"error",
+			{
+				"allowImplicit": false
+			}
+		],
+		"no-dupe-args": "error",
+		"no-duplicate-case": "error",
+		"no-empty": [
+			"error",
+			{
+				"allowEmptyCatch": false
+			}
+		],
+		"no-empty-character-class": "error",
+		"no-eval": "error",
+		"no-extra-parens": "off",
+		"no-extra-semi": "error",
+		"no-invalid-regexp": "error",
+		"no-irregular-whitespace": [
+			"error",
+			{
+				"skipComments": false,
+				"skipStrings": true,
+				"skipTemplates": false,
+				"skipRegExps": false
+			}
+		],
+		"no-misleading-character-class": "error",
+		"no-regex-spaces": "error",
+		"no-unexpected-multiline": "error",
+		"no-unreachable": "error",
+		"no-var": "error",
+		"valid-typeof": [
+			"error",
+			{
+				"requireStringLiterals": false
+			}
+		],
+		"curly": [
+			"error",
+			"all"
+		],
+		"semi": "error",
+		"dot-notation": [
+			"error",
+			{
+				"allowKeywords": true,
+				"allowPattern": ""
+			}
+		],
+		"eqeqeq": "off",
+		"no-useless-catch": "error",
+		"no-useless-return": "error",
+		"no-unused-vars": "off", // prefer unused-imports/no-unused-vars
+		"array-bracket-spacing": [
+			"error",
+			"always",
+			{
+				"singleValue": true,
+				"objectsInArrays": false,
+				"arraysInArrays": false
+			}
+		],
+		"block-spacing": [
+			"error",
+			"never"
+		],
+		"brace-style": [
+			"error",
+			"1tbs",
+			{
+				"allowSingleLine": false
+			}
+		],
+		"comma-dangle": [
+			"error",
+			"never"
+		],
+		"comma-spacing": [
+			"error",
+			{
+				"before": false,
+				"after": true
+			}
+		],
+		"comma-style": [
+			"error",
+			"last"
+		],
+		"computed-property-spacing": [
+			"error",
+			"never"
+		],
+		"eol-last": [
 			"error",
 			"always"
+		],
+		"lines-between-class-members": [
+			"error",
+			"always",
+			{
+				"exceptAfterSingleLine": false
+			}
+		],
+		"no-mixed-spaces-and-tabs": [
+			"error",
+			"smart-tabs"
+		],
+		"no-multiple-empty-lines": [
+			"error",
+			{
+				"max": 1,
+				"maxEOF": 1,
+				"maxBOF": 1
+			}
+		],
+		"no-trailing-spaces": [
+			"error",
+			{
+				"skipBlankLines": false,
+				"ignoreComments": false
+			}
+		],
+		"no-whitespace-before-property": "error",
+		"object-curly-spacing": [
+			"error",
+			"always"
+		],
+		"one-var-declaration-per-line": "off",
+		"operator-assignment": "off",
+		"operator-linebreak": "off",
+		"prefer-object-spread": "off",
+		"quote-props": [
+			"error",
+			"as-needed"
+		],
+		"space-before-blocks": [
+			"error",
+			"always"
+		],
+		"space-before-function-paren": [
+			"error",
+			"always"
+		],
+		"space-in-parens": [
+			"error",
+			"never"
+		],
+		"spaced-comment": [
+			"error",
+			"always"
+		],
+		"switch-colon-spacing": [
+			"error",
+			{
+				"before": false,
+				"after": true
+			}
+		],
+		"require-jsdoc": [
+			"error",
+			{
+				"require": {
+					"FunctionDeclaration": true,
+					"MethodDefinition": true,
+					"ClassDeclaration": false,
+					"ArrowFunctionExpression": false,
+					"FunctionExpression": true
+				}
+			}
+		],
+		"jsdoc/newline-after-description": "off",
+		"@typescript-eslint/ban-types": "off",
+		"@typescript-eslint/member-delimiter-style": "error",
+		"@typescript-eslint/explicit-member-accessibility": [
+			"error",
+			{
+				"accessibility": "explicit",
+				"overrides": {
+					"constructors": "no-public"
+				}
+			}
+		],
+		"@typescript-eslint/no-namespace": "off",
+		"@typescript-eslint/no-shadow": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/prefer-for-of": "error",
+		"@typescript-eslint/quotes": [
+			"error",
+			"single",
+			{
+				"avoidEscape": true
+			}
+		],
+		"@typescript-eslint/no-inferrable-types": [
+			"error",
+			{
+				"ignoreParameters": true,
+				"ignoreProperties": false
+			}
+		],
+		"@typescript-eslint/no-non-null-assertion": "error",
+		"@typescript-eslint/ban-ts-comment": "off",
+		"@typescript-eslint/ban-ts-ignore": "off",
+		"@typescript-eslint/no-unused-vars": "off",
+		// prefer unused-imports/no-unused-vars
+		"import/first": "error",
+		"import/newline-after-import": "error",
+		"import/no-duplicates": "error",
+		"simple-import-sort/imports": "error",
+		"simple-import-sort/exports": "error",
+		"unused-imports/no-unused-imports": "error",
+		"unused-imports/no-unused-vars": [
+			"error",
+			{
+				"vars": "all",
+				"varsIgnorePattern": "^_",
+				"args": "after-used",
+				"argsIgnorePattern": "^_"
+			}
+		],
+		"@typescript-eslint/naming-convention": [
+			"error",
+			{
+				"selector": "default",
+				"format": [
+					"camelCase",
+					"PascalCase",
+					"UPPER_CASE",
+					"snake_case"
+				],
+				"leadingUnderscore": "allowSingleOrDouble",
+				"trailingUnderscore": "allow"
+			},
+			{
+				"selector": [
+					"function"
+				],
+				"format": [
+					"camelCase"
+				],
+				"leadingUnderscore": "allow"
+			},
+			{
+				"selector": [
+					"class",
+					"enum"
+				],
+				"format": [
+					"PascalCase"
+				]
+			},
+			{
+				"selector": "memberLike",
+				"modifiers": [
+					"private"
+				],
+				"format": [
+					"camelCase"
+				],
+				"leadingUnderscore": "require"
+			},
+			{
+				"selector": "typeLike",
+				"format": [
+					"PascalCase"
+				]
+			},
+			{
+				"selector": "interface",
+				"format": [
+					"PascalCase"
+				],
+				"prefix": [
+					"I"
+				]
+			}
+		],
+		"@typescript-eslint/member-ordering": [
+			"error",
+			{
+				"default": [
+					"signature",
+					"static-field",
+					"public-field",
+					[
+						"protected-field",
+						"private-field"
+					],
+					"constructor",
+					[
+						"static-method",
+						"static-get",
+						"static-set"
+					],
+					[
+						"public-method",
+						"public-get",
+						"public-set"
+					],
+					[
+						"protected-method",
+						"protected-get",
+						"protected-set",
+						"private-method",
+						"private-get",
+						"private-set"
+					]
+				]
+			}
 		]
-	},
-	"parserOptions": {
-		"ecmaVersion": 2018
 	}
 }
