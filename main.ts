@@ -6,34 +6,110 @@
 */
 
 import { Adapter, AdapterInstance } from '@iobroker/adapter-core';
-// var request = require('request');
-// const bent = require("bent");
 import axios from 'axios';
 // @ts-ignore
-import { flatten } from 'flat';
-// const parseString = require("xml2js").parseString;
 import net from 'net';
 import { PromiseSocket } from 'promise-socket';
 
+interface IEbusMessageDefinition {
+    writable: boolean;
+    types: string[];
+    circuit: string;
+    name: string;
+    comment: string;
+    masterAddress: string;
+    destinationAddresses: string[];
+    commandBytes: string;
+    id: string;
+    fields: {
+        field: string;
+        part: string;
+        type: string;
+        values: {
+            [key: string]: string;
+        };
+        unit: string;
+        comment: string;
+    }[];
+}
+
+interface IEbusDataPoint {
+    // circuit is optional, ebus can guess sometimes
+    circuit?: string;
+    name: string;
+    // parameters are optional
+    parameter?: string;
+    // field is optional
+    field?: string;
+}
+
+enum IoBrokerCommonTypesEnum {
+    NUMBER ='number',
+    STRING='string',
+    BOOLEAN='boolean',
+    ARRAY= 'array',
+    OBJECT= 'object',
+    MIXED= 'mixed',
+    FILE= 'file'
+}
+
+enum IoBrokerObjectTypesEnum {
+    STATE= 'state',
+    CHANNEL= 'channel',
+    DEVICE= 'device',
+    FOLDER= 'folder',
+    ENUM='enum',
+    ADAPTER= 'adapter',
+    CONFIG='config',
+    GROUP= 'group',
+    HOST= 'host',
+    INSTANCE= 'instance',
+    META= 'meta',
+    SCRIPT= 'script',
+    USER='user',
+    CHART='chart',
+
+}
+
+const ebusTypeToIoBrokerCommonType: {[key: string]: IoBrokerCommonTypesEnum} = {
+    UCH:IoBrokerCommonTypesEnum.NUMBER,
+    UIN:IoBrokerCommonTypesEnum.NUMBER,
+    D2C:IoBrokerCommonTypesEnum.NUMBER,
+    D1C:IoBrokerCommonTypesEnum.NUMBER,
+    SCH:IoBrokerCommonTypesEnum.NUMBER
+    // default is string
+};
+
 interface IEbusAdapterConfig extends ioBroker.AdapterConfig{
-    [key: string]: any;
+    allowWrites: boolean;
+    useBoolean4Onoff: boolean;
+    readInterval: string;
+    maxRetries: number;
+    targetIP: string;
+    targetHTTPPort: string;
     targetTelnetPort: string;
+    PolledDPs?: IEbusDataPoint[];
+    polledValues?: string;
+    HistoryDPs?: IEbusDataPoint[];
+    HistoryValues?: string;
 }
 
 export default class EbusAdapter extends Adapter implements Omit<AdapterInstance<false, false>, 'config'> {
     public config: IEbusAdapterConfig;
 
-    private _intervalId: NodeJS.Timer | undefined;
+    private _intervalId?: NodeJS.Timer;
 
-    private _oPolledVars: any;
+    private _pollingDataPoints: IEbusDataPoint[] = [];
 
-    private _oHistoryVars: any;
+    private _historyDataPoints: IEbusDataPoint[] = [];
 
     private _ebusdMinVersion = [ 22, 3 ];
 
     private _ebusdVersion = [ 0, 0 ];
 
     private _ebusdUpdateVersion = [ 0, 0 ];
+
+    private _socket?: PromiseSocket<net.Socket>;
 
     /**
      * The constructor
@@ -48,8 +124,15 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
         };
         super(options);
         this.config = {
-            ...super.config,
-            targetTelnetPort: '8888'
+            allowWrites: false,
+            targetTelnetPort: '8888',
+            maxRetries: 5,
+            readInterval: '5',
+            targetHTTPPort: '8889',
+            targetIP: '127.0.0.1',
+            useBoolean4Onoff: false,
+            // overwrite with user config
+            ...super.config
         };
         /**
          * this is called when iobroker is ready
@@ -67,7 +150,6 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
          * @param state
          */
         this.on('stateChange', this._handleStateChange.bind(this));
-
     }
 
     /**
@@ -78,7 +160,7 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
     private _destroy (callback: Function) {
         this.log.info('cleaned everything up...');
         clearInterval(this._intervalId);
-        // to do stop intervall
+        this._socket?.destroy();
         callback();
     }
 
@@ -87,49 +169,28 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
      * @private
      */
     private async _main () {
-
-        /*
-        let nParseTimeout = 60;
-        if (this.config.parseTimeout > 0) {
-            nParseTimeout = this.config.parseTimeout;
-        }
-        this.log.debug("set timeout to " + nParseTimeout + " sec");
-        nParseTimeout = nParseTimeout * 1000;
-        // force terminate after 1min
-        // don't know why it does not terminate by itself...
-        killTimer = setTimeout(function () {
-            this.log.warn("force terminate");
-            //process.exit(0);
-            adapter.terminate ? adapter.terminate(15) : process.exit(15);
-        }, nParseTimeout);
-        */
-
         this.log.debug('start with interface ebusd ');
 
-        this._fillPolledVars();
-        this._fillHistoryVars();
+        await this._initializeObjects();
+        await this._ebusInitializeSocket();
 
-        await this._ebusdReadValues();
+        this._preparePolledDataPoints();
+        this._prepareHistoryDataPoints();
 
-        this._subscribeVars();
+        await this._ebusPollDataPoints();
 
-        // await TestFunction();
+        this._subscribeStates([ 'cmd' ]);
+
+        if (this.config.allowWrites) {
+            this._subscribeStates([ '*' ]);
+        }
 
         let readInterval = 5;
         if (parseInt(this.config.readInterval) > 0) {
-            readInterval = this.config.readInterval;
+            readInterval = parseInt(this.config.readInterval);
         }
         this.log.debug('read every  ' + readInterval + ' minutes');
         this._intervalId = setInterval(this._doPeriodic, readInterval * 60 * 1000);
-
-        /*
-        if (killTimer) {
-            clearTimeout(killTimer);
-            this.log.debug("timer killed");
-        }
-
-        adapter.terminate ? adapter.terminate(0) : process.exit(0);
-        */
     }
 
     /**
@@ -140,9 +201,9 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
 
         this.log.debug('starting ... ');
 
-        await this._ebusSendCommand();
+        await this._handleCommandChange();
 
-        await this._ebusdReadValues();
+        await this._ebusPollDataPoints();
 
         await this._ebusGetData();
     }
@@ -154,78 +215,63 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
      * @private
      */
     private async _handleStateChange (id: string, state: ioBroker.State | undefined | null) {
-
         if (state && !state.ack) {
-
             this.log.debug('handle state change ' + id);
             const ids = id.split('.');
 
             if (ids[2] === 'cmd') {
-                await this._ebusSendCommand();
+                await this._handleCommandChange(state);
             } else {
-                this.log.warn('unhandled state change ' + id);
+                const object = await this._getObject(id);
+                if (object && object.common.write) {
+                    await this._eBusUpdateDataPoint(id, state);
+                } else {
+                    this.log.warn('unhandled state change ' + id + ' state: ' + JSON.stringify(state));
+                }
             }
         }
-
     }
 
     /**
      * send command to eBus using telnet
      * @private
      */
-    private async _ebusSendCommand () {
-        const cmdState = await this.getStateAsync('cmd');
-
-        if (cmdState) {
-            const commands = cmdState.val;
-            if (typeof commands === 'string') {
-                this.log.debug('got command(s): ' + commands);
-
-                this.log.debug('connect telnet to IP ' + this.config.targetIP + ' port ' + parseInt(this.config.targetTelnetPort));
-
+    private async _handleCommandChange (state?: ioBroker.State | null | undefined) {
+        if (!state) {
+            state = await this._getState('cmd');
+        }
+        if (state) {
+            if (typeof state.val === 'string') {
+                this.log.debug('got command(s): ' + state.val);
                 try {
-                    const socket = new net.Socket();
-                    const promiseSocket = new PromiseSocket(socket);
+                    const commands = state.val.split(',');
 
-                    await promiseSocket.connect(parseInt(this.config.targetTelnetPort), this.config.targetIP);
-                    this.log.debug('telnet connected for cmd');
-                    promiseSocket.setTimeout(5000);
+                    if (commands.length > 0) {
+                        const received = [];
+                        for (const command of commands) {
 
-                    const oCmds = commands.split(',');
+                            this.log.debug('send ' + command);
 
-                    if (oCmds.length > 0) {
-                        let received = '';
-                        for (const oCmd of oCmds) {
-
-                            this.log.debug('send ' + oCmd);
-                            await promiseSocket.write(oCmd + '\n');
-
-                            const data = await promiseSocket.read();
+                            const data = await this._ebusSend(command);
 
                             if (data?.includes('ERR')) {
-                                this.log.warn('sent ' + oCmd + ', received ' + data + ' please check ebusd logs for details!');
+                                this.log.warn('sent ' + command + ', received ' + data + ' please check ebusd logs for details!');
                             } else {
                                 this.log.debug('received ' + data);
                             }
-                            received += data?.toString();
-                            received += ', ';
+                            received.push(data);
                         }
-
-                        // set result to cmdResult
-                        await this.setStateAsync('cmdResult', { ack: true, val: received });
+                        await this.setStateAsync('cmdResult', { ack: true, val: JSON.stringify(received) });
                     } else {
-                        this.log.warn('no commands in list ' + commands + ' ' + JSON.stringify(oCmds));
+                        this.log.warn('no commands in list ' + state.val + ' ' + JSON.stringify(commands));
                     }
                     await this.setStateAsync('cmd', { ack: true, val: '' });
-
-                    promiseSocket.destroy();
-
                 } catch (e) {
                     this.log.error('exception from tcp socket' + '[' + e + ']');
                 }
             }
         } else {
-            this.log.debug('object cmd not found ' + JSON.stringify(cmdState));
+            this.log.debug('object cmd not found ' + JSON.stringify(state));
         }
     }
 
@@ -258,330 +304,39 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
     }
 
     /**
-     * get data from eBus
+     * _preparePolledDataPoints
      * @private
      */
-    private async _ebusGetData () {
-        const sUrl = 'http://' + this.config.targetIP + ':' + parseInt(this.config.targetHTTPPort) + '/data';
-        this.log.debug('request data from ' + sUrl);
-
-        try {
-            const ebusResponse = await axios.get(sUrl);
-
-            this.log.debug('got data ' + typeof ebusResponse.data + ' ' + JSON.stringify(ebusResponse.data));
-
-            type EbusData = {[key: string]: any};
-
-            const ebusData: EbusData = ebusResponse.data;
-
-            const nonDeviceSections = [
-                /scan\.*/,
-                'global',
-                'broadcast'
-            ];
-
-            for (const section in ebusData) {
-                const basePath = [];
-                if (nonDeviceSections.some(ignoreSection => section.match(ignoreSection))) {
-                    // i'm a circuit
-                    basePath.push('circuit');
-                    basePath.push(section);
-                    if (ebusData[section].messages) {
-                        // todo
-                    }
-                } else if (section === 'broadcast') {
-                    basePath.push('broadcast');
-                    // i'm broadcast
-                } else if (section === 'global') {
-                    basePath.push('global');
-                    // i'm global
-                }
-            }
-
-            const newData = flatten(ebusData);
-
-            const keys = Object.keys(newData);
-
-            // this.log.debug("history: " + options.historyValues);
-
-            const historyvalues: string[][] = [];
-            const historydates: {date: string; time: string}[] = [];
-
-            const oToday = new Date();
-            const month = oToday.getMonth() + 1;
-
-            historydates.push({
-                date: oToday.getDate() + '.' + month + '.' + oToday.getFullYear(),
-                time: oToday.getHours() + ':' + oToday.getMinutes() + ':' + oToday.getSeconds()
-            });
-            // this.log.debug(JSON.stringify(historydates));
-
-            let name = 'unknown';
-            let sError = 'none';
-            const unsupportedChars = [
-                '[',
-                ']'
-            ];
-
-            if (keys.includes('global.updatecheck')) {
-                const updateCheck = newData['global.updatecheck'];
-
-                // revision v21.2 available
-                // revision v22.3 available, vaillant/08.bai.csv: newer version available, vaillant/bai.0010007508.inc: different version available
-                const version = updateCheck.match(/v(\d*\.\d)/s)[1];
-
-                const versionInfo = version.split('.');
-                if (versionInfo.length > 1) {
-                    this.log.info('found ebusd update version ' + versionInfo[0] + '.' + versionInfo[1] + 'updateCheck: ' + updateCheck);
-
-                    this._ebusdUpdateVersion[0] = versionInfo[0];
-                    this._ebusdUpdateVersion[1] = versionInfo[1];
-
-                    this._versionCheck();
-                }
-            }
-
-            if (keys.includes('global.version')) {
-                const value = newData['global.version'];
-                const versionInfo = value.split('.');
-                if (versionInfo.length > 1) {
-                    this.log.info('installed ebusd version is ' + versionInfo[0] + '.' + versionInfo[1]);
-
-                    this._ebusdVersion[0] = versionInfo[0];
-                    this._ebusdVersion[1] = versionInfo[1];
-
-                    this._versionCheck();
-                }
-            }
-
-            for (let key of keys) {
-                const originalKey = key;
-
-                for (const unsupportedChar of unsupportedChars) {
-                    if (key.includes(unsupportedChar)) {
-                        key = key.replaceAll(unsupportedChar, '__');
-                        this.log.debug('unsupported char ' + unsupportedChar + ' found in key ' + originalKey + ' resolved with '+ key);
-                    }
-                }
-
-                const path = key.split('.');
-                const pathLength = path.length;
-                // this.log.debug('Key : ' + key + ', Value : ' + newData[key]);
-
-                //
-                // if (key.match(adapter.FORBIDDEN_CHARS)) { continue; }
-
-                if (path[pathLength - 1].includes('name')) {
-                    name = newData[originalKey];
-                } else if (path[pathLength - 1].includes('value')) {
-                    // this.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
-
-                    let value = newData[originalKey];
-
-                    if (value === null || value === undefined) {
-                        this.log.debug('Key : ' + key + ', Value : ' + newData[originalKey] + ' name ' + name);
-                    }
-
-                    if (name === 'hcmode2') {
-                        if (parseInt(value) === 0) {
-                            this.log.info(key + 'in hcmode2 with value 0: off');
-                            value = 'off';
-                        } else if (parseInt(value) === 5) {
-                            this.log.info(key + ' with value 5: EVU Sperrzeit');
-                            value = 'EVU Sperrzeit';
-                        } else {
-                            this.log.debug('in hcmode2, value ' + value);
-                        }
-                    }
-
-                    let type = typeof value;
-
-                    if (this.config.useBoolean4Onoff) {
-                        if (type == 'string' && (value == 'on' || value == 'off')) {
-                            this.log.debug('Key ' + key + ' change to boolean ' + value);
-                            // Key mc.messages.Status.fields.1.value could be boolean off
-
-                            type = 'boolean';
-
-                            if (value == 'on') {
-                                value = true;
-                            } else {
-                                value = false;
-                            }
-
-                        }
-                    }
-                    // value, change type if necessary
-                    await this._addObject(key, type);
-                    await this._updateObject(key, value);
-
-                    // name parallel to value: used for lists in admin...
-                    const keyname = key.replace('value', 'name');
-                    await this._addObject(keyname, 'string');
-
-                    await this._updateObject(keyname, name);
-
-                    // push to history
-                    // ebus.0.bai.messages.ReturnTemp.fields.pathLength.value
-                    // ebus.0.bai.messages.ReturnTemp.fields.tempmirror.value
-                    if (!path[pathLength - 2].includes('sensor') // ignore sensor states
-                      && !path[pathLength - 2].includes('mirror') // ignore mirror-data
-                    ) {
-                        for (let ii = 0; ii < this._oHistoryVars.length; ii++) {
-
-                            if (name === this._oHistoryVars[ii].name) {
-
-                                const sTemp = '{"' + name + '": "' + value + '"}';
-                                // this.log.debug(sTemp);
-                                historyvalues[ii] = [];
-                                historyvalues[ii].push(JSON.parse(sTemp));
-                                // this.log.debug(JSON.stringify(historyvalues));
-                            }
-                        }
-                    }
-                } else if (path[pathLength - 1].includes('lastup')) {
-
-                    const value = newData[originalKey];
-
-                    if (parseInt(value) > 0) {
-                        // this.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
-
-                        // umrechnen...
-                        const oDate = new Date(value * 1000);
-                        // const nDate = oDate.getDate();
-                        // const nMonth = oDate.getMonth() + 1;
-                        // const nYear = oDate.getFullYear();
-                        // const nHours = oDate.getHours();
-                        // const nMinutes = oDate.getMinutes();
-                        // const nSeconds = oDate.getSeconds();
-
-                        const sDate = oDate.toLocaleString();
-                        await this._addObject(key, 'string');
-                        await this._updateObject(key, sDate);
-
-                        const oToday = new Date();
-
-                        let bSkip = false;
-
-                        if (path[0].includes('scan') ||
-                          path[0].includes('ehp') ||
-                          (path.length>2 && path[2].includes('currenterror'))
-
-                        ) {
-                            bSkip = true;
-                        }
-                        if (pathLength > 2) {
-                            // this.log.debug("_______________size " + pathLength);
-                            if (path[2].includes('Timer')) {
-                                bSkip = true;
-                            }
-                        }
-
-                        if (!bSkip && Math.abs(oDate.getTime() - oToday.getTime()) > 1 * 60 * 60 * 1000) {
-
-                            const sError1 = 'no update since ' + sDate + ' ' + key + ' ';
-                            if (sError.includes('none')) {
-                                sError = 'ebus: ' + sError1;
-                            } else {
-                                sError += sError1;
-                            }
-                            this.log.warn(sError1);
-                        }
-
-                    }
-                } else if (path[0].includes('global')) {
-                    // this.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
-                    const value = newData[originalKey];
-                    await this._addObject(key, typeof value);
-                    await this._updateObject(key, value);
-                }
-            }
-            await this.setStateAsync('history.error', { ack: true, val: sError });
-
-            // this.log.debug(JSON.stringify(historyvalues));
-
-            this.log.info('all http done');
-
-            await this._updateHistory(historyvalues, historydates);
-
-        } catch (e) {
-            this.log.error('exception in ebusd_ReceiveData [' + e + ']');
-
-            await this.setStateAsync('history.error', { ack: true, val: 'exception in receive' });
-        }
-        // });
-    }
-
-    /**
-     * todo
-     * @private
-     */
-    private _fillPolledVars () {
-
-        if (typeof this.config.PolledDPs !== 'undefined' && this.config.PolledDPs != null && this.config.PolledDPs.length > 0) {
+    private _preparePolledDataPoints () {
+        if (this?.config?.PolledDPs?.length) {
             this.log.debug('use new object list for polled vars');
-            this._oPolledVars = this.config.PolledDPs;
-        } else {
-            // make it compatible to old versions
-            this.log.debug('check old comma separeted list for polled vars');
-            const oPolled = this.config.PolledValues.split(',');
-
-            if (oPolled.length > 0) {
-
-                for (const oPolledItem of oPolled) {
-                    if (oPolledItem) {
-                        this.log.debug('add ' + oPolledItem);
-                        const value = {
-                            circuit: '',
-                            name: oPolledItem,
-                            parameter: ''
-                        };
-                        this._oPolledVars.push(value);
-                    }
-                }
-            }
+            this._pollingDataPoints = this.config.PolledDPs;
         }
     }
 
     /**
-     * todo
+     * _prepareHistoryDataPoints
      * @private
      */
-    private _fillHistoryVars () {
-
-        if (typeof this.config.HistoryDPs !== 'undefined' && this.config.HistoryDPs != null && this.config.HistoryDPs.length > 0) {
+    private _prepareHistoryDataPoints () {
+        if (this?.config?.HistoryDPs?.length) {
             this.log.debug('use new object list for history vars');
-            this._oHistoryVars = this.config.HistoryDPs;
-        } else {
-            // make it compatible to old versions
-            this.log.debug('check old comma separeted list for history vars');
-            const oHistories = this.config.HistoryValues.split(',');
-
-            if (oHistories.length > 0) {
-
-                for (const oHistory of oHistories) {
-                    if (oHistory) {
-                        this.log.debug('add ' + oHistory);
-                        const value = {
-                            name: oHistory
-                        };
-                        this._oHistoryVars.push(value);
-                    }
-                }
-            }
+            this._historyDataPoints = this.config.HistoryDPs;
         }
     }
 
     /**
-     * todo
+     * _subscribeStates
      * @private
      */
-    private _subscribeVars () {
-        this.subscribeStates('cmd');
+    private _subscribeStates (states: string[]) {
+        for (const state of states) {
+            this.subscribeStates(state);
+        }
     }
 
     /**
-     * todo
+     * _createObject
      * @param key
      * @param obj
      * @private
@@ -619,10 +374,10 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
     }
 
     /**
-     * todo
+     * _initializeObjects
      * @private
      */
-    private async _checkVariables () {
+    private async _initializeObjects () {
         this.log.debug('init variables ');
 
         let key = 'cmd';
@@ -651,18 +406,18 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
         };
         await this._createObject(key, obj as ioBroker.Object);
 
-        this.log.debug('init common variables and ' + this._oHistoryVars.length + " history DP's");
+        this.log.debug('init common variables and ' + this._historyDataPoints.length + " history DP's");
 
-        if (this._oHistoryVars.length > 0) {
+        if (this._historyDataPoints.length > 0) {
 
-            if (this._oHistoryVars.length > 4) {
-                this.log.warn('too many history values ' + this._oHistoryVars.length + ' -> maximum is  4');
+            if (this._historyDataPoints.length > 4) {
+                this.log.warn('too many history values ' + this._historyDataPoints.length + ' -> maximum is  4');
             }
 
-            for (let n = 1; n <= this._oHistoryVars.length; n++) {
+            for (let n = 1; n <= this._historyDataPoints.length; n++) {
 
-                if (this._oHistoryVars[n - 1].name.length > 0) {
-                    const name = 'history value ' + n + ' as JSON ' + this._oHistoryVars[n - 1].name;
+                if (this._historyDataPoints[n - 1].name.length > 0) {
+                    const name = 'history value ' + n + ' as JSON ' + this._historyDataPoints[n - 1].name;
                     key = 'history.value' + n;
                     obj= {
                         type: 'state',
@@ -716,63 +471,65 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
     }
 
     /**
-     * todo
+     * _updateHistory
+     * @deprecated
      * @param values
      * @param dates
      * @private
      */
     private async _updateHistory (values: string[][], dates: {date: string; time: string}[]) {
-
-        if (this._oHistoryVars.length > 0) {
+        // todo removeme
+        if (this._historyDataPoints.length > 0) {
             // prüfen ob alle json gleich lang sind
-            let NoOfDates = -1;
+            let newHistoryStateDatesLength = -1;
 
-            const obj = await this.getStateAsync('history.date');
+            const historyStateDates = await this.getStateAsync('history.date');
 
-            if (obj && obj.val) {
+            if (historyStateDates && historyStateDates.val) {
                 try {
-                    let oEbusDates: typeof dates[] = [];
+                    let newHistoryStateDates: typeof dates[] = [];
                     // this.log.debug("before " + obj.val);
-                    oEbusDates = JSON.parse(obj.val as string) as typeof dates[];
+                    newHistoryStateDates = JSON.parse(historyStateDates.val as string) as typeof dates[];
                     // this.log.debug("after parse " + JSON.stringify(oEbusDates));
 
-                    oEbusDates.push(dates);
+                    newHistoryStateDates.push(dates);
                     // this.log.debug("after push " + JSON.stringify(oEbusDates));
                     // limit length of object...
-                    if (oEbusDates.length > 200) {
-
-                        for (let i = oEbusDates.length; i > 200; i--) {
-                            // this.log.debug("delete");
-                            oEbusDates.shift();
-                        }
+                    const maxHistoryStateDates = 200;
+                    if (newHistoryStateDates.length > maxHistoryStateDates) {
+                        newHistoryStateDates = newHistoryStateDates.reverse();
+                        newHistoryStateDates.length = maxHistoryStateDates;
+                        newHistoryStateDates = newHistoryStateDates.reverse();
                     }
-                    NoOfDates = oEbusDates.length;
-                    await this.setStateAsync('history.date', { ack: true, val: JSON.stringify(oEbusDates) });
+                    newHistoryStateDatesLength = newHistoryStateDates.length;
+                    await this.setStateAsync('history.date', { ack: true, val: JSON.stringify(newHistoryStateDates) });
                 } catch (e) {
                     this.log.error('exception in UpdateHistory part1 [' + e + ']');
                     await this.setStateAsync('history.date', { ack: true, val: '[]' });
-                    NoOfDates = 0;
+                    newHistoryStateDatesLength = 0;
                 }
             } else {
                 this.log.warn('history.date not found, creating DP ');
                 await this.setStateAsync('history.date', { ack: true, val: '[]' });
-                NoOfDates = 0;
+                newHistoryStateDatesLength = 0;
             }
 
-            if (this._oHistoryVars.length > 0) {
-                for (let ctr = 1; ctr <= this._oHistoryVars.length; ctr++) {
+            if (this._historyDataPoints.length > 0) {
+                let index = 0;
+                for (const historyDataPoint of this._historyDataPoints) {
 
-                    if (this._oHistoryVars[ctr - 1].name.length > 0) {
-                        const ctrOkay = await this._updateHistoryValues(values, ctr, NoOfDates);
+                    if (historyDataPoint.name) {
+                        const historyValueChanged = await this._updateHistoryValue(values, index, newHistoryStateDatesLength);
 
-                        if (!ctrOkay) {
+                        if (historyValueChanged) {
                             await this.setStateAsync('history.date', { ack: true, val: '[]' });
-                            NoOfDates = 0;
+                            newHistoryStateDatesLength = 0;
                             this.log.warn('reset history date too');
                         }
                     } else {
-                        this.log.debug('ignoring history value ' + ctr);
+                        this.log.debug('ignoring history value ' + index);
                     }
+                    index++;
                 }
 
                 this.log.info('all history done');
@@ -783,93 +540,105 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
     }
 
     /**
-     * todo
+     * _updateHistoryValue
+     * @deprecated
      * @param values
-     * @param ctr
-     * @param curDateCtr
+     * @param index
+     * @param numberOfDates
      * @private
      */
-    private async _updateHistoryValues (values: string[][], ctr: number, curDateCtr: number) {
+    private async _updateHistoryValue (values: string[][], index: number, numberOfDates: number) {
 
-        let bRet = true;
+        let historyValueReset = false;
+        const key = 'history.value' + index;
 
-        const obj = await this.getStateAsync('history.value' + ctr);
+        const historyState = await this.getStateAsync(key);
 
-        if (obj && obj.val) {
+        if (historyState && historyState.val) {
             try {
-                let oEbusValues = [];
-                // this.log.debug("before " + obj.val);
+                let newHistoryStateValues = [];
+                // this.log.debug("before " + historyState.val);
 
-                oEbusValues = JSON.parse(obj.val as string);
+                newHistoryStateValues = JSON.parse(historyState.val as string);
 
-                // this.log.debug("after parse " + JSON.stringify(oEbusValues));
+                // this.log.debug("after parse " + JSON.stringify(newHistoryStateValues));
 
-                // this.log.debug("after parse cnt " + oEbusValues.length);
+                // this.log.debug("after parse cnt " + newHistoryStateValues.length);
 
-                // this.log.debug("values " + ctr + ": " + JSON.stringify(values[ctr-1]));
+                // this.log.debug("values " + index + ": " + JSON.stringify(values[index-1]));
 
-                oEbusValues.push(values[ctr - 1]);
-                // this.log.debug("after push " + JSON.stringify(oEbusValues));
-                // this.log.debug("after push cnt " + oEbusValues.length);
+                newHistoryStateValues.push(values[index - 1]);
+                // this.log.debug("after push " + JSON.stringify(newHistoryStateValues));
+                // this.log.debug("after push cnt " + newHistoryStateValues.length);
                 // limit length of object...
-                if (oEbusValues.length > 200) {
-
-                    for (let i = oEbusValues.length; i > 200; i--) {
-                        // this.log.debug("delete");
-                        oEbusValues.shift();
-                    }
+                const maxHistoryStateValues = 200;
+                if (newHistoryStateValues.length > maxHistoryStateValues) {
+                    newHistoryStateValues = newHistoryStateValues.reverse();
+                    newHistoryStateValues.length = maxHistoryStateValues;
+                    newHistoryStateValues = newHistoryStateValues.reverse();
                 }
 
-                const key = 'history.value' + ctr;
                 this.log.debug('update history ' + key);
 
-                if (curDateCtr != oEbusValues.length) {
-                    bRet = false;
-                    await this.setStateAsync('history.value' + ctr, { ack: true, val: '[]' });
+                if (numberOfDates != newHistoryStateValues.length) {
+                    historyValueReset = true;
                     this.log.warn('reset history ' + key + ' because number of values different to date values');
-
                 } else {
-                    await this.setStateAsync(key, { ack: true, val: JSON.stringify(oEbusValues) });
+                    await this.setStateAsync(key, { ack: true, val: JSON.stringify(newHistoryStateValues) });
                 }
 
             } catch (e) {
                 this.log.error('exception in UpdateHistory part2 [' + e + ']');
-                await this.setStateAsync('history.value' + ctr, { ack: true, val: '[]' });
-                if (curDateCtr > 0) {
-                    bRet = false;
+                if (numberOfDates > 0) {
+                    historyValueReset = true;
                 }
             }
         } else {
-            this.log.warn('history.value' + ctr + ' not found, creating DP ' + JSON.stringify(obj));
-            await this.setStateAsync('history.value' + ctr, { ack: true, val: '[]' });
-            if (curDateCtr > 0) {
-                bRet = false;
+            this.log.warn('history.value' + index + ' not found, creating DP ' + JSON.stringify(historyState));
+            if (numberOfDates > 0) {
+                historyValueReset = true;
             }
         }
 
-        return bRet;
+        if (historyValueReset) {
+            await this.setStateAsync(key, { ack: true, val: '[]' });
+        }
+
+        return historyValueReset;
     }
 
     /**
-     * todo
+     * remove forbidden characters
      * @param key
-     * @param type
      * @private
      */
-    private async _addObject (key: string, type: string) {
-        // this.log.debug("addObject " + key);
+    private _sanatizeKey (key: string): string {
+        key.replace(this.FORBIDDEN_CHARS, '__');
+        return key;
+    }
 
+    /**
+     * add object to iobroker collection
+     * @param key
+     * @param objectCommonType
+     * @param objectType
+     * @param extendObject
+     * @private
+     */
+    private async _syncObject (key: string, objectCommonType: ioBroker.CommonType, objectType: ioBroker.ObjectType = 'state', extendObject: Partial<ioBroker.Object> = {}) {
+        key = this._sanatizeKey(key);
         try {
-            const obj = await this.getObjectAsync(key);
+            const existingObject = await this.getObjectAsync(key);
 
-            if (obj != null) {
-                // this.log.debug(" got Object " + JSON.stringify(obj));
-                if (obj.common.role != 'value'
-                  || obj.common.type != type) {
+            if (existingObject) {
+                // this.log.debug(" got Object " + JSON.stringify(existingObject));
+                if (existingObject.common.role != 'value'
+                  || existingObject.common.type != objectCommonType) {
+                    // either objectCommonType or role does not match existing object, updating..
                     this.log.debug(' !!! need to extend for ' + key);
                     await this.extendObject(key, {
                         common: {
-                            type: type,
+                            type: objectCommonType,
                             role: 'value'
                         }
                     });
@@ -878,18 +647,21 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
                 this.log.warn(' !!! does not exist, creating now ' + key);
 
                 await this.setObjectNotExistsAsync(key, {
-                    type: 'state',
+                    ...extendObject,
+                    type: objectType,
                     common: {
                         name: 'data',
-                        type: type,
+                        type: objectCommonType,
                         role: 'value',
                         unit: '',
                         read: true,
-                        write: false
+                        write: false,
+                        ...extendObject.common
                     },
                     native: {
                         location: key
                     }
+
                 } as ioBroker.SettableObject);
             }
 
@@ -899,12 +671,14 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
     }
 
     /**
-     * _updateObject
+     * _updateState
      * @param key
      * @param value
      * @private
      */
-    private async _updateObject (key: string, value: string) {
+    private async _updateState (key: string, value: string | number) {
+        key = this._sanatizeKey(key);
+
         try {
             if (typeof value == undefined) {
                 this.log.warn('updateObject: not updated ' + key + ' value: ' + value + ' ' + typeof value);
@@ -921,69 +695,520 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
     }
 
     /**
-     * _ebusdReadValues
+     * _getObject
+     * @param key
      * @private
      */
-    private async _ebusdReadValues () {
+    private async _getObject (key: string) {
+        key = this._sanatizeKey(key);
+        return this.getObjectAsync(key);
+    }
 
-        if (this._oPolledVars.length > 0) {
+    /**
+     * _getState
+     * @param key
+     * @private
+     */
+    private async _getState (key: string) {
+        key = this._sanatizeKey(key);
+        return this.getStateAsync(key);
+    }
 
-            this.log.debug('to poll ctr ' + this._oPolledVars.length + ' vals:  ' + JSON.stringify(this._oPolledVars));
+    /**
+     * _ebusParseDefinition
+     * @param definition
+     * @private
+     */
+    private _ebusParseDefinition (definition: string): IEbusMessageDefinition | undefined {
+        const parts = definition.split(',');
+        const messageParts = parts.slice(0, 8);
+        const fieldParts = parts.slice(8);
 
-            try {
-                const socket = new net.Socket();
-                const promiseSocket = new PromiseSocket(socket);
+        const messageHeaders = [
+            {
+                name: 'types',
+                parse: (cell: string) => cell.split(';'),
+                nameDef: 'TYPE'
+            },
+            {
+                name: 'circuit',
+                nameDef: 'CIRCUIT'
+            },
+            {
+                name: 'name',
+                nameDef: 'NAME'
+            },
+            {
+                name: 'comment',
+                nameDef: 'COMMENT'
+            },
+            {
+                name: 'masterAddress',
+                nameDef: 'QQ'
+            },
+            {
+                name: 'destinationAddresses',
+                nameDef: 'ZZ',
+                parse: (cell: string) => cell.split(';')
+            },
+            {
+                name: 'commandBytes',
+                nameDef: 'PBSB'
+            },
+            {
+                name: 'id',
+                nameDef: 'ID'
+            }
+        ];
 
-                await promiseSocket.connect(parseInt(this.config.targetTelnetPort), this.config.targetIP);
-                this.log.debug('telnet connected to poll variables ' + this.config.targetIP + ' port ' + this.config.targetTelnetPort);
-                promiseSocket.setTimeout(5000);
-
-                let retries = 0;
-                for (let nCtr = 0; nCtr < this._oPolledVars.length; nCtr++) {
-
-                    let circuit = '';
-                    let params = '';
-                    if (this._oPolledVars[nCtr].circuit != null && this._oPolledVars[nCtr].circuit.length > 0) {
-                        circuit = '-c ' + this._oPolledVars[nCtr].circuit + ' ';
+        const fieldHeaders = [
+            {
+                name: 'field',
+                nameDef: 'FIELD'
+            },
+            {
+                name: 'part',
+                nameDef: 'PART'
+            },
+            {
+                name: 'type',
+                nameDef: 'DATATYPE'
+            },
+            {
+                name: 'values',
+                nameDef: 'DIVIDER/VALUES',
+                parse: (cell: string) => {
+                    const pairs = cell.split(';');
+                    const values: any = {};
+                    for (const pair of pairs) {
+                        const [ key, value ] = pair.split('=') as string[];
+                        values[key] = value;
                     }
-                    if (this._oPolledVars[nCtr].parameter != null && this._oPolledVars[nCtr].parameter.length > 0) {
-                        params = ' ' + this._oPolledVars[nCtr].parameter;
-                    }
-                    let cmd = 'read -f ' + circuit + this._oPolledVars[nCtr].name + params;
+                    return values;
+                }
+            },
+            {
+                name: 'unit',
+                nameDef: 'UNIT'
+            },
+            {
+                name: 'comment',
+                nameDef: 'COMMENT'
+            }
+        ];
 
-                    this.log.debug('send cmd ' + cmd);
+        const message: Partial<IEbusMessageDefinition> = {
+            writable: false
+        };
+        for (const [ index, messageHeader ] of messageHeaders.entries()) {
+            // @ts-ignore
+            message[messageHeader.name] = messageHeader.parse ? messageHeader.parse(messageParts[index]) : messageParts[index];
+        }
 
-                    cmd += '\n';
-                    await promiseSocket.write(cmd);
+        const fields = [];
+        let field: any = {};
+        for (const [ index, fieldPart ] of fieldParts.entries()) {
+            const fieldHeader = fieldHeaders[(index)%fieldHeaders.length];
+            field[fieldHeader.name] = fieldHeader.parse ? fieldHeader.parse(fieldPart) : fieldPart;
+            if (index > 0 && (index+1)%fieldHeaders.length === 0) {
+                fields.push({ ...field });
+                field = {};
+            }
+        }
+        message.fields = fields;
 
-                    const data = await promiseSocket.read();
+        if (message?.types?.length) {
+            for (const type of message.types) {
+                if (type.startsWith('w')) {
+                    message.writable = true;
+                }
+            }
+        } else {
+            return undefined;
+        }
+        return <IEbusMessageDefinition>message;
+    }
 
-                    // received ERR: arbitration lost for YieldThisYear
-                    if (data && data.includes('ERR')) {
-                        this.log.warn('sent ' + cmd + ', received ' + data + ' for ' + JSON.stringify(this._oPolledVars[nCtr])
-                          + ' please check ebusd logs for details!');
+    /**
+     * create socket with ebus telnet port
+     * @private
+     */
+    private async _ebusInitializeSocket () {
+        if (this._socket) {
+            return this._socket;
+        }
+        const socket = new net.Socket();
+        this._socket = new PromiseSocket(socket);
 
-                        /*
-                        * sent read -f YieldLastYear, received ERR: arbitration lost for {"circuit":"","name":"YieldLastYear","parameter":""}
-                        * */
-                        if (data.includes('arbitration lost')) {
+        await this._socket.connect(parseInt(this.config.targetTelnetPort), this.config.targetIP);
+        this.log.debug('telnet connected');
+        return this._socket;
+    }
 
-                            retries++;
-                            if (retries > this.config.maxretries) {
-                                this.log.error('max retries, skip cmd ' + cmd);
-                                retries = 0;
-                            } else {
-                                nCtr--;
-                                this.log.debug('retry to send data ');
-                            }
-                        }
-                    } else {
-                        this.log.debug('received ' + data + ' for ' + JSON.stringify(this._oPolledVars[nCtr]));
+    /**
+     * send command to ebus using socket
+     * @param command
+     * @private
+     */
+    private async _ebusSend (command: string): Promise<string> {
+        const socket = await this._ebusInitializeSocket();
+        await socket.write(command + '\n');
+        const response = await socket.read();
+        return response?.toString() ?? '';
+    }
+
+    /**
+     * _ebusCreateNewObject
+     * @param key
+     * @param messageName
+     * @param message
+     * @param circuit
+     * @private
+     */
+    private async _ebusCreateNewObject (key: string, messageName: string, message: any, circuit: string) {
+        const command = `find -w -f -c ${circuit} ${messageName}`;
+        const rawDefinition = await this._ebusSend(command);
+        let writable = false;
+        let definition;
+        if (rawDefinition && !rawDefinition.startsWith('ERR:')) {
+            this.log.debug('_ebusCreateNewObject; for messageName "'+messageName+'" gor definition: '+rawDefinition);
+            definition = this._ebusParseDefinition(rawDefinition);
+            if (definition?.writable) {
+                writable = true;
+            }
+        }
+        await this._syncObject(key, IoBrokerCommonTypesEnum.STRING, IoBrokerObjectTypesEnum.CHANNEL, {
+            common: {
+                desc: messageName,
+                custom: {
+                    name: messageName,
+                    [this.name + '.' + this.instance]: {
+                        circuitName: circuit,
+                        messageName: messageName,
+                        write: writable,
+                        passive: message.passive,
+                        fieldDefs: message.fielddefs,
+                        definition: definition
                     }
                 }
-                promiseSocket.destroy();
-                this.log.debug('telnet disonnected');
+            }
+        } as any);
+        return await this._getObject(key);
+    }
 
+    /**
+     * get data from eBus
+     * @private
+     */
+    private async _ebusGetData () {
+        // maxage=1 retrieves all data
+        // def=true delivers field definitions
+        const ebusHttpRequestUrl = 'http://' + this.config.targetIP + ':' + parseInt(this.config.targetHTTPPort) + '/data?def=true&maxage=1';
+        this.log.debug('request data from ' + ebusHttpRequestUrl);
+
+        try {
+            const ebusResponse = await axios.get(ebusHttpRequestUrl);
+
+            this.log.debug('got data ' + typeof ebusResponse.data + ' ' + JSON.stringify(ebusResponse.data));
+
+            type EbusData = {[key: string]: any};
+
+            const ebusData: EbusData = ebusResponse.data;
+
+            const nonDeviceSections = [
+                /scan\.*/,
+                'global',
+                'broadcast'
+            ];
+
+            const errors: string[] = [];
+
+            // todo deprecate
+            const historyvalues: string[][] = [];
+            const historydates: {date: string; time: string}[] = [];
+            const historyDataPoints = this._historyDataPoints.map(historyDataPoint => 'circuit.' + historyDataPoint.circuit + '.' + historyDataPoint.name + '.fields.' + historyDataPoint.field);
+            const oToday = new Date();
+            historydates.push({
+                date: oToday.getDate() + '.' + (oToday.getMonth() + 1) + '.' + oToday.getFullYear(),
+                time: oToday.getHours() + ':' + oToday.getMinutes() + ':' + oToday.getSeconds()
+            });
+
+            const handleMessage = async (basePath: string[], messageName: string, message: any, circuit: string) => {
+                const messagePath = [ ...basePath, messageName ];
+                const key = messagePath.join('.');
+                let existingObject = await this._getObject(key);
+                if (!existingObject) {
+                    existingObject = await this._ebusCreateNewObject(key, messageName, message, circuit);
+                }
+                if (message.lastup) {
+                    const key = messagePath.join('.') + '.lastup';
+                    await this._syncObject(key, IoBrokerCommonTypesEnum.NUMBER);
+                    await this._updateState(key, message.lastup*1000);
+                    if (parseInt(message.lastup) > 0) {
+
+                        // Umrechnen...
+                        const lastupDate = new Date(message.lastup * 1000);
+                        const today = new Date();
+
+                        if (![ 'currenterror' ].includes(message.name) &&Math.abs(lastupDate.getTime() - today.getTime()) > 60 * 60 * 1000) {
+                            const sError1 = 'no update since ' + lastupDate.toLocaleString() + ' ' + key + ' ';
+                            errors.push(sError1);
+                            this.log.warn(sError1);
+                        }
+
+                    }
+
+                }
+                for (const [ fieldName, field ] of message?.fields) {
+                    const stateFieldName = field.name || fieldName;
+                    const fieldDef = message.fielddefs.find((fieldDef: any) => fieldDef.name === field.name);
+                    let objectCommonType = IoBrokerCommonTypesEnum.STRING;
+                    const objectType = IoBrokerObjectTypesEnum.STATE;
+                    const extendObject: any = {};
+                    // find -f -c 430 Hc1OPMode
+                    extendObject.common = {
+                        // passive means it can be set, but only be the device itself
+                        // "passive:true" could be a value that is set periodically by a thermostat
+                        // So that it will be overwritten again, even after you set it
+                        // this is why we set write only to true if passive is false and the fields are writable
+                        write: message.write && !message.passive,
+                        custom: {
+                            [this.name + '.' + this.instance]: {
+                                write: existingObject?.common?.custom?.[this.name + '.' + this.instance]?.write,
+                                passive: message.passive,
+                                zz: message.zz,
+                                id: message.id,
+                                circuitName: circuit,
+                                messageName: messageName,
+                                fieldName: fieldName,
+                                field: field
+                            }
+                        }
+                    };
+                    if (fieldDef) {
+                        // message types https://github.com/john30/ebusd/wiki/4.3.-Builtin-data-types
+                        if (fieldDef.type === 'IGN') {
+                            continue;
+                        }
+                        if (ebusTypeToIoBrokerCommonType[fieldDef.type]) {
+                            objectCommonType = ebusTypeToIoBrokerCommonType[fieldDef.type];
+                        }
+                        extendObject.common.name = fieldDef.name;
+                        extendObject.common.desc = fieldDef.comment;
+                        extendObject.common.unit = fieldDef.unit;
+                        extendObject.common.custom[this.name + '.' + this.instance].fieldDef = fieldDef;
+                        if (fieldDef.values) {
+                            const states: any = {};
+                            for (const value of Object.values(fieldDef.values) as string[]) {
+                                states[value] = value;
+                            }
+                            extendObject.common.role = 'state';
+                            extendObject.common.states = states;
+                        }
+                        if (fieldDef.name === 'onoff' && this.config.useBoolean4Onoff) {
+                            objectCommonType = IoBrokerCommonTypesEnum.BOOLEAN;
+                            field.value = field.value === 'on';
+                        }
+                    }
+                    const key = messagePath.join('.') + '.fields.'+ stateFieldName;
+                    await this._syncObject(key, objectCommonType, objectType, extendObject);
+                    await this._updateState(key, field.value);
+
+                    // todo deprecate me
+                    {
+                        if (historyDataPoints.includes(key)) {
+                            const index = historyDataPoints.indexOf(key);
+                            const sTemp = '{"' + key + '": "' + field.value + '"}';
+                            historyvalues[index] = [];
+                            historyvalues[index].push(JSON.parse(sTemp));
+                        }
+                    }
+                }
+            };
+
+            for (const sectionName in ebusData) {
+                const basePath = [];
+                if (nonDeviceSections.some(ignoreSection => sectionName.match(ignoreSection))) {
+                    // i'm a circuit
+                    basePath.push('circuit');
+                    basePath.push(sectionName);
+                    const key = basePath.join('.');
+                    await this._syncObject(key, IoBrokerCommonTypesEnum.STRING, IoBrokerObjectTypesEnum.DEVICE, {
+                        common: {
+                            custom: {
+                                name: sectionName,
+                                [this.name + '.' + this.instance]: {
+                                    circuitName: sectionName
+                                }
+                            }
+                        }
+                    } as any);
+                    if (ebusData[sectionName].messages) {
+                        for (const [ messageName, message ] of ebusData[sectionName].messages) {
+                            await handleMessage(basePath, messageName, message, sectionName);
+                        }
+                    }
+                } else if (sectionName === 'broadcast') {
+                    // i'm broadcast
+                    basePath.push('broadcast');
+                    if (ebusData[sectionName].messages) {
+                        for (const [ messageName, message ] of ebusData[sectionName].messages) {
+                            await handleMessage(basePath, messageName, message, sectionName);
+                        }
+                    }
+                } else if (sectionName === 'global') {
+                    // i'm global
+                    basePath.push('global');
+                    for (const [ keyName, value ] of ebusData[sectionName]) {
+                        const messagePath = [ ...basePath, keyName ];
+                        const key = messagePath.join('.');
+                        await this._syncObject(key, IoBrokerCommonTypesEnum.STRING);
+                        await this._updateState(key, value);
+                        if (keyName === 'updatecheck') {
+                            const version = value.match(/v(\d*\.\d)/s)[1];
+
+                            const versionInfo = version.split('.');
+                            if (versionInfo.length > 1) {
+                                this.log.info('found ebusd update version ' + versionInfo[0] + '.' + versionInfo[1] + 'updateCheck: ' + value);
+
+                                this._ebusdUpdateVersion[0] = versionInfo[0];
+                                this._ebusdUpdateVersion[1] = versionInfo[1];
+
+                                this._versionCheck();
+                            }
+                        }
+                        if (keyName === 'version') {
+                            const versionInfo = value.split('.');
+                            if (versionInfo.length > 1) {
+                                this.log.info('installed ebusd version is ' + versionInfo[0] + '.' + versionInfo[1]);
+
+                                this._ebusdVersion[0] = versionInfo[0];
+                                this._ebusdVersion[1] = versionInfo[1];
+
+                                this._versionCheck();
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            // todo deprecate, rather use influx or rrd
+            await this._updateHistory(historyvalues, historydates);
+
+            await this._updateState('history.error', errors.join('\n'));
+
+            this.log.info('all _ebusGetData done');
+        } catch (e) {
+            this.log.error('exception in _ebusGetData [' + e + ']');
+
+            await this._updateState('history.error', 'exception in _ebusGetData');
+        }
+        // });
+    }
+
+    /**
+     * _ebusRetrieveDataPoint
+     * @param dataPoint
+     * @param socket
+     * @param retries
+     * @private
+     */
+    private async _ebusRetrieveDataPoint (dataPoint: IEbusDataPoint, retries = 0) {
+        let circuit = '';
+        let params = '';
+        if (dataPoint.circuit) {
+            circuit = '-c ' + dataPoint.circuit + ' ';
+        }
+        if (dataPoint.parameter) {
+            params = ' ' + dataPoint.parameter;
+        }
+        const command = 'read -f ' + circuit + dataPoint.name + params;
+
+        this.log.debug('send command ' + command);
+
+        const data = await this._ebusSend(command);
+        if (data && data.includes('ERR')) {
+            this.log.warn('sent ' + command + ', received ' + data + ' for ' + JSON.stringify(dataPoint)
+              + ' please check ebusd logs for details!');
+
+            /*
+            * sent read -f YieldLastYear, received ERR: arbitration lost for {"circuit":"","name":"YieldLastYear","parameter":""}
+            * */
+            if (data.includes('arbitration lost')) {
+
+                retries++;
+                if (retries > this.config.maxRetries) {
+                    this.log.error('max retries, skip dataPoint ' + dataPoint.name);
+                } else {
+                    this.log.debug('retry to send data ');
+                    await this._ebusRetrieveDataPoint(dataPoint, retries);
+                }
+            }
+        } else {
+            this.log.debug('received ' + data + ' for ' + JSON.stringify(dataPoint));
+        }
+    }
+
+    /**
+     * write changes to ebus device
+     * @param key
+     * @param state
+     * @param object
+     * @private
+     */
+    private async _eBusUpdateDataPoint (key: string, state: ioBroker.State) {
+        this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state));
+        const messageKey = key.split('.').slice(0, -1).join('.');
+        const circuitKey = messageKey.split('.').slice(0, -1).join('.');
+        const messageObject = await this.getObjectAsync(circuitKey, messageKey);
+        if (messageObject?.type === 'channel') {
+            // cool
+            const adapterData = messageObject?.common?.custom?.[this.name + '.' + this.instance] as any;
+            if (adapterData?.fieldDefs) {
+                const fieldStates = await this.getStatesAsync(messageKey + '.*');
+                const writeValues = [];
+                for (const field of adapterData.fieldDefs) {
+                    const fieldState = fieldStates[messageKey + '.' + field.name];
+                    if (fieldState) {
+                        writeValues.push(fieldState.val);
+                    } else {
+                        this.log.error('stateChanged; field "'+field.name+'" not found in states, cant build complete command! exiting ' + key);
+                        // todo handle errors better
+                        return 'ERR: fieldConfig broken';
+                    }
+                }
+                if (writeValues.length === adapterData.fieldDefs.length) {
+                    // just to make sure
+                    const writeValue = writeValues.join(';');
+                    const command = `write -c ${adapterData.circuitName} ${adapterData.messageName} ${writeValue}`;
+                    const result = await this._ebusSend(command);
+
+                    this.log.info('stateChanged; ok updated ' + key + ' using this command: ' + command + ' got response: ' + result);
+                    // set ack =  true
+                    await this._updateState(key, state.val as string);
+                    return 'OK: ' + result;
+                }
+            }
+        } else {
+            // what?
+            this.log.error('stateChanged; dont know what to do ' + key);
+        }
+    }
+
+    /**
+     * _ebusPollDataPoints
+     * @private
+     */
+    private async _ebusPollDataPoints () {
+        if (this._pollingDataPoints.length > 0) {
+
+            this.log.debug('datapoints to poll: ' + this._pollingDataPoints.length + ' vals:  ' + JSON.stringify(this._pollingDataPoints));
+
+            try {
+                for (const dataPoint of this._pollingDataPoints) {
+                    await this._ebusRetrieveDataPoint(dataPoint);
+                }
             } catch (e) {
                 this.log.error('exception from tcp socket in ebusd_ReadValues ' + '[' + e + ']');
             }
@@ -1014,22 +1239,6 @@ read -f YieldTotal,read LegioProtectionEnabled,read -f -c broadcast outsidetemp
 
 // this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
 // here we need a loop over all configured read data in admin-page
-
-/*
-async function TestFunction(){
-
-    const key = "Test.Test";
-
-    await AddObject(key);
-
-}
-*/
-
-/*
-async function ebusd_StartReceive(options) {
-    await ebusd_ReceiveData(options);
-}
-*/
 
 // If started as allInOne/compact mode => return function to create instance
 if (!module) {

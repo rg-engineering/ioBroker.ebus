@@ -22,21 +22,26 @@ For more details and for information how to disable the error reporting see [Sen
 
 This adapter reads
 - data from ebusd using html
-In this case ebusd must run and must be able to send data to e.g. explorer via http://IP:port/data (http://192.168.0.123:8889/data)
-Current version of ebusd incl. configuration files can be copied from https://github.com/john30/ebusd
-All fields with data, lastup and from global section are parsed. All others are ignored at the moment. 
+  - Load all fields using http (uses maxage=1 to refresh data, def is used to know possible values for enums)
+  - Learn new messages and parse their definition from telnet, so we know what is actually writeable
+- updates writable data using telnet
 
-There is a possibillity to poll data which are not polled by ebusd directly. Command 'read -f' is used to force reading over ebus.  
 
-Another feature is to send any command to ebusd and receive answer to work with e.g. scripts.
-
-current supported ebusd-version: 22.3
+current supported ebusd-version: 22.3+
 
 **Attention** with ebusd - version 22.1 config path has been changed to http://cfg.ebusd.eu/. Make sure you change it in your installation of ebusd.
 details see in [changelog](https://github.com/john30/ebusd/blob/master/ChangeLog.md)
 
+## how to update a value to ebusd
+
+1. see if the state is writeable (state.write=true)
+2. update its value
+3. enjoy ebus-adapter doing all the rest for you
 
 ## how to send commands to ebusd
+
+handle with care, you can destroy your system sending the wrong command!
+
 1. write a single command or an command list on datapoint ebus.0.cmd
 If you want to use more then one command, use , to separate single commands.
 example:
@@ -48,6 +53,7 @@ example:
 2000, ERR: element not found, 10.5
 
 Attention: command in datapoint ebus.0.cmd is deleted after executing of command!
+
 
 
 ## known issues

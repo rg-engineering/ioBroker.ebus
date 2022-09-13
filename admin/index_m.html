@@ -90,8 +90,7 @@
 
         function FillTablePolledDP(settings) {
 
-            if (typeof settings.PolledDPs !== 'undefined' && settings.PolledDPs != null && settings.PolledDPs.length > 0) {
-
+            if (Array.isArray(settings.PolledDPs) && settings.PolledDPs.length > 0) {
                 values2table('polledDP', settings.PolledDPs, OnChange, tablePolledDPOnReady);
                 console.log('using new PolledDPs from settings ' +  JSON.stringify(settings.PolledDPs));
             }
@@ -140,29 +139,12 @@
 
         function FillTableHistoryDP(settings) {
 
-            if (typeof settings.HistoryDPs !== 'undefined' && settings.HistoryDPs != null && settings.HistoryDPs.length > 0) {
+            if (Array.isArray(settings.HistoryDPs) && settings.HistoryDPs.length > 0) {
 
+                // remove old values that are to unspecific
+                settings.HistoryDPs = settings.HistoryDPs.filter(dp => dp.circuit && dp.name && dp.field !== undefined);
                 values2table('historyDP', settings.HistoryDPs, OnChange, tableHistoryDPOnReady);
                 console.log('using new HistoryDPs from settings ' + JSON.stringify(settings.HistoryDPs));
-            }
-            // make it compatible to older versions
-            else if (typeof settings.HistoryValues !== 'undefined' && settings.HistoryValues != null) {
-
-                var values = settings.HistoryValues.split(",");
-
-                var newValues = [];
-                for (let i = 0; i < values.length; i++) {
-                    if (values[i].length > 0) {
-                        console.log('add ' + values[i]);
-                        const value = {
-                            name: values[i],
-                        }
-                        newValues.push(value);
-                    }
-                }
-                values2table('historyDP', newValues, OnChange, tableHistoryDPOnReady);
-                console.log('using HistoryValues from old settings ' + JSON.stringify(settings.HistoryValues) + " " + JSON.stringify(newValues));
-                
             }
         } 
 
@@ -192,9 +174,6 @@
 
             obj.HistoryDPs = table2values('historyDP');
             console.log('saving historyDP ' + JSON.stringify(obj.HistoryDPs));
-
-            obj.PolledValues = "";
-            obj.HistoryValues = "";
 
             callback(obj);
         }
@@ -333,7 +312,9 @@
                             <table id="table_historyDP" class="table-values" style="width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th id="historyDP_col_1" data-name="name" style="width: 20%; background: #64b5f6 " class="translate">name</th>
+                                        <th id="historyDP_col_1" data-name="circuit" style="width: 20%; background: #64b5f6 " class="translate">circuit</th>
+                                        <th id="historyDP_col_2" data-name="name" style="width: 20%; background: #64b5f6 " class="translate">name</th>
+                                        <th id="historyDP_col_3" data-name="field" style="width: 20%; background: #64b5f6 " class="translate">field</th>
                                         <th data-buttons="add up down delete" style="width: 100px; background: #64b5f6"></th>
                                     </tr>
                                 </thead>
