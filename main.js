@@ -50,14 +50,6 @@ var IoBrokerObjectTypesEnum;
     IoBrokerObjectTypesEnum["USER"] = "user";
     IoBrokerObjectTypesEnum["CHART"] = "chart";
 })(IoBrokerObjectTypesEnum || (IoBrokerObjectTypesEnum = {}));
-const ebusTypeToIoBrokerCommonType = {
-    UCH: IoBrokerCommonTypesEnum.NUMBER,
-    UIN: IoBrokerCommonTypesEnum.NUMBER,
-    D2C: IoBrokerCommonTypesEnum.NUMBER,
-    D1C: IoBrokerCommonTypesEnum.NUMBER,
-    SCH: IoBrokerCommonTypesEnum.NUMBER
-    // default is string
-};
 class EbusAdapter extends adapter_core_1.Adapter {
     /**
      * The constructor
@@ -877,9 +869,6 @@ class EbusAdapter extends adapter_core_1.Adapter {
                                 // message types https://github.com/john30/ebusd/wiki/4.3.-Builtin-data-types
                                 if (fieldDef.type === 'IGN') {
                                     continue;
-                                }
-                                if (ebusTypeToIoBrokerCommonType[fieldDef.type]) {
-                                    objectCommonType = ebusTypeToIoBrokerCommonType[fieldDef.type];
                                 }
                                 extendObject.common.name = fieldDef.name;
                                 extendObject.common.desc = fieldDef.comment;
