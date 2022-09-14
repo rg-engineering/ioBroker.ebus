@@ -123,7 +123,8 @@ class EbusAdapter extends adapter_core_1.Adapter {
                 readInterval = parseInt(this.config.readInterval);
             }
             this.log.debug('read every  ' + readInterval + ' minutes');
-            this._intervalId = setInterval(this._doPeriodic, readInterval * 60 * 1000);
+            this._intervalId = setInterval(this._doPeriodic.bind(this), readInterval * 60 * 1000);
+            void this._doPeriodic();
         });
     }
     /**
@@ -821,7 +822,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                     time: oToday.getHours() + ':' + oToday.getMinutes() + ':' + oToday.getSeconds()
                 });
                 const handleMessage = (basePath, messageName, message, circuit) => __awaiter(this, void 0, void 0, function* () {
-                    var _a, _b, _c;
+                    var _a, _b, _c, _d;
                     const messagePath = [...basePath, messageName];
                     const key = messagePath.join('.');
                     let existingObject = yield this._getObject(key);
@@ -843,7 +844,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                             }
                         }
                     }
-                    for (const [fieldName, field] of message === null || message === void 0 ? void 0 : message.fields) {
+                    for (const [fieldName, field] of (_a = message === null || message === void 0 ? void 0 : message.fields) === null || _a === void 0 ? void 0 : _a.entries()) {
                         const stateFieldName = field.name || fieldName;
                         const fieldDef = message.fielddefs.find((fieldDef) => fieldDef.name === field.name);
                         let objectCommonType = IoBrokerCommonTypesEnum.STRING;
@@ -858,7 +859,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                             write: message.write && !message.passive,
                             custom: {
                                 [this.name + '.' + this.instance]: {
-                                    write: (_c = (_b = (_a = existingObject === null || existingObject === void 0 ? void 0 : existingObject.common) === null || _a === void 0 ? void 0 : _a.custom) === null || _b === void 0 ? void 0 : _b[this.name + '.' + this.instance]) === null || _c === void 0 ? void 0 : _c.write,
+                                    write: (_d = (_c = (_b = existingObject === null || existingObject === void 0 ? void 0 : existingObject.common) === null || _b === void 0 ? void 0 : _b.custom) === null || _c === void 0 ? void 0 : _c[this.name + '.' + this.instance]) === null || _d === void 0 ? void 0 : _d.write,
                                     passive: message.passive,
                                     zz: message.zz,
                                     id: message.id,
@@ -926,7 +927,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                             }
                         });
                         if (ebusData[sectionName].messages) {
-                            for (const [messageName, message] of ebusData[sectionName].messages) {
+                            for (const [messageName, message] of ebusData[sectionName].messages.entries()) {
                                 yield handleMessage(basePath, messageName, message, sectionName);
                             }
                         }
@@ -935,7 +936,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                         // i'm broadcast
                         basePath.push('broadcast');
                         if (ebusData[sectionName].messages) {
-                            for (const [messageName, message] of ebusData[sectionName].messages) {
+                            for (const [messageName, message] of ebusData[sectionName].messages.entries()) {
                                 yield handleMessage(basePath, messageName, message, sectionName);
                             }
                         }

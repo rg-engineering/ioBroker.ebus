@@ -190,7 +190,8 @@ class EbusAdapter extends Adapter {
             readInterval = parseInt(this.config.readInterval);
         }
         this.log.debug('read every  ' + readInterval + ' minutes');
-        this._intervalId = setInterval(this._doPeriodic, readInterval * 60 * 1000);
+        this._intervalId = setInterval(this._doPeriodic.bind(this), readInterval * 60 * 1000);
+        void this._doPeriodic();
     }
 
     /**
@@ -957,7 +958,7 @@ class EbusAdapter extends Adapter {
                     }
 
                 }
-                for (const [ fieldName, field ] of message?.fields) {
+                for (const [ fieldName, field ] of message?.fields?.entries()) {
                     const stateFieldName = field.name || fieldName;
                     const fieldDef = message.fielddefs.find((fieldDef: any) => fieldDef.name === field.name);
                     let objectCommonType = IoBrokerCommonTypesEnum.STRING;
@@ -1042,7 +1043,7 @@ class EbusAdapter extends Adapter {
                         }
                     } as any);
                     if (ebusData[sectionName].messages) {
-                        for (const [ messageName, message ] of ebusData[sectionName].messages) {
+                        for (const [ messageName, message ] of ebusData[sectionName].messages.entries()) {
                             await handleMessage(basePath, messageName, message, sectionName);
                         }
                     }
@@ -1050,7 +1051,7 @@ class EbusAdapter extends Adapter {
                     // i'm broadcast
                     basePath.push('broadcast');
                     if (ebusData[sectionName].messages) {
-                        for (const [ messageName, message ] of ebusData[sectionName].messages) {
+                        for (const [ messageName, message ] of ebusData[sectionName].messages.entries()) {
                             await handleMessage(basePath, messageName, message, sectionName);
                         }
                     }
