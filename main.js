@@ -951,7 +951,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                         for (const [keyName, value] of Object.entries(ebusData[sectionName])) {
                             const messagePath = [...basePath, keyName];
                             const key = messagePath.join('.');
-                            yield this._syncObject(key, IoBrokerCommonTypesEnum.STRING);
+                            yield this._syncObject(key, (typeof value === 'number' ? IoBrokerCommonTypesEnum.NUMBER : IoBrokerCommonTypesEnum.STRING));
                             yield this._updateState(key, value);
                             if (keyName === 'updatecheck' && value) {
                                 const version = value.match(/v(\d*\.\d)/s)[1];
