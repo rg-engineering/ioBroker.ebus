@@ -911,7 +911,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                 });
                 for (const sectionName in ebusData) {
                     const basePath = [];
-                    if (nonDeviceSections.some(ignoreSection => sectionName.match(ignoreSection))) {
+                    if (!nonDeviceSections.some(ignoreSection => sectionName.match(ignoreSection))) {
                         // i'm a circuit
                         basePath.push('circuit');
                         basePath.push(sectionName);
@@ -1097,7 +1097,6 @@ class EbusAdapter extends adapter_core_1.Adapter {
         });
     }
 }
-exports.default = EbusAdapter;
 // telnet client to write to ebusd
 // https://github.com/john30/ebusd/wiki/3.1.-TCP-client-commands
 /*
@@ -1116,8 +1115,11 @@ read -f YieldTotal,read LegioProtectionEnabled,read -f -c broadcast outsidetemp
 // this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
 // here we need a loop over all configured read data in admin-page
 // If started as allInOne/compact mode => return function to create instance
-if (!module) {
-    // or start the instance directly
-    const adapter = new EbusAdapter();
-    adapter.restart();
+if (require.main !== module) {
+    // Export the constructor in compact mode
+    module.exports = (options) => new EbusAdapter(options);
+}
+else {
+    // otherwise start the instance directly
+    (() => new EbusAdapter())();
 }

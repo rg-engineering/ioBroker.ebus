@@ -5,7 +5,7 @@
  *  Author: Rene
 */
 
-import { Adapter, AdapterInstance } from '@iobroker/adapter-core';
+import { Adapter, AdapterOptions } from '@iobroker/adapter-core';
 import axios from 'axios';
 // @ts-ignore
 import net from 'net';
@@ -94,7 +94,7 @@ interface IEbusAdapterConfig extends ioBroker.AdapterConfig{
     HistoryValues?: string;
 }
 
-export default class EbusAdapter extends Adapter implements Omit<AdapterInstance<false, false>, 'config'> {
+class EbusAdapter extends Adapter {
     public config: IEbusAdapterConfig;
 
     private _intervalId?: NodeJS.Timer;
@@ -1028,7 +1028,7 @@ export default class EbusAdapter extends Adapter implements Omit<AdapterInstance
 
             for (const sectionName in ebusData) {
                 const basePath = [];
-                if (nonDeviceSections.some(ignoreSection => sectionName.match(ignoreSection))) {
+                if (!nonDeviceSections.some(ignoreSection => sectionName.match(ignoreSection))) {
                     // i'm a circuit
                     basePath.push('circuit');
                     basePath.push(sectionName);
@@ -1241,8 +1241,10 @@ read -f YieldTotal,read LegioProtectionEnabled,read -f -c broadcast outsidetemp
 // here we need a loop over all configured read data in admin-page
 
 // If started as allInOne/compact mode => return function to create instance
-if (!module) {
-    // or start the instance directly
-    const adapter = new EbusAdapter();
-    adapter.restart();
+if (require.main !== module) {
+    // Export the constructor in compact mode
+    module.exports = (options: Partial<AdapterOptions> | undefined) => new EbusAdapter(options);
+} else {
+    // otherwise start the instance directly
+    (() => new EbusAdapter())();
 }
