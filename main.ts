@@ -186,6 +186,7 @@ class EbusAdapter extends Adapter {
         this.log.debug('read every  ' + readInterval + ' minutes');
         this._intervalId = setInterval(this._doPeriodic.bind(this), readInterval * 60 * 1000);
         void this._doPeriodic();
+        this.log.info('ebus adapter ready');
     }
 
     /**
@@ -193,12 +194,13 @@ class EbusAdapter extends Adapter {
      * @private
      */
     private async _doPeriodic () {
-
-        this.log.debug('starting ... ');
+        this.log.debug('_doPeriodic; starting ... ');
 
         await this._ebusPollDataPoints();
 
         await this._ebusGetData();
+
+        this.log.debug('_doPeriodic; done ... ');
     }
 
     /**
@@ -209,7 +211,7 @@ class EbusAdapter extends Adapter {
      */
     private async _handleStateChange (id: string, state: ioBroker.State | undefined | null) {
         if (state && !state.ack) {
-            this.log.debug('handle state change ' + id);
+            this.log.debug('_handleStateChange; for key: ' + id);
             const ids = id.split('.');
 
             if (ids[2] === 'cmd') {
@@ -219,7 +221,7 @@ class EbusAdapter extends Adapter {
                 if (object && object.common.write) {
                     await this._eBusUpdateDataPoint(id, state, object);
                 } else {
-                    this.log.warn('unhandled state change ' + id + ' state: ' + JSON.stringify(state));
+                    this.log.warn('_handleStateChange; unhandled for key: ' + id + ' state: ' + JSON.stringify(state));
                 }
             }
         }

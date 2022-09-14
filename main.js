@@ -120,6 +120,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
             this.log.debug('read every  ' + readInterval + ' minutes');
             this._intervalId = setInterval(this._doPeriodic.bind(this), readInterval * 60 * 1000);
             void this._doPeriodic();
+            this.log.info('ebus adapter ready');
         });
     }
     /**
@@ -128,9 +129,10 @@ class EbusAdapter extends adapter_core_1.Adapter {
      */
     _doPeriodic() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.log.debug('starting ... ');
+            this.log.debug('_doPeriodic; starting ... ');
             yield this._ebusPollDataPoints();
             yield this._ebusGetData();
+            this.log.debug('_doPeriodic; done ... ');
         });
     }
     /**
@@ -142,7 +144,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
     _handleStateChange(id, state) {
         return __awaiter(this, void 0, void 0, function* () {
             if (state && !state.ack) {
-                this.log.debug('handle state change ' + id);
+                this.log.debug('_handleStateChange; for key: ' + id);
                 const ids = id.split('.');
                 if (ids[2] === 'cmd') {
                     yield this._handleCommandChange(state);
@@ -153,7 +155,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                         yield this._eBusUpdateDataPoint(id, state, object);
                     }
                     else {
-                        this.log.warn('unhandled state change ' + id + ' state: ' + JSON.stringify(state));
+                        this.log.warn('_handleStateChange; unhandled for key: ' + id + ' state: ' + JSON.stringify(state));
                     }
                 }
             }
