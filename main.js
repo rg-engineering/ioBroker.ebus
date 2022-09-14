@@ -117,9 +117,8 @@ class EbusAdapter extends adapter_core_1.Adapter {
             if (parseInt(this.config.readInterval) > 0) {
                 readInterval = parseInt(this.config.readInterval);
             }
-            this.log.debug('read every  ' + readInterval + ' minutes');
+            this.log.debug('read every ' + readInterval + ' minutes');
             this._intervalId = setInterval(this._doPeriodic.bind(this), readInterval * 60 * 1000);
-            void this._doPeriodic();
             this.log.info('ebus adapter ready');
         });
     }
@@ -820,7 +819,13 @@ class EbusAdapter extends adapter_core_1.Adapter {
                 });
                 const handleMessage = (basePath, messageName, message, circuit) => __awaiter(this, void 0, void 0, function* () {
                     var _a, _b, _c;
-                    const messagePath = [...basePath, messageName];
+                    const messagePath = [...basePath];
+                    if (messageName.includes('.')) {
+                        messagePath.push(messageName.split('.').join('___'));
+                    }
+                    else {
+                        messagePath.push(messageName);
+                    }
                     const key = messagePath.join('.');
                     let existingObject = yield this._getObject(key);
                     if (!existingObject) {
@@ -1045,7 +1050,11 @@ class EbusAdapter extends adapter_core_1.Adapter {
                     this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this fields: ' + JSON.stringify(fieldStates));
                     const writeValues = [];
                     for (const [index, field] of adapterData.fieldDefs.entries()) {
-                        const fieldState = fieldStates[messageKey + '.fields.' + index.toString()];
+                        let fieldState = fieldStates[messageKey + '.fields.' + index.toString()];
+                        if (!fieldState) {
+                            // some fields use the name instead of the index, even tho we are using index=true (=default) in the http request
+                            fieldState = fieldStates[messageKey + '.fields.' + field.name];
+                        }
                         if (fieldState) {
                             writeValues.push(fieldState.val);
                         }
