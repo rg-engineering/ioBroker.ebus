@@ -1162,14 +1162,16 @@ class EbusAdapter extends Adapter {
         const messageKey = key.split('.').slice(0, -2).join('.');
         const messageObject = await this.getObjectAsync(messageKey);
         this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this messageObject: ' + JSON.stringify(messageObject));
-        if (messageObject?.type === 'channel' && messageObject?.common?.name === object?.common?.custom?.[this.name + '.' + this.instance]?.messageName) {
+        if (messageObject?.type === 'channel'
+          && messageObject?.common?.name === object?.common?.custom?.[this.name + '.' + this.instance]?.messageName
+        ) {
             // cool
             const adapterData = messageObject?.common?.custom?.[this.name + '.' + this.instance] as any;
-            if (adapterData?.fieldDefs) {
+            if (adapterData?.definition?.fields) {
                 const fieldStates = await this.getStatesAsync(messageKey + '.fields.*');
                 this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this fields: ' + JSON.stringify(fieldStates));
                 const writeValues = [];
-                for (const [ index, field ] of adapterData.fieldDefs.entries()) {
+                for (const [ index, field ] of adapterData.definition.fields.entries()) {
                     let fieldState = fieldStates[messageKey + '.fields.' + index.toString()];
                     if (!fieldState) {
                         // some fields use the name instead of the index, even tho we are using index=true (=default) in the http request
