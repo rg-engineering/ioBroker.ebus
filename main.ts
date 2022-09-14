@@ -201,8 +201,6 @@ class EbusAdapter extends Adapter {
 
         this.log.debug('starting ... ');
 
-        await this._handleCommandChange();
-
         await this._ebusPollDataPoints();
 
         await this._ebusGetData();

@@ -133,7 +133,6 @@ class EbusAdapter extends adapter_core_1.Adapter {
     _doPeriodic() {
         return __awaiter(this, void 0, void 0, function* () {
             this.log.debug('starting ... ');
-            yield this._handleCommandChange();
             yield this._ebusPollDataPoints();
             yield this._ebusGetData();
         });
