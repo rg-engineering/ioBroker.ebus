@@ -773,6 +773,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
             }
             yield this._syncObject(key, IoBrokerCommonTypesEnum.STRING, IoBrokerObjectTypesEnum.CHANNEL, {
                 common: {
+                    name: messageName,
                     desc: messageName,
                     custom: {
                         name: messageName,
