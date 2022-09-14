@@ -1185,7 +1185,7 @@ class EbusAdapter extends Adapter {
                         return 'ERR: fieldConfig broken';
                     }
                 }
-                if (writeValues.length === adapterData.fieldDefs.length) {
+                if (writeValues.length === adapterData.definition.fields.length) {
                     // just to make sure
                     const writeValue = writeValues.join(';');
                     const command = `write -c ${adapterData.circuitName} ${adapterData.messageName} ${writeValue}`;
@@ -1196,6 +1196,9 @@ class EbusAdapter extends Adapter {
                     // set ack =  true
                     await this._updateState(key, state.val as string);
                     return 'OK: ' + result;
+                } else {
+                    this.log.error('stateChanged; config must be wrong, fields didnt match, cant build complete command! exiting ' + key);
+                    return 'ERR: fieldConfig broken';
                 }
             }
         } else {
