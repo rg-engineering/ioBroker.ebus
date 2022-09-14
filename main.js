@@ -849,6 +849,9 @@ class EbusAdapter extends adapter_core_1.Adapter {
                             const stateFieldName = field.name || fieldName;
                             const fieldDef = message.fielddefs.find((fieldDef) => fieldDef.name === field.name);
                             let objectCommonType = IoBrokerCommonTypesEnum.STRING;
+                            if (typeof field.value === 'number') {
+                                objectCommonType = IoBrokerCommonTypesEnum.NUMBER;
+                            }
                             const objectType = IoBrokerObjectTypesEnum.STATE;
                             const extendObject = {};
                             // find -f -c 430 Hc1OPMode
@@ -857,10 +860,9 @@ class EbusAdapter extends adapter_core_1.Adapter {
                                 // "passive:true" could be a value that is set periodically by a thermostat
                                 // So that it will be overwritten again, even after you set it
                                 // this is why we set write only to true if passive is false and the fields are writable
-                                write: message.write && !message.passive,
+                                write: ((_c = (_b = (_a = existingObject === null || existingObject === void 0 ? void 0 : existingObject.common) === null || _a === void 0 ? void 0 : _a.custom) === null || _b === void 0 ? void 0 : _b[this.name + '.' + this.instance]) === null || _c === void 0 ? void 0 : _c.write) && !message.passive,
                                 custom: {
                                     [this.name + '.' + this.instance]: {
-                                        write: (_c = (_b = (_a = existingObject === null || existingObject === void 0 ? void 0 : existingObject.common) === null || _a === void 0 ? void 0 : _a.custom) === null || _b === void 0 ? void 0 : _b[this.name + '.' + this.instance]) === null || _c === void 0 ? void 0 : _c.write,
                                         passive: message.passive,
                                         zz: message.zz,
                                         id: message.id,

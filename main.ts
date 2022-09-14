@@ -963,6 +963,9 @@ class EbusAdapter extends Adapter {
                         const stateFieldName = field.name || fieldName;
                         const fieldDef = message.fielddefs.find((fieldDef: any) => fieldDef.name === field.name);
                         let objectCommonType = IoBrokerCommonTypesEnum.STRING;
+                        if (typeof field.value === 'number') {
+                            objectCommonType = IoBrokerCommonTypesEnum.NUMBER;
+                        }
                         const objectType = IoBrokerObjectTypesEnum.STATE;
                         const extendObject: any = {};
                         // find -f -c 430 Hc1OPMode
