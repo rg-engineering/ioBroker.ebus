@@ -1027,7 +1027,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state));
-            const messageKey = key.split('.').slice(0, -1).join('.');
+            const messageKey = key.split('.').slice(0, -2).join('.');
             const circuitKey = messageKey.split('.').slice(0, -1).join('.');
             const messageObject = yield this.getObjectAsync(circuitKey, messageKey);
             if ((messageObject === null || messageObject === void 0 ? void 0 : messageObject.type) === 'channel') {
