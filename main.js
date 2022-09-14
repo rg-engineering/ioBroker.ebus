@@ -1032,11 +1032,11 @@ class EbusAdapter extends adapter_core_1.Adapter {
     _eBusUpdateDataPoint(key, state, object) {
         var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function* () {
-            this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state));
+            this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state) + ' for object: ' + JSON.stringify(object));
             const messageKey = key.split('.').slice(0, -2).join('.');
             const messageObject = yield this.getObjectAsync(messageKey);
-            this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this object: ' + JSON.stringify(messageObject));
-            if ((messageObject === null || messageObject === void 0 ? void 0 : messageObject.type) === 'channel' && ((_a = messageObject === null || messageObject === void 0 ? void 0 : messageObject.common) === null || _a === void 0 ? void 0 : _a.name) === ((_d = (_c = (_b = object === null || object === void 0 ? void 0 : object.common) === null || _b === void 0 ? void 0 : _b.custom) === null || _c === void 0 ? void 0 : _c[this.name + '.' + this.instance]) === null || _d === void 0 ? void 0 : _d.name)) {
+            this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this messageObject: ' + JSON.stringify(messageObject));
+            if ((messageObject === null || messageObject === void 0 ? void 0 : messageObject.type) === 'channel' && ((_a = messageObject === null || messageObject === void 0 ? void 0 : messageObject.common) === null || _a === void 0 ? void 0 : _a.name) === ((_d = (_c = (_b = object === null || object === void 0 ? void 0 : object.common) === null || _b === void 0 ? void 0 : _b.custom) === null || _c === void 0 ? void 0 : _c[this.name + '.' + this.instance]) === null || _d === void 0 ? void 0 : _d.messageName)) {
                 // cool
                 const adapterData = (_f = (_e = messageObject === null || messageObject === void 0 ? void 0 : messageObject.common) === null || _e === void 0 ? void 0 : _e.custom) === null || _f === void 0 ? void 0 : _f[this.name + '.' + this.instance];
                 if (adapterData === null || adapterData === void 0 ? void 0 : adapterData.fieldDefs) {

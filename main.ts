@@ -1154,11 +1154,11 @@ class EbusAdapter extends Adapter {
      * @private
      */
     private async _eBusUpdateDataPoint (key: string, state: ioBroker.State, object: ioBroker.Object) {
-        this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state));
+        this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state) + ' for object: ' + JSON.stringify(object));
         const messageKey = key.split('.').slice(0, -2).join('.');
         const messageObject = await this.getObjectAsync(messageKey);
-        this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this object: ' + JSON.stringify(messageObject));
-        if (messageObject?.type === 'channel' && messageObject?.common?.name === object?.common?.custom?.[this.name + '.' + this.instance]?.name) {
+        this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this messageObject: ' + JSON.stringify(messageObject));
+        if (messageObject?.type === 'channel' && messageObject?.common?.name === object?.common?.custom?.[this.name + '.' + this.instance]?.messageName) {
             // cool
             const adapterData = messageObject?.common?.custom?.[this.name + '.' + this.instance] as any;
             if (adapterData?.fieldDefs) {
