@@ -102,6 +102,8 @@ class EbusAdapter extends Adapter {
 
     private _socket?: PromiseSocket<net.Socket>;
 
+    private _initialized = false;
+
     /**
      * The constructor
      * @param options
@@ -160,6 +162,11 @@ class EbusAdapter extends Adapter {
      * @private
      */
     private async _main () {
+        if (this._initialized) {
+            this.log.warn('_main was called twice?? should not happen');
+            return;
+        }
+        this._initialized = true;
         this.log.debug('start with interface ebusd ');
 
         await this._initializeObjects();
@@ -1150,6 +1157,7 @@ class EbusAdapter extends Adapter {
         this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state));
         const messageKey = key.split('.').slice(0, -2).join('.');
         const messageObject = await this.getObjectAsync(messageKey);
+        this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this object: ' + JSON.stringify(messageObject));
         if (messageObject?.type === 'channel') {
             // cool
             const adapterData = messageObject?.common?.custom?.[this.name + '.' + this.instance] as any;
@@ -1208,25 +1216,6 @@ class EbusAdapter extends Adapter {
     }
 
 }
-
-// telnet client to write to ebusd
-// https://github.com/john30/ebusd/wiki/3.1.-TCP-client-commands
-/*
-telnet 192.168.3.144 8890
-
-find -f -c broadcast outsidetemp
-find -f  outsidetemp
-find -f  YieldTotal
-
-read -f YieldTotal
-read LegioProtectionEnabled
-
-read -f YieldTotal,read LegioProtectionEnabled,read -f -c broadcast outsidetemp
-
-*/
-
-// this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
-// here we need a loop over all configured read data in admin-page
 
 // If started as allInOne/compact mode => return function to create instance
 if (require.main !== module) {

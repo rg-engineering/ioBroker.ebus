@@ -65,6 +65,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
         this._ebusdMinVersion = [22, 3];
         this._ebusdVersion = [0, 0];
         this._ebusdUpdateVersion = [0, 0];
+        this._initialized = false;
         this.config = Object.assign({ allowWrites: false, targetTelnetPort: '8888', maxRetries: 5, readInterval: '5', targetHTTPPort: '8889', targetIP: '127.0.0.1', useBoolean4Onoff: false }, super.config);
         /**
          * this is called when iobroker is ready
@@ -100,6 +101,11 @@ class EbusAdapter extends adapter_core_1.Adapter {
      */
     _main() {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this._initialized) {
+                this.log.warn('_main was called twice?? should not happen');
+                return;
+            }
+            this._initialized = true;
             this.log.debug('start with interface ebusd ');
             yield this._initializeObjects();
             yield this._ebusInitializeSocket();
@@ -1029,6 +1035,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
             this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state));
             const messageKey = key.split('.').slice(0, -2).join('.');
             const messageObject = yield this.getObjectAsync(messageKey);
+            this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this object: ' + JSON.stringify(messageObject));
             if ((messageObject === null || messageObject === void 0 ? void 0 : messageObject.type) === 'channel') {
                 // cool
                 const adapterData = (_b = (_a = messageObject === null || messageObject === void 0 ? void 0 : messageObject.common) === null || _a === void 0 ? void 0 : _a.custom) === null || _b === void 0 ? void 0 : _b[this.name + '.' + this.instance];
@@ -1087,23 +1094,6 @@ class EbusAdapter extends adapter_core_1.Adapter {
         });
     }
 }
-// telnet client to write to ebusd
-// https://github.com/john30/ebusd/wiki/3.1.-TCP-client-commands
-/*
-telnet 192.168.3.144 8890
-
-find -f -c broadcast outsidetemp
-find -f  outsidetemp
-find -f  YieldTotal
-
-read -f YieldTotal
-read LegioProtectionEnabled
-
-read -f YieldTotal,read LegioProtectionEnabled,read -f -c broadcast outsidetemp
-
-*/
-// this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
-// here we need a loop over all configured read data in admin-page
 // If started as allInOne/compact mode => return function to create instance
 if (require.main !== module) {
     // Export the constructor in compact mode
