@@ -959,7 +959,6 @@ class EbusAdapter extends Adapter {
                 }
                 if (message.fields) {
                     for (const [ fieldName, field ] of Object.entries(message.fields as { [key: string]: any })) {
-                        const stateFieldName = field.name || fieldName;
                         const fieldDef = message.fielddefs.find((fieldDef: any) => fieldDef.name === field.name);
                         let objectCommonType = IoBrokerCommonTypesEnum.STRING;
                         if (typeof field.value === 'number') {
@@ -1008,7 +1007,10 @@ class EbusAdapter extends Adapter {
                                 field.value = field.value === 'on';
                             }
                         }
-                        const key = messagePath.join('.') + '.fields.' + stateFieldName;
+                        // we always use the key of "fields" because this is the index of the field
+                        // we need this index if we want to write later on, name is stored in common.name
+                        // the message state contains the fieldDefs if you want to script with this
+                        const key = messagePath.join('.') + '.fields.' + fieldName;
                         await this._syncObject(key, objectCommonType, objectType, extendObject);
                         await this._updateState(key, field.value);
 
@@ -1166,8 +1168,8 @@ class EbusAdapter extends Adapter {
                 const fieldStates = await this.getStatesAsync(messageKey + '.fields.*');
                 this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this fields: ' + JSON.stringify(fieldStates));
                 const writeValues = [];
-                for (const field of adapterData.fieldDefs) {
-                    const fieldState = fieldStates[messageKey + '.' + field.name];
+                for (const [ index, field ] of adapterData.fieldDefs.entries()) {
+                    const fieldState = fieldStates[messageKey + '.fields.' + index.toString()];
                     if (fieldState) {
                         writeValues.push(fieldState.val);
                     } else {
