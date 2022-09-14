@@ -221,7 +221,7 @@ class EbusAdapter extends Adapter {
             } else {
                 const object = await this._getObject(id);
                 if (object && object.common.write) {
-                    await this._eBusUpdateDataPoint(id, state);
+                    await this._eBusUpdateDataPoint(id, state, object);
                 } else {
                     this.log.warn('unhandled state change ' + id + ' state: ' + JSON.stringify(state));
                 }
@@ -1153,16 +1153,17 @@ class EbusAdapter extends Adapter {
      * @param object
      * @private
      */
-    private async _eBusUpdateDataPoint (key: string, state: ioBroker.State) {
+    private async _eBusUpdateDataPoint (key: string, state: ioBroker.State, object: ioBroker.Object) {
         this.log.debug('stateChanged; ' + key + ' to: ' + JSON.stringify(state));
         const messageKey = key.split('.').slice(0, -2).join('.');
         const messageObject = await this.getObjectAsync(messageKey);
         this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this object: ' + JSON.stringify(messageObject));
-        if (messageObject?.type === 'channel') {
+        if (messageObject?.type === 'channel' && messageObject?.common?.name === object?.common?.custom?.[this.name + '.' + this.instance]?.name) {
             // cool
             const adapterData = messageObject?.common?.custom?.[this.name + '.' + this.instance] as any;
             if (adapterData?.fieldDefs) {
-                const fieldStates = await this.getStatesAsync(messageKey + '.*');
+                const fieldStates = await this.getStatesAsync(messageKey + '.fields.*');
+                this.log.debug('stateChanged; for messageKey: ' + messageKey + ' we got this fields: ' + JSON.stringify(fieldStates));
                 const writeValues = [];
                 for (const field of adapterData.fieldDefs) {
                     const fieldState = fieldStates[messageKey + '.' + field.name];
