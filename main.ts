@@ -958,68 +958,70 @@ class EbusAdapter extends Adapter {
                     }
 
                 }
-                for (const [ fieldName, field ] of Object.entries(message?.fields as {[key: string]: any})) {
-                    const stateFieldName = field.name || fieldName;
-                    const fieldDef = message.fielddefs.find((fieldDef: any) => fieldDef.name === field.name);
-                    let objectCommonType = IoBrokerCommonTypesEnum.STRING;
-                    const objectType = IoBrokerObjectTypesEnum.STATE;
-                    const extendObject: any = {};
-                    // find -f -c 430 Hc1OPMode
-                    extendObject.common = {
-                        // passive means it can be set, but only be the device itself
-                        // "passive:true" could be a value that is set periodically by a thermostat
-                        // So that it will be overwritten again, even after you set it
-                        // this is why we set write only to true if passive is false and the fields are writable
-                        write: message.write && !message.passive,
-                        custom: {
-                            [this.name + '.' + this.instance]: {
-                                write: existingObject?.common?.custom?.[this.name + '.' + this.instance]?.write,
-                                passive: message.passive,
-                                zz: message.zz,
-                                id: message.id,
-                                circuitName: circuit,
-                                messageName: messageName,
-                                fieldName: fieldName,
-                                field: field
+                if (message.fields) {
+                    for (const [ fieldName, field ] of Object.entries(message.fields as { [key: string]: any })) {
+                        const stateFieldName = field.name || fieldName;
+                        const fieldDef = message.fielddefs.find((fieldDef: any) => fieldDef.name === field.name);
+                        let objectCommonType = IoBrokerCommonTypesEnum.STRING;
+                        const objectType = IoBrokerObjectTypesEnum.STATE;
+                        const extendObject: any = {};
+                        // find -f -c 430 Hc1OPMode
+                        extendObject.common = {
+                            // passive means it can be set, but only be the device itself
+                            // "passive:true" could be a value that is set periodically by a thermostat
+                            // So that it will be overwritten again, even after you set it
+                            // this is why we set write only to true if passive is false and the fields are writable
+                            write: message.write && !message.passive,
+                            custom: {
+                                [this.name + '.' + this.instance]: {
+                                    write: existingObject?.common?.custom?.[this.name + '.' + this.instance]?.write,
+                                    passive: message.passive,
+                                    zz: message.zz,
+                                    id: message.id,
+                                    circuitName: circuit,
+                                    messageName: messageName,
+                                    fieldName: fieldName,
+                                    field: field
+                                }
+                            }
+                        };
+                        if (fieldDef) {
+                            // message types https://github.com/john30/ebusd/wiki/4.3.-Builtin-data-types
+                            if (fieldDef.type === 'IGN') {
+                                continue;
+                            }
+                            if (ebusTypeToIoBrokerCommonType[fieldDef.type]) {
+                                objectCommonType = ebusTypeToIoBrokerCommonType[fieldDef.type];
+                            }
+                            extendObject.common.name = fieldDef.name;
+                            extendObject.common.desc = fieldDef.comment;
+                            extendObject.common.unit = fieldDef.unit;
+                            extendObject.common.custom[this.name + '.' + this.instance].fieldDef = fieldDef;
+                            if (fieldDef.values) {
+                                const states: any = {};
+                                for (const value of Object.values(fieldDef.values) as string[]) {
+                                    states[value] = value;
+                                }
+                                extendObject.common.role = 'state';
+                                extendObject.common.states = states;
+                            }
+                            if (fieldDef.name === 'onoff' && this.config.useBoolean4Onoff) {
+                                objectCommonType = IoBrokerCommonTypesEnum.BOOLEAN;
+                                field.value = field.value === 'on';
                             }
                         }
-                    };
-                    if (fieldDef) {
-                        // message types https://github.com/john30/ebusd/wiki/4.3.-Builtin-data-types
-                        if (fieldDef.type === 'IGN') {
-                            continue;
-                        }
-                        if (ebusTypeToIoBrokerCommonType[fieldDef.type]) {
-                            objectCommonType = ebusTypeToIoBrokerCommonType[fieldDef.type];
-                        }
-                        extendObject.common.name = fieldDef.name;
-                        extendObject.common.desc = fieldDef.comment;
-                        extendObject.common.unit = fieldDef.unit;
-                        extendObject.common.custom[this.name + '.' + this.instance].fieldDef = fieldDef;
-                        if (fieldDef.values) {
-                            const states: any = {};
-                            for (const value of Object.values(fieldDef.values) as string[]) {
-                                states[value] = value;
-                            }
-                            extendObject.common.role = 'state';
-                            extendObject.common.states = states;
-                        }
-                        if (fieldDef.name === 'onoff' && this.config.useBoolean4Onoff) {
-                            objectCommonType = IoBrokerCommonTypesEnum.BOOLEAN;
-                            field.value = field.value === 'on';
-                        }
-                    }
-                    const key = messagePath.join('.') + '.fields.'+ stateFieldName;
-                    await this._syncObject(key, objectCommonType, objectType, extendObject);
-                    await this._updateState(key, field.value);
+                        const key = messagePath.join('.') + '.fields.' + stateFieldName;
+                        await this._syncObject(key, objectCommonType, objectType, extendObject);
+                        await this._updateState(key, field.value);
 
-                    // todo deprecate me
-                    {
-                        if (historyDataPoints.includes(key)) {
-                            const index = historyDataPoints.indexOf(key);
-                            const sTemp = '{"' + key + '": "' + field.value + '"}';
-                            historyvalues[index] = [];
-                            historyvalues[index].push(JSON.parse(sTemp));
+                        // todo deprecate me
+                        {
+                            if (historyDataPoints.includes(key)) {
+                                const index = historyDataPoints.indexOf(key);
+                                const sTemp = '{"' + key + '": "' + field.value + '"}';
+                                historyvalues[index] = [];
+                                historyvalues[index].push(JSON.parse(sTemp));
+                            }
                         }
                     }
                 }
@@ -1103,13 +1105,11 @@ class EbusAdapter extends Adapter {
 
             await this._updateState('history.error', 'exception in _ebusGetData');
         }
-        // });
     }
 
     /**
      * _ebusRetrieveDataPoint
      * @param dataPoint
-     * @param socket
      * @param retries
      * @private
      */
