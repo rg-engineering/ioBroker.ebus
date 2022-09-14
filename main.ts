@@ -958,7 +958,7 @@ class EbusAdapter extends Adapter {
                     }
 
                 }
-                for (const [ fieldName, field ] of message?.fields?.entries()) {
+                for (const [ fieldName, field ] of Object.entries(message?.fields as {[key: string]: any})) {
                     const stateFieldName = field.name || fieldName;
                     const fieldDef = message.fielddefs.find((fieldDef: any) => fieldDef.name === field.name);
                     let objectCommonType = IoBrokerCommonTypesEnum.STRING;
@@ -1043,7 +1043,7 @@ class EbusAdapter extends Adapter {
                         }
                     } as any);
                     if (ebusData[sectionName].messages) {
-                        for (const [ messageName, message ] of ebusData[sectionName].messages.entries()) {
+                        for (const [ messageName, message ] of Object.entries(ebusData[sectionName].messages)) {
                             await handleMessage(basePath, messageName, message, sectionName);
                         }
                     }
@@ -1051,27 +1051,27 @@ class EbusAdapter extends Adapter {
                     // i'm broadcast
                     basePath.push('broadcast');
                     if (ebusData[sectionName].messages) {
-                        for (const [ messageName, message ] of ebusData[sectionName].messages.entries()) {
+                        for (const [ messageName, message ] of Object.entries(ebusData[sectionName].messages)) {
                             await handleMessage(basePath, messageName, message, sectionName);
                         }
                     }
                 } else if (sectionName === 'global') {
                     // i'm global
                     basePath.push('global');
-                    for (const [ keyName, value ] of ebusData[sectionName]) {
+                    for (const [ keyName, value ] of Object.entries(ebusData[sectionName] as {[key: string]: string})) {
                         const messagePath = [ ...basePath, keyName ];
                         const key = messagePath.join('.');
                         await this._syncObject(key, IoBrokerCommonTypesEnum.STRING);
                         await this._updateState(key, value);
-                        if (keyName === 'updatecheck') {
-                            const version = value.match(/v(\d*\.\d)/s)[1];
+                        if (keyName === 'updatecheck' && value) {
+                            const version = (value.match(/v(\d*\.\d)/s) as string[])[1];
 
-                            const versionInfo = version.split('.');
+                            const versionInfo: string[] = version.split('.');
                             if (versionInfo.length > 1) {
                                 this.log.info('found ebusd update version ' + versionInfo[0] + '.' + versionInfo[1] + 'updateCheck: ' + value);
 
-                                this._ebusdUpdateVersion[0] = versionInfo[0];
-                                this._ebusdUpdateVersion[1] = versionInfo[1];
+                                this._ebusdUpdateVersion[0] = parseInt(versionInfo[0]);
+                                this._ebusdUpdateVersion[1] = parseInt(versionInfo[1]);
 
                                 this._versionCheck();
                             }
@@ -1081,8 +1081,8 @@ class EbusAdapter extends Adapter {
                             if (versionInfo.length > 1) {
                                 this.log.info('installed ebusd version is ' + versionInfo[0] + '.' + versionInfo[1]);
 
-                                this._ebusdVersion[0] = versionInfo[0];
-                                this._ebusdVersion[1] = versionInfo[1];
+                                this._ebusdVersion[0] = parseInt(versionInfo[0]);
+                                this._ebusdVersion[1] = parseInt(versionInfo[1]);
 
                                 this._versionCheck();
                             }

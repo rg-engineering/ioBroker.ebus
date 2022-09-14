@@ -822,7 +822,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                     time: oToday.getHours() + ':' + oToday.getMinutes() + ':' + oToday.getSeconds()
                 });
                 const handleMessage = (basePath, messageName, message, circuit) => __awaiter(this, void 0, void 0, function* () {
-                    var _a, _b, _c, _d;
+                    var _a, _b, _c;
                     const messagePath = [...basePath, messageName];
                     const key = messagePath.join('.');
                     let existingObject = yield this._getObject(key);
@@ -844,7 +844,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                             }
                         }
                     }
-                    for (const [fieldName, field] of (_a = message === null || message === void 0 ? void 0 : message.fields) === null || _a === void 0 ? void 0 : _a.entries()) {
+                    for (const [fieldName, field] of Object.entries(message === null || message === void 0 ? void 0 : message.fields)) {
                         const stateFieldName = field.name || fieldName;
                         const fieldDef = message.fielddefs.find((fieldDef) => fieldDef.name === field.name);
                         let objectCommonType = IoBrokerCommonTypesEnum.STRING;
@@ -859,7 +859,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                             write: message.write && !message.passive,
                             custom: {
                                 [this.name + '.' + this.instance]: {
-                                    write: (_d = (_c = (_b = existingObject === null || existingObject === void 0 ? void 0 : existingObject.common) === null || _b === void 0 ? void 0 : _b.custom) === null || _c === void 0 ? void 0 : _c[this.name + '.' + this.instance]) === null || _d === void 0 ? void 0 : _d.write,
+                                    write: (_c = (_b = (_a = existingObject === null || existingObject === void 0 ? void 0 : existingObject.common) === null || _a === void 0 ? void 0 : _a.custom) === null || _b === void 0 ? void 0 : _b[this.name + '.' + this.instance]) === null || _c === void 0 ? void 0 : _c.write,
                                     passive: message.passive,
                                     zz: message.zz,
                                     id: message.id,
@@ -927,7 +927,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                             }
                         });
                         if (ebusData[sectionName].messages) {
-                            for (const [messageName, message] of ebusData[sectionName].messages.entries()) {
+                            for (const [messageName, message] of Object.entries(ebusData[sectionName].messages)) {
                                 yield handleMessage(basePath, messageName, message, sectionName);
                             }
                         }
@@ -936,7 +936,7 @@ class EbusAdapter extends adapter_core_1.Adapter {
                         // i'm broadcast
                         basePath.push('broadcast');
                         if (ebusData[sectionName].messages) {
-                            for (const [messageName, message] of ebusData[sectionName].messages.entries()) {
+                            for (const [messageName, message] of Object.entries(ebusData[sectionName].messages)) {
                                 yield handleMessage(basePath, messageName, message, sectionName);
                             }
                         }
@@ -944,18 +944,18 @@ class EbusAdapter extends adapter_core_1.Adapter {
                     else if (sectionName === 'global') {
                         // i'm global
                         basePath.push('global');
-                        for (const [keyName, value] of ebusData[sectionName]) {
+                        for (const [keyName, value] of Object.entries(ebusData[sectionName])) {
                             const messagePath = [...basePath, keyName];
                             const key = messagePath.join('.');
                             yield this._syncObject(key, IoBrokerCommonTypesEnum.STRING);
                             yield this._updateState(key, value);
-                            if (keyName === 'updatecheck') {
+                            if (keyName === 'updatecheck' && value) {
                                 const version = value.match(/v(\d*\.\d)/s)[1];
                                 const versionInfo = version.split('.');
                                 if (versionInfo.length > 1) {
                                     this.log.info('found ebusd update version ' + versionInfo[0] + '.' + versionInfo[1] + 'updateCheck: ' + value);
-                                    this._ebusdUpdateVersion[0] = versionInfo[0];
-                                    this._ebusdUpdateVersion[1] = versionInfo[1];
+                                    this._ebusdUpdateVersion[0] = parseInt(versionInfo[0]);
+                                    this._ebusdUpdateVersion[1] = parseInt(versionInfo[1]);
                                     this._versionCheck();
                                 }
                             }
@@ -963,8 +963,8 @@ class EbusAdapter extends adapter_core_1.Adapter {
                                 const versionInfo = value.split('.');
                                 if (versionInfo.length > 1) {
                                     this.log.info('installed ebusd version is ' + versionInfo[0] + '.' + versionInfo[1]);
-                                    this._ebusdVersion[0] = versionInfo[0];
-                                    this._ebusdVersion[1] = versionInfo[1];
+                                    this._ebusdVersion[0] = parseInt(versionInfo[0]);
+                                    this._ebusdVersion[1] = parseInt(versionInfo[1]);
                                     this._versionCheck();
                                 }
                             }
