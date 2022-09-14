@@ -971,10 +971,9 @@ class EbusAdapter extends Adapter {
                             // "passive:true" could be a value that is set periodically by a thermostat
                             // So that it will be overwritten again, even after you set it
                             // this is why we set write only to true if passive is false and the fields are writable
-                            write: message.write && !message.passive,
+                            write: existingObject?.common?.custom?.[this.name + '.' + this.instance]?.write && !message.passive,
                             custom: {
                                 [this.name + '.' + this.instance]: {
-                                    write: existingObject?.common?.custom?.[this.name + '.' + this.instance]?.write,
                                     passive: message.passive,
                                     zz: message.zz,
                                     id: message.id,
