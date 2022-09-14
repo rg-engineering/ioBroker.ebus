@@ -89,10 +89,8 @@ class EbusAdapter extends adapter_core_1.Adapter {
      * @private
      */
     _destroy(callback) {
-        var _a;
         this.log.info('cleaned everything up...');
         clearInterval(this._intervalId);
-        (_a = this._socket) === null || _a === void 0 ? void 0 : _a.destroy();
         callback();
     }
     /**
@@ -108,7 +106,6 @@ class EbusAdapter extends adapter_core_1.Adapter {
             this._initialized = true;
             this.log.debug('start with interface ebusd ');
             yield this._initializeObjects();
-            yield this._ebusInitializeSocket();
             this._preparePolledDataPoints();
             this._prepareHistoryDataPoints();
             yield this._ebusPollDataPoints();
@@ -724,16 +721,14 @@ class EbusAdapter extends adapter_core_1.Adapter {
      * create socket with ebus telnet port
      * @private
      */
-    _ebusInitializeSocket() {
+    _ebusCreateSocket() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this._socket) {
-                return this._socket;
-            }
             const socket = new net_1.default.Socket();
-            this._socket = new promise_socket_1.PromiseSocket(socket);
-            yield this._socket.connect(parseInt(this.config.targetTelnetPort), this.config.targetIP);
+            const promiseSocket = new promise_socket_1.PromiseSocket(socket);
+            promiseSocket.setTimeout(5000);
+            yield promiseSocket.connect(parseInt(this.config.targetTelnetPort), this.config.targetIP);
             this.log.debug('telnet connected');
-            return this._socket;
+            return promiseSocket;
         });
     }
     /**
@@ -744,9 +739,10 @@ class EbusAdapter extends adapter_core_1.Adapter {
     _ebusSend(command) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            const socket = yield this._ebusInitializeSocket();
+            const socket = yield this._ebusCreateSocket();
             yield socket.write(command + '\n');
             const response = yield socket.read();
+            socket.destroy();
             return (_a = response === null || response === void 0 ? void 0 : response.toString()) !== null && _a !== void 0 ? _a : '';
         });
     }

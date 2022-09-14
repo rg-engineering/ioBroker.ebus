@@ -100,8 +100,6 @@ class EbusAdapter extends Adapter {
 
     private _ebusdUpdateVersion = [ 0, 0 ];
 
-    private _socket?: PromiseSocket<net.Socket>;
-
     private _initialized = false;
 
     /**
@@ -153,7 +151,6 @@ class EbusAdapter extends Adapter {
     private _destroy (callback: Function) {
         this.log.info('cleaned everything up...');
         clearInterval(this._intervalId);
-        this._socket?.destroy();
         callback();
     }
 
@@ -170,7 +167,6 @@ class EbusAdapter extends Adapter {
         this.log.debug('start with interface ebusd ');
 
         await this._initializeObjects();
-        await this._ebusInitializeSocket();
 
         this._preparePolledDataPoints();
         this._prepareHistoryDataPoints();
@@ -830,16 +826,14 @@ class EbusAdapter extends Adapter {
      * create socket with ebus telnet port
      * @private
      */
-    private async _ebusInitializeSocket () {
-        if (this._socket) {
-            return this._socket;
-        }
+    private async _ebusCreateSocket () {
         const socket = new net.Socket();
-        this._socket = new PromiseSocket(socket);
+        const promiseSocket = new PromiseSocket(socket);
+        promiseSocket.setTimeout(5000);
 
-        await this._socket.connect(parseInt(this.config.targetTelnetPort), this.config.targetIP);
+        await promiseSocket.connect(parseInt(this.config.targetTelnetPort), this.config.targetIP);
         this.log.debug('telnet connected');
-        return this._socket;
+        return promiseSocket;
     }
 
     /**
@@ -848,9 +842,10 @@ class EbusAdapter extends Adapter {
      * @private
      */
     private async _ebusSend (command: string): Promise<string> {
-        const socket = await this._ebusInitializeSocket();
+        const socket = await this._ebusCreateSocket();
         await socket.write(command + '\n');
         const response = await socket.read();
+        socket.destroy();
         return response?.toString() ?? '';
     }
 
