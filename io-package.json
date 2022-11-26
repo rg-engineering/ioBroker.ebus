@@ -13,7 +13,8 @@
                 "it": "supporto di ebusd 22.3",
                 "es": "soporte de ebusd 22.3",
                 "pl": "obsługa ebusd 22.3",
-                "zh-cn": "支持 ebusd 22.3"
+                "zh-cn": "支持 ebusd 22.3",
+                "uk": "підтримка ebusd 22.3"
             },
             "3.0.6": {
                 "en": "widget with tooltip",
@@ -25,7 +26,8 @@
                 "it": "widget con descrizione comando",
                 "es": "widget con información sobre herramientas",
                 "pl": "widżet z podpowiedź",
-                "zh-cn": "带有工具提示的小部件"
+                "zh-cn": "带有工具提示的小部件",
+                "uk": "віджет із підказкою"
             },
             "3.0.2": {
                 "en": "message installation hint added",
@@ -37,7 +39,8 @@
                 "it": "suggerimento per l'installazione del messaggio aggiunto",
                 "es": "sugerencia de instalación de mensajes agregada",
                 "pl": "dodano wskazówkę dotyczącą instalacji wiadomości",
-                "zh-cn": "添加了消息安装提示"
+                "zh-cn": "添加了消息安装提示",
+                "uk": "додано підказку щодо встановлення повідомлення"
             },
             "3.0.1": {
                 "en": "read interval in admin added",
@@ -49,7 +52,8 @@
                 "it": "intervallo di lettura in admin aggiunto",
                 "es": "Intervalo de lectura en el administrador agregado",
                 "pl": "dodano interwał odczytu w admin",
-                "zh-cn": "添加了管理员中的读取间隔"
+                "zh-cn": "添加了管理员中的读取间隔",
+                "uk": "додано інтервал читання в адмінці"
             },
             "3.0.0": {
                 "en": "from 'scheduled' to 'daemon' adapter changed",
@@ -61,7 +65,8 @@
                 "it": "adattatore da \"programmato\" a \"demone\" modificato",
                 "es": "Se cambió el adaptador de 'programado' a 'daemon'",
                 "pl": "Zmieniono adapter z „zaplanowanego” na „demon”",
-                "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改"
+                "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改",
+                "uk": "змінено адаптер із 'scheduled' на 'daemon'"
             },
             "2.6.0": {
                 "en": " 'bent' replaced by 'axios'",
@@ -73,7 +78,8 @@
                 "it": "'piegato' sostituito da 'assios'",
                 "es": "'doblado' reemplazado por 'axios'",
                 "pl": "„wygięty” zastąpiony przez „axios”",
-                "zh-cn": "'bent' 替换为 'axios'"
+                "zh-cn": "'bent' 替换为 'axios'",
+                "uk": "\"bent\" замінено на \"axios\""
             },
             "2.5.1": {
                 "en": "maximum retries to send data in case of arbitration error",
@@ -85,7 +91,8 @@
                 "it": "numero massimo di tentativi di invio dei dati in caso di errore di arbitrato",
                 "es": "reintentos máximos para enviar datos en caso de error de arbitraje",
                 "pl": "maksymalna liczba prób wysłania danych w przypadku błędu arbitrażu",
-                "zh-cn": "仲裁错误时发送数据的最大重试次数"
+                "zh-cn": "仲裁错误时发送数据的最大重试次数",
+                "uk": "максимальна кількість повторних спроб надсилання даних у разі помилки арбітражу"
             }
         },
         "title": "ebus",
@@ -99,7 +106,8 @@
             "it": "ebus",
             "es": "ebus",
             "pl": "ebus",
-            "zh-cn": "巴士"
+            "zh-cn": "巴士",
+            "uk": "ebus"
         },
         "desc": {
             "en": "ebus Adapter; reads data from ebusd Interface",
@@ -111,13 +119,14 @@
             "it": "ebus Adapter; legge i dati dall'interfaccia ebusd",
             "es": "adaptador ebus; lee datos de la interfaz ebusd",
             "pl": "Adapter ebus; odczytuje dane z interfejsu ebusd",
-            "zh-cn": "ebus适配器；"
+            "zh-cn": "ebus适配器；",
+            "uk": "адаптер ebus; читає дані з інтерфейсу ebusd"
         },
         "platform": "Javascript/Node.js",
         "mode": "daemon",
         "icon": "ebus.png",
         "enabled": true,
-        "messagebox": true,
+        "messagebox": false,
         "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/ebus.png",
         "keywords": [
             "ebus"
@@ -169,7 +178,8 @@
                     "it": "adattatore da \"programmato\" a \"demone\" modificato",
                     "es": "Se cambió el adaptador de 'programado' a 'daemon'",
                     "pl": "Zmieniono adapter z „zaplanowanego” na „demon”",
-                    "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改"
+                    "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改",
+                    "uk": "змінено адаптер із 'scheduled' на 'daemon'"
                 },
                 "text": {
                     "en": "it might be necessary to deinstall old version and then install new version",
@@ -181,7 +191,8 @@
                     "it": "potrebbe essere necessario disinstallare la vecchia versione e quindi installare la nuova versione",
                     "es": "puede ser necesario desinstalar la versión anterior y luego instalar la nueva versión",
                     "pl": "może być konieczne odinstalowanie starej wersji, a następnie zainstalowanie nowej wersji",
-                    "zh-cn": "可能需要卸载旧版本，然后安装新版本"
+                    "zh-cn": "可能需要卸载旧版本，然后安装新版本",
+                    "uk": "може знадобитися видалити стару версію, а потім встановити нову"
                 },
                 "level": "warn",
                 "buttons": [
