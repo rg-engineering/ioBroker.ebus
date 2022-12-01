@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.0.7",
+        "version": "3.1.0",
         "news": {
+            "3.1.0": {
+                "en": "optimize answer of ebus.0.cmd",
+                "de": "Antwort von ebus.0.cmd optimieren",
+                "ru": "оптимизировать ответ ebus.0.cmd",
+                "pt": "otimizar resposta de ebus.0.cmd",
+                "nl": "optimaliseer het antwoord van ebus.0.cmd",
+                "fr": "optimiser la réponse de ebus.0.cmd",
+                "it": "ottimizzare la risposta di ebus.0.cmd",
+                "es": "optimizar la respuesta de ebus.0.cmd",
+                "pl": "zoptymalizować odpowiedź ebus.0.cmd",
+                "uk": "оптимізувати відповідь ebus.0.cmd",
+                "zh-cn": "优化 ebus.0.cmd 的答案"
+            },
             "3.0.7": {
                 "en": "support of ebusd 22.3",
                 "de": "Unterstützung von ebusd 22.3",

@@ -15,7 +15,7 @@
 
 
 const utils = require("@iobroker/adapter-core");
-const ebusdMinVersion = [22, 3];
+const ebusdMinVersion = [22, 4];
 let ebusdVersion = [0, 0];
 let ebusdUpdateVersion = [0, 0];
 
@@ -46,24 +46,7 @@ function startAdapter(options) {
                 callback();
             }
         },
-        //#######################################
-        //
-        //SIGINT: function () {
-        //    clearInterval(intervalID);
-        //    intervalID = null;
-        //    adapter && adapter.log && adapter.log.info && adapter.log.info("cleaned everything up...");
-        //    CronStop();
-        //},
-        //#######################################
-        //  is called if a subscribed object changes
-        //objectChange: function (id, obj) {
-        //    adapter.log.debug("[OBJECT CHANGE] ==== " + id + " === " + JSON.stringify(obj));
-        //},
-        //#######################################
-        // is called if a subscribed state changes
-        //stateChange: function (id, state) {
-        //HandleStateChange(id, state);
-        //},
+        
         stateChange: async (id, state) => {
             await HandleStateChange(id, state);
         },
@@ -75,36 +58,14 @@ function startAdapter(options) {
     return adapter;
 }
 
-//var request = require('request');
-//const bent = require("bent");
+
 const axios = require('axios');
-//const parseString = require("xml2js").parseString;
 const net = require("net");
 const { PromiseSocket } = require("promise-socket");
 
-
-
-//let killTimer;
 let intervalID;
 
-
 async function main() {
-
-    /*
-    let nParseTimeout = 60;
-    if (adapter.config.parseTimeout > 0) {
-        nParseTimeout = adapter.config.parseTimeout;
-    }
-    adapter.log.debug("set timeout to " + nParseTimeout + " sec");
-    nParseTimeout = nParseTimeout * 1000;
-    // force terminate after 1min
-    // don't know why it does not terminate by itself...
-    killTimer = setTimeout(function () {
-        adapter.log.warn("force terminate");
-        //process.exit(0);
-        adapter.terminate ? adapter.terminate(15) : process.exit(15);
-    }, nParseTimeout);
-    */
 
     adapter.log.debug("start with interface ebusd ");
 
@@ -115,8 +76,6 @@ async function main() {
 
     subscribeVars();
 
-    //await TestFunction();
-
     let readInterval = 5;
     if (parseInt(adapter.config.readInterval) > 0) {
         readInterval = adapter.config.readInterval;
@@ -124,14 +83,7 @@ async function main() {
     adapter.log.debug("read every  " + readInterval + " minutes");
     intervalID = setInterval(Do, readInterval * 60 * 1000);
 
-    /*
-    if (killTimer) {
-        clearTimeout(killTimer);
-        adapter.log.debug("timer killed");
-    }
 
-    adapter.terminate ? adapter.terminate(0) : process.exit(0);
-    */
 }
 
 async function Do() {
@@ -155,7 +107,7 @@ async function HandleStateChange(id, state) {
         const ids = id.split(".");
 
         if (ids[2] === "cmd") {
-            await ebusd_Command();
+            await Do();
         }
         else {
             adapter.log.warn("unhandled state change " + id);
@@ -269,6 +221,10 @@ async function ebusd_Command() {
                         received += data.toString();
                         received += ", ";
                     }
+
+                    //see issue #78: remove CR, LF and last comma
+                    received = received.replace(/\r?\n|\r/g,"");
+                    received = received.slice(0, -2);
 
                     //set result to cmdResult 
                     await adapter.setStateAsync("cmdResult", { ack: true, val: received });
@@ -459,16 +415,11 @@ async function ebusd_ReceiveData() {
     adapter.log.debug("request data from " + sUrl);
 
     try {
-        /*
-        const getBuffer = bent("string");
-        const buffer = await getBuffer(sUrl);
-        */
 
         const buffer = await axios.get(sUrl);
 
         adapter.log.debug("got data " + typeof buffer.data + " " + JSON.stringify(buffer.data));
 
-        //const oData = JSON.parse(buffer.data);
         const oData = buffer.data;
 
         //adapter.log.debug("oData " + oData);
@@ -1002,22 +953,6 @@ async function ebusd_ReadValues() {
 
 }
 
-/*
-async function TestFunction(){
-
-
-    const key = "Test.Test";
-
-    await AddObject(key);
-
-}
-*/
-
-/*
-async function ebusd_StartReceive(options) {
-    await ebusd_ReceiveData(options);
-}
-*/
 
 // If started as allInOne/compact mode => return function to create instance
 if (module && module.parent) {
