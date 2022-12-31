@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.1.0",
+        "version": "3.1.1",
         "news": {
+            "3.1.1": {
+                "en": "in progress",
+                "de": "in Bearbeitung",
+                "ru": "в ходе выполнения",
+                "pt": "em progresso",
+                "nl": "bezig",
+                "fr": "en cours",
+                "it": "in corso",
+                "es": "en curso",
+                "pl": "w trakcie",
+                "uk": "в процесі",
+                "zh-cn": "进行中"
+            },
             "3.1.0": {
                 "en": "optimize answer of ebus.0.cmd",
                 "de": "Antwort von ebus.0.cmd optimieren",
@@ -15,97 +28,6 @@
                 "pl": "zoptymalizować odpowiedź ebus.0.cmd",
                 "uk": "оптимізувати відповідь ebus.0.cmd",
                 "zh-cn": "优化 ebus.0.cmd 的答案"
-            },
-            "3.0.7": {
-                "en": "support of ebusd 22.3",
-                "de": "Unterstützung von ebusd 22.3",
-                "ru": "поддержка ebusd 22.3",
-                "pt": "suporte de ebusd 22.3",
-                "nl": "ondersteuning van ebusd 22.3",
-                "fr": "prise en charge d'ebusd 22.3",
-                "it": "supporto di ebusd 22.3",
-                "es": "soporte de ebusd 22.3",
-                "pl": "obsługa ebusd 22.3",
-                "zh-cn": "支持 ebusd 22.3",
-                "uk": "підтримка ebusd 22.3"
-            },
-            "3.0.6": {
-                "en": "widget with tooltip",
-                "de": "Widget mit Tooltip",
-                "ru": "виджет с подсказкой",
-                "pt": "widget com dica de ferramenta",
-                "nl": "widget met knopinfo",
-                "fr": "widget avec info-bulle",
-                "it": "widget con descrizione comando",
-                "es": "widget con información sobre herramientas",
-                "pl": "widżet z podpowiedź",
-                "zh-cn": "带有工具提示的小部件",
-                "uk": "віджет із підказкою"
-            },
-            "3.0.2": {
-                "en": "message installation hint added",
-                "de": "Nachricht Installationshinweis hinzugefügt",
-                "ru": "добавлена ​​подсказка установки сообщения",
-                "pt": "dica de instalação de mensagem adicionada",
-                "nl": "bericht installatie hint toegevoegd",
-                "fr": "astuce d'installation de message ajoutée",
-                "it": "suggerimento per l'installazione del messaggio aggiunto",
-                "es": "sugerencia de instalación de mensajes agregada",
-                "pl": "dodano wskazówkę dotyczącą instalacji wiadomości",
-                "zh-cn": "添加了消息安装提示",
-                "uk": "додано підказку щодо встановлення повідомлення"
-            },
-            "3.0.1": {
-                "en": "read interval in admin added",
-                "de": "Leseintervall im Admin hinzugefügt",
-                "ru": "добавлен интервал чтения в админке",
-                "pt": "intervalo de leitura no admin adicionado",
-                "nl": "leesinterval in admin toegevoegd",
-                "fr": "intervalle de lecture ajouté dans l'administrateur",
-                "it": "intervallo di lettura in admin aggiunto",
-                "es": "Intervalo de lectura en el administrador agregado",
-                "pl": "dodano interwał odczytu w admin",
-                "zh-cn": "添加了管理员中的读取间隔",
-                "uk": "додано інтервал читання в адмінці"
-            },
-            "3.0.0": {
-                "en": "from 'scheduled' to 'daemon' adapter changed",
-                "de": "von 'geplant' zu 'daemon' Adapter geändert",
-                "ru": "изменен адаптер с «запланированного» на «демон»",
-                "pt": "adaptador 'agendado' para 'daemon' alterado",
-                "nl": "van 'scheduled' naar 'daemon' adapter gewijzigd",
-                "fr": "de l'adaptateur 'scheduled' à 'daemon' changé",
-                "it": "adattatore da \"programmato\" a \"demone\" modificato",
-                "es": "Se cambió el adaptador de 'programado' a 'daemon'",
-                "pl": "Zmieniono adapter z „zaplanowanego” na „demon”",
-                "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改",
-                "uk": "змінено адаптер із 'scheduled' на 'daemon'"
-            },
-            "2.6.0": {
-                "en": " 'bent' replaced by 'axios'",
-                "de": "'bent' ersetzt durch 'axios'",
-                "ru": "«согнутый» заменен на «аксиос»",
-                "pt": "'curvado' substituído por 'axios'",
-                "nl": "'gebogen' vervangen door 'axios'",
-                "fr": "'plié' remplacé par 'axios'",
-                "it": "'piegato' sostituito da 'assios'",
-                "es": "'doblado' reemplazado por 'axios'",
-                "pl": "„wygięty” zastąpiony przez „axios”",
-                "zh-cn": "'bent' 替换为 'axios'",
-                "uk": "\"bent\" замінено на \"axios\""
-            },
-            "2.5.1": {
-                "en": "maximum retries to send data in case of arbitration error",
-                "de": "maximale Wiederholungsversuche zum Senden von Daten im Falle eines Vermittlungsfehlers",
-                "ru": "максимальное количество попыток отправки данных в случае ошибки арбитража",
-                "pt": "máximo de tentativas para enviar dados em caso de erro de arbitragem",
-                "nl": "maximaal aantal pogingen om gegevens te verzenden in geval van arbitragefout",
-                "fr": "nombre maximum de tentatives d'envoi de données en cas d'erreur d'arbitrage",
-                "it": "numero massimo di tentativi di invio dei dati in caso di errore di arbitrato",
-                "es": "reintentos máximos para enviar datos en caso de error de arbitraje",
-                "pl": "maksymalna liczba prób wysłania danych w przypadku błędu arbitrażu",
-                "zh-cn": "仲裁错误时发送数据的最大重试次数",
-                "uk": "максимальна кількість повторних спроб надсилання даних у разі помилки арбітражу"
             }
         },
         "titleLang": {
