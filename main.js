@@ -91,6 +91,8 @@ async function main() {
     adapter.log.debug("read every  " + readInterval + " minutes");
     intervalID = setInterval(Do, readInterval * 60 * 1000);
 
+    //read at adapterstart
+    await Do();
 
 }
 

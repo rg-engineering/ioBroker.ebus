@@ -4,17 +4,17 @@
         "version": "3.1.1",
         "news": {
             "3.1.1": {
-                "en": "in progress",
-                "de": "in Bearbeitung",
-                "ru": "в ходе выполнения",
-                "pt": "em progresso",
-                "nl": "bezig",
-                "fr": "en cours",
-                "it": "in corso",
-                "es": "en curso",
-                "pl": "w trakcie",
-                "uk": "в процесі",
-                "zh-cn": "进行中"
+                "en": "wait for all commands before update of data",
+                "de": "Warten Sie auf alle Befehle, bevor Sie die Daten aktualisieren",
+                "ru": "дождаться всех команд перед обновлением данных",
+                "pt": "aguarde todos os comandos antes da atualização dos dados",
+                "nl": "wacht op alle commando's voordat de gegevens worden bijgewerkt",
+                "fr": "attendre toutes les commandes avant la mise à jour des données",
+                "it": "attendere tutti i comandi prima dell'aggiornamento dei dati",
+                "es": "esperar todos los comandos antes de actualizar los datos",
+                "pl": "poczekaj na wszystkie polecenia przed aktualizacją danych",
+                "uk": "дочекатися всіх команд перед оновленням даних",
+                "zh-cn": "在更新数据之前等待所有命令"
             },
             "3.1.0": {
                 "en": "optimize answer of ebus.0.cmd",
