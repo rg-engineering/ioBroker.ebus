@@ -56,7 +56,8 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
 ## Changelog
 
 ### 3.1.1 (in progress)
-
+* (René) support ebusd 23.1
+* (René) see issue #77: make sure that only one date request is running at the same time
 
 ### 3.1.0 (2022-12-01)
 * (René) support ebusd 22.4

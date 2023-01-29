@@ -15,7 +15,7 @@
 
 
 const utils = require("@iobroker/adapter-core");
-const ebusdMinVersion = [22, 4];
+const ebusdMinVersion = [23, 1];
 let ebusdVersion = [0, 0];
 let ebusdUpdateVersion = [0, 0];
 
@@ -39,6 +39,13 @@ function startAdapter(options) {
         //  is called when adapter shuts down
         unload: function (callback) {
             try {
+
+                if (intervalID != null) {
+                    clearInterval(intervalID);
+                }
+                if (updateTimerID != null) {
+                    clearTimeout(updateTimerID);
+                }
                 adapter && adapter.log && adapter.log.info && adapter.log.info("cleaned everything up...");
                 //to do stop intervall
                 callback();
@@ -63,7 +70,8 @@ const axios = require('axios');
 const net = require("net");
 const { PromiseSocket } = require("promise-socket");
 
-let intervalID;
+let intervalID=null;
+let updateTimerID=null;
 
 async function main() {
 
@@ -86,15 +94,32 @@ async function main() {
 
 }
 
+let requestRunning = false;
+
+async function DoRequest() {
+
+    adapter.log.debug("DoRequest ");
+
+    if (!requestRunning) {
+        requestRunning = true;
+        await ebusd_ReadValues();
+
+        await ebusd_ReceiveData();
+    }
+    else {
+        adapter.log.debug("DoRequest: do nothing already running ");
+    }
+    requestRunning = false;
+}
+
 async function Do() {
 
     adapter.log.debug("starting ... " );
 
     await ebusd_Command();
 
-    await ebusd_ReadValues();
-
-    await ebusd_ReceiveData();
+    await DoRequest();
+    
 }
 
 
@@ -107,15 +132,39 @@ async function HandleStateChange(id, state) {
         const ids = id.split(".");
 
         if (ids[2] === "cmd") {
-            await Do();
+            await ebusd_Command();
+            StartDataRequest();
+            //see issue #77: only one request possible
+            //await Do();
         }
         else {
             adapter.log.warn("unhandled state change " + id);
         }
     }
-
 }
 
+
+function StartDataRequest() {
+
+    if (updateTimerID != null) {
+        //already running
+        clearTimeout(updateTimerID);
+        updateTimerID = null;
+    }
+    //start or restart
+    updateTimerID = setTimeout(DataRequest, 500);
+    adapter.log.debug("StartDataRequest");
+}
+
+
+async function DataRequest() {
+    adapter.log.debug("get data after command and timeout");
+    if (updateTimerID != null) {
+        clearTimeout(updateTimerID);
+        updateTimerID = null;
+    }
+    await DoRequest();
+}
 
 
 let oPolledVars = [];
