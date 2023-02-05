@@ -82,7 +82,7 @@ async function main() {
 
     await checkVariables();
 
-    subscribeVars();
+    await subscribeVars();
 
     let readInterval = 5;
     if (parseInt(adapter.config.readInterval) > 0) {
@@ -138,6 +138,10 @@ async function HandleStateChange(id, state) {
             StartDataRequest();
             //see issue #77: only one request possible
             //await Do();
+        }
+        //unhandled state change ebus.0.find
+        else if (ids[2] === "find") {
+            await ebusd_find();
         }
         else {
             adapter.log.warn("unhandled state change " + id);
@@ -297,11 +301,69 @@ async function ebusd_Command() {
     }
 }
 
+async function ebusd_find(){
+    try {
+        const socket = new net.Socket();
+        const promiseSocket = new PromiseSocket(socket);
+
+        await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
+        adapter.log.debug("telnet connected for cmd");
+        promiseSocket.setTimeout(5000);
+
+        await promiseSocket.write("find -F circuit,name,comment\n");
+
+        const data = await promiseSocket.read();
+
+        if (data.includes("ERR")) {
+            adapter.log.warn("received error! sent find, received " + data + " please check ebusd logs for details!");
+        }
+        else {
+            adapter.log.debug("received " + typeof data + " " + data);
+        }
+
+        let str = new TextDecoder().decode(data); 
+        let datas = str.split(/\r?\n/)
+
+        for (let i = 0; i < datas.length; i++) {
+
+            //adapter.log.debug(JSON.stringify(datas[i]));
+
+            let names = datas[i].split(",");
+
+            //circuit,name,comment
+            await UpdateDP(names[0], names[1], names[2]);
+
+            let cmd = "read -f -c " + names[0] + " " + names[1] ;
+
+            adapter.log.debug("send cmd " + cmd);
+
+            cmd += "\n";
+            await promiseSocket.write(cmd);
+
+            const result = await promiseSocket.read();
+
+            adapter.log.debug("received " + typeof result + " " + result);
+        }
+        
+
+        promiseSocket.destroy();
+
+    } catch (e) {
+        adapter.log.error("exception from tcp socket in ebusd_find" + "[" + e + "]");
+    }
+
+}
+
+
 
 //just call http://192.168.0.123:8889/data
 
-function subscribeVars() {
+async function subscribeVars() {
     adapter.subscribeStates("cmd");
+
+    adapter.subscribeStates("find");
+
+    await adapter.setStateAsync("cmdResult", { ack: true, val: "" });
 }
 
 async function CreateObject(key, obj) {
@@ -338,6 +400,50 @@ async function CreateObject(key, obj) {
 }
 
 
+//circuit,name,comment
+async function UpdateDP(circuit, name, comment) {
+
+    let key = circuit + ".messages." + name;
+    adapter.log.debug("update check for " + key);
+
+
+    //       ehp.messages.Injection
+    //ebus.0.ehp.messages.Injection
+
+    const obj = await adapter.getObjectAsync(key);
+    adapter.log.debug("update check got " + JSON.stringify(obj));
+
+
+    //update check got null
+
+    if (obj != null) {
+
+        if (obj.common.name != comment) {
+            adapter.log.debug("update  " + key + " " + comment);
+            await adapter.extendObject(key, {
+                common: {
+                    name: comment,
+                    read: true,
+                    write: false
+                }
+            });
+        }
+    }
+    else {
+        await adapter.setObjectNotExistsAsync(key, {
+            type: "channel",
+            common: {
+                name: comment,
+                read: true,
+                write: false
+            }
+        });
+    }
+
+}
+
+
+
 async function checkVariables() {
     adapter.log.debug("init variables ");
 
@@ -369,6 +475,21 @@ async function checkVariables() {
         }
     };
     await CreateObject(key, obj);
+
+    key = "find";
+    obj = {
+        type: "state",
+        common: {
+            name: "find existing data points",
+            type: "boolean",
+            role: "button",
+            read: false,
+            write: true
+        }
+    };
+    await CreateObject(key, obj);
+
+
 
     adapter.log.debug("init common variables and " + oHistoryVars.length + " history DP's");
     
@@ -406,7 +527,7 @@ async function checkVariables() {
         obj= {
             type: "state",
             common: {
-                name: "ebus history date as JSON",
+                name: "ebus history date / time as JSON",
                 type: "string",
                 role: "value",
                 unit: "",

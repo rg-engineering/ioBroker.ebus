@@ -1,34 +1,37 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.1.1",
-        "news": {
-            "3.1.1": {
-                "en": "wait for all commands before update of data",
-                "de": "Warten Sie auf alle Befehle, bevor Sie die Daten aktualisieren",
-                "ru": "дождаться всех команд перед обновлением данных",
-                "pt": "aguarde todos os comandos antes da atualização dos dados",
-                "nl": "wacht op alle commando's voordat de gegevens worden bijgewerkt",
-                "fr": "attendre toutes les commandes avant la mise à jour des données",
-                "it": "attendere tutti i comandi prima dell'aggiornamento dei dati",
-                "es": "esperar todos los comandos antes de actualizar los datos",
-                "pl": "poczekaj na wszystkie polecenia przed aktualizacją danych",
-                "uk": "дочекатися всіх команд перед оновленням даних",
-                "zh-cn": "在更新数据之前等待所有命令"
-            },
-            "3.1.0": {
-                "en": "optimize answer of ebus.0.cmd",
-                "de": "Antwort von ebus.0.cmd optimieren",
-                "ru": "оптимизировать ответ ebus.0.cmd",
-                "pt": "otimizar resposta de ebus.0.cmd",
-                "nl": "optimaliseer het antwoord van ebus.0.cmd",
-                "fr": "optimiser la réponse de ebus.0.cmd",
-                "it": "ottimizzare la risposta di ebus.0.cmd",
-                "es": "optimizar la respuesta de ebus.0.cmd",
-                "pl": "zoptymalizować odpowiedź ebus.0.cmd",
-                "uk": "оптимізувати відповідь ebus.0.cmd",
-                "zh-cn": "优化 ebus.0.cmd 的答案"
-            }
+        "version": "3.2.0",
+      "news": {
+        "3.2.0": {
+          "en":  "button find added"
+        },
+          "3.1.1": {
+            "en": "wait for all commands before update of data",
+            "de": "Warten Sie auf alle Befehle, bevor Sie die Daten aktualisieren",
+            "ru": "дождаться всех команд перед обновлением данных",
+            "pt": "aguarde todos os comandos antes da atualização dos dados",
+            "nl": "wacht op alle commando's voordat de gegevens worden bijgewerkt",
+            "fr": "attendre toutes les commandes avant la mise à jour des données",
+            "it": "attendere tutti i comandi prima dell'aggiornamento dei dati",
+            "es": "esperar todos los comandos antes de actualizar los datos",
+            "pl": "poczekaj na wszystkie polecenia przed aktualizacją danych",
+            "uk": "дочекатися всіх команд перед оновленням даних",
+            "zh-cn": "在更新数据之前等待所有命令"
+          },
+          "3.1.0": {
+            "en": "optimize answer of ebus.0.cmd",
+            "de": "Antwort von ebus.0.cmd optimieren",
+            "ru": "оптимизировать ответ ebus.0.cmd",
+            "pt": "otimizar resposta de ebus.0.cmd",
+            "nl": "optimaliseer het antwoord van ebus.0.cmd",
+            "fr": "optimiser la réponse de ebus.0.cmd",
+            "it": "ottimizzare la risposta di ebus.0.cmd",
+            "es": "optimizar la respuesta de ebus.0.cmd",
+            "pl": "zoptymalizować odpowiedź ebus.0.cmd",
+            "uk": "оптимізувати відповідь ebus.0.cmd",
+            "zh-cn": "优化 ebus.0.cmd 的答案"
+          }
         },
         "titleLang": {
             "en": "ebus",
