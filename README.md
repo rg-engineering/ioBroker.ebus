@@ -55,8 +55,10 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
    
 ## Changelog
 
-### 3.2.0 (in progress)
-* (René) button "find" added to force read of all existing datapoints (Attention: might take a while) and update name in data point tree 
+### 3.2.0 (2023-02-11)
+* (René) **Attention** polled variables must be set as active in admin now
+* (René) search available variables per circuit added in admin
+* (René) DP "find" added to force read of all existing datapoints (Attention: might take a while) and update name in data point tree 
 
 ### 3.1.1 (2023-01-31)
 * (René) support ebusd 23.1

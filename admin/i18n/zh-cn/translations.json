@@ -1,4 +1,6 @@
 {
+    "Circuit4Find": "搜索参数的电路",
+    "active": "积极的",
     "addParameter": "附加参数",
     "circuit": "电路",
     "ebus_adapter_settings": "ebus适配器设置",

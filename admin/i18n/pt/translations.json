@@ -1,4 +1,6 @@
 {
+    "Circuit4Find": "Circuito no qual se pesquisam parâmetros",
+    "active": "ativo",
     "addParameter": "parâmetro adicional",
     "circuit": "o circuito",
     "ebus_adapter_settings": "Configurações do adaptador ebus",

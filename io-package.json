@@ -2,36 +2,46 @@
     "common": {
         "name": "ebus",
         "version": "3.2.0",
-      "news": {
-        "3.2.0": {
-          "en":  "button find added"
-        },
-          "3.1.1": {
-            "en": "wait for all commands before update of data",
-            "de": "Warten Sie auf alle Befehle, bevor Sie die Daten aktualisieren",
-            "ru": "дождаться всех команд перед обновлением данных",
-            "pt": "aguarde todos os comandos antes da atualização dos dados",
-            "nl": "wacht op alle commando's voordat de gegevens worden bijgewerkt",
-            "fr": "attendre toutes les commandes avant la mise à jour des données",
-            "it": "attendere tutti i comandi prima dell'aggiornamento dei dati",
-            "es": "esperar todos los comandos antes de actualizar los datos",
-            "pl": "poczekaj na wszystkie polecenia przed aktualizacją danych",
-            "uk": "дочекатися всіх команд перед оновленням даних",
-            "zh-cn": "在更新数据之前等待所有命令"
-          },
-          "3.1.0": {
-            "en": "optimize answer of ebus.0.cmd",
-            "de": "Antwort von ebus.0.cmd optimieren",
-            "ru": "оптимизировать ответ ebus.0.cmd",
-            "pt": "otimizar resposta de ebus.0.cmd",
-            "nl": "optimaliseer het antwoord van ebus.0.cmd",
-            "fr": "optimiser la réponse de ebus.0.cmd",
-            "it": "ottimizzare la risposta di ebus.0.cmd",
-            "es": "optimizar la respuesta de ebus.0.cmd",
-            "pl": "zoptymalizować odpowiedź ebus.0.cmd",
-            "uk": "оптимізувати відповідь ebus.0.cmd",
-            "zh-cn": "优化 ebus.0.cmd 的答案"
-          }
+        "news": {
+            "3.2.0": {
+                "en": "Attention: polled variables must be set to active \n\r search for available variables added",
+                "de": "Achtung: Gepollte Variablen müssen auf aktiv gesetzt werden\n\r Suche nach verfügbaren Variablen hinzugefügt",
+                "ru": "Внимание: опрашиваемые переменные должны быть активны\n\r добавлен поиск доступных переменных",
+                "pt": "Atenção: as variáveis ​​pesquisadas devem ser definidas como ativas\n\r busca por variáveis ​​disponíveis adicionadas",
+                "nl": "Let op: polled variabelen moeten op actief staan\n\r zoeken naar beschikbare variabelen toegevoegd",
+                "fr": "Attention : les variables interrogées doivent être définies sur actives\n\r rechercher les variables disponibles ajoutées",
+                "it": "Attenzione: le variabili interrogate devono essere impostate come attive\n\r cerca le variabili disponibili aggiunte",
+                "es": "Atención: las variables encuestadas deben configurarse como activas\n\r búsqueda de variables disponibles añadidas",
+                "pl": "Uwaga: zmienne odpytywane muszą być ustawione jako aktywne\n\r dodano wyszukiwanie dostępnych zmiennych",
+                "uk": "Увага: опитувані змінні мають бути активними\n\r додано пошук доступних змінних",
+                "zh-cn": "注意：轮询的变量必须设置为活动的\n\r 搜索添加的可用变量"
+            },
+            "3.1.1": {
+                "en": "wait for all commands before update of data",
+                "de": "Warten Sie auf alle Befehle, bevor Sie die Daten aktualisieren",
+                "ru": "дождаться всех команд перед обновлением данных",
+                "pt": "aguarde todos os comandos antes da atualização dos dados",
+                "nl": "wacht op alle commando's voordat de gegevens worden bijgewerkt",
+                "fr": "attendre toutes les commandes avant la mise à jour des données",
+                "it": "attendere tutti i comandi prima dell'aggiornamento dei dati",
+                "es": "esperar todos los comandos antes de actualizar los datos",
+                "pl": "poczekaj na wszystkie polecenia przed aktualizacją danych",
+                "uk": "дочекатися всіх команд перед оновленням даних",
+                "zh-cn": "在更新数据之前等待所有命令"
+            },
+            "3.1.0": {
+                "en": "optimize answer of ebus.0.cmd",
+                "de": "Antwort von ebus.0.cmd optimieren",
+                "ru": "оптимизировать ответ ebus.0.cmd",
+                "pt": "otimizar resposta de ebus.0.cmd",
+                "nl": "optimaliseer het antwoord van ebus.0.cmd",
+                "fr": "optimiser la réponse de ebus.0.cmd",
+                "it": "ottimizzare la risposta di ebus.0.cmd",
+                "es": "optimizar la respuesta de ebus.0.cmd",
+                "pl": "zoptymalizować odpowiedź ebus.0.cmd",
+                "uk": "оптимізувати відповідь ebus.0.cmd",
+                "zh-cn": "优化 ebus.0.cmd 的答案"
+            }
         },
         "titleLang": {
             "en": "ebus",
@@ -63,7 +73,7 @@
         "mode": "daemon",
         "icon": "ebus.png",
         "enabled": true,
-        "messagebox": false,
+        "messagebox": true,
         "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/ebus.png",
         "keywords": [
             "ebus"

@@ -1,4 +1,6 @@
 {
+    "Circuit4Find": "Цепь, в которой ищутся параметры",
+    "active": "активный",
     "addParameter": "дополнительный параметр",
     "circuit": "схема",
     "ebus_adapter_settings": "настройки адаптера ebus",

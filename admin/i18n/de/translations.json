@@ -1,4 +1,6 @@
 {
+    "Circuit4Find": "Schaltung, in der nach Parametern gesucht wird",
+    "active": "aktiv",
     "addParameter": "zusätzliche Parameter",
     "circuit": "Schaltkreis",
     "ebus_adapter_settings": "ebus Adaptereinstellungen",
