@@ -193,7 +193,7 @@ async function DataRequest() {
 let oPolledVars = [];
 function FillPolledVars() {
 
-    if (typeof adapter.config.PolledDPs !== 'undefined' && adapter.config.PolledDPs != null && adapter.config.PolledDPs.length > 0) {
+    if ( adapter.config.PolledDPs !== undefined && adapter.config.PolledDPs != null && adapter.config.PolledDPs.length > 0) {
         adapter.log.debug("use new object list for polled vars");
 
         //2023-02-10 only active vars
@@ -232,7 +232,7 @@ function FillPolledVars() {
 let oHistoryVars = [];
 function FillHistoryVars() {
     
-    if (typeof adapter.config.HistoryDPs !== 'undefined' && adapter.config.HistoryDPs != null && adapter.config.HistoryDPs.length > 0) {
+    if (adapter.config.HistoryDPs !== undefined && adapter.config.HistoryDPs != null && adapter.config.HistoryDPs.length > 0) {
         adapter.log.debug("use new object list for history vars");
         oHistoryVars = adapter.config.HistoryDPs;
     }
@@ -268,7 +268,7 @@ function FillHistoryVars() {
 async function ebusd_Command() {
     const obj = await adapter.getStateAsync("cmd");
 
-    if (typeof obj != undefined && obj != null) {
+    if (obj !== undefined && obj != null) {
         const cmds = obj.val;
         if (cmds !== "") {
             adapter.log.debug("got command(s): " + cmds);
@@ -712,7 +712,7 @@ async function ebusd_ReceiveData() {
 
                 let value = newData[org_key];
 
-                if (value == null || value == undefined) {
+                if (value == null || value === undefined) {
                     adapter.log.debug('Key : ' + key + ', Value : ' + newData[org_key] + " name " + name);
                 }
 
@@ -867,7 +867,7 @@ async function UpdateHistory(values, dates) {
 
         const obj = await adapter.getStateAsync("history.date");
 
-        if (typeof obj != undefined && obj != null) {
+        if (obj !== undefined && obj != null) {
             try {
                 let oEbusDates = [];
                 //adapter.log.debug("before " + obj.val);
@@ -935,7 +935,7 @@ async function UpdateHistoryValues(values, ctr, curDateCtr) {
 
     const obj = await adapter.getStateAsync("history.value" + ctr);
 
-    if (typeof obj != undefined && obj != null) {
+    if (obj !== undefined && obj != null) {
         try {
             let oEbusValues = [];
             if (obj !== null) {
@@ -1043,7 +1043,7 @@ async function AddObject(key, type) {
 
 async function UpdateObject(key, value) {
     try {
-        if (typeof value == undefined) {
+        if (value === undefined) {
             adapter.log.warn("updateObject: not updated " + key + " value: " + value + " " + typeof value);
         }
         else if (value == null ) {
