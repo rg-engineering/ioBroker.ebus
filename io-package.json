@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.2.0",
+        "version": "3.2.1",
         "news": {
+            "3.2.1": {
+                "en": "dependencies updated",
+                "de": "Abhängigkeiten aktualisiert",
+                "ru": "зависимости обновлены",
+                "pt": "dependências atualizadas",
+                "nl": "afhankelijkheden bijgewerkt",
+                "fr": "dépendances mises à jour",
+                "it": "dipendenze aggiornate",
+                "es": "dependencias actualizadas",
+                "pl": "zaktualizowane zależności",
+                "uk": "залежності оновлено",
+                "zh-cn": "依赖更新"
+            },
             "3.2.0": {
                 "en": "Attention: polled variables must be set to active \n\r search for available variables added",
                 "de": "Achtung: Gepollte Variablen müssen auf aktiv gesetzt werden\n\r Suche nach verfügbaren Variablen hinzugefügt",
