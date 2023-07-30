@@ -15,7 +15,7 @@
 
 
 const utils = require("@iobroker/adapter-core");
-const ebusdMinVersion = [23, 1];
+const ebusdMinVersion = [23, 2];
 let ebusdVersion = [0, 0];
 let ebusdUpdateVersion = [0, 0];
 

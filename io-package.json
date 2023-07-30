@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.2.1",
+        "version": "3.2.2",
         "news": {
-            "3.2.1": {
+            "3.2.2": {
                 "en": "dependencies updated",
                 "de": "Abhängigkeiten aktualisiert",
                 "ru": "зависимости обновлены",
@@ -103,9 +103,9 @@
             }
         ],
         "plugins": {
-          "sentry": {
-            "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
-          }
+            "sentry": {
+                "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
+            }
         },
         "compact": true,
         "authors": [
