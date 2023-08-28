@@ -24,7 +24,7 @@
     "flat": "5.0.2",
     "net": "1.0.2",
     "promise-socket": "7.0.0",
-    "cron": "2.4.0",
+    "cron": "2.4.3",
     "axios": "1.4.0"
   },
   "devDependencies": {
