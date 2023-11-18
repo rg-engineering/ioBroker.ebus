@@ -145,7 +145,7 @@ async function Do() {
 async function HandleStateChange(id, state) {
    
 
-    if (state.ack !== true) {
+    if (state != null && state.ack !== true) {
 
         adapter.log.debug("handle state change " + id);
         const ids = id.split(".");
