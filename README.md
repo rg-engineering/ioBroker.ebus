@@ -59,6 +59,10 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+* (René) revert back to flat 5.x
+
 ### 3.2.3 (2023-11-18)
 * (René) dependencies updated
 * (René) fix sentry reported exceptions

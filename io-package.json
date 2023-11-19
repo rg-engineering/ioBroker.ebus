@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "ebus",
-        "version": "3.2.3",
+        "version": "3.2.4",
         "news": {
+            "3.2.4": {
+                "en": "revert 'flat' back to 5.x",
+                "de": "„flat“ auf 5.x zurückgesetzt",
+                "ru": "вернуть «плоскую» версию обратно в 5.x",
+                "pt": "reverter 'plano' de volta para 5.x",
+                "nl": "zet 'plat' terug naar 5.x",
+                "fr": "revenir \"à plat\" à 5.x",
+                "it": "ripristinare 'flat' alla versione 5.x",
+                "es": "revertir 'plano' a 5.x",
+                "pl": "przywróć „płaskie” z powrotem do wersji 5.x",
+                "uk": "повернутися до версії 5.x",
+                "zh-cn": "将“扁平”恢复至 5.x"
+            },
             "3.2.3": {
                 "en": "dependencies updated",
                 "de": "Abhängigkeiten aktualisiert",
