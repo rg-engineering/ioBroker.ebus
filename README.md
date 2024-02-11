@@ -69,6 +69,11 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+* (René) see issue #245: support ebusd 23.3
+* (René) fixes reported by eslint
+
 ### 3.2.5 (2024-01-12)
 * (René) dependencies updated
 

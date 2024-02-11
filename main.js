@@ -15,9 +15,9 @@
 
 
 const utils = require("@iobroker/adapter-core");
-const ebusdMinVersion = [23, 2];
-let ebusdVersion = [0, 0];
-let ebusdUpdateVersion = [0, 0];
+const ebusdMinVersion = [23, 3];
+const ebusdVersion = [0, 0];
+const ebusdUpdateVersion = [0, 0];
 
 let adapter;
 function startAdapter(options) {
@@ -83,7 +83,7 @@ function startAdapter(options) {
 }
 
 
-const axios = require('axios');
+const axios = require("axios");
 const net = require("net");
 const { PromiseSocket } = require("promise-socket");
 
@@ -190,7 +190,7 @@ async function DataRequest() {
 }
 
 
-let oPolledVars = [];
+const oPolledVars = [];
 function FillPolledVars() {
 
     if ( adapter.config.PolledDPs !== undefined && adapter.config.PolledDPs != null && adapter.config.PolledDPs.length > 0) {
@@ -218,7 +218,7 @@ function FillPolledVars() {
                         circuit: "",
                         name: oPolled[i],
                         parameter: ""
-                    }
+                    };
                     oPolledVars.push(value);
                 }
             }
@@ -245,10 +245,10 @@ function FillHistoryVars() {
 
             for (let i = 0; i < oHistory.length; i++) {
                 if (oHistory[i].length > 0) {
-                    console.log('add ' + oHistory[i]);
+                    console.log("add " + oHistory[i]);
                     const value = {
                         name: oHistory[i],
-                    }
+                    };
                     oHistoryVars.push(value);
                 }
             }
@@ -348,14 +348,14 @@ async function ebusd_find(){
             adapter.log.debug("received " + typeof data + " " + data);
         }
 
-        let str = new TextDecoder().decode(data); 
-        let datas = str.split(/\r?\n/)
+        const str = new TextDecoder().decode(data); 
+        const datas = str.split(/\r?\n/);
 
         for (let i = 0; i < datas.length; i++) {
 
             //adapter.log.debug(JSON.stringify(datas[i]));
 
-            let names = datas[i].split(",");
+            const names = datas[i].split(",");
 
             //circuit,name,comment
             await UpdateDP(names[0], names[1], names[2]);
@@ -430,7 +430,7 @@ async function CreateObject(key, obj) {
 //circuit,name,comment
 async function UpdateDP(circuit, name, comment) {
 
-    let key = circuit + ".messages." + name;
+    const key = circuit + ".messages." + name;
     adapter.log.debug("update check for " + key);
 
 
@@ -651,8 +651,8 @@ async function ebusd_ReceiveData() {
 
             if (key.includes("[") || key.includes("]")) {
                 adapter.log.debug("found unsupported chars in " + key);
-                const start = key.indexOf('[');
-                const end = key.lastIndexOf(']');
+                const start = key.indexOf("[");
+                const end = key.lastIndexOf("]");
 
                 if (start > 0 && end > 0) {
                     const toReplace = key.slice(start, end + 1);
@@ -672,7 +672,7 @@ async function ebusd_ReceiveData() {
             if (key.includes("global.version")) {
                 const value = newData[org_key];
                 //adapter.log.info("in version, value " + value);
-                const versionInfo = value.split('.');
+                const versionInfo = value.split(".");
                 if (versionInfo.length > 1) {
                     adapter.log.info("installed ebusd version is " + versionInfo[0] + "." + versionInfo[1]);
 
@@ -691,7 +691,7 @@ async function ebusd_ReceiveData() {
                 value = value.replace("revision v", "");
                 value = value.replace(" available", "");
 
-                const versionInfo = value.split('.');
+                const versionInfo = value.split(".");
                 if (versionInfo.length > 1) {
                     adapter.log.info("found ebusd update version " + versionInfo[0] + "." + versionInfo[1]);
 
@@ -713,7 +713,7 @@ async function ebusd_ReceiveData() {
                 let value = newData[org_key];
 
                 if (value == null || value === undefined) {
-                    adapter.log.debug('Key : ' + key + ', Value : ' + newData[org_key] + " name " + name);
+                    adapter.log.debug("Key : " + key + ", Value : " + newData[org_key] + " name " + name);
                 }
 
 
@@ -735,7 +735,7 @@ async function ebusd_ReceiveData() {
 
                 if (adapter.config.useBoolean4Onoff) {
                     if (type == "string" && (value == "on" || value == "off")) {
-                        adapter.log.debug('Key ' + key + " change to boolean " + value);
+                        adapter.log.debug("Key " + key + " change to boolean " + value);
                         //Key mc.messages.Status.fields.1.value could be boolean off
 
                         type = "boolean";
@@ -806,7 +806,7 @@ async function ebusd_ReceiveData() {
                         subnames[0].includes("ehp") ||
                         (subnames.length>2 && subnames[2].includes("currenterror")) 
 
-                        ) {
+                    ) {
                         bSkip = true;
                     }
                     if (temp > 2) {
@@ -1157,10 +1157,10 @@ async function FindParams(obj) {
 
     adapter.log.debug("FindParams " + JSON.stringify(obj));
 
-    let list = [];
+    const list = [];
 
     try {
-        let circuit = obj.message;
+        const circuit = obj.message;
 
         const socket = new net.Socket();
         const promiseSocket = new PromiseSocket(socket);
@@ -1182,14 +1182,14 @@ async function FindParams(obj) {
         /*
           received object ehp,AccelerationTestModeehp,AccelerationTestModeehp,ActualEnvironmentPowerehp,ActualEnvironmentPowerehp,ActualEnvironmentPowerPercentageehp,ActualEnvironmentPowerPercentageehp,ApplianceCodeehp,ApplianceCodeehp,Backupehp,Backupehp,BackupHoursehp,BackupHoursHcehp,BackupHoursHwcehp,BackupHysteresisehp,BackupIntegralehp,BackupModeHcehp,BackupModeHwcehp,BackupPowerCutehp,BackupStartsehp,BackupStartsHcehp,BackupStartsHwcehp,BackupTypeehp,BivalentTempehp,Bleedingehp,Bleedingehp,CirPumpehp,CirPumpehp,Code1ehp,Code1Code2Validehp,Code2ehp,Compehp,Compehp,CompControlStateehp,CompCutPressHighCountehp,CompCutPressLowCountehp,CompCutTempCountehp,CompDemandehp,CompHoursehp,CompHoursHcehp,CompHoursHwcehp,CompHysteresisehp,CompIntegralehp,CompPressHighehp,CompPressHighehp,CompPressLowehp,CompPressLowehp,CompStartsehp,CompStartsHcehp,CompStartsHwcehp,CompStateehp,CondensorTempehp,CondensorTempehp,currenterrorehp,Dateehp,DateTimeehp,DeltaTempT6T7ehp,ElectricWiringDiagramehp,ElectricWiringDiagramehp,EnergyBalancingReleaseehp,errorhistoryehp,FlowTempehp,FlowTempehp,FlowtempCoolingMinehp,FlowTempOffsetehp,Hc1Pumpehp,Hc1Pumpehp,Hc1PumpHoursehp,Hc1PumpPortehp,Hc1PumpStartsehp,Hc2Pumpehp,Hc2PumpHoursehp,HcFlowTempehp,HcFlowTempOffsetehp,HcModeDemandHoursehp,HcModeFulfilledHoursehp,HcParallelStorageFillingEnabledehp,HcPressehp,HcReturnTempehp,HcReturnTempehp,HcReturnTempOffsetehp,HeatPumpStatusehp,HeatPumpStatusehp,HeatpumpTypeehp,HwcHcValveehp,HwcHcValveehp,HwcHcValveStartsehp,HwcLaggingTimeehp,HwcLoadingDelayehp,HwcModeDemandHoursehp,HwcModeFulfilledHoursehp,HwcPumpStartsehp,HwcSwitchehp,HwcTempehp,HwcTempehp,HwcTempOffsetehp,HydraulicSchemeehp,ICLOutehp,ICLOutehp,Injectionehp,Integralehp,Mixer1DutyCycleehp,NumberCompStartsehp,OutsideTempehp,OutsideTempOffsetehp,OverpressureThresholdehp,PhaseOrderehp,PhaseOrderehp,PhaseStatusehp,PhaseStatusehp,PowerCutehp,PowerCutPreloadingehp,PressSwitchehp,PressSwitchehp,RebootCounterehp,ReturnTempMaxehp,SetModeehp,SoftwareCodeehp,Source2PumpHoursehp,Sourceehp,Sourceehp,SourceHoursehp,SourcePortehp,SourcePressehp,SourcePumpPrerunTimeehp,SourceStartsehp,SourceSwitchehp,SourceSwitchehp,SourceTempInputehp,SourceTempInputehp,SourceTempInputOffsetehp,SourceTempOutputehp,SourceTempOutputehp,SourceTempOutputOffsetehp,SourceTempOutputT8Minehp,StateSoftwareCodeehp,StateSoftwareCodeehp,Status01ehp,Status02ehp,Status16ehp,Statusehp,StatusCirPumpehp,StorageTempBottomehp,StorageTempBottomehp,StorageTempBottomOffsetehp,StorageTempTopehp,StorageTempTopehp,StorageTempTopOffsetehp,Subcoolingehp,Superheatehp,T19MaxToCompOffehp,TempInputehp,TempInputehp,TempInputOffsetehp,TempOutputehp,TempOutputehp,TempOutputOffsetehp,Timeehp,TimeBetweenTwoCompStartsMinehp,TimeCompOffMinehp,TimeCompOnMinehp,TimeOfNextPredictedPowerCutehp,TimeOfNextPredictedPowerCutehp,Weekdayehp,YieldTotalehp,YieldTotal
         */
-        let str = new TextDecoder().decode(data);
-        let datas = str.split(/\r?\n/)
+        const str = new TextDecoder().decode(data);
+        const datas = str.split(/\r?\n/);
 
         for (let i = 0; i < datas.length; i++) {
 
             //adapter.log.debug(JSON.stringify(datas[i]));
 
-            let names = datas[i].split(",");
+            const names = datas[i].split(",");
 
             //doppelte und leere herausfiltern
             let add = true;
@@ -1209,11 +1209,11 @@ async function FindParams(obj) {
             }
 
             if (add) {
-                let entry = {
+                const entry = {
                     active: false,
                     circuit: names[0],
                     name: names[1]
-                }
+                };
 
                 list.push(entry);
             }
