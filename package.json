@@ -27,7 +27,7 @@
     "flat": "5.0.2",
     "net": "1.0.2",
     "promise-socket": "7.0.0",
-    "axios": "1.6.8"
+    "axios": "1.7.1"
   },
   "devDependencies": {
     "@alcalzone/release-script": "3.7.0",
@@ -44,7 +44,7 @@
     "@types/request-promise-native": "1.0.21",
     "@types/sinon": "17.0.3",
     "@types/sinon-chai": "3.2.12",
-    "axios": "1.6.8",
+    "axios": "1.7.1",
     "chai": "4.4.1",
     "chai-as-promised": "7.1.2",
     "eslint": "9.2.0",
