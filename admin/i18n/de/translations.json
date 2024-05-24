@@ -1,12 +1,13 @@
 {
-    "Circuit4Find": "Schaltung, in der nach Parametern gesucht wird",
+    "Circuit4Find": "Gerät, in der nach Parametern gesucht wird",
+    "History4Vis2": "Erstellen Sie einen Verlaufswert für das VIS-2-Widget",
     "active": "aktiv",
     "addParameter": "zusätzliche Parameter",
-    "circuit": "Schaltkreis",
+    "circuit": "Gerät",
     "ebus_adapter_settings": "ebus Adaptereinstellungen",
-    "hint_ebusd": "Für ebusd interface benötigen Sie einen running ebusd incl. alle notwendigen Konfigurationen. Dieser Adapter verwendet HTML, um Daten von ebusd und TCP zu lesen, um auf ebusd zu schreiben",
+    "hint_ebusd": "Für den Adapter wird ein laufender ebusd incl. alle notwendigen Konfigurationen benötigt. Dieser Adapter verwendet HTML, um Daten von ebusd zu lesen und TCP, um auf ebusd zu schreiben",
     "hint_ebusd_history": "Liste aller Datenpunktnamen, die mit dem ebus-History-Widget verwendet werden sollen.",
-    "hint_ebusd_polled": "Liste aller Datenpunktnamen, die vom Adapter abgefragt werden sollen. ",
+    "hint_ebusd_polled": "Liste aller Datenpunktnamen, die vom Adapter abgefragt werden sollen.",
     "historyDP": "Verlaufsdatenpunkte",
     "maxretries": "maximale Anzahl von Wiederholungen, um einen Befehl zu senden",
     "name": "Name",
@@ -15,6 +16,6 @@
     "readInterval": "Intervall zum Lesen von Daten aus ebusd [min]",
     "target_HTTPPort": "target HTTP Port zum Lesen von Daten",
     "target_IP": "Ziel-IP",
-    "target_TelnetPort": "target telnet Port zum Schreiben von Daten",
-    "useBoolean4Onoff": "Verwenden Sie Boolean anstelle von Strings für Datenpunkte mit Ein-/Aus-Werten"
+    "target_TelnetPort": "Telnet Port zum Schreiben von Daten",
+    "useBoolean4Onoff": "Boolean anstelle Strings für Datenpunkte mit Ein-/Aus-Werten verwenden"
 }

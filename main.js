@@ -667,7 +667,7 @@ async function ebusd_ReceiveData() {
 
             //
             //if (key.match(adapter.FORBIDDEN_CHARS)) { continue; }
-            
+
 
             if (key.includes("global.version")) {
                 const value = newData[org_key];
@@ -764,7 +764,7 @@ async function ebusd_ReceiveData() {
                 //ebus.0.bai.messages.ReturnTemp.fields.tempmirror.value
                 if (!subnames[temp - 2].includes("sensor") //ignore sensor states
                     && !subnames[temp - 2].includes("mirror") //ignore mirror-data
-                ) { 
+                ) {
                     for (let ii = 0; ii < oHistoryVars.length; ii++) {
 
                         if (name === oHistoryVars[ii].name) {
@@ -804,7 +804,7 @@ async function ebusd_ReceiveData() {
 
                     if (subnames[0].includes("scan") ||
                         subnames[0].includes("ehp") ||
-                        (subnames.length>2 && subnames[2].includes("currenterror")) 
+                        (subnames.length > 2 && subnames[2].includes("currenterror"))
 
                     ) {
                         bSkip = true;
@@ -844,18 +844,95 @@ async function ebusd_ReceiveData() {
 
         adapter.log.info("all http done");
 
-       
-        await UpdateHistory(historyvalues, historydates);
-       
+        if (adapter.config.History4Vis2) {
+            await UpdateHistory_Vis2(historyvalues, historydates);
+        }
+        else {
+            await UpdateHistory(historyvalues, historydates);
+        }
 
     }
     catch (e) {
         adapter.log.error("exception in ebusd_ReceiveData [" + e + "]");
 
         await adapter.setStateAsync("history.error", { ack: true, val: "exception in receive" });
+
     }
     //});
 }
+
+async function UpdateHistory_Vis2(values, dates) {
+    adapter.log.debug("start history 4 VIS-2 " + JSON.stringify(values) + " " + JSON.stringify(dates));
+
+    //not used anymore
+    await adapter.setStateAsync("history.date", { ack: true, val: "" });
+
+    for (let s = 0; s < values.length; s++) {
+
+        const values1 = values[s];
+        //adapter.log.debug(s + " " + JSON.stringify(values1));
+
+        let val2Write = [];
+        const ctr = s + 1;
+
+        const obj = await adapter.getStateAsync("history.value" + ctr);
+
+        if (obj === null || obj === undefined) {
+            adapter.log.warn("history.value" + ctr + " not found, creating DP " + JSON.stringify(obj));
+            await adapter.setStateAsync("history.value" + ctr, { ack: true, val: "[]" });
+        }
+
+        val2Write = JSON.parse(obj.val);
+        adapter.log.debug("history.value" + ctr + " got " + JSON.stringify(val2Write));
+
+        for (let ss = 0; ss < values1.length; ss++) {
+            const values2 = values1[ss];
+            //adapter.log.debug(ss + " " + JSON.stringify(values2));
+
+            let d = 0;
+
+            for (const n in values2) {
+
+                const val = values2[n];
+                const time = dates[d]["time"];
+                const date = dates[d]["date"];
+                d++;
+
+                const times = time.split(":");
+                const datesl = date.split(".");
+
+                const day = parseInt(datesl[0]);
+                const month = parseInt(datesl[1]) - 1;
+                const year = parseInt(datesl[2]);
+                const hours = parseInt(times[0]);
+                const minutes = parseInt(times[1]);
+
+                const oDate = new Date(year, month, day, hours, minutes, 0, 0);
+
+                adapter.log.debug(n + " " + val + " " + oDate.toLocaleString());
+
+                val2Write.push(
+                    [
+                        oDate,
+                        val
+                    ]
+                );
+
+                if (val2Write.length > 200) {
+
+                    for (let i = val2Write.length; i > 200; i--) {
+                        //adapter.log.debug("delete");
+                        val2Write.shift();
+                    }
+                }
+
+            }
+        }
+        await adapter.setStateAsync("history.value" + ctr, { ack: true, val: JSON.stringify(val2Write) });
+    }
+}
+
+
 
 
 
