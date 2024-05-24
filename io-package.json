@@ -1,218 +1,218 @@
 {
-    "common": {
-        "name": "ebus",
-        "version": "3.2.6",
-        "news": {
-            "3.2.6": {
-                "en": "(René) see issue #245: support ebusd 23.3\n(René) fixes reported by eslint",
-                "de": "(René) siehe Ausgabe #245: Unterstützung ebusd 23.3\n(René)",
-                "ru": "#245: поддержка ebusd 23.3\n(René) исправлений, сообщаемых eslint",
-                "pt": "(René) veja a edição #245: suporte ebusd 23.3\n(René) correções relatadas por eslint",
-                "nl": "(René) zie nummer #245: support ebusd 23.3\n(René) fixes gerapporteerd door eslint",
-                "fr": "(René) voir le numéro #245: soutien ebusd 23,3\n(René) corrections rapportées par eslint",
-                "it": "(René) vedi numero #245: supporto ebusd 23.3\n(René) correzioni segnalate da eslint",
-                "es": "(René) ver número #245: apoyo ebusd 23.3\n(René) fixes reported by eslint",
-                "pl": "(René) see issue # 245: support ebudd 23.3\n(René) poprawki zgłoszone przez eslint",
-                "uk": "(René) див. питання #245: підтримка ebusd 23.3\n(René) фіксує eslint",
-                "zh-cn": "(René)参见问题245:支持ebusd 23.3\nEslint报告的(René)修复"
-            },
-            "3.2.5": {
-                "en": "(René) dependencies updated",
-                "de": "(René)",
-                "ru": "(René)",
-                "pt": "(René) dependências atualizadas",
-                "nl": "(René) bijgewerkte afhankelijkheden",
-                "fr": "(René) dépendances mises à jour",
-                "it": "(René) dipendenze aggiornate",
-                "es": "(René) dependencies updated",
-                "pl": "Aktualizacja zależności (René)",
-                "uk": "(René) залежностей оновлено",
-                "zh-cn": "(René) 更新的依赖关系"
-            },
-            "3.2.4": {
-                "en": "revert 'flat' back to 5.x",
-                "de": "„flat“ auf 5.x zurückgesetzt",
-                "ru": "вернуть «плоскую» версию обратно в 5.x",
-                "pt": "reverter 'plano' de volta para 5.x",
-                "nl": "zet 'plat' terug naar 5.x",
-                "fr": "revenir \"à plat\" à 5.x",
-                "it": "ripristinare 'flat' alla versione 5.x",
-                "es": "revertir 'plano' a 5.x",
-                "pl": "przywróć „płaskie” z powrotem do wersji 5.x",
-                "uk": "повернутися до версії 5.x",
-                "zh-cn": "将“扁平”恢复至 5.x"
-            },
-            "3.2.3": {
-                "en": "dependencies updated",
-                "de": "Abhängigkeiten aktualisiert",
-                "ru": "зависимости обновлены",
-                "pt": "dependências atualizadas",
-                "nl": "afhankelijkheden bijgewerkt",
-                "fr": "dépendances mises à jour",
-                "it": "dipendenze aggiornate",
-                "es": "dependencias actualizadas",
-                "pl": "zaktualizowane zależności",
-                "uk": "залежності оновлено",
-                "zh-cn": "依赖更新"
-            },
-            "3.2.0": {
-                "en": "Attention: polled variables must be set to active \n\r search for available variables added",
-                "de": "Achtung: Gepollte Variablen müssen auf aktiv gesetzt werden\n\r Suche nach verfügbaren Variablen hinzugefügt",
-                "ru": "Внимание: опрашиваемые переменные должны быть активны\n\r добавлен поиск доступных переменных",
-                "pt": "Atenção: as variáveis ​​pesquisadas devem ser definidas como ativas\n\r busca por variáveis ​​disponíveis adicionadas",
-                "nl": "Let op: polled variabelen moeten op actief staan\n\r zoeken naar beschikbare variabelen toegevoegd",
-                "fr": "Attention : les variables interrogées doivent être définies sur actives\n\r rechercher les variables disponibles ajoutées",
-                "it": "Attenzione: le variabili interrogate devono essere impostate come attive\n\r cerca le variabili disponibili aggiunte",
-                "es": "Atención: las variables encuestadas deben configurarse como activas\n\r búsqueda de variables disponibles añadidas",
-                "pl": "Uwaga: zmienne odpytywane muszą być ustawione jako aktywne\n\r dodano wyszukiwanie dostępnych zmiennych",
-                "uk": "Увага: опитувані змінні мають бути активними\n\r додано пошук доступних змінних",
-                "zh-cn": "注意：轮询的变量必须设置为活动的\n\r 搜索添加的可用变量"
-            },
-            "3.1.1": {
-                "en": "wait for all commands before update of data",
-                "de": "Warten Sie auf alle Befehle, bevor Sie die Daten aktualisieren",
-                "ru": "дождаться всех команд перед обновлением данных",
-                "pt": "aguarde todos os comandos antes da atualização dos dados",
-                "nl": "wacht op alle commando's voordat de gegevens worden bijgewerkt",
-                "fr": "attendre toutes les commandes avant la mise à jour des données",
-                "it": "attendere tutti i comandi prima dell'aggiornamento dei dati",
-                "es": "esperar todos los comandos antes de actualizar los datos",
-                "pl": "poczekaj na wszystkie polecenia przed aktualizacją danych",
-                "uk": "дочекатися всіх команд перед оновленням даних",
-                "zh-cn": "在更新数据之前等待所有命令"
-            },
-            "3.1.0": {
-                "en": "optimize answer of ebus.0.cmd",
-                "de": "Antwort von ebus.0.cmd optimieren",
-                "ru": "оптимизировать ответ ebus.0.cmd",
-                "pt": "otimizar resposta de ebus.0.cmd",
-                "nl": "optimaliseer het antwoord van ebus.0.cmd",
-                "fr": "optimiser la réponse de ebus.0.cmd",
-                "it": "ottimizzare la risposta di ebus.0.cmd",
-                "es": "optimizar la respuesta de ebus.0.cmd",
-                "pl": "zoptymalizować odpowiedź ebus.0.cmd",
-                "uk": "оптимізувати відповідь ebus.0.cmd",
-                "zh-cn": "优化 ebus.0.cmd 的答案"
-            }
-        },
-        "titleLang": {
-            "en": "ebus",
-            "de": "ebus",
-            "ru": "ebus",
-            "pt": "ebus",
-            "nl": "ebus",
-            "fr": "ebus",
-            "it": "ebus",
-            "es": "ebus",
-            "pl": "ebus",
-            "zh-cn": "巴士",
-            "uk": "ebus"
-        },
-        "desc": {
-            "en": "ebus Adapter; reads data from ebusd Interface",
-            "de": "ebus Adapter; liest Daten von der ebusd Schnittstelle",
-            "ru": "Адаптер ebus; считывает данные из интерфейса ebusd",
-            "pt": "Adaptador ebus; lê dados da interface ebusd",
-            "nl": "ebus-adapter; leest gegevens van ebusd Interface",
-            "fr": "adaptateur ebus; lit les données de l'interface ebusd",
-            "it": "ebus Adapter; legge i dati dall'interfaccia ebusd",
-            "es": "adaptador ebus; lee datos de la interfaz ebusd",
-            "pl": "Adapter ebus; odczytuje dane z interfejsu ebusd",
-            "zh-cn": "ebus适配器；",
-            "uk": "адаптер ebus; читає дані з інтерфейсу ebusd"
-        },
-        "platform": "Javascript/Node.js",
-        "mode": "daemon",
-        "icon": "ebus.png",
-        "enabled": true,
-        "messagebox": true,
-        "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/ebus.png",
-        "keywords": [
-            "ebus"
-        ],
-        "readme": "https://github.com/rg-engineering/ioBroker.ebus/blob/master/README.md",
-        "loglevel": "info",
-        "stopBeforeUpdate": true,
-        "type": "hardware",
-        "license": "MIT",
-        "materialize": true,
-        "dependencies": [
-            {
-                "js-controller": ">=5.0.0"
-            }
-        ],
-        "plugins": {
-            "sentry": {
-                "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
-            }
-        },
-        "compact": true,
-        "authors": [
-            {
-                "name": "René G.",
-                "email": "info@rg-engineering.eu"
-            }
-        ],
-        "connectionType": "local",
-        "dataSource": "push",
-        "adminUI": {
-            "config": "materialize"
-        },
-        "messages": [
-            {
-                "condition": {
-                    "operand": "and",
-                    "rules": [
-                        "oldVersion<3.0.0",
-                        "newVersion>=3.0.0"
-                    ]
-                },
-                "title": {
-                    "en": "from 'scheduled' to 'daemon' adapter changed",
-                    "de": "von 'geplant' zu 'daemon' Adapter geändert",
-                    "ru": "изменен адаптер с «запланированного» на «демон»",
-                    "pt": "adaptador 'agendado' para 'daemon' alterado",
-                    "nl": "van 'scheduled' naar 'daemon' adapter gewijzigd",
-                    "fr": "de l'adaptateur 'scheduled' à 'daemon' changé",
-                    "it": "adattatore da \"programmato\" a \"demone\" modificato",
-                    "es": "Se cambió el adaptador de 'programado' a 'daemon'",
-                    "pl": "Zmieniono adapter z „zaplanowanego” na „demon”",
-                    "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改",
-                    "uk": "змінено адаптер із 'scheduled' на 'daemon'"
-                },
-                "text": {
-                    "en": "it might be necessary to deinstall old version and then install new version",
-                    "de": "Es kann erforderlich sein, die alte Version zu deinstallieren und dann die neue Version zu installieren",
-                    "ru": "может быть необходимо удалить старую версию, а затем установить новую версию",
-                    "pt": "pode ser necessário desinstalar a versão antiga e depois instalar a nova versão",
-                    "nl": "het kan nodig zijn om de oude versie te deïnstalleren en vervolgens de nieuwe versie te installeren",
-                    "fr": "il peut être nécessaire de désinstaller l'ancienne version puis d'installer la nouvelle version",
-                    "it": "potrebbe essere necessario disinstallare la vecchia versione e quindi installare la nuova versione",
-                    "es": "puede ser necesario desinstalar la versión anterior y luego instalar la nueva versión",
-                    "pl": "może być konieczne odinstalowanie starej wersji, a następnie zainstalowanie nowej wersji",
-                    "zh-cn": "可能需要卸载旧版本，然后安装新版本",
-                    "uk": "може знадобитися видалити стару версію, а потім встановити нову"
-                },
-                "level": "warn",
-                "buttons": [
-                    "agree",
-                    "cancel"
-                ]
-            }
-        ]
+  "common": {
+    "name": "ebus",
+    "version": "3.3.0",
+    "news": {
+      "3.3.0": {
+        "en": "(René) remove cron dependency\n(René) data history prepared for VIS-2: just a option here in the adapter and new widget (at this moment GeneralChart widget in vis-2-widgets-weather can be used)",
+        "de": "(René) Cron Abhängigkeit entfernen\n(René) Datenhistorie für VIS-2 vorbereitet: nur eine Option hier im Adapter und neues Widget (in diesem Moment kann GeneralChart Widget in vis-2-widgets-weather verwendet werden)",
+        "ru": "(René) удалить хроновую зависимость\n(René) история данных, подготовленная для VIS-2: просто вариант здесь в адаптере и новом виджете (в этот момент виджет GeneralChart в vis-2-widgets-weather может быть использован)",
+        "pt": "(René) remover a dependência cron\n(René) histórico de dados preparado para VIS-2: apenas uma opção aqui no adaptador e novo widget (neste momento o widget GeneralChart em vis-2-widgets-weather pode ser usado)",
+        "nl": "(René) verwijderen cron afhankelijkheid\n(René) data geschiedenis voorbereid voor VIS-2: alleen een optie hier in de adapter en nieuwe widget (op dit moment GeneralChart widget in vis-2-widgets-weer kan worden gebruikt)",
+        "fr": "(René) supprimer la dépendance cron\n(René) historique de données préparé pour VIS-2: juste une option ici dans l'adaptateur et le nouveau widget (à ce moment le widget GeneralChart dans vis-2-widgets-weather peut être utilisé)",
+        "it": "(René) rimuovere la dipendenza cron\n(René) cronologia dei dati preparati per VIS-2: solo un'opzione qui nell'adattatore e nuovo widget (in questo momento GeneralChart widget in vis-2-widgets-weather può essere utilizzato)",
+        "es": "(René) eliminar la dependencia de cron\n(René) historial de datos preparado para VIS-2: sólo una opción aquí en el adaptador y nuevo widget (en este momento se puede utilizar el widget GeneralChart en vis-2-widgets-weather)",
+        "pl": "(René) usunąć zależność od cron\n(René) Historia danych przygotowana dla VIS-2: tylko opcja tutaj w adapterze i nowy widget (w tym momencie GeneralChart widget w vis- 2-widgets- pogoda może być użyta)",
+        "uk": "(René) видалення коронної залежності\n(René) історії даних, підготовлених для VIS-2: просто варіант тут в адаптері і новому віджеті (з цього моменту можна використовувати GeneralChart віджет в vis-2-widgets-weather)",
+        "zh-cn": "(René) 取消对克龙的依赖\n(René)为VIS-2准备的数据历史:仅在适配器和新部件中设置一个选项(此时可使用GeneralChart部件相对-2-widgets-weather)"
+      },
+      "3.2.6": {
+        "en": "(René) see issue #245: support ebusd 23.3\n(René) fixes reported by eslint",
+        "de": "(René) siehe Ausgabe #245: Unterstützung ebusd 23.3\n(René)",
+        "ru": "#245: поддержка ebusd 23.3\n(René) исправлений, сообщаемых eslint",
+        "pt": "(René) veja a edição #245: suporte ebusd 23.3\n(René) correções relatadas por eslint",
+        "nl": "(René) zie nummer #245: support ebusd 23.3\n(René) fixes gerapporteerd door eslint",
+        "fr": "(René) voir le numéro #245: soutien ebusd 23,3\n(René) corrections rapportées par eslint",
+        "it": "(René) vedi numero #245: supporto ebusd 23.3\n(René) correzioni segnalate da eslint",
+        "es": "(René) ver número #245: apoyo ebusd 23.3\n(René) fixes reported by eslint",
+        "pl": "(René) see issue # 245: support ebudd 23.3\n(René) poprawki zgłoszone przez eslint",
+        "uk": "(René) див. питання #245: підтримка ebusd 23.3\n(René) фіксує eslint",
+        "zh-cn": "(René)参见问题245:支持ebusd 23.3\nEslint报告的(René)修复"
+      },
+      "3.2.5": {
+        "en": "(René) dependencies updated",
+        "de": "(René)",
+        "ru": "(René)",
+        "pt": "(René) dependências atualizadas",
+        "nl": "(René) bijgewerkte afhankelijkheden",
+        "fr": "(René) dépendances mises à jour",
+        "it": "(René) dipendenze aggiornate",
+        "es": "(René) dependencies updated",
+        "pl": "Aktualizacja zależności (René)",
+        "uk": "(René) залежностей оновлено",
+        "zh-cn": "(René) 更新的依赖关系"
+      },
+      "3.2.4": {
+        "en": "revert 'flat' back to 5.x",
+        "de": "„flat“ auf 5.x zurückgesetzt",
+        "ru": "вернуть «плоскую» версию обратно в 5.x",
+        "pt": "reverter 'plano' de volta para 5.x",
+        "nl": "zet 'plat' terug naar 5.x",
+        "fr": "revenir \"à plat\" à 5.x",
+        "it": "ripristinare 'flat' alla versione 5.x",
+        "es": "revertir 'plano' a 5.x",
+        "pl": "przywróć „płaskie” z powrotem do wersji 5.x",
+        "uk": "повернутися до версії 5.x",
+        "zh-cn": "将“扁平”恢复至 5.x"
+      },
+      "3.2.3": {
+        "en": "dependencies updated",
+        "de": "Abhängigkeiten aktualisiert",
+        "ru": "зависимости обновлены",
+        "pt": "dependências atualizadas",
+        "nl": "afhankelijkheden bijgewerkt",
+        "fr": "dépendances mises à jour",
+        "it": "dipendenze aggiornate",
+        "es": "dependencias actualizadas",
+        "pl": "zaktualizowane zależności",
+        "uk": "залежності оновлено",
+        "zh-cn": "依赖更新"
+      },
+      "3.2.0": {
+        "en": "Attention: polled variables must be set to active \n\r search for available variables added",
+        "de": "Achtung: Gepollte Variablen müssen auf aktiv gesetzt werden\n\r Suche nach verfügbaren Variablen hinzugefügt",
+        "ru": "Внимание: опрашиваемые переменные должны быть активны\n\r добавлен поиск доступных переменных",
+        "pt": "Atenção: as variáveis ​​pesquisadas devem ser definidas como ativas\n\r busca por variáveis ​​disponíveis adicionadas",
+        "nl": "Let op: polled variabelen moeten op actief staan\n\r zoeken naar beschikbare variabelen toegevoegd",
+        "fr": "Attention : les variables interrogées doivent être définies sur actives\n\r rechercher les variables disponibles ajoutées",
+        "it": "Attenzione: le variabili interrogate devono essere impostate come attive\n\r cerca le variabili disponibili aggiunte",
+        "es": "Atención: las variables encuestadas deben configurarse como activas\n\r búsqueda de variables disponibles añadidas",
+        "pl": "Uwaga: zmienne odpytywane muszą być ustawione jako aktywne\n\r dodano wyszukiwanie dostępnych zmiennych",
+        "uk": "Увага: опитувані змінні мають бути активними\n\r додано пошук доступних змінних",
+        "zh-cn": "注意：轮询的变量必须设置为活动的\n\r 搜索添加的可用变量"
+      },
+      "3.1.1": {
+        "en": "wait for all commands before update of data",
+        "de": "Warten Sie auf alle Befehle, bevor Sie die Daten aktualisieren",
+        "ru": "дождаться всех команд перед обновлением данных",
+        "pt": "aguarde todos os comandos antes da atualização dos dados",
+        "nl": "wacht op alle commando's voordat de gegevens worden bijgewerkt",
+        "fr": "attendre toutes les commandes avant la mise à jour des données",
+        "it": "attendere tutti i comandi prima dell'aggiornamento dei dati",
+        "es": "esperar todos los comandos antes de actualizar los datos",
+        "pl": "poczekaj na wszystkie polecenia przed aktualizacją danych",
+        "uk": "дочекатися всіх команд перед оновленням даних",
+        "zh-cn": "在更新数据之前等待所有命令"
+      }
     },
-    "native": {
-        "targetIP": "192.168.0.1",
-        "interfacetype": "ebusd",
-        "targetHTTPPort": 8889,
-        "targetTelnetPort": 8890,
-        "PolledValues": "",
-        "HistoryValues": "",
-        "parseTimeout": 60,
-        "useBoolean4Onoff": false,
-        "PolledDPs": [],
-        "HistoryDPs": [],
-        "maxretries": 5,
-        "readInterval": 5
-    }
+    "titleLang": {
+      "en": "ebus",
+      "de": "ebus",
+      "ru": "ebus",
+      "pt": "ebus",
+      "nl": "ebus",
+      "fr": "ebus",
+      "it": "ebus",
+      "es": "ebus",
+      "pl": "ebus",
+      "zh-cn": "巴士",
+      "uk": "ebus"
+    },
+    "desc": {
+      "en": "ebus Adapter; reads data from ebusd Interface",
+      "de": "ebus Adapter; liest Daten von der ebusd Schnittstelle",
+      "ru": "Адаптер ebus; считывает данные из интерфейса ebusd",
+      "pt": "Adaptador ebus; lê dados da interface ebusd",
+      "nl": "ebus-adapter; leest gegevens van ebusd Interface",
+      "fr": "adaptateur ebus; lit les données de l'interface ebusd",
+      "it": "ebus Adapter; legge i dati dall'interfaccia ebusd",
+      "es": "adaptador ebus; lee datos de la interfaz ebusd",
+      "pl": "Adapter ebus; odczytuje dane z interfejsu ebusd",
+      "zh-cn": "ebus适配器；",
+      "uk": "адаптер ebus; читає дані з інтерфейсу ebusd"
+    },
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "icon": "ebus.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/rg-engineering/ioBroker.ebus/master/admin/ebus.png",
+    "keywords": [
+      "ebus"
+    ],
+    "readme": "https://github.com/rg-engineering/ioBroker.ebus/blob/master/README.md",
+    "loglevel": "info",
+    "stopBeforeUpdate": true,
+    "type": "hardware",
+    "license": "MIT",
+    "materialize": true,
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.0"
+      }
+    ],
+    "plugins": {
+      "sentry": {
+        "dsn": "https://bb7e6f51a1274ced81576d84f82f667e@o390433.ingest.sentry.io/5434784"
+      }
+    },
+    "compact": true,
+    "authors": [
+      {
+        "name": "René G.",
+        "email": "info@rg-engineering.eu"
+      }
+    ],
+    "connectionType": "local",
+    "dataSource": "push",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "messages": [
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<3.0.0",
+            "newVersion>=3.0.0"
+          ]
+        },
+        "title": {
+          "en": "from 'scheduled' to 'daemon' adapter changed",
+          "de": "von 'geplant' zu 'daemon' Adapter geändert",
+          "ru": "изменен адаптер с «запланированного» на «демон»",
+          "pt": "adaptador 'agendado' para 'daemon' alterado",
+          "nl": "van 'scheduled' naar 'daemon' adapter gewijzigd",
+          "fr": "de l'adaptateur 'scheduled' à 'daemon' changé",
+          "it": "adattatore da \"programmato\" a \"demone\" modificato",
+          "es": "Se cambió el adaptador de 'programado' a 'daemon'",
+          "pl": "Zmieniono adapter z „zaplanowanego” na „demon”",
+          "zh-cn": "从 'scheduled' 到 'daemon' 适配器已更改",
+          "uk": "змінено адаптер із 'scheduled' на 'daemon'"
+        },
+        "text": {
+          "en": "it might be necessary to deinstall old version and then install new version",
+          "de": "Es kann erforderlich sein, die alte Version zu deinstallieren und dann die neue Version zu installieren",
+          "ru": "может быть необходимо удалить старую версию, а затем установить новую версию",
+          "pt": "pode ser necessário desinstalar a versão antiga e depois instalar a nova versão",
+          "nl": "het kan nodig zijn om de oude versie te deïnstalleren en vervolgens de nieuwe versie te installeren",
+          "fr": "il peut être nécessaire de désinstaller l'ancienne version puis d'installer la nouvelle version",
+          "it": "potrebbe essere necessario disinstallare la vecchia versione e quindi installare la nuova versione",
+          "es": "puede ser necesario desinstalar la versión anterior y luego instalar la nueva versión",
+          "pl": "może być konieczne odinstalowanie starej wersji, a następnie zainstalowanie nowej wersji",
+          "zh-cn": "可能需要卸载旧版本，然后安装新版本",
+          "uk": "може знадобитися видалити стару версію, а потім встановити нову"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      }
+    ]
+  },
+  "native": {
+    "targetIP": "192.168.0.1",
+    "interfacetype": "ebusd",
+    "targetHTTPPort": 8889,
+    "targetTelnetPort": 8890,
+    "PolledValues": "",
+    "HistoryValues": "",
+    "parseTimeout": 60,
+    "useBoolean4Onoff": false,
+    "PolledDPs": [],
+    "HistoryDPs": [],
+    "maxretries": 5,
+    "readInterval": 5
+  }
 }
