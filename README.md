@@ -69,7 +69,7 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.3.1 (2024-05-28)
 * (René) change of dependencies
 
 ### 3.3.0 (2024-05-24)

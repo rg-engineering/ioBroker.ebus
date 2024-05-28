@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.3.0",
+    "version": "3.3.1",
     "news": {
+      "3.3.1": {
+        "en": "(René) change of dependencies",
+        "de": "(René) Veränderung der Abhängigkeiten",
+        "ru": "(René) изменение зависимостей",
+        "pt": "(René) mudança de dependências",
+        "nl": "(René) verandering van afhankelijkheden",
+        "fr": "(René) changement de dépendances",
+        "it": "(René) cambiamento delle dipendenze",
+        "es": "(René) cambio de dependencia",
+        "pl": "(René) zmiana zależności",
+        "uk": "(Рене) зміна залежностей",
+        "zh-cn": "(René) 属地变化"
+      },
       "3.3.0": {
         "en": "(René) remove cron dependency\n(René) data history prepared for VIS-2: just a option here in the adapter and new widget (at this moment GeneralChart widget in vis-2-widgets-weather can be used)",
         "de": "(René) Cron Abhängigkeit entfernen\n(René) Datenhistorie für VIS-2 vorbereitet: nur eine Option hier im Adapter und neues Widget (in diesem Moment kann GeneralChart Widget in vis-2-widgets-weather verwendet werden)",
@@ -80,19 +93,6 @@
         "pl": "Uwaga: zmienne odpytywane muszą być ustawione jako aktywne\n\r dodano wyszukiwanie dostępnych zmiennych",
         "uk": "Увага: опитувані змінні мають бути активними\n\r додано пошук доступних змінних",
         "zh-cn": "注意：轮询的变量必须设置为活动的\n\r 搜索添加的可用变量"
-      },
-      "3.1.1": {
-        "en": "wait for all commands before update of data",
-        "de": "Warten Sie auf alle Befehle, bevor Sie die Daten aktualisieren",
-        "ru": "дождаться всех команд перед обновлением данных",
-        "pt": "aguarde todos os comandos antes da atualização dos dados",
-        "nl": "wacht op alle commando's voordat de gegevens worden bijgewerkt",
-        "fr": "attendre toutes les commandes avant la mise à jour des données",
-        "it": "attendere tutti i comandi prima dell'aggiornamento dei dati",
-        "es": "esperar todos los comandos antes de actualizar los datos",
-        "pl": "poczekaj na wszystkie polecenia przed aktualizacją danych",
-        "uk": "дочекатися всіх команд перед оновленням даних",
-        "zh-cn": "在更新数据之前等待所有命令"
       }
     },
     "titleLang": {
