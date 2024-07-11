@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.3.1",
+    "version": "3.3.2",
     "news": {
+      "3.3.2": {
+        "en": "(René) see issue #338: due to error in ebusd json no data are parsed",
+        "de": "(René) siehe Ausgabe #338: Durch Fehler in ebusd json werden keine Daten pariert",
+        "ru": "(René) см. вопрос #338: из-за ошибки в ebusd json никакие данные не спариваются",
+        "pt": "(René) veja a edição #338: devido ao erro no ebusd json nenhum dado é analisado",
+        "nl": "(René) zie probleem #338: als gevolg van fout in ebusd json geen gegevens worden ontleed",
+        "fr": "(René) voir le numéro 338 : en raison d'une erreur dans ebusd json aucune donnée n'est analysée",
+        "it": "(René) vedi problema #338: a causa di errore in ebusd json non vengono analizzati dati",
+        "es": "(René) ver el número #338: debido al error en ebusd json no se analizan los datos",
+        "pl": "(René) see issue # 338: due to error in ebudd json no data are parsed",
+        "uk": "(René) див. питання #338: через помилку в ebusd json немає даних",
+        "zh-cn": "(René)参见第338期:由于ebusd json中的错误,没有解析数据"
+      },
       "3.3.1": {
         "en": "(René) change of dependencies",
         "de": "(René) Veränderung der Abhängigkeiten",
@@ -80,19 +93,6 @@
         "pl": "zaktualizowane zależności",
         "uk": "залежності оновлено",
         "zh-cn": "依赖更新"
-      },
-      "3.2.0": {
-        "en": "Attention: polled variables must be set to active \n\r search for available variables added",
-        "de": "Achtung: Gepollte Variablen müssen auf aktiv gesetzt werden\n\r Suche nach verfügbaren Variablen hinzugefügt",
-        "ru": "Внимание: опрашиваемые переменные должны быть активны\n\r добавлен поиск доступных переменных",
-        "pt": "Atenção: as variáveis ​​pesquisadas devem ser definidas como ativas\n\r busca por variáveis ​​disponíveis adicionadas",
-        "nl": "Let op: polled variabelen moeten op actief staan\n\r zoeken naar beschikbare variabelen toegevoegd",
-        "fr": "Attention : les variables interrogées doivent être définies sur actives\n\r rechercher les variables disponibles ajoutées",
-        "it": "Attenzione: le variabili interrogate devono essere impostate come attive\n\r cerca le variabili disponibili aggiunte",
-        "es": "Atención: las variables encuestadas deben configurarse como activas\n\r búsqueda de variables disponibles añadidas",
-        "pl": "Uwaga: zmienne odpytywane muszą być ustawione jako aktywne\n\r dodano wyszukiwanie dostępnych zmiennych",
-        "uk": "Увага: опитувані змінні мають бути активними\n\r додано пошук доступних змінних",
-        "zh-cn": "注意：轮询的变量必须设置为活动的\n\r 搜索添加的可用变量"
       }
     },
     "titleLang": {
