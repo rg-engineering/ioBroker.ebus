@@ -71,7 +71,7 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
 -->
 
 
- ### **WORK IN PROGRESS**
+### **WORK IN PROGRESS**
  * (René) see issue #338: due to error in ebusd json no data are parsed
  
 ### 3.3.1 (2024-05-28)
