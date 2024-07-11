@@ -608,6 +608,9 @@ function VersionCheck() {
 //get data via https in json -> this is the main data receiver; telnet just triggers ebusd to read data;
 //https://github.com/john30/ebusd/wiki/3.2.-HTTP-client
 
+
+
+
 async function ebusd_ReceiveData() {
 
     const sUrl = "http://" + adapter.config.targetIP + ":" + parseInt(adapter.config.targetHTTPPort) + "/data";
@@ -619,7 +622,11 @@ async function ebusd_ReceiveData() {
 
         adapter.log.debug("got data " + typeof buffer.data + " " + JSON.stringify(buffer.data));
 
-        const oData = buffer.data;
+        //workaround issue #338
+        //const oData = buffer.data;
+        const oData = JSON.parse(buffer.data.replace('\"updatecheck\": \"\n', '\"updatecheck\": \"'));
+
+        //adapter.log.debug("000 " + typeof oData + JSON.stringify(oData));
 
         //adapter.log.debug("oData " + oData);
 
@@ -627,7 +634,11 @@ async function ebusd_ReceiveData() {
 
         const newData = flatten(oData);
 
+        //adapter.log.debug("111 " + JSON.stringify(newData));
+
         const keys = Object.keys(newData);
+
+        //adapter.log.debug("222 " + JSON.stringify(keys));
 
         //adapter.log.debug("history: " + options.historyValues);
 

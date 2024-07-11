@@ -69,6 +69,11 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+
+ ### **WORK IN PROGRESS**
+ * (René) see issue #338: due to error in ebusd json no data are parsed
+ 
 ### 3.3.1 (2024-05-28)
 * (René) change of dependencies
 
