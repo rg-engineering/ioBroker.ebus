@@ -624,7 +624,11 @@ async function ebusd_ReceiveData() {
 
         //workaround issue #338
         //const oData = buffer.data;
-        const oData = JSON.parse(buffer.data.replace('\"updatecheck\": \"\n', '\"updatecheck\": \"'));
+
+        //erst nach string
+        const sData = JSON.stringify(buffer.data);
+
+        const oData = JSON.parse(sData.replace('\"updatecheck\": \"\n', '\"updatecheck\": \"'));
 
         //adapter.log.debug("000 " + typeof oData + JSON.stringify(oData));
 
