@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.3.2",
+    "version": "3.3.3",
     "news": {
+      "3.3.3": {
+        "en": "downgrade of \"promise-socket\" to 7.0.0",
+        "de": "downgrade von \"promise-socket\" bis 7.0.0",
+        "ru": "понижение «промиза-сокет» до 7.0.0",
+        "pt": "downgrade de \"promise-socket\" para 7.0.0",
+        "nl": "downgrade van \"belofte-zak\" naar 7.0.0",
+        "fr": "downgrade de \"promise-socket\" à 7.0.0",
+        "it": "downgrade di \"promise-socket\" a 7.0.0",
+        "es": "bajada de \"promise-socket\" a 7.0.0",
+        "pl": "obniżenie wartości \"socket-socket\" do 7.0.0",
+        "uk": "до 7.0.0",
+        "zh-cn": "将\"承诺-口袋\"降级为7.0.0"
+      },
       "3.3.2": {
         "en": "(René) see issue #338: due to error in ebusd json no data are parsed",
         "de": "(René) siehe Ausgabe #338: Durch Fehler in ebusd json werden keine Daten pariert",
@@ -80,19 +93,6 @@
         "pl": "przywróć „płaskie” z powrotem do wersji 5.x",
         "uk": "повернутися до версії 5.x",
         "zh-cn": "将“扁平”恢复至 5.x"
-      },
-      "3.2.3": {
-        "en": "dependencies updated",
-        "de": "Abhängigkeiten aktualisiert",
-        "ru": "зависимости обновлены",
-        "pt": "dependências atualizadas",
-        "nl": "afhankelijkheden bijgewerkt",
-        "fr": "dépendances mises à jour",
-        "it": "dipendenze aggiornate",
-        "es": "dependencias actualizadas",
-        "pl": "zaktualizowane zależności",
-        "uk": "залежності оновлено",
-        "zh-cn": "依赖更新"
       }
     },
     "titleLang": {
