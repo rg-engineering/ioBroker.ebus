@@ -69,6 +69,10 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+ * (René) downgrade of "promise-socket" to 7.0.0
+
 ### 3.3.2 (2024-07-11)
  * (René) see issue #338: due to error in ebusd json no data are parsed
 
