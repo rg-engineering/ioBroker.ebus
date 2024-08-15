@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.1.6",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "flat": "5.0.2",
     "net": "^1.0.2",
     "promise-socket": "7.0.0"
@@ -44,7 +44,7 @@
     "@types/request-promise-native": "^1.0.21",
     "@types/sinon": "^17.0.3",
     "@types/sinon-chai": "^3.2.12",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "chai": "^4.4.1",
     "chai-as-promised": "^8.0.0",
     "eslint": "^9.6.0",
