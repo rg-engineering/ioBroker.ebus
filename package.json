@@ -27,7 +27,7 @@
     "axios": "^1.7.5",
     "flat": "^5.0.2",
     "net": "^1.0.2",
-    "promise-socket": "^8.0.0"
+    "promise-socket": "^7.0.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.8.0",
