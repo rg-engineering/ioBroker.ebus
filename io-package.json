@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.3.5",
+    "version": "3.3.6",
     "news": {
+      "3.3.6": {
+        "en": "downgrade of \"promise-socket\" to 7.0.0",
+        "de": "downgrade von \"promise-socket\" bis 7.0.0",
+        "ru": "понижение «промиза-сокет» до 7.0.0",
+        "pt": "downgrade de \"promise-socket\" para 7.0.0",
+        "nl": "downgrade van \"belofte-zak\" naar 7.0.0",
+        "fr": "downgrade de \"promise-socket\" à 7.0.0",
+        "it": "downgrade di \"promise-socket\" a 7.0.0",
+        "es": "bajada de \"promise-socket\" a 7.0.0",
+        "pl": "obniżenie wartości \"socket-socket\" do 7.0.0",
+        "uk": "до 7.0.0",
+        "zh-cn": "将\"承诺-口袋\"降级为7.0.0"
+      },
       "3.3.5": {
         "en": "update dependencies\nbug fixes based on adapter checker recommendation",
         "de": "aktualisierung der abhängigkeiten\nfehlerbehebungen basierend auf adapter-checker empfehlung",
@@ -80,19 +93,6 @@
         "pl": "(René) usunąć zależność od cron\n(René) Historia danych przygotowana dla VIS-2: tylko opcja tutaj w adapterze i nowy widget (w tym momencie GeneralChart widget w vis- 2-widgets- pogoda może być użyta)",
         "uk": "(René) видалення коронної залежності\n(René) історії даних, підготовлених для VIS-2: просто варіант тут в адаптері і новому віджеті (з цього моменту можна використовувати GeneralChart віджет в vis-2-widgets-weather)",
         "zh-cn": "(René) 取消对克龙的依赖\n(René)为VIS-2准备的数据历史:仅在适配器和新部件中设置一个选项(此时可使用GeneralChart部件相对-2-widgets-weather)"
-      },
-      "3.2.6": {
-        "en": "(René) see issue #245: support ebusd 23.3\n(René) fixes reported by eslint",
-        "de": "(René) siehe Ausgabe #245: Unterstützung ebusd 23.3\n(René)",
-        "ru": "#245: поддержка ebusd 23.3\n(René) исправлений, сообщаемых eslint",
-        "pt": "(René) veja a edição #245: suporte ebusd 23.3\n(René) correções relatadas por eslint",
-        "nl": "(René) zie nummer #245: support ebusd 23.3\n(René) fixes gerapporteerd door eslint",
-        "fr": "(René) voir le numéro #245: soutien ebusd 23,3\n(René) corrections rapportées par eslint",
-        "it": "(René) vedi numero #245: supporto ebusd 23.3\n(René) correzioni segnalate da eslint",
-        "es": "(René) ver número #245: apoyo ebusd 23.3\n(René) fixes reported by eslint",
-        "pl": "(René) see issue # 245: support ebudd 23.3\n(René) poprawki zgłoszone przez eslint",
-        "uk": "(René) див. питання #245: підтримка ebusd 23.3\n(René) фіксує eslint",
-        "zh-cn": "(René)参见问题245:支持ebusd 23.3\nEslint报告的(René)修复"
       }
     },
     "titleLang": {
