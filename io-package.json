@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.3.6",
+    "version": "3.3.7",
     "news": {
+      "3.3.7": {
+        "en": "see issue #380: support of ebusd 24.1, ATTENTION: ebusd creates datapoints with changed names, folders or in different locations\nsee issue #371: test with nodejs@22",
+        "de": "siehe Ausgabe #380: Unterstützung von ebusd 24.1, ATTENTION: ebusd erstellt Datenpunkte mit geänderten Namen, Ordnern oder an verschiedenen Standorten\nsiehe ausgabe #371: test mit nodejs@22",
+        "ru": "#380: поддержка ebusd 24.1, ATTENTION: ebusd создает точки данных с измененными именами, папками или в разных местах\n#371: тест с nodejs@22",
+        "pt": "veja a edição #380: suporte de ebusd 24.1, ATTENTION: ebusd cria datapoints com nomes alterados, pastas ou em diferentes locais\nveja a edição #371: teste com nodejs@22",
+        "nl": "zie nummer #380: ondersteuning van ebusd 24.1, ATTENTIE: ebusd creëert datapunten met gewijzigde namen, mappen of op verschillende locaties\nzie nummer #371: test met nodejs@22",
+        "fr": "voir le numéro 380: prise en charge de ebusd 24.1, ATTENTION: ebusd crée des points de données avec des noms modifiés, des dossiers ou à différents emplacements\nvoir numéro 371: test avec nodejs@22",
+        "it": "vedi numero 380: supporto di ebusd 24.1, ATTENZIONE: ebusd crea datapoint con nomi, cartelle o in diverse posizioni\nvedi numero 371: prova con nodejs@22",
+        "es": "ver número #380: soporte de ebusd 24.1, ATENCIÓN: ebusd crea puntos de datos con nombres, carpetas o en diferentes ubicaciones\nver número #371: prueba con nodejs@22",
+        "pl": "zobacz numer # 380: wsparcie ebusd 24.1, UWAGA: ebusd tworzy punkty danych ze zmienionymi nazwami, folderami lub w różnych lokalizacjach\nzobacz numer 371: test z nodejs @ 22",
+        "uk": "див. питання #380: підтримка ebusd 24.1, УВАГА: ebusd створює точки даних з змінними іменами, папками або в різних місцях\nпереглянути номер #371: тест з nodejs@22",
+        "zh-cn": "参见第380期:支持ebusd 24.1,注意:ebusd创建有更改名称,文件夹或不同位置的数据点\n参见第371期:带节点的测试@22"
+      },
       "3.3.6": {
         "en": "downgrade of \"promise-socket\" to 7.0.0",
         "de": "downgrade von \"promise-socket\" bis 7.0.0",
@@ -80,19 +93,6 @@
         "pl": "(René) zmiana zależności",
         "uk": "(Рене) зміна залежностей",
         "zh-cn": "(René) 属地变化"
-      },
-      "3.3.0": {
-        "en": "(René) remove cron dependency\n(René) data history prepared for VIS-2: just a option here in the adapter and new widget (at this moment GeneralChart widget in vis-2-widgets-weather can be used)",
-        "de": "(René) Cron Abhängigkeit entfernen\n(René) Datenhistorie für VIS-2 vorbereitet: nur eine Option hier im Adapter und neues Widget (in diesem Moment kann GeneralChart Widget in vis-2-widgets-weather verwendet werden)",
-        "ru": "(René) удалить хроновую зависимость\n(René) история данных, подготовленная для VIS-2: просто вариант здесь в адаптере и новом виджете (в этот момент виджет GeneralChart в vis-2-widgets-weather может быть использован)",
-        "pt": "(René) remover a dependência cron\n(René) histórico de dados preparado para VIS-2: apenas uma opção aqui no adaptador e novo widget (neste momento o widget GeneralChart em vis-2-widgets-weather pode ser usado)",
-        "nl": "(René) verwijderen cron afhankelijkheid\n(René) data geschiedenis voorbereid voor VIS-2: alleen een optie hier in de adapter en nieuwe widget (op dit moment GeneralChart widget in vis-2-widgets-weer kan worden gebruikt)",
-        "fr": "(René) supprimer la dépendance cron\n(René) historique de données préparé pour VIS-2: juste une option ici dans l'adaptateur et le nouveau widget (à ce moment le widget GeneralChart dans vis-2-widgets-weather peut être utilisé)",
-        "it": "(René) rimuovere la dipendenza cron\n(René) cronologia dei dati preparati per VIS-2: solo un'opzione qui nell'adattatore e nuovo widget (in questo momento GeneralChart widget in vis-2-widgets-weather può essere utilizzato)",
-        "es": "(René) eliminar la dependencia de cron\n(René) historial de datos preparado para VIS-2: sólo una opción aquí en el adaptador y nuevo widget (en este momento se puede utilizar el widget GeneralChart en vis-2-widgets-weather)",
-        "pl": "(René) usunąć zależność od cron\n(René) Historia danych przygotowana dla VIS-2: tylko opcja tutaj w adapterze i nowy widget (w tym momencie GeneralChart widget w vis- 2-widgets- pogoda może być użyta)",
-        "uk": "(René) видалення коронної залежності\n(René) історії даних, підготовлених для VIS-2: просто варіант тут в адаптері і новому віджеті (з цього моменту можна використовувати GeneralChart віджет в vis-2-widgets-weather)",
-        "zh-cn": "(René) 取消对克龙的依赖\n(René)为VIS-2准备的数据历史:仅在适配器和新部件中设置一个选项(此时可使用GeneralChart部件相对-2-widgets-weather)"
       }
     },
     "titleLang": {
