@@ -15,7 +15,7 @@
 
 
 const utils = require("@iobroker/adapter-core");
-const ebusdMinVersion = [23, 3];
+const ebusdMinVersion = [24, 1];
 const ebusdVersion = [0, 0];
 const ebusdUpdateVersion = [0, 0];
 
@@ -818,6 +818,7 @@ async function ebusd_ReceiveData() {
                     let bSkip = false;
 
                     if (subnames[0].includes("scan") ||
+                        subnames[0].includes("Scan") ||
                         subnames[0].includes("ehp") ||
                         (subnames.length > 2 && subnames[2].includes("currenterror"))
 
@@ -832,6 +833,15 @@ async function ebusd_ReceiveData() {
                     }
 
                     if (!bSkip && Math.abs(oDate.getTime() - oToday.getTime()) > 1 * 60 * 60 * 1000) {
+
+
+
+                        /*2024-11-20
+                        ebus: no update since 19.11.2024, 21:11:14 Scan.15.messages.Id.lastup no update since 19.11.2024, 21:11:19 Scan.23.messages.Id.lastup no update since 19.11.2024, 21:10:34 Scan.25.messages.Id.lastup no update since 19.11.2024, 21:12:04 Scan.50.messages.Id.lastup 
+
+                        */
+
+
 
                         const sError1 = "no update since " + sDate + " " + key + " ";
                         if (sError.includes("none")) {

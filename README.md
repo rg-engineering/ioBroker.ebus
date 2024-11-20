@@ -70,7 +70,8 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
   ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (René) see issue #371: test with nodejs@22
+* (René) see issue #380: support of ebusd 24.1, ATTENTION: ebusd creates datapoints with changed names, folders or in different locations
+* (René) see issue #371: test with nodejs@22 
 
 ### 3.3.6 (2024-08-25)
  * (René) downgrade of "promise-socket" to 7.0.0
