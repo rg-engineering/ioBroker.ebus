@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.3.7",
+    "version": "3.3.8",
     "news": {
+      "3.3.8": {
+        "en": "update dependencies\nissue  #381: install widgets again",
+        "de": "aktualisierung der abhängigkeiten\nausgabe #381: widgets erneut installieren",
+        "ru": "обновление зависимостей\n#381: установить виджеты снова",
+        "pt": "dependências\nproblema #381: instalar widgets novamente",
+        "nl": "afhankelijkheden bijwerken\nprobleem #381: opnieuw widgets installeren",
+        "fr": "mettre à jour les dépendances\nnuméro #381: installez à nouveau des widgets",
+        "it": "aggiornamento dipendenze\nnumero #381: installare nuovamente i widget",
+        "es": "dependencias de actualización\nedición #381: instalar widgets de nuevo",
+        "pl": "aktualizacji zależności\nwydanie # 381: zainstalować widgety ponownie",
+        "uk": "оновлення залежності\nproblem #381: встановити віджети знову",
+        "zh-cn": "更新依赖关系\n第381期: 再次安装部件"
+      },
       "3.3.7": {
         "en": "see issue #380: support of ebusd 24.1, ATTENTION: ebusd creates datapoints with changed names, folders or in different locations\nsee issue #371: test with nodejs@22",
         "de": "siehe Ausgabe #380: Unterstützung von ebusd 24.1, ATTENTION: ebusd erstellt Datenpunkte mit geänderten Namen, Ordnern oder an verschiedenen Standorten\nsiehe ausgabe #371: test mit nodejs@22",
@@ -80,19 +93,6 @@
         "pl": "(René) see issue # 338: due to error in ebudd json no data are parsed",
         "uk": "(René) див. питання #338: через помилку в ebusd json немає даних",
         "zh-cn": "(René)参见第338期:由于ebusd json中的错误,没有解析数据"
-      },
-      "3.3.1": {
-        "en": "(René) change of dependencies",
-        "de": "(René) Veränderung der Abhängigkeiten",
-        "ru": "(René) изменение зависимостей",
-        "pt": "(René) mudança de dependências",
-        "nl": "(René) verandering van afhankelijkheden",
-        "fr": "(René) changement de dépendances",
-        "it": "(René) cambiamento delle dipendenze",
-        "es": "(René) cambio de dependencia",
-        "pl": "(René) zmiana zależności",
-        "uk": "(Рене) зміна залежностей",
-        "zh-cn": "(René) 属地变化"
       }
     },
     "titleLang": {
