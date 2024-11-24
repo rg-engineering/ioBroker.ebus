@@ -201,6 +201,86 @@
           "agree",
           "cancel"
         ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<3.3.7",
+            "newVersion>=3.3.7"
+          ]
+        },
+        "title": {
+          "en": "ebusd v24.1 moved datapoints",
+          "de": "ebusd v24.1 hat Datenpunkte verschoben",
+          "ru": "ebusd v24.1 перенес точки данных",
+          "pt": "pontos de dados movidos ebusd v24.1",
+          "nl": "ebusd v24.1 verplaatste datapunten",
+          "fr": "ebusd v24.1 a déplacé les points de données",
+          "it": "ebusd v24.1 ha spostato i datapoint",
+          "es": "ebusd v24.1 movió puntos de datos",
+          "pl": "ebusd v24.1 przeniósł punkty danych",
+          "uk": "ebusd v24.1 переміщено точки даних",
+          "zh-cn": "ebusd v24.1 移动数据点"
+        },
+        "text": {
+          "en": "In version 24.1 many data points were moved. Please check the links. Old data points are still available in the tree, but are no longer updated.",
+          "de": "In Version 24.1 wurden viele Datenpunkte verschoben. Bitte überprüfen Sie die Links. Alte Datenpunkte sind weiterhin im Baum verfügbar, werden jedoch nicht mehr aktualisiert.",
+          "ru": "В версии 24.1 многие точки данных были перемещены. Пожалуйста, проверьте ссылки. Старые точки данных по-прежнему доступны в дереве, но больше не обновляются.",
+          "pt": "Na versão 24.1 muitos pontos de dados foram movidos. Por favor, verifique os links. Os pontos de dados antigos ainda estão disponíveis na árvore, mas não são mais atualizados.",
+          "nl": "In versie 24.1 zijn veel datapunten verplaatst. Controleer de links. Oude gegevenspunten zijn nog steeds beschikbaar in de boom, maar worden niet langer bijgewerkt.",
+          "fr": "Dans la version 24.1, de nombreux points de données ont été déplacés. Veuillez vérifier les liens. Les anciens points de données sont toujours disponibles dans l'arborescence, mais ne sont plus mis à jour.",
+          "it": "Nella versione 24.1 sono stati spostati molti punti dati. Si prega di controllare i collegamenti. I vecchi punti dati sono ancora disponibili nell'albero, ma non vengono più aggiornati.",
+          "es": "En la versión 24.1 se movieron muchos puntos de datos. Por favor revise los enlaces. Los puntos de datos antiguos todavía están disponibles en el árbol, pero ya no se actualizan.",
+          "pl": "W wersji 24.1 przeniesiono wiele punktów danych. Proszę sprawdzić linki. Stare punkty danych są nadal dostępne w drzewie, ale nie są już aktualizowane.",
+          "uk": "У версії 24.1 багато точок даних було переміщено. Будь ласка, перевірте посилання. Старі точки даних все ще доступні в дереві, але більше не оновлюються.",
+          "zh-cn": "在 24.1 版本中，许多数据点被移动。请检查链接。旧数据点在树中仍然可用，但不再更新。"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<3.3.8",
+            "newVersion>=3.3.8"
+          ]
+        },
+        "title": {
+          "en": "widgets are installed again",
+          "de": "Widgets werden erneut installiert",
+          "ru": "виджеты установлены снова",
+          "pt": "widgets são instalados novamente",
+          "nl": "widgets zijn opnieuw geïnstalleerd",
+          "fr": "les widgets sont à nouveau installés",
+          "it": "i widget vengono installati di nuovo",
+          "es": "Los widgets se instalan nuevamente.",
+          "pl": "widżety zostaną ponownie zainstalowane",
+          "uk": "віджети встановлюються знову",
+          "zh-cn": "再次安装小部件"
+        },
+        "text": {
+          "en": "widgets for vis are installed again. It might be necessary to upload complete vis again. For vis-2 users a new general widget set is available.",
+          "de": "Widgets für vis werden erneut installiert. Es kann erforderlich sein, die vollständige Vis erneut hochzuladen. Für vis-2-Benutzer ist ein neues allgemeines Widget-Set verfügbar.",
+          "ru": "виджеты для вис установлены заново. Возможно, потребуется снова загрузить полную версию. Для пользователей vis-2 доступен новый общий набор виджетов.",
+          "pt": "widgets para vis são instalados novamente. Pode ser necessário carregar o vis completo novamente. Para usuários do vis-2, um novo conjunto geral de widgets está disponível.",
+          "nl": "widgets voor vis zijn opnieuw geïnstalleerd. Het kan nodig zijn om de volledige vis opnieuw te uploaden. Voor vis-2-gebruikers is een nieuwe algemene widgetset beschikbaar.",
+          "fr": "les widgets pour vis sont à nouveau installés. Il peut être nécessaire de télécharger à nouveau la vis complète. Pour les utilisateurs vis-2, un nouvel ensemble de widgets généraux est disponible.",
+          "it": "i widget per vis vengono installati di nuovo. Potrebbe essere necessario caricare nuovamente la vis completa. Per gli utenti vis-2 è disponibile un nuovo set di widget generali.",
+          "es": "Los widgets para vis se instalan nuevamente. Puede que sea necesario volver a cargar el vis completo. Para los usuarios de vis-2 hay disponible un nuevo conjunto de widgets generales.",
+          "pl": "widżety dla vis zostały ponownie zainstalowane. Może być konieczne ponowne przesłanie kompletnego vis. Dla użytkowników vis-2 dostępny jest nowy ogólny zestaw widżetów.",
+          "uk": "знову встановлені віджети для vis. Можливо, доведеться знову завантажити повний віз. Для користувачів vis-2 доступний новий загальний набір віджетів.",
+          "zh-cn": "vis 小部件再次安装。可能需要再次上传完整的 vis。对于 vis-2 用户，可以使用新的通用小部件集。"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
       }
     ]
   },
