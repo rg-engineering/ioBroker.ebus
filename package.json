@@ -58,6 +58,7 @@
     "!test",
     "!typings",
     "www/",
+    "widgets/",
     "io-package.json",
     "LICENSE",
     "main.js"
