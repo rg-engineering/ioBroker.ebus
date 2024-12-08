@@ -270,13 +270,13 @@
           "lg": 4,
           "xl": 4
         },
-        "sendTo2": {
+        "sendTo2FindParameters": {
           "type": "sendTo",
-          "label": "send It",
+          "label": "find paramter",
           "variant": "outlined",
           "showProcess": true,
           "command": "findParams",
-          "jsonData": "{ \"${data.Circuit4Find}\"}",
+          "jsonData": "{ \"circuit\": \"${data.Circuit4Find}\"}",
           "xs": 12,
           "sm": 12,
           "md": 6,
