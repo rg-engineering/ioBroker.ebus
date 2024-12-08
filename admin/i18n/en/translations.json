@@ -1,6 +1,6 @@
 {
     "Circuit4Find": "Circuit in which parameters are searched ",
-    "History4Vis2": "Create history value for VIS-2 widget",
+    "History4Vis2": "compatibility to history value for (new) VIS-2 widget",
     "active": "active",
     "addParameter": "additional parameter",
     "circuit": "circuit",
@@ -14,8 +14,8 @@
     "parse_timeout": "download and poll timeout [seconds]",
     "polledDP": "polled datapoints",
     "readInterval": "interval to read data from ebusd [min]",
-    "target_HTTPPort": "target HTTP Port to read data",
+    "target_HTTPPort": "HTTP Port to read data",
     "target_IP": "target IP",
-    "target_TelnetPort": "target telnet Port to write data",
+    "target_TelnetPort": "TCP (Telnet) Port to write data",
     "useBoolean4Onoff": "use boolean instead string for datapoints with on/off values "
 }

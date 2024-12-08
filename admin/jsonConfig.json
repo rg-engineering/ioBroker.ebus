@@ -209,7 +209,7 @@
             {
               "type": "text",
               "attr": "name",
-              "width": "16% ",
+              "width": "20% ",
               "title": "name",
               "tooltip": "optional parameter name",
               "filter": false,
@@ -220,7 +220,7 @@
             {
               "type": "text",
               "attr": "value",
-              "width": "16% ",
+              "width": "20% ",
               "title": "value",
               "tooltip": "optional parameter value",
               "filter": false,

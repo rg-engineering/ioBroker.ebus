@@ -96,7 +96,7 @@ async function main() {
 
     FillPolledVars();
     FillHistoryVars();
-    FillHistoryVars();
+    FillHTTPParamsVars();
 
     await checkVariables();
 
@@ -642,15 +642,27 @@ function VersionCheck() {
 //get data via https in json -> this is the main data receiver; telnet just triggers ebusd to read data;
 //https://github.com/john30/ebusd/wiki/3.2.-HTTP-client
 
-
-
-
 async function ebusd_ReceiveData() {
 
-    const sUrl = "http://" + adapter.config.targetIP + ":" + parseInt(adapter.config.targetHTTPPort) + "/data";
+    let sUrl = "http://" + adapter.config.targetIP + ":" + parseInt(adapter.config.targetHTTPPort) + "/data";
 
-    //todo: Erweiterung mit optionalen parametern
+    //Erweiterung mit optionalen parametern
+    var paramsCnt = 0;
+    if (oHTTPParamsVars !== undefined && oHTTPParamsVars != null && oHTTPParamsVars.length > 0) {
+        for (let i = 0; i < oHTTPParamsVars.length; i++) {
 
+            if (oHTTPParamsVars[i].active) {
+                if (paramsCnt == 0) {
+                    sUrl += "?"  ;
+                }
+                else {
+                    sUrl += "&";
+                }
+                sUrl += oHTTPParamsVars[i].name + "=" + oHTTPParamsVars[i].value;
+                paramsCnt++;
+            }
+        }
+    }
 
     adapter.log.debug("request data from " + sUrl);
 
