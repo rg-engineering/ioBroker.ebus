@@ -1,0 +1,374 @@
+{
+  "type": "tabs",
+  "i18n": true,
+  "items": {
+    "tab-main": {
+      "type": "panel",
+      "label": "Main settings",
+      "items": {
+
+        "icontest": {
+          "type": "staticImage",
+          "src": "ebus.png",
+          "newLine": true,
+          "xs": 7,
+          "sm": 3,
+          "md": 3,
+          "lg": 1.2,
+          "xl": 1.2
+        },
+
+        "dividerHdr1": {
+          "newLine": true,
+          "type": "header",
+          "text": "configuration",
+          "size": 2
+        },
+
+        "targetIP": {
+          "type": "text",
+          "label": "target_IP",
+          "help": "IP of system where ebusd runs",
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "useBoolean4Onoff": {
+          "newLine": true,
+          "type": "checkbox",
+          "label": "useBoolean4Onoff",
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "History4Vis2": {
+          "newLine": true,
+          "type": "checkbox",
+          "label": "History4Vis2",
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        }
+
+
+
+
+
+      }
+    },
+    "tab-ebusd": {
+      "type": "panel",
+      "label": "page-ebusd",
+      "items": {
+
+        "ebusdhint": {
+          "type": "staticText",
+          "text": "hint_ebusd",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+
+        },
+
+        "dividerHdr2": {
+          "newLine": true,
+          "type": "header",
+          "text": "ebusd configuration",
+          "size": 2
+        },
+        "targetHTTPPort": {
+          "newLine": true,
+          "type": "number",
+          "label": "target_HTTPPort",
+          "min": 1,
+          "max": 9999,
+          "default": 8889,
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "targetTelnetPort": {
+          "newLine": true,
+          "type": "number",
+          "label": "target_TelnetPort",
+          "min": 1,
+          "max": 9999,
+          "default": 8890,
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "readInterval": {
+          "newLine": true,
+          "type": "number",
+          "label": "readInterval",
+          "min": 1,
+          "max": 300,
+          "default": 5,
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "parseTimeout": {
+          "newLine": true,
+          "type": "number",
+          "label": "parse_timeout",
+          "min": 30,
+          "max": 300,
+          "default": 60,
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "maxretries": {
+          "newLine": true,
+          "type": "number",
+          "label": "maxretries",
+          "min": 0,
+          "max": 10,
+          "default": 3,
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+
+
+        "dividerHdr3": {
+          "newLine": true,
+          "type": "header",
+          "text": "optional HTTP parameter configuration",
+          "size": 2
+        },
+
+        "ebusdhint2": {
+          "type": "staticText",
+          "text": "hint_ebusd2",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+
+        },
+        "staticLink2ebusd": {
+          "type": "staticLink",
+          "text": "details of HTTP paramter on ebusd wiki",
+          "href": "https://github.com/john30/ebusd/wiki/3.2.-HTTP-client",
+          "icon": "info",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4,
+          "xl": 4
+        },
+
+
+        "HTTPparameter": {
+          "type": "table",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "",
+          "showSecondAddAt": 5,
+          "noDelete": true,
+
+          "items": [
+            {
+              "type": "checkbox",
+              "attr": "active",
+              "width": "5% ",
+              "title": "active",
+              "tooltip": "enable parameter",
+              "filter": false,
+              "sort": false,
+              "default": false
+            },
+            {
+              "type": "text",
+              "attr": "name",
+              "width": "16% ",
+              "title": "name",
+              "tooltip": "optional parameter name",
+              "filter": false,
+              "sort": false,
+              "readOnly": true,
+              "default": ""
+            },
+            {
+              "type": "text",
+              "attr": "value",
+              "width": "16% ",
+              "title": "value",
+              "tooltip": "optional parameter value",
+              "filter": false,
+              "sort": false,
+              "readOnly": false,
+              "default": ""
+            }
+          ]
+        }
+
+
+
+      }
+      },
+    "tab-polledDP": {
+      "type": "panel",
+      "label": "polledDP",
+
+      "items": {
+
+        "ebusdhintpolled": {
+          "type": "staticText",
+          "text": "hint_ebusd_polled",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+
+        },
+
+        "dividerHdr3": {
+          "newLine": true,
+          "type": "header",
+          "text": "polledDP configuration",
+          "size": 2
+        },
+
+        "Circuit4Find": {
+          "newLine": true,
+          "type": "text",
+          "label": "Circuit4Find",
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "PolledDPs": {
+          "type": "table",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "",
+          "showSecondAddAt": 5,
+          "items": [
+            {
+              "type": "checkbox",
+              "attr": "active",
+              "width": "5% ",
+              "title": "active",
+              "tooltip": "enable DP",
+              "filter": false,
+              "sort": false,
+              "default": true
+            },
+            {
+              "type": "text",
+              "attr": "circuit",
+              "width": "16% ",
+              "title": "circuit",
+              "tooltip": "enter circuit",
+              "filter": false,
+              "sort": false,
+              "default": ""
+            },
+            {
+              "type": "text",
+              "attr": "name",
+              "width": "16% ",
+              "title": "name",
+              "tooltip": "enter DP name",
+              "filter": false,
+              "sort": false,
+              "default": ""
+            },
+            {
+              "type": "text",
+              "attr": "parameter",
+              "width": "16% ",
+              "title": "parameter",
+              "tooltip": "enter additional parameter (optional)",
+              "filter": false,
+              "sort": false,
+              "default": ""
+            }
+
+          ]
+        }
+      }
+    },
+    "HistoryDPs": {
+      "type": "panel",
+      "label": "historyDP",
+      "items": {
+        "ebusdhintpolled": {
+          "type": "staticText",
+          "text": "hint_ebusd_history",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+
+        },
+        "dividerHdr3": {
+          "newLine": true,
+          "type": "header",
+          "text": "historyDP configuration",
+          "size": 2
+        },
+        "table_historyDP": {
+          "type": "table",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "",
+          "showSecondAddAt": 5,
+          "items": [
+            {
+              "type": "text",
+              "attr": "name",
+              "width": "16% ",
+              "title": "name",
+              "tooltip": "enter DP name",
+              "filter": false,
+              "sort": false,
+              "default": ""
+            }
+          ]
+        }
+      }
+    }
+  }
+}

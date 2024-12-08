@@ -96,6 +96,7 @@ async function main() {
 
     FillPolledVars();
     FillHistoryVars();
+    FillHistoryVars();
 
     await checkVariables();
 
@@ -256,7 +257,15 @@ function FillHistoryVars() {
     }
 }
 
+let oHTTPParamsVars = [];
+function FillHTTPParamsVars() {
+    if (adapter.config.HTTPparameter !== undefined && adapter.config.HTTPparameter != null && adapter.config.HTTPparameter.length > 0) {
 
+        oHTTPParamsVars = adapter.config.HTTPparameter;
+
+        adapter.log.debug("use optionally HTTP parameter " + JSON.stringify(oHTTPParamsVars));
+    }
+}
 
 
 
@@ -384,6 +393,31 @@ async function ebusd_find(){
 
 
 //just call http://192.168.0.123:8889/data
+
+
+/*
+    http://localhost:8080/data/mc?verbose&since=1483890000&exact
+
+    since=seconds: limit to messages that have changed since the specified UTC seconds
+    poll=prio: set the poll priority of matching message(s) to prio
+    exact[=true]: exact search for circuit/message name
+    verbose[=true]: include comments and field units
+    indexed[=true]: return field indexes instead of names
+    numeric[=true]: return numeric values of value list entries
+    valuename[=true]: include value and name of value list entries
+    full[=true]: include all available attributes
+    required[=true]: retrieve the data from the bus if not yet cached
+    maxage[=seconds]: retrieve the data from the bus if cached value is older than specified seconds (or not present at all)
+    write[=true]: include write messages in addition to read
+    raw[=true]: include the raw master/slave symbols as int arrays
+    def[=true]: include message/field definition (qq, id, fielddefs)
+    define=DEFINITION: (re-)define the message from DEFINITION (in CSV format)
+    user=USER: authenticate with USER name
+    secret=SECRET: authenticate with user SECRET
+
+
+*/
+
 
 async function subscribeVars() {
     adapter.subscribeStates("cmd");
@@ -614,6 +648,10 @@ function VersionCheck() {
 async function ebusd_ReceiveData() {
 
     const sUrl = "http://" + adapter.config.targetIP + ":" + parseInt(adapter.config.targetHTTPPort) + "/data";
+
+    //todo: Erweiterung mit optionalen parametern
+
+
     adapter.log.debug("request data from " + sUrl);
 
     try {

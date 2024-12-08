@@ -159,7 +159,7 @@
     "connectionType": "local",
     "dataSource": "push",
     "adminUI": {
-      "config": "materialize"
+      "config": "json"
     },
     "messages": [
       {
@@ -289,13 +289,97 @@
     "interfacetype": "ebusd",
     "targetHTTPPort": 8889,
     "targetTelnetPort": 8890,
-    "PolledValues": "",
-    "HistoryValues": "",
     "parseTimeout": 60,
     "useBoolean4Onoff": false,
     "PolledDPs": [],
     "HistoryDPs": [],
     "maxretries": 5,
-    "readInterval": 5
+    "readInterval": 5,
+    "History4Vis2": false,
+    "HTTPparameter": [
+      {
+        "active": false,
+        "name": "since",
+        "value": 300
+      },
+      {
+        "active": false,
+        "name": "poll",
+        "value": "prio"
+      },
+      {
+        "active": false,
+        "name": "exact",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "verbose",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "indexed",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "numeric",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "valuename",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "full",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "required",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "maxage",
+        "value": "5000"
+      },
+      {
+        "active": false,
+        "name": "write",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "raw",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "def",
+        "value": "true"
+      },
+      {
+        "active": false,
+        "name": "define",
+        "value": "DEFINITION"
+      },
+      {
+        "active": false,
+        "name": "user",
+        "value": "USER"
+      },
+      {
+        "active": false,
+        "name": "secret",
+        "value": "SECRET"
+      }
+
+
+
+    ]
   }
 }
