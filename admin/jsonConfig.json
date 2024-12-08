@@ -270,6 +270,22 @@
           "lg": 4,
           "xl": 4
         },
+        "sendTo2": {
+          "type": "sendTo",
+          "label": "send It",
+          "variant": "outlined",
+          "showProcess": true,
+          "command": "findParams",
+          "jsonData": "{ \"${data.Circuit4Find}\"}",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4,
+          "xl": 4
+        },
+
+
+
         "PolledDPs": {
           "type": "table",
           "newLine": true,
