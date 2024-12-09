@@ -272,7 +272,7 @@
         },
         "sendTo2FindParameters": {
           "type": "sendTo",
-          "label": "find paramter",
+          "label": "find parameter",
           "variant": "outlined",
           "showProcess": true,
           "command": "findParams",

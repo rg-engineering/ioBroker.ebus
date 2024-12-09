@@ -1307,15 +1307,17 @@ async function ebusd_ReadValues() {
 
 async function FindParams(obj) {
 
-    adapter.log.debug("FindParams " + JSON.stringify(obj));
+    adapter.log.debug("FindParams " + JSON.stringify(obj) + " " + JSON.stringify(obj.message) + " " + JSON.stringify(obj.message.circuit));
 
     const list = [];
+    
 
     try {
+        //FindParams {"command":"findParams","message":{"circuit":"cc"},"from":"system.adapter.admin.0","callback":{"message":{"circuit":"cc"},"id":90,"ack":false,"time":1733690088670},"_id":39690903}
 
         if (obj.message != null) {
 
-            const circuit = obj.message;
+            const circuit = obj.message.circuit;
 
             const socket = new net.Socket();
             const promiseSocket = new PromiseSocket(socket);
@@ -1324,15 +1326,16 @@ async function FindParams(obj) {
             adapter.log.debug("telnet connected for cmd");
             promiseSocket.setTimeout(5000);
 
-            await promiseSocket.write("find -c " + circuit + " -F circuit,name\n");
+            const cmd = "find -c " + circuit + " -F circuit,name\n";
+            await promiseSocket.write(cmd);
 
             const data = await promiseSocket.read();
 
             if (data.includes("ERR")) {
-                adapter.log.warn("received error! sent find, received " + data + " please check ebusd logs for details!");
+                adapter.log.warn("received error! sent find, received " + data + " please check ebusd logs for details! " + cmd);
             }
             else {
-                adapter.log.debug("received " + typeof data + " " + data);
+                adapter.log.debug("received " + typeof data + " " + data + " " + + cmd);
             }
             /*
               received object ehp,AccelerationTestModeehp,AccelerationTestModeehp,ActualEnvironmentPowerehp,ActualEnvironmentPowerehp,ActualEnvironmentPowerPercentageehp,ActualEnvironmentPowerPercentageehp,ApplianceCodeehp,ApplianceCodeehp,Backupehp,Backupehp,BackupHoursehp,BackupHoursHcehp,BackupHoursHwcehp,BackupHysteresisehp,BackupIntegralehp,BackupModeHcehp,BackupModeHwcehp,BackupPowerCutehp,BackupStartsehp,BackupStartsHcehp,BackupStartsHwcehp,BackupTypeehp,BivalentTempehp,Bleedingehp,Bleedingehp,CirPumpehp,CirPumpehp,Code1ehp,Code1Code2Validehp,Code2ehp,Compehp,Compehp,CompControlStateehp,CompCutPressHighCountehp,CompCutPressLowCountehp,CompCutTempCountehp,CompDemandehp,CompHoursehp,CompHoursHcehp,CompHoursHwcehp,CompHysteresisehp,CompIntegralehp,CompPressHighehp,CompPressHighehp,CompPressLowehp,CompPressLowehp,CompStartsehp,CompStartsHcehp,CompStartsHwcehp,CompStateehp,CondensorTempehp,CondensorTempehp,currenterrorehp,Dateehp,DateTimeehp,DeltaTempT6T7ehp,ElectricWiringDiagramehp,ElectricWiringDiagramehp,EnergyBalancingReleaseehp,errorhistoryehp,FlowTempehp,FlowTempehp,FlowtempCoolingMinehp,FlowTempOffsetehp,Hc1Pumpehp,Hc1Pumpehp,Hc1PumpHoursehp,Hc1PumpPortehp,Hc1PumpStartsehp,Hc2Pumpehp,Hc2PumpHoursehp,HcFlowTempehp,HcFlowTempOffsetehp,HcModeDemandHoursehp,HcModeFulfilledHoursehp,HcParallelStorageFillingEnabledehp,HcPressehp,HcReturnTempehp,HcReturnTempehp,HcReturnTempOffsetehp,HeatPumpStatusehp,HeatPumpStatusehp,HeatpumpTypeehp,HwcHcValveehp,HwcHcValveehp,HwcHcValveStartsehp,HwcLaggingTimeehp,HwcLoadingDelayehp,HwcModeDemandHoursehp,HwcModeFulfilledHoursehp,HwcPumpStartsehp,HwcSwitchehp,HwcTempehp,HwcTempehp,HwcTempOffsetehp,HydraulicSchemeehp,ICLOutehp,ICLOutehp,Injectionehp,Integralehp,Mixer1DutyCycleehp,NumberCompStartsehp,OutsideTempehp,OutsideTempOffsetehp,OverpressureThresholdehp,PhaseOrderehp,PhaseOrderehp,PhaseStatusehp,PhaseStatusehp,PowerCutehp,PowerCutPreloadingehp,PressSwitchehp,PressSwitchehp,RebootCounterehp,ReturnTempMaxehp,SetModeehp,SoftwareCodeehp,Source2PumpHoursehp,Sourceehp,Sourceehp,SourceHoursehp,SourcePortehp,SourcePressehp,SourcePumpPrerunTimeehp,SourceStartsehp,SourceSwitchehp,SourceSwitchehp,SourceTempInputehp,SourceTempInputehp,SourceTempInputOffsetehp,SourceTempOutputehp,SourceTempOutputehp,SourceTempOutputOffsetehp,SourceTempOutputT8Minehp,StateSoftwareCodeehp,StateSoftwareCodeehp,Status01ehp,Status02ehp,Status16ehp,Statusehp,StatusCirPumpehp,StorageTempBottomehp,StorageTempBottomehp,StorageTempBottomOffsetehp,StorageTempTopehp,StorageTempTopehp,StorageTempTopOffsetehp,Subcoolingehp,Superheatehp,T19MaxToCompOffehp,TempInputehp,TempInputehp,TempInputOffsetehp,TempOutputehp,TempOutputehp,TempOutputOffsetehp,Timeehp,TimeBetweenTwoCompStartsMinehp,TimeCompOffMinehp,TimeCompOnMinehp,TimeOfNextPredictedPowerCutehp,TimeOfNextPredictedPowerCutehp,Weekdayehp,YieldTotalehp,YieldTotal
@@ -1380,6 +1383,10 @@ async function FindParams(obj) {
     } catch (e) {
         adapter.log.error("exception in FindParams " + "[" + e + "]");
     }
+
+    adapter.log.info("parameters " + JSON.stringify(list));
+
+
     adapter.sendTo(obj.from, obj.command, list, obj.callback);
 }
 
