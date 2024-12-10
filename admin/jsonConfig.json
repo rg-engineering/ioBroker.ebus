@@ -11,7 +11,7 @@
           "type": "staticImage",
           "src": "ebus.png",
           "newLine": true,
-          "xs": 7,
+          "xs": 12,
           "sm": 3,
           "md": 3,
           "lg": 1.2,
@@ -187,11 +187,12 @@
         "HTTPparameter": {
           "type": "table",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
           "xl": 12,
-          "label": "",
+          "label": "optional HTTP parameter",
           "showSecondAddAt": 5,
           "noDelete": true,
 
@@ -237,7 +238,7 @@
       },
     "tab-polledDP": {
       "type": "panel",
-      "label": "polledDP",
+      "label": "page_polledDP",
 
       "items": {
 
@@ -289,6 +290,7 @@
         "PolledDPs": {
           "type": "table",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
@@ -343,7 +345,7 @@
     },
     "HistoryDPs": {
       "type": "panel",
-      "label": "historyDP",
+      "label": "page_historyDP",
       "items": {
         "ebusdhintpolled": {
           "type": "staticText",
@@ -365,6 +367,7 @@
         "table_historyDP": {
           "type": "table",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
