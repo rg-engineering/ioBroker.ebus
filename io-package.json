@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.3.8",
+    "version": "3.4.0",
     "news": {
+      "3.4.0": {
+        "en": "migration to jsonConfig\nsee issue #383: add optionally parameters to HTTP call",
+        "de": "migration nach jsonConfig\nsiehe Ausgabe #383: optionale Parameter zum HTTP-Aufruf hinzufügen",
+        "ru": "миграции в jsonConfig\n#383: добавить дополнительные параметры к HTTP-звонку",
+        "pt": "migração para jsonConfig\nveja o problema #383: adicione parâmetros opcionalmente à chamada HTTP",
+        "nl": "migratie naar jsonConfig\nzie probleem #383: voeg optioneel parameters toe aan HTTP-aanroep",
+        "fr": "migration vers jsonConfig\nvoir le numéro #383: ajouter optionnellement des paramètres à l'appel HTTP",
+        "it": "migrazione a jsonConfig\nvedi numero #383: aggiungi parametri opzionalmente alla chiamata HTTP",
+        "es": "migración a jsonConfig\nver número #383: añadir parámetros opcionalmente a la llamada HTTP",
+        "pl": "migracja do jsonConfig\nzobacz numer # 383: dodać opcjonalne parametry do wywołania HTTP",
+        "uk": "міграції в jsonConfig\nпереглянути номер #383: додавати додаткові параметри до HTTP виклику",
+        "zh-cn": "迁移到 jsonConfig\n参见第383期: 在 HTTP 调用中添加可选参数"
+      },
       "3.3.8": {
         "en": "update dependencies\nissue  #381: install widgets again",
         "de": "aktualisierung der abhängigkeiten\nausgabe #381: widgets erneut installieren",
@@ -80,19 +93,6 @@
         "pl": "obniżenie wartości \"socket-socket\" do 7.0.0",
         "uk": "до 7.0.0",
         "zh-cn": "将\"承诺-口袋\"降级为7.0.0"
-      },
-      "3.3.2": {
-        "en": "(René) see issue #338: due to error in ebusd json no data are parsed",
-        "de": "(René) siehe Ausgabe #338: Durch Fehler in ebusd json werden keine Daten pariert",
-        "ru": "(René) см. вопрос #338: из-за ошибки в ebusd json никакие данные не спариваются",
-        "pt": "(René) veja a edição #338: devido ao erro no ebusd json nenhum dado é analisado",
-        "nl": "(René) zie probleem #338: als gevolg van fout in ebusd json geen gegevens worden ontleed",
-        "fr": "(René) voir le numéro 338 : en raison d'une erreur dans ebusd json aucune donnée n'est analysée",
-        "it": "(René) vedi problema #338: a causa di errore in ebusd json non vengono analizzati dati",
-        "es": "(René) ver el número #338: debido al error en ebusd json no se analizan los datos",
-        "pl": "(René) see issue # 338: due to error in ebudd json no data are parsed",
-        "uk": "(René) див. питання #338: через помилку в ebusd json немає даних",
-        "zh-cn": "(René)参见第338期:由于ebusd json中的错误,没有解析数据"
       }
     },
     "titleLang": {
