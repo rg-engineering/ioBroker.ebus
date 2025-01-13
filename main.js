@@ -194,36 +194,44 @@ async function DataRequest() {
 const oPolledVars = [];
 function FillPolledVars() {
 
-    if ( adapter.config.PolledDPs !== undefined && adapter.config.PolledDPs != null && adapter.config.PolledDPs.length > 0) {
-        adapter.log.debug("use new object list for polled vars");
+    try {
+        if (adapter.config.PolledDPs !== undefined && adapter.config.PolledDPs != null && adapter.config.PolledDPs.length > 0) {
+            adapter.log.debug("use new object list for polled vars");
 
-        //2023-02-10 only active vars
-        for (let i = 0; i < adapter.config.PolledDPs.length; i++) {
-            if (adapter.config.PolledDPs[i].active) {
-                oPolledVars.push(adapter.config.PolledDPs[i]);
+            //2023-02-10 only active vars
+            for (let i = 0; i < adapter.config.PolledDPs.length; i++) {
+                if (adapter.config.PolledDPs[i].active) {
+                    oPolledVars.push(adapter.config.PolledDPs[i]);
+                }
             }
+
         }
-        
-    }
-    else {
-        //make it compatible to old versions
-        adapter.log.debug("check old comma separeted list for polled vars");
-        const oPolled = adapter.config.PolledValues.split(",");
+        else {
+            //make it compatible to old versions
+            adapter.log.debug("check old comma separeted list for polled vars " + adapter.config.PolledValues);
 
-        if (oPolled.length > 0) {
+            if (adapter.config.PolledValues !== undefined && typeof adapter.config.PolledValues == "string") {
+                const oPolled = adapter.config.PolledValues.split(",");
 
-            for (let i = 0; i < oPolled.length; i++) {
-                if (oPolled[i].length > 0) {
-                    //console.log('add ' + oPolled[i]);
-                    const value = {
-                        circuit: "",
-                        name: oPolled[i],
-                        parameter: ""
-                    };
-                    oPolledVars.push(value);
+                if (oPolled.length > 0) {
+
+                    for (let i = 0; i < oPolled.length; i++) {
+                        if (oPolled[i].length > 0) {
+                            //console.log('add ' + oPolled[i]);
+                            const value = {
+                                circuit: "",
+                                name: oPolled[i],
+                                parameter: ""
+                            };
+                            oPolledVars.push(value);
+                        }
+                    }
                 }
             }
         }
+    }
+    catch (e) {
+        adapter.log.error("exception in FillPolledVars [" + e + "]");
     }
 
     adapter.log.info("list of polled vars " + JSON.stringify(oPolledVars));
@@ -232,28 +240,33 @@ function FillPolledVars() {
 
 let oHistoryVars = [];
 function FillHistoryVars() {
-    
-    if (adapter.config.HistoryDPs !== undefined && adapter.config.HistoryDPs != null && adapter.config.HistoryDPs.length > 0) {
-        adapter.log.debug("use new object list for history vars");
-        oHistoryVars = adapter.config.HistoryDPs;
-    }
-    else {
-        //make it compatible to old versions
-        adapter.log.debug("check old comma separeted list for history vars");
-        const oHistory = adapter.config.HistoryValues.split(",");
 
-        if (oHistory.length > 0) {
+    try {
+        if (adapter.config.HistoryDPs !== undefined && adapter.config.HistoryDPs != null && adapter.config.HistoryDPs.length > 0) {
+            adapter.log.debug("use new object list for history vars");
+            oHistoryVars = adapter.config.HistoryDPs;
+        }
+        else {
+            //make it compatible to old versions
+            adapter.log.debug("check old comma separeted list for history vars");
+            const oHistory = adapter.config.HistoryValues.split(",");
 
-            for (let i = 0; i < oHistory.length; i++) {
-                if (oHistory[i].length > 0) {
-                    console.log("add " + oHistory[i]);
-                    const value = {
-                        name: oHistory[i],
-                    };
-                    oHistoryVars.push(value);
+            if (oHistory.length > 0) {
+
+                for (let i = 0; i < oHistory.length; i++) {
+                    if (oHistory[i].length > 0) {
+                        console.log("add " + oHistory[i]);
+                        const value = {
+                            name: oHistory[i],
+                        };
+                        oHistoryVars.push(value);
+                    }
                 }
             }
         }
+    }
+    catch (e) {
+        adapter.log.error("exception in function FillHistoryVars [" + e + "]");
     }
 }
 
