@@ -1,5 +1,7 @@
 {
     "Circuit4Find": "Circuito in cui vengono cercati i parametri",
+    "DisableTimeUpdateCheck": "Disabilita Time Aggiornamento Aggiornamento",
+    "DisableTimeUpdateCheckHelp": "utilizzato per evitare avvisi indesiderati nel registro relativi a punti dati non aggiornati",
     "History4Vis2": "Crea un valore di cronologia per il widget VIS-2",
     "Main settings": "Impostazioni principali",
     "active": "attivo",

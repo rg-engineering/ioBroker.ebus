@@ -1,5 +1,7 @@
 {
     "Circuit4Find": "Circuit in which parameters are searched ",
+    "DisableTimeUpdateCheck": "Disable Time Update Check",
+    "DisableTimeUpdateCheckHelp": "used to avoid unwanted warnings in log about unupdated data points",
     "History4Vis2": "compatibility to history value for (new) VIS-2 widget",
     "Main settings": "Main settings",
     "active": "active",

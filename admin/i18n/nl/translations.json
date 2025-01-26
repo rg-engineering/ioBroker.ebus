@@ -1,5 +1,7 @@
 {
     "Circuit4Find": "Circuit waarin parameters worden gezocht",
+    "DisableTimeUpdateCheck": "Schakel Tijdupdatecontrole uit",
+    "DisableTimeUpdateCheckHelp": "gebruikt om ongewenste waarschuwingen in het logboek over niet-bijgewerkte gegevenspunten te voorkomen",
     "History4Vis2": "Creëer geschiedeniswaarde voor VIS-2 widget",
     "Main settings": "Belangrijkste instellingen",
     "active": "actief",

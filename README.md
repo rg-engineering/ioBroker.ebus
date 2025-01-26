@@ -72,6 +72,7 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
 
 ### **WORK IN PROGRESS**
 * (René) catch exceptions reportet by sentry
+* (René) option to disable check of last update time (see issue #391)
 
 ### 3.4.0 (2024-12-10)
 * (René) migration to jsonConfig

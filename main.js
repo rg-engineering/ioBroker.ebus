@@ -679,6 +679,12 @@ async function ebusd_ReceiveData() {
 
     adapter.log.debug("request data from " + sUrl);
 
+    if (adapter.config.DisableTimeUpdateCheck === undefined) {
+        adapter.log.error("please check config, DisableTimeUpdateCheck not defined yet ");
+    }
+
+
+
     try {
 
         const buffer = await axios.get(sUrl);
@@ -883,7 +889,8 @@ async function ebusd_ReceiveData() {
                     if (subnames[0].includes("scan") ||
                         subnames[0].includes("Scan") ||
                         subnames[0].includes("ehp") ||
-                        (subnames.length > 2 && subnames[2].includes("currenterror"))
+                        (subnames.length > 2 && subnames[2].includes("currenterror")) ||
+                        adapter.config.DisableTimeUpdateCheck
 
                     ) {
                         bSkip = true;

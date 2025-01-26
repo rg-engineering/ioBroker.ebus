@@ -1,5 +1,7 @@
 {
     "Circuit4Find": "Circuit dans lequel les paramètres sont recherchés",
+    "DisableTimeUpdateCheck": "Désactiver le chèque de mise à jour du temps",
+    "DisableTimeUpdateCheckHelp": "Utilisé pour éviter les avertissements indésirables dans le journal sur les points de données unpudés",
     "History4Vis2": "Créer une valeur historique pour le widget VIS-2",
     "Main settings": "Paramètres principaux",
     "active": "actif",

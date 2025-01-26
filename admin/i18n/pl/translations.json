@@ -1,5 +1,7 @@
 {
     "Circuit4Find": "Obwód, w którym szukane są parametry",
+    "DisableTimeUpdateCheck": "Wyłącz sprawdzanie aktualizacji czasu",
+    "DisableTimeUpdateCheckHelp": "używany do uniknięcia niechcianych ostrzeżeń w dzienniku o nieaktualizowanych punktach danych",
     "History4Vis2": "Utwórz wartość historii dla widżetu VIS-2",
     "Main settings": "Główne ustawienia",
     "active": "aktywny",

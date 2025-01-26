@@ -1,5 +1,7 @@
 {
     "Circuit4Find": "Gerät, in dem nach Parametern gesucht wird",
+    "DisableTimeUpdateCheck": "Zeit der letzten Aktualisierung nicht prüfen",
+    "DisableTimeUpdateCheckHelp": "Wird verwendet, um unerwünschte Warnungen im Protokoll über nicht aktualisierte Datenpunkten zu vermeiden",
     "History4Vis2": "Kompatibilität der Verlaufswerte für das (neue) VIS-2-Widget",
     "Main settings": "Allgemeine Einstellungen",
     "active": "aktiv",

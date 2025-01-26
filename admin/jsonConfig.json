@@ -45,6 +45,18 @@
           "lg": 4,
           "xl": 4
         },
+        "DisableTimeUpdateCheck": {
+          "newLine": true,
+          "type": "checkbox",
+          "label": "DisableTimeUpdateCheck",
+          "help": "DisableTimeUpdateCheckHelp",
+          "default": false,
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
         "History4Vis2": {
           "newLine": true,
           "type": "checkbox",

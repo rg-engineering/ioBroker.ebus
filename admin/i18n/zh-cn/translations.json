@@ -1,5 +1,7 @@
 {
     "Circuit4Find": "搜索参数的电路",
+    "DisableTimeUpdateCheck": "禁用时间更新检查",
+    "DisableTimeUpdateCheckHelp": "用于避免日志中出现有关未更新数据点的不必要的警告",
     "History4Vis2": "为 VIS-2 小部件创建历史值",
     "Main settings": "主要设置",
     "active": "积极的",
