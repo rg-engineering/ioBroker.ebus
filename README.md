@@ -69,8 +69,7 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 3.5.0 (2025-01-27)
 * (René) catch exceptions reportet by sentry
 * (René) option to disable check of last update time (see issue #391)
 

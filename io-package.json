@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.4.0",
+    "version": "3.5.0",
     "news": {
+      "3.5.0": {
+        "en": "catch exceptions reportet by sentry\noption to disable check of last update time (see issue #391)",
+        "de": "fangausnahmen reportet by sentry\noption zum deaktivieren der letzten aktualisierungszeit (siehe ausgabe #391)",
+        "ru": "репортаж об исключениях улова\nвозможность отключить проверку последнего времени обновления (см. вопрос #391)",
+        "pt": "captura exceções relatório por sentinela\nopção para desativar a verificação do último tempo de atualização (veja a edição #391)",
+        "nl": "vangstuitzonderingen verslaget door de wacht\noptie om controle van de laatste updatetijd uit te schakelen (zie probleem #391)",
+        "fr": "déclaration des exceptions de capture par sentinelle\noption pour désactiver la vérification de la dernière mise à jour (voir le numéro #391)",
+        "it": "cattura le eccezioni reportet da mittente\nopzione per disabilitare il controllo dell'ultimo aggiornamento (vedere numero #391)",
+        "es": "catch exceptions reportet by centry\nopción para desactivar el cheque de la última hora de actualización (ver número #391)",
+        "pl": "połowów wyjątków reportet przez wartownik\nopcja wyłączenia sprawdzania czasu ostatniej aktualizacji (patrz numer # 391)",
+        "uk": "виняток винятку по відправці\nможливість відключити перевірку останнього часу оновлення (див. проблему #391)",
+        "zh-cn": "按哨兵分列的渔获量例外报告\n选项以禁用上次更新时间的检查(见第391期)"
+      },
       "3.4.0": {
         "en": "migration to jsonConfig\nsee issue #383: add optionally parameters to HTTP call",
         "de": "migration nach jsonConfig\nsiehe Ausgabe #383: optionale Parameter zum HTTP-Aufruf hinzufügen",
@@ -80,19 +93,6 @@
         "pl": "naprawianie błędów po aktualizacji 3.3.2",
         "uk": "виправлення помилок після 3.3.2 оновлення",
         "zh-cn": "3.3.2 更新后修复错误"
-      },
-      "3.3.3": {
-        "en": "downgrade of \"promise-socket\" to 7.0.0",
-        "de": "downgrade von \"promise-socket\" bis 7.0.0",
-        "ru": "понижение «промиза-сокет» до 7.0.0",
-        "pt": "downgrade de \"promise-socket\" para 7.0.0",
-        "nl": "downgrade van \"belofte-zak\" naar 7.0.0",
-        "fr": "downgrade de \"promise-socket\" à 7.0.0",
-        "it": "downgrade di \"promise-socket\" a 7.0.0",
-        "es": "bajada de \"promise-socket\" a 7.0.0",
-        "pl": "obniżenie wartości \"socket-socket\" do 7.0.0",
-        "uk": "до 7.0.0",
-        "zh-cn": "将\"承诺-口袋\"降级为7.0.0"
       }
     },
     "titleLang": {
