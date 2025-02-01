@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.5.0",
+    "version": "3.5.1",
     "news": {
+      "3.5.1": {
+        "en": "translations",
+        "de": "übersetzungen",
+        "ru": "перевод",
+        "pt": "traduções",
+        "nl": "vertalingen",
+        "fr": "traductions",
+        "it": "traduzioni",
+        "es": "traducciones",
+        "pl": "tłumaczenia",
+        "uk": "переклади",
+        "zh-cn": "翻译"
+      },
       "3.5.0": {
         "en": "catch exceptions reportet by sentry\noption to disable check of last update time (see issue #391)",
         "de": "Ausnahmen reportet by sentry\noption zum deaktivieren der letzten aktualisierungszeit (siehe ausgabe #391)",
@@ -80,19 +93,6 @@
         "pl": "aktualizacji zależności\npoprawki błędów oparte na rekomendacji sprawdzania adaptera",
         "uk": "оновлення залежності\nвиправлення помилок на основі рекомендації адаптера",
         "zh-cn": "更新依赖关系\n根据适配器检查器建议修正错误"
-      },
-      "3.3.4": {
-        "en": "bug fix after 3.3.2 update",
-        "de": "fehlerbehebung nach 3.3.2 update",
-        "ru": "исправление ошибок после обновления 3.3.2",
-        "pt": "correção de bugs após 3.3.2 atualização",
-        "nl": "foutherstel na 3.3.2 update",
-        "fr": "correction du bug après la mise à jour 3.3.2",
-        "it": "correzione bug dopo l'aggiornamento 3.3.2",
-        "es": "corrección de errores después de la actualización 3.3.2",
-        "pl": "naprawianie błędów po aktualizacji 3.3.2",
-        "uk": "виправлення помилок після 3.3.2 оновлення",
-        "zh-cn": "3.3.2 更新后修复错误"
       }
     },
     "titleLang": {
