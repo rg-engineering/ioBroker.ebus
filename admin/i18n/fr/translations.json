@@ -3,6 +3,8 @@
     "DisableTimeUpdateCheck": "Désactiver le chèque de mise à jour du temps",
     "DisableTimeUpdateCheckHelp": "Utilisé pour éviter les avertissements indésirables dans le journal sur les points de données unpudés",
     "History4Vis2": "Créer une valeur historique pour le widget VIS-2",
+    "History4Vis2_help": "Si vous utilisez le nouveau Vis-2 et le widget de diagramme général dans les intempéries et la chaleur-Widgets",
+    "IP of system where ebusd runs": "IP du système où EBUSD fonctionne",
     "Main settings": "Paramètres principaux",
     "active": "actif",
     "addParameter": "paramètre supplémentaire",
@@ -39,5 +41,6 @@
     "target_HTTPPort": "Port HTTP cible pour lire les données",
     "target_IP": "cible IP",
     "target_TelnetPort": "Port telnet cible pour écrire des données",
-    "useBoolean4Onoff": "utiliser une chaîne booléenne à la place pour les points de données avec des valeurs activées/désactivées"
+    "useBoolean4Onoff": "utiliser une chaîne booléenne à la place pour les points de données avec des valeurs activées/désactivées",
+    "useBoolean4Onoff_help": "Cela modifie la valeur de chaîne d'origine en un type booléen"
 }

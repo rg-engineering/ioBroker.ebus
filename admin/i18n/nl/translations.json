@@ -3,6 +3,8 @@
     "DisableTimeUpdateCheck": "Schakel Tijdupdatecontrole uit",
     "DisableTimeUpdateCheckHelp": "gebruikt om ongewenste waarschuwingen in het logboek over niet-bijgewerkte gegevenspunten te voorkomen",
     "History4Vis2": "Creëer geschiedeniswaarde voor VIS-2 widget",
+    "History4Vis2_help": "Als u de nieuwe VIS-2 en de algemene diagramwidget gebruikt in weers-en-verwarmingsbidgets",
+    "IP of system where ebusd runs": "IP van systeem waar EBUSD loopt",
     "Main settings": "Belangrijkste instellingen",
     "active": "actief",
     "addParameter": "extra parameter",
@@ -39,5 +41,6 @@
     "target_HTTPPort": "doel HTTP-poort om gegevens te lezen",
     "target_IP": "doel-IP",
     "target_TelnetPort": "doel telnet-poort om gegevens te schrijven",
-    "useBoolean4Onoff": "gebruik in plaats daarvan booleaanse string voor datapunten met aan/uit-waarden"
+    "useBoolean4Onoff": "gebruik in plaats daarvan booleaanse string voor datapunten met aan/uit-waarden",
+    "useBoolean4Onoff_help": "Dit verandert de originele tekenreekswaarde in een Booleaans type"
 }

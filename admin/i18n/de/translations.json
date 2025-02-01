@@ -3,6 +3,8 @@
     "DisableTimeUpdateCheck": "Zeit der letzten Aktualisierung nicht prüfen",
     "DisableTimeUpdateCheckHelp": "Wird verwendet, um unerwünschte Warnungen im Protokoll über nicht aktualisierte Datenpunkten zu vermeiden",
     "History4Vis2": "Kompatibilität der Verlaufswerte für das (neue) VIS-2-Widget",
+    "History4Vis2_help": "Wenn Sie das neue Vis-2 und das allgemeine Diagramm-Widget in Wetter- und Heizwidgets verwenden",
+    "IP of system where ebusd runs": "IP des Systems, bei dem EBUSD ausgeführt wird",
     "Main settings": "Allgemeine Einstellungen",
     "active": "aktiv",
     "addParameter": "zusätzliche Parameter",
@@ -39,5 +41,6 @@
     "target_HTTPPort": "HTTP Port zum Lesen von Daten",
     "target_IP": "IP-Adresse",
     "target_TelnetPort": "TCP (Telnet) Port zum Schreiben von Daten",
-    "useBoolean4Onoff": "Boolean anstelle Strings für Datenpunkte mit Ein-/Aus-Werten verwenden"
+    "useBoolean4Onoff": "Boolean anstelle Strings für Datenpunkte mit Ein-/Aus-Werten verwenden",
+    "useBoolean4Onoff_help": "Dies ändert den ursprünglichen String-Wert in einen Booleschen Typ"
 }

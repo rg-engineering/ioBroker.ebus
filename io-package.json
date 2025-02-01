@@ -5,7 +5,7 @@
     "news": {
       "3.5.0": {
         "en": "catch exceptions reportet by sentry\noption to disable check of last update time (see issue #391)",
-        "de": "fangausnahmen reportet by sentry\noption zum deaktivieren der letzten aktualisierungszeit (siehe ausgabe #391)",
+        "de": "Ausnahmen reportet by sentry\noption zum deaktivieren der letzten aktualisierungszeit (siehe ausgabe #391)",
         "ru": "репортаж об исключениях улова\nвозможность отключить проверку последнего времени обновления (см. вопрос #391)",
         "pt": "captura exceções relatório por sentinela\nopção para desativar a verificação do último tempo de atualização (veja a edição #391)",
         "nl": "vangstuitzonderingen verslaget door de wacht\noptie om controle van de laatste updatetijd uit te schakelen (zie probleem #391)",
@@ -18,7 +18,7 @@
       },
       "3.4.0": {
         "en": "migration to jsonConfig\nsee issue #383: add optionally parameters to HTTP call",
-        "de": "migration nach jsonConfig\nsiehe Ausgabe #383: optionale Parameter zum HTTP-Aufruf hinzufügen",
+        "de": "Migration nach jsonConfig\nsiehe Ausgabe #383: optionale Parameter zum HTTP-Aufruf hinzufügen",
         "ru": "миграции в jsonConfig\n#383: добавить дополнительные параметры к HTTP-звонку",
         "pt": "migração para jsonConfig\nveja o problema #383: adicione parâmetros opcionalmente à chamada HTTP",
         "nl": "migratie naar jsonConfig\nzie probleem #383: voeg optioneel parameters toe aan HTTP-aanroep",
@@ -31,7 +31,7 @@
       },
       "3.3.8": {
         "en": "update dependencies\nissue  #381: install widgets again",
-        "de": "aktualisierung der abhängigkeiten\nausgabe #381: widgets erneut installieren",
+        "de": "aktualisierung der Abhängigkeiten\nausgabe #381: widgets erneut installieren",
         "ru": "обновление зависимостей\n#381: установить виджеты снова",
         "pt": "dependências\nproblema #381: instalar widgets novamente",
         "nl": "afhankelijkheden bijwerken\nprobleem #381: opnieuw widgets installeren",

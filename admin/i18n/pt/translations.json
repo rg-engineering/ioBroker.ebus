@@ -3,6 +3,8 @@
     "DisableTimeUpdateCheck": "Desativar verificação de atualização de horário",
     "DisableTimeUpdateCheckHelp": "Usado para evitar avisos indesejados no log sobre pontos de dados não legais",
     "History4Vis2": "Criar valor histórico para o widget VIS-2",
+    "History4Vis2_help": "Se você usar o novo widget Vis-2 e o diagrama geral em Widgets climáticos e de aquecimento",
+    "IP of system where ebusd runs": "IP do sistema onde o EBUSD funciona",
     "Main settings": "Configurações principais",
     "active": "ativo",
     "addParameter": "parâmetro adicional",
@@ -39,5 +41,6 @@
     "target_HTTPPort": "porta HTTP de destino para ler dados",
     "target_IP": "IP alvo",
     "target_TelnetPort": "destino telnet porta para escrever dados",
-    "useBoolean4Onoff": "use booleano em vez de string para pontos de dados com valores on / off"
+    "useBoolean4Onoff": "use booleano em vez de string para pontos de dados com valores on / off",
+    "useBoolean4Onoff_help": "Isso muda o valor original da string para um tipo booleano"
 }

@@ -3,6 +3,8 @@
     "DisableTimeUpdateCheck": "禁用时间更新检查",
     "DisableTimeUpdateCheckHelp": "用于避免日志中出现有关未更新数据点的不必要的警告",
     "History4Vis2": "为 VIS-2 小部件创建历史值",
+    "History4Vis2_help": "如果您在天气和加热范围内使用新的Vis-2和一般图小部件",
+    "IP of system where ebusd runs": "EBUSD运行的系统的IP",
     "Main settings": "主要设置",
     "active": "积极的",
     "addParameter": "附加参数",
@@ -39,5 +41,6 @@
     "target_HTTPPort": "目标HTTP端口以读取数据",
     "target_IP": "目标IP",
     "target_TelnetPort": "目标telnet用于写入数据的端口",
-    "useBoolean4Onoff": "对具有开/关值的数据点使用布尔值代替字符串"
+    "useBoolean4Onoff": "对具有开/关值的数据点使用布尔值代替字符串",
+    "useBoolean4Onoff_help": "这将原始字符串值更改为布尔类型"
 }
