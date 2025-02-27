@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.5.1",
+    "version": "3.5.2",
     "news": {
+      "3.5.2": {
+        "en": "changes requested by adapter checker\ndependencies updated",
+        "de": "änderungen, die von adapter checker angefordert werden\naktualisierte abhängigkeiten",
+        "ru": "изменения, запрошенные adapter checker\nобновленные зависимости",
+        "pt": "alterações solicitadas pelo verificador do adaptador\ndependências atualizadas",
+        "nl": "wijzigingen gevraagd door adaptercontrole\nafhankelijkheden bijgewerkt",
+        "fr": "modifications demandées par l'adaptateur checker\ndépendances mises à jour",
+        "it": "modifiche richieste da adattatore checker\ndipendenze aggiornate",
+        "es": "cambios solicitados por el adaptador\ndependencias actualizadas",
+        "pl": "zmiany wymagane przez sprawdzacz adaptera\nzaktualizowane zależności",
+        "uk": "зміни, які вимагаються перевіркою адаптера\nоновлені залежності",
+        "zh-cn": "适配器检查器要求的更改\n更新依赖关系"
+      },
       "3.5.1": {
         "en": "translations",
         "de": "übersetzungen",
@@ -80,19 +93,6 @@
         "pl": "obniżenie wartości \"socket-socket\" do 7.0.0",
         "uk": "до 7.0.0",
         "zh-cn": "将\"承诺-口袋\"降级为7.0.0"
-      },
-      "3.3.5": {
-        "en": "update dependencies\nbug fixes based on adapter checker recommendation",
-        "de": "aktualisierung der abhängigkeiten\nfehlerbehebungen basierend auf adapter-checker empfehlung",
-        "ru": "обновление зависимостей\nисправления ошибок на основе рекомендации адаптера",
-        "pt": "dependências\ncorreções de bugs com base na recomendação do verificador do adaptador",
-        "nl": "afhankelijkheden bijwerken\nbug fixes op basis van adaptercontrole aanbeveling",
-        "fr": "mettre à jour les dépendances\ncorrection des bugs en fonction de la recommandation du vérificateur d'adaptateur",
-        "it": "aggiornamento dipendenze\ncorrezioni di bug in base alla raccomandazione dell'adattatore checker",
-        "es": "dependencias de actualización\ncorrecciones de errores basado en la recomendación de control de adaptador",
-        "pl": "aktualizacji zależności\npoprawki błędów oparte na rekomendacji sprawdzania adaptera",
-        "uk": "оновлення залежності\nвиправлення помилок на основі рекомендації адаптера",
-        "zh-cn": "更新依赖关系\n根据适配器检查器建议修正错误"
       }
     },
     "titleLang": {
