@@ -1,6 +1,9 @@
 {
   "type": "tabs",
   "i18n": true,
+  "tabsStyle": {
+    "width": "calc(100% - 100px)"
+  },
   "items": {
     "tab-main": {
       "type": "panel",
@@ -17,6 +20,184 @@
           "lg": 1.2,
           "xl": 1.2
         },
+
+        "InstallUpdatehdr": {
+          "type": "header",
+          "text": "Update hint",
+          "size": 2
+        },
+
+        "checkCurrentVersion": {
+          "type": "checkbox",
+          "newLine": true,
+          "hidden": true,
+          "xs": 1,
+          "sm": 1,
+          "md": 1,
+          "lg": 1,
+          "xl": 1
+        },
+        "currentversiontxt": {
+          "type": "staticText",
+          "newLine": true,
+          "text": "current installed version",
+          "xs": 2,
+          "sm": 2,
+          "md": 2,
+          "lg": 2,
+          "xl": 2
+        },
+
+        "currentversion": {
+          "type": "textSendTo",
+          "label": "current istalled ebusd version",
+          "command": "checkCurrentVersion",
+          "jsonData": "{\"test\": \"aaa\", \"test2\": \"bbb\" }",
+          "alsoDependsOn": [ "checkCurrentVersion" ],
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4,
+          "xl": 4
+
+        },
+
+        "checkInstallableversion": {
+          "type": "checkbox",
+          "newLine": true,
+          "hidden": true,
+          "xs": 1,
+          "sm": 1,
+          "md": 1,
+          "lg": 1,
+          "xl": 1
+        },
+        "installableversiontxt": {
+          "type": "staticText",
+          "newLine": true,
+          "text": "available version",
+          "xs": 2,
+          "sm": 2,
+          "md": 2,
+          "lg": 2,
+          "xl": 2
+        },
+        "installableversion": {
+          "type": "textSendTo",
+          "label": "available version",
+          "command": "checkInstallableversion",
+          "jsonData": "{\"test\": \"aaa\", \"test2\": \"bbb\" }",
+          "alsoDependsOn": [ "checkInstallableversion" ],
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4,
+          "xl": 4
+
+        },
+
+
+        "checkSupportedversion": {
+          "type": "checkbox",
+          "newLine": true,
+          "hidden": true,
+          "xs": 1,
+          "sm": 1,
+          "md": 1,
+          "lg": 1,
+          "xl": 1
+        },
+        "supportedversiontxt": {
+          "type": "staticText",
+          "newLine": true,
+          "text": "supported version",
+          "xs": 2,
+          "sm": 2,
+          "md": 2,
+          "lg": 2,
+          "xl": 2
+        },
+        "supportedversion": {
+          "type": "textSendTo",
+          "label": "supported version",
+          "command": "checkSupportedVersion",
+          "jsonData": "{\"test\": \"aaa\", \"test2\": \"bbb\" }",
+          "alsoDependsOn": [ "checkSupportedversion" ],
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4,
+          "xl": 4
+
+        },
+
+        "updatehint": {
+          "type": "staticText",
+          "label": "please update your ebusd, follow instructions on link below",
+          "hidden": "if (data.currentversion == data.supportedversion) return true;",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4,
+          "xl": 4,
+          "newLine": true
+        },
+
+        //just a link
+        "EbusReadme": {
+          "type": "staticLink",
+          "text": "link to ebusd wiki with installation instruction",
+          "href": "https://github.com/john30/ebusd/wiki/1.-Build-and-install",
+          "button": true,
+          "icon": "info",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4,
+          "xl": 4
+        } ,
+        //für debian based systeme
+        /*
+        "ebusdhintinstallUpdate": {
+          "type": "staticText",
+          "text": "hint_ebusd_installupdate",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        } ,
+        */
+        /* "Install": {
+          "type": "sendTo",
+         "command": "Install",
+          "label": "InstallBtn",
+          "tooltip": "InstallBtnHint",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        },
+        "Update": {
+          "type": "sendTo",
+          "command": "Update",
+          "label": "UpdateBtn",
+          "tooltip": "UpdateBtnHint",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        }
+  */
+      
+
+
 
         "dividerHdr1": {
           "newLine": true,
@@ -249,7 +430,7 @@
 
 
       }
-      },
+    },
     "tab-polledDP": {
       "type": "panel",
       "label": "page_polledDP",
@@ -357,7 +538,7 @@
         }
       }
     },
-    "HistoryDPs": {
+    "tab-HistoryDPs": {
       "type": "panel",
       "label": "page_historyDP",
       "items": {
@@ -402,6 +583,13 @@
           ]
         }
       }
-    }
+    },
+   // "tab-Install": {
+   //   "type": "panel",
+   //   "label": "page_InstallUpdate",
+   //   "items": {
+
+   //   }
+   // }
   }
 }

@@ -37,6 +37,7 @@
     "@iobroker/adapter-dev": "^1.4.0",
     "@iobroker/testing": "^5.0.3",
     "chai": "^5.2.0",
+    "eslint": "^9.27.0",
     "mocha": "^11.1.0"
   },
   "main": "main.js",

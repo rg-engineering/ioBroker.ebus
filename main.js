@@ -15,6 +15,12 @@
 
 
 const utils = require("@iobroker/adapter-core");
+const os = require('os');
+const { exec } = require("child_process");
+const { spawn } = require("child_process")
+const fs = require('fs');
+const path = require('path');
+
 const ebusdMinVersion = [24, 1];
 const ebusdVersion = [0, 0];
 const ebusdUpdateVersion = [0, 0];
@@ -63,10 +69,25 @@ function startAdapter(options) {
             if (obj) {
                 switch (obj.command) {
                     case "findParams":
-                        // e.g. send email or pushover or whatever
-                        //adapter.log.debug("findParams command");
-                        // Send response in callback if required
+                        adapter.log.debug("message FindParams called");
                         await FindParams(obj);
+                        break;
+                    case "Install":
+                        adapter.log.debug("message install called");
+                        await CallExternalScript("InstallEbusd.sh", obj);
+                        break;
+                    case "Update":
+                        adapter.log.debug("message update called");
+                        await CallExternalScript("UpdateEbusd.sh", obj);
+                        break;
+                    case "checkInstallableversion":
+                        await CheckVersion("installable", obj);
+                        break;
+                    case "checkCurrentVersion":
+                        await CheckVersion("current", obj);
+                        break;
+                    case "checkSupportedVersion":
+                        await CheckVersion("supported", obj);
                         break;
                     default:
                         adapter.log.error("unknown message " + obj.command);
@@ -1408,6 +1429,130 @@ async function FindParams(obj) {
 
 
     adapter.sendTo(obj.from, obj.command, list, obj.callback);
+}
+
+
+async function CallExternalScript(script, msg) {
+
+
+
+    try {
+        if (os.platform() == "linux") {
+            //const cmd = spawn("ls", ["-la"]);
+
+            adapter.log.info("we are on linux " );
+
+            const folderName = path.join(__dirname, '..', 'iobroker.ebus', 'lib', 'scripts');
+
+
+            if (!fs.existsSync(folderName)) {
+
+                adapter.log.info("folder doesnt exists " + folderName);
+
+                adapter.sendTo(msg.from, msg.command, { error: 'script folder not found ' + folderName }, msg.callback);
+                return;
+            }
+            else {
+
+                adapter.log.info("folder exists " + folderName);
+
+                const scriptfile = path.join(folderName , script);
+                const stats = await fs.statSync(scriptfile);
+
+                if (!stats.isFile()) {
+
+                    adapter.log.info("file doenst exists " + scriptfile);
+
+                    adapter.sendTo(msg.from, msg.command, { error: 'script not found ' + scriptfile }, msg.callback);
+
+                    return;
+
+                }
+                else {
+
+                    adapter.log.info("file exists " + scriptfile);
+
+                    const cmd = spawn(scriptfile, [""]);
+
+                    cmd.stdout.on("data", data => {
+                        adapter.log.error(`stdout: ${data}`);
+                    });
+
+                    cmd.stderr.on("data", data => {
+                        adapter.log.error(`stderr: ${data}`);
+                    });
+
+                    cmd.on('error', (error) => {
+                        adapter.log.error(`error: ${error.message}`);
+                    });
+
+                    cmd.on("close", code => {
+                        adapter.log.error(`child process exited with code ${code}`);
+                        adapter.sendTo(msg.from, msg.command, {
+                            info: 'success '
+
+                        }, msg.callback);
+                    });
+                }
+            }
+        }
+        else {
+            adapter.sendTo(msg.from, msg.command, { error: 'possible only on Linux systems, this system is  ' + os.platform() }, msg.callback);
+        }
+    } catch (e) {
+        adapter.log.error("exception in CallExternalScript " + "[" + e + "]");
+
+        adapter.sendTo(msg.from, msg.command, { error: 'error  ' + e }, msg.callback);
+    }
+
+
+/*
+    try {
+        if (os.platform() == "linux") {
+
+
+            let cmd = "\\lib\\scripts\\" + script;
+
+            exec(cmd, (error, stdout, stderr) => {
+                if (error) {
+                    adapter.log.error(`error: ${error.message}`);
+                    adapter.sendTo(msg.from, msg.command, { error: 'error  ' + error.message }, msg.callback);
+                    return;
+                }
+                if (stderr) {
+                    adapter.log.error(`stderr: ${stderr}`);
+                    adapter.sendTo(msg.from, msg.command, { error: 'error  ' + stderr }, msg.callback);
+                    return;
+                }
+                adapter.log.info(`stdout: ${stdout}`);
+                adapter.sendTo(msg.from, msg.command, {
+                    info: 'success '
+
+                }, msg.callback);
+            });
+        }
+        else {
+            adapter.sendTo(msg.from, msg.command, { error: 'possible only on Linux systems, this system is  ' + os.platform() }, msg.callback);
+        }
+    } catch (e) {
+        adapter.log.error("exception in CallExternalScript " + "[" + e + "]");
+    }
+
+*/
+}
+
+async function CheckVersion(version, msg) {
+
+    if (version == "installable") {
+        adapter.sendTo(msg.from, msg.command, ebusdUpdateVersion[0] + "." + ebusdUpdateVersion[1], msg.callback);
+    }
+    else if (version == "current") {
+        adapter.sendTo(msg.from, msg.command, ebusdVersion[0] + "." + ebusdVersion[1], msg.callback);
+    }
+    else if (version == "supported") {
+        adapter.sendTo(msg.from, msg.command, ebusdMinVersion[0] + "." + ebusdMinVersion[1], msg.callback);
+    }
+
 }
 
 // If started as allInOne/compact mode => return function to create instance
