@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.5.2",
+    "version": "3.6.0",
     "news": {
+      "3.6.0": {
+        "en": "new supported ebusd version is 25.1\nversion info added in admin",
+        "de": "neue unterstützte ebusd version ist 25.1\nversion info in admin",
+        "ru": "новая поддерживаемая версия ebusd 25.1\nинформация о версии добавлена в admin",
+        "pt": "nova versão ebusd suportada é 25.1\nversão info adicionado em admin",
+        "nl": "nieuwe ondersteunde ebusd versie is 25.1\nversie info toegevoegd in admin",
+        "fr": "nouvelle version ebusd prise en charge est 25.1\nversion info ajoutée dans admin",
+        "it": "nuova versione ebusd supportata è 25.1\nversione info aggiunto in admin",
+        "es": "nueva versión electrónica soportada es 25.1\nversión info añadido en admin",
+        "pl": "nowa obsługiwana wersja ebusd to 25.1\ninformacje o wersji dodane w admin",
+        "uk": "нова підтримана версія ebusd 25.1\nдодано інформацію про версію в адмін",
+        "zh-cn": "新支持的ebusd版本为25.1\n在管理员中添加的版本信息"
+      },
       "3.5.2": {
         "en": "changes requested by adapter checker\ndependencies updated",
         "de": "änderungen, die von adapter checker angefordert werden\naktualisierte abhängigkeiten",
@@ -80,19 +93,6 @@
         "pl": "zobacz numer # 380: wsparcie ebusd 24.1, UWAGA: ebusd tworzy punkty danych ze zmienionymi nazwami, folderami lub w różnych lokalizacjach\nzobacz numer 371: test z nodejs @ 22",
         "uk": "див. питання #380: підтримка ebusd 24.1, УВАГА: ebusd створює точки даних з змінними іменами, папками або в різних місцях\nпереглянути номер #371: тест з nodejs@22",
         "zh-cn": "参见第380期:支持ebusd 24.1,注意:ebusd创建有更改名称,文件夹或不同位置的数据点\n参见第371期:带节点的测试@22"
-      },
-      "3.3.6": {
-        "en": "downgrade of \"promise-socket\" to 7.0.0",
-        "de": "downgrade von \"promise-socket\" bis 7.0.0",
-        "ru": "понижение «промиза-сокет» до 7.0.0",
-        "pt": "downgrade de \"promise-socket\" para 7.0.0",
-        "nl": "downgrade van \"belofte-zak\" naar 7.0.0",
-        "fr": "downgrade de \"promise-socket\" à 7.0.0",
-        "it": "downgrade di \"promise-socket\" a 7.0.0",
-        "es": "bajada de \"promise-socket\" a 7.0.0",
-        "pl": "obniżenie wartości \"socket-socket\" do 7.0.0",
-        "uk": "до 7.0.0",
-        "zh-cn": "将\"承诺-口袋\"降级为7.0.0"
       }
     },
     "titleLang": {
