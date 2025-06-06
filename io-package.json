@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.0",
+    "version": "3.6.1",
     "news": {
+      "3.6.1": {
+        "en": "changes suggested by adapter checker",
+        "de": "änderungen vorgeschlagen von adapter checker",
+        "ru": "изменения, предложенные adapter checker",
+        "pt": "alterações sugeridas pelo verificador do adaptador",
+        "nl": "wijzigingen voorgesteld door adaptercontrole",
+        "fr": "changements suggérés par l'adaptateur checker",
+        "it": "modifiche suggerite da adattatore checker",
+        "es": "cambios sugeridos por el adaptador",
+        "pl": "zmiany sugerowane przez sprawdzacz adaptera",
+        "uk": "зміни, запропоновані адаптером",
+        "zh-cn": "适配器检查器建议的更改"
+      },
       "3.6.0": {
         "en": "new supported ebusd version is 25.1\nversion info added in admin",
         "de": "neue unterstützte ebusd version ist 25.1\nversion info in admin",
@@ -80,19 +93,6 @@
         "pl": "aktualizacji zależności\nwydanie # 381: zainstalować widgety ponownie",
         "uk": "оновлення залежності\nproblem #381: встановити віджети знову",
         "zh-cn": "更新依赖关系\n第381期: 再次安装部件"
-      },
-      "3.3.7": {
-        "en": "see issue #380: support of ebusd 24.1, ATTENTION: ebusd creates datapoints with changed names, folders or in different locations\nsee issue #371: test with nodejs@22",
-        "de": "siehe Ausgabe #380: Unterstützung von ebusd 24.1, ATTENTION: ebusd erstellt Datenpunkte mit geänderten Namen, Ordnern oder an verschiedenen Standorten\nsiehe ausgabe #371: test mit nodejs@22",
-        "ru": "#380: поддержка ebusd 24.1, ATTENTION: ebusd создает точки данных с измененными именами, папками или в разных местах\n#371: тест с nodejs@22",
-        "pt": "veja a edição #380: suporte de ebusd 24.1, ATTENTION: ebusd cria datapoints com nomes alterados, pastas ou em diferentes locais\nveja a edição #371: teste com nodejs@22",
-        "nl": "zie nummer #380: ondersteuning van ebusd 24.1, ATTENTIE: ebusd creëert datapunten met gewijzigde namen, mappen of op verschillende locaties\nzie nummer #371: test met nodejs@22",
-        "fr": "voir le numéro 380: prise en charge de ebusd 24.1, ATTENTION: ebusd crée des points de données avec des noms modifiés, des dossiers ou à différents emplacements\nvoir numéro 371: test avec nodejs@22",
-        "it": "vedi numero 380: supporto di ebusd 24.1, ATTENZIONE: ebusd crea datapoint con nomi, cartelle o in diverse posizioni\nvedi numero 371: prova con nodejs@22",
-        "es": "ver número #380: soporte de ebusd 24.1, ATENCIÓN: ebusd crea puntos de datos con nombres, carpetas o en diferentes ubicaciones\nver número #371: prueba con nodejs@22",
-        "pl": "zobacz numer # 380: wsparcie ebusd 24.1, UWAGA: ebusd tworzy punkty danych ze zmienionymi nazwami, folderami lub w różnych lokalizacjach\nzobacz numer 371: test z nodejs @ 22",
-        "uk": "див. питання #380: підтримка ebusd 24.1, УВАГА: ebusd створює точки даних з змінними іменами, папками або в різних місцях\nпереглянути номер #371: тест з nodejs@22",
-        "zh-cn": "参见第380期:支持ebusd 24.1,注意:ebusd创建有更改名称,文件夹或不同位置的数据点\n参见第371期:带节点的测试@22"
       }
     },
     "titleLang": {
