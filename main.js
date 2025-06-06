@@ -21,7 +21,7 @@ const { spawn } = require("child_process")
 const fs = require('fs');
 const path = require('path');
 
-const ebusdMinVersion = [24, 1];
+const ebusdMinVersion = [25, 1];
 const ebusdVersion = [0, 0];
 const ebusdUpdateVersion = [0, 0];
 

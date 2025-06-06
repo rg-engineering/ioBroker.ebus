@@ -69,6 +69,11 @@ Attention: command in datapoint ebus.0.cmd is deleted after executing of command
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+* (René) new supported ebusd version is 25.1
+* (René) version info added in admin
+
 ### 3.5.2 (2025-02-27)
 * (René) changes requested by adapter checker
 * (René) dependencies updated

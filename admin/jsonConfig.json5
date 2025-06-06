@@ -131,17 +131,7 @@
 
         },
 
-        "updatehint": {
-          "type": "staticText",
-          "label": "please update your ebusd, follow instructions on link below",
-          "hidden": "if (data.currentversion == data.supportedversion) return true;",
-          "xs": 12,
-          "sm": 12,
-          "md": 6,
-          "lg": 4,
-          "xl": 4,
-          "newLine": true
-        },
+
 
         //just a link
         "EbusReadme": {
