@@ -27,21 +27,12 @@
           "size": 2
         },
 
-        "checkCurrentVersion": {
-          "type": "checkbox",
-          "newLine": true,
-          "hidden": true,
-          "xs": 1,
-          "sm": 1,
-          "md": 1,
-          "lg": 1,
-          "xl": 1
-        },
+        
         "currentversiontxt": {
           "type": "staticText",
           "newLine": true,
           "text": "current installed version",
-          "xs": 2,
+          "xs": 12,
           "sm": 2,
           "md": 2,
           "lg": 2,
@@ -62,21 +53,12 @@
 
         },
 
-        "checkInstallableversion": {
-          "type": "checkbox",
-          "newLine": true,
-          "hidden": true,
-          "xs": 1,
-          "sm": 1,
-          "md": 1,
-          "lg": 1,
-          "xl": 1
-        },
+        
         "installableversiontxt": {
           "type": "staticText",
           "newLine": true,
           "text": "available version",
-          "xs": 2,
+          "xs": 12,
           "sm": 2,
           "md": 2,
           "lg": 2,
@@ -97,21 +79,12 @@
         },
 
 
-        "checkSupportedversion": {
-          "type": "checkbox",
-          "newLine": true,
-          "hidden": true,
-          "xs": 1,
-          "sm": 1,
-          "md": 1,
-          "lg": 1,
-          "xl": 1
-        },
+        
         "supportedversiontxt": {
           "type": "staticText",
           "newLine": true,
           "text": "supported version",
-          "xs": 2,
+          "xs": 12,
           "sm": 2,
           "md": 2,
           "lg": 2,
