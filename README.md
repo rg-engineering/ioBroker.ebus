@@ -40,7 +40,6 @@ There is a possibillity to poll data which are not polled by ebusd directly. Com
 
 Another feature is to send any command to ebusd and receive answer to work with e.g. scripts.
 
-current supported ebusd-version: 23.2
 
 **Attention** with ebusd - version 22.1 config path has been changed to http://cfg.ebusd.eu/. Make sure you change it in your installation of ebusd.
 details see in [changelog](https://github.com/john30/ebusd/blob/master/ChangeLog.md)
@@ -58,6 +57,14 @@ example:
 2000, ERR: element not found, 10.5
 
 Attention: command in datapoint ebus.0.cmd is deleted after executing of command!
+
+
+## Installation / Update
+
+please follow installation instructions for ebusd under [wiki](https://github.com/john30/ebusd/wiki/1.-Build-and-install)
+
+
+in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts to install and update SBFspot on debian based systems.
 
 
 ## known issues
