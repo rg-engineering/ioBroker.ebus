@@ -267,7 +267,7 @@ function FillHistoryVars() {
             adapter.log.debug("use new object list for history vars");
             oHistoryVars = adapter.config.HistoryDPs;
         }
-        else {
+        else if (adapter.config.HistoryValues !== undefined && typeof adapter.config.HistoryValues === "string") {
             //make it compatible to old versions
             adapter.log.debug("check old comma separeted list for history vars");
             const oHistory = adapter.config.HistoryValues.split(",");
@@ -617,24 +617,25 @@ async function checkVariables() {
                 adapter.log.warn("ignoring history value " + n + " (invalid name)");
             }
         }
-
-        key = "history.date";
-        obj= {
-            type: "state",
-            common: {
-                name: "ebus history date / time as JSON",
-                type: "string",
-                role: "value",
-                unit: "",
-                read: true,
-                write: false
-            },
-            native: {
-                location: key
-            }
-        };
-        await CreateObject(key, obj);
     }
+
+    key = "history.date";
+    obj= {
+        type: "state",
+        common: {
+            name: "ebus history date / time as JSON",
+            type: "string",
+            role: "value",
+            unit: "",
+            read: true,
+            write: false
+        },
+        native: {
+           location: key
+        }
+    };
+    await CreateObject(key, obj);
+
     key = "history.error";
     obj= {
         type: "state",
