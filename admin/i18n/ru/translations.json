@@ -7,6 +7,7 @@
     "IP of system where ebusd runs": "IP системы, где работает EBUSD",
     "Main settings": "Основные настройки",
     "Update hint": "Обновление подсказка",
+    "Update hint ebusd": "Обновление подсказка ebusd",
     "active": "активный",
     "addParameter": "дополнительный параметр",
     "available version": "Доступная версия",

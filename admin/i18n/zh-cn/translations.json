@@ -7,6 +7,7 @@
     "IP of system where ebusd runs": "EBUSD运行的系统的IP",
     "Main settings": "主要设置",
     "Update hint": "更新提示",
+    "Update hint ebusd": "更新提示ebusd",
     "active": "积极的",
     "addParameter": "附加参数",
     "available version": "可用版本",

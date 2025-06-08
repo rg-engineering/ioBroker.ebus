@@ -23,7 +23,7 @@
 
         "InstallUpdatehdr": {
           "type": "header",
-          "text": "Update hint",
+          "text": "Update hint ebusd",
           "size": 2
         },
 

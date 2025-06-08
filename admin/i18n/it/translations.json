@@ -7,6 +7,7 @@
     "IP of system where ebusd runs": "IP del sistema in cui EBUSD funziona",
     "Main settings": "Impostazioni principali",
     "Update hint": "Suggerimento di aggiornamento",
+    "Update hint ebusd": "Aggiorna il suggerimento EBUSD",
     "active": "attivo",
     "addParameter": "parametro aggiuntivo",
     "available version": "Versione disponibile",
