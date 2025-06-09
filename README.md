@@ -76,6 +76,10 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+* (René) (Galileo53) #419 avoid Warning and error when history list is empty
+
 ### 3.6.1 (2025-06-06)
 * (René) changes suggested by adapter checker
 
