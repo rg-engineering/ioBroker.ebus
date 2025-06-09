@@ -267,7 +267,7 @@ function FillHistoryVars() {
             adapter.log.debug("use new object list for history vars");
             oHistoryVars = adapter.config.HistoryDPs;
         }
-        else {
+        else if (adapter.config.HistoryValues !== undefined && typeof adapter.config.HistoryValues === "string")  {
             //make it compatible to old versions
             adapter.log.debug("check old comma separeted list for history vars");
             const oHistory = adapter.config.HistoryValues.split(",");
@@ -960,11 +960,15 @@ async function ebusd_ReceiveData() {
 
         adapter.log.info("all http done");
 
-        if (adapter.config.History4Vis2) {
-            await UpdateHistory_Vis2(historyvalues, historydates);
-        }
-        else {
-            await UpdateHistory(historyvalues, historydates);
+
+        if (historyvalues.length > 0 && historydates.length > 0) {
+
+            if (adapter.config.History4Vis2) {
+                await UpdateHistory_Vis2(historyvalues, historydates);
+            }
+            else {
+                await UpdateHistory(historyvalues, historydates);
+            }
         }
 
     }
