@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.1",
+    "version": "3.6.2",
     "news": {
+      "3.6.2": {
+        "en": "(Galileo53) #419 avoid Warning and error when history list is empty",
+        "de": "(Galileo53) #419 vermeiden Warnung und Fehler bei leerer Geschichtsliste",
+        "ru": "(Galileo53) #419 Избегайте Предупреждение и ошибка, когда список истории пуст",
+        "pt": "#419 evitam Aviso e erro quando a lista de histórico estiver vazia",
+        "nl": "(Galileo53) #419 vermijden Waarschuwing en fout wanneer geschiedenislijst leeg is",
+        "fr": "(Galileo53) #419 éviter Avertissement et erreur lorsque la liste d'historique est vide",
+        "it": "#419 evita Avvertenza ed errore quando l'elenco di storia è vuoto",
+        "es": "(Galileo53) #419 evitar Advertencia y error cuando la lista de historia está vacía",
+        "pl": "(Galileo53) # 419 unikać Ostrzeżenie i błąd, gdy lista historii jest pusta",
+        "uk": "(Galileo53) #419 уникнути Попередження та похибка, коли список історії порожній",
+        "zh-cn": "(加利略53) #419避免 历史列表为空时的警告和错误"
+      },
       "3.6.1": {
         "en": "changes suggested by adapter checker",
         "de": "änderungen vorgeschlagen von adapter checker",
@@ -80,19 +93,6 @@
         "pl": "migracja do jsonConfig\nzobacz numer # 383: dodać opcjonalne parametry do wywołania HTTP",
         "uk": "міграції в jsonConfig\nпереглянути номер #383: додавати додаткові параметри до HTTP виклику",
         "zh-cn": "迁移到 jsonConfig\n参见第383期: 在 HTTP 调用中添加可选参数"
-      },
-      "3.3.8": {
-        "en": "update dependencies\nissue  #381: install widgets again",
-        "de": "aktualisierung der Abhängigkeiten\nausgabe #381: widgets erneut installieren",
-        "ru": "обновление зависимостей\n#381: установить виджеты снова",
-        "pt": "dependências\nproblema #381: instalar widgets novamente",
-        "nl": "afhankelijkheden bijwerken\nprobleem #381: opnieuw widgets installeren",
-        "fr": "mettre à jour les dépendances\nnuméro #381: installez à nouveau des widgets",
-        "it": "aggiornamento dipendenze\nnumero #381: installare nuovamente i widget",
-        "es": "dependencias de actualización\nedición #381: instalar widgets de nuevo",
-        "pl": "aktualizacji zależności\nwydanie # 381: zainstalować widgety ponownie",
-        "uk": "оновлення залежності\nproblem #381: встановити віджети знову",
-        "zh-cn": "更新依赖关系\n第381期: 再次安装部件"
       }
     },
     "titleLang": {
