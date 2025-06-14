@@ -301,6 +301,7 @@
     "maxretries": 5,
     "readInterval": 5,
     "History4Vis2": false,
+    "DisableTimeUpdateCheck":false,
     "HTTPparameter": [
       {
         "active": false,

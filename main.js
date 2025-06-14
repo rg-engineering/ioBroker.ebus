@@ -20,6 +20,10 @@ const { exec } = require("child_process");
 const { spawn } = require("child_process")
 const fs = require('fs');
 const path = require('path');
+const axios = require("axios");
+const net = require("net");
+const { PromiseSocket } = require("promise-socket");
+
 
 const ebusdMinVersion = [25, 1];
 const ebusdVersion = [0, 0];
@@ -104,9 +108,7 @@ function startAdapter(options) {
 }
 
 
-const axios = require("axios");
-const net = require("net");
-const { PromiseSocket } = require("promise-socket");
+
 
 let intervalID=null;
 let updateTimerID=null;
@@ -255,7 +257,7 @@ function FillPolledVars() {
         adapter.log.error("exception in FillPolledVars [" + e + "]");
     }
 
-    adapter.log.info("list of polled vars " + JSON.stringify(oPolledVars));
+    adapter.log.debug("list of polled vars " + JSON.stringify(oPolledVars));
 
 }
 
@@ -676,7 +678,265 @@ function VersionCheck() {
 //get data via https in json -> this is the main data receiver; telnet just triggers ebusd to read data;
 //https://github.com/john30/ebusd/wiki/3.2.-HTTP-client
 
+
+
+
 async function ebusd_ReceiveData() {
+
+    try {
+        let sUrl = "http://" + adapter.config.targetIP + ":" + parseInt(adapter.config.targetHTTPPort) + "/data";
+
+
+        //Erweiterung mit optionalen parametern
+        var paramsCnt = 0;
+        if (oHTTPParamsVars !== undefined && oHTTPParamsVars != null && oHTTPParamsVars.length > 0) {
+            for (let i = 0; i < oHTTPParamsVars.length; i++) {
+
+                if (oHTTPParamsVars[i].active) {
+                    if (paramsCnt == 0) {
+                        sUrl += "?";
+                    }
+                    else {
+                        sUrl += "&";
+                    }
+                    sUrl += oHTTPParamsVars[i].name + "=" + oHTTPParamsVars[i].value;
+                    paramsCnt++;
+                }
+            }
+        }
+
+        adapter.log.debug("request data from " + sUrl);
+        const buffer = await axios.get(sUrl);
+
+        adapter.log.debug("got data " + typeof buffer.data + " " + JSON.stringify(buffer.data));
+
+        const flattenObject = (obj, delimiter = ".", prefix = "") =>
+            Object.keys(obj).reduce((acc, k) => {
+                const pre = prefix.length ? `${prefix}${delimiter}` : "";
+                if (
+                    typeof obj[k] === "object" &&
+                    obj[k] !== null &&
+                    Object.keys(obj[k]).length > 0
+                )
+                    Object.assign(acc, flattenObject(obj[k], delimiter, pre + k));
+                else acc[pre + k] = obj[k];
+                return acc;
+            }, {});
+
+
+        let data = flattenObject(buffer.data, ".");
+
+        const historyvalues = [];
+        const historydates = [];
+
+        const oToday = new Date();
+        const month = oToday.getMonth() + 1;
+
+        historydates.push({
+            "date": oToday.getDate() + "." + month + "." + oToday.getFullYear(),
+            "time": oToday.getHours() + ":" + oToday.getMinutes() + ":" + oToday.getSeconds()
+        });
+
+        let sError = "none";
+
+        for (let key in data) {
+            const subnames = key.split(".");
+            const namelength = subnames.length;
+            let value = data[key];
+
+            //adapter.log.debug("key " + key);
+
+            if (key.includes("[") || key.includes("]")) {
+                adapter.log.debug("found unsupported chars in " + key);
+                const start = key.indexOf("[");
+                const end = key.lastIndexOf("]");
+
+                if (start > 0 && end > 0) {
+                    const toReplace = key.slice(start, end + 1);
+                    key = key.replace(toReplace, "");
+                }
+                //adapter.log.warn("new key is " + key);
+            }
+
+            //======== version check
+            if (key.includes("global.version")) {
+               
+                //adapter.log.info("in version, value " + value);
+                const versionInfo = value.split(".");
+                if (versionInfo.length > 1) {
+                    adapter.log.info("installed ebusd version is " + versionInfo[0] + "." + versionInfo[1]);
+
+                    ebusdVersion[0] = versionInfo[0];
+                    ebusdVersion[1] = versionInfo[1];
+
+                    VersionCheck();
+                }
+            }
+
+            if (key.includes("global.updatecheck")) {
+
+                //revision v21.2 available
+                value = value.replace("revision v", "");
+                value = value.replace(" available", "");
+
+                const versionInfo = value.split(".");
+                if (versionInfo.length > 1) {
+                    adapter.log.info("found ebusd update version " + versionInfo[0] + "." + versionInfo[1]);
+
+                    ebusdUpdateVersion[0] = versionInfo[0];
+                    ebusdUpdateVersion[1] = versionInfo[1];
+
+                    VersionCheck();
+                }
+            }
+
+
+            //============ type check
+            let type = typeof value;
+
+            if (adapter.config.useBoolean4Onoff) {
+                if (type == "string" && (value == "on" || value == "off")) {
+                    adapter.log.debug("Key " + key + " change to boolean " + value);
+                    //Key mc.messages.Status.fields.1.value could be boolean off
+
+                    type = "boolean";
+
+                    if (value == "on") {
+                        value = true;
+                    }
+                    else {
+                        value = false;
+                    }
+
+                }
+            }
+
+            //EVU Sperrzeit
+            if (key.includes(".hcmode2.value")) {
+                if (parseInt(value) === 0) {
+                    adapter.log.info(key + "in hcmode2 with value 0: off");
+                    value = "off";
+                }
+                else if (parseInt(value) === 5) {
+                    adapter.log.info(key + " with value 5: EVU Sperrzeit");
+                    value = "EVU Sperrzeit";
+                }
+                else {
+                    adapter.log.debug("in hcmode2, value " + value);
+                }
+            }
+
+            //lastup umrechnen
+            if (key.includes(".lastup")) {
+
+                if (parseInt(value) > 0) {
+                    //adapter.log.debug('Key : ' + key + ', Value : ' + newData[key] + " name " + name);
+
+                    //umrechnen...
+                    const oDate = new Date(value * 1000);
+                    //const nDate = oDate.getDate();
+                    //const nMonth = oDate.getMonth() + 1;
+                    //const nYear = oDate.getFullYear();
+                    //const nHours = oDate.getHours();
+                    //const nMinutes = oDate.getMinutes();
+                    //const nSeconds = oDate.getSeconds();
+
+                    const sDate = oDate.toLocaleString();
+
+                    value = sDate;
+                    type = typeof value;
+
+                    const oToday = new Date();
+
+                    let bSkip = false;
+
+                    if (subnames[0].includes("scan") ||
+                        subnames[0].includes("Scan") ||
+                        subnames[0].includes("ehp") ||
+                        (subnames.length > 2 && subnames[2].includes("currenterror")) ||
+                        adapter.config.DisableTimeUpdateCheck
+
+                    ) {
+                        bSkip = true;
+                    }
+
+                    //adapter.log.debug("_______________size " + temp);
+                    if (subnames.length > 2 && subnames[2].includes("Timer")) {
+                        bSkip = true;
+                    }
+
+
+                    if (!bSkip && Math.abs(oDate.getTime() - oToday.getTime()) > 1 * 60 * 60 * 1000) {
+
+                        const sError1 = "no update since " + sDate + " " + key + " ";
+                        if (sError.includes("none")) {
+                            sError = "ebus: " + sError1;
+                        }
+                        else {
+                            sError += sError1;
+                        }
+                        adapter.log.warn(sError1);
+                    }
+
+
+                }
+            }
+
+
+            
+
+            //add and update data
+            await AddObject(key, type);
+            await UpdateObject(key, value);
+
+
+
+            //push to history
+            
+           
+                for (let ii = 0; ii < oHistoryVars.length; ii++) {
+
+                    if (key === oHistoryVars[ii].name) {
+
+                        const sTemp = '{"' + key + '": "' + value + '"}';
+                        adapter.log.debug("push history " + sTemp);
+                        historyvalues[ii] = [];
+                        historyvalues[ii].push(JSON.parse(sTemp));
+                        //adapter.log.debug(JSON.stringify(historyvalues));
+                    }
+                }
+           
+        }
+
+        await adapter.setStateAsync("history.error", { ack: true, val: sError });
+
+        //adapter.log.debug(JSON.stringify(historyvalues));
+
+        adapter.log.info("all http done");
+
+
+        if (historyvalues.length > 0 && historydates.length > 0) {
+
+            if (adapter.config.History4Vis2) {
+                await UpdateHistory_Vis2(historyvalues, historydates);
+            }
+            else {
+                await UpdateHistory(historyvalues, historydates);
+            }
+        }
+
+    }
+    catch (e) {
+        adapter.log.error("exception in ebusd_ReceiveData [" + e + "]");
+
+        await adapter.setStateAsync("history.error", { ack: true, val: "exception in receive" });
+
+    }
+
+}
+
+/*
+async function ebusd_ReceiveData_old() {
 
     let sUrl = "http://" + adapter.config.targetIP + ":" + parseInt(adapter.config.targetHTTPPort) + "/data";
 
@@ -722,13 +982,11 @@ async function ebusd_ReceiveData() {
 
         //adapter.log.debug("000 " + typeof oData + JSON.stringify(oData));
 
-        //adapter.log.debug("oData " + oData);
+        adapter.log.debug("oData " + oData);
 
-        const flatten = require("flat");
+        const newData = flatten.flattenDeep(oData);
 
-        const newData = flatten(oData);
-
-        //adapter.log.debug("111 " + JSON.stringify(newData));
+        adapter.log.debug("111 " + JSON.stringify(newData));
 
         const keys = Object.keys(newData);
 
@@ -925,15 +1183,6 @@ async function ebusd_ReceiveData() {
 
                     if (!bSkip && Math.abs(oDate.getTime() - oToday.getTime()) > 1 * 60 * 60 * 1000) {
 
-
-
-                        /*2024-11-20
-                        ebus: no update since 19.11.2024, 21:11:14 Scan.15.messages.Id.lastup no update since 19.11.2024, 21:11:19 Scan.23.messages.Id.lastup no update since 19.11.2024, 21:10:34 Scan.25.messages.Id.lastup no update since 19.11.2024, 21:12:04 Scan.50.messages.Id.lastup 
-
-                        */
-
-
-
                         const sError1 = "no update since " + sDate + " " + key + " ";
                         if (sError.includes("none")) {
                             sError = "ebus: " + sError1;
@@ -980,6 +1229,8 @@ async function ebusd_ReceiveData() {
     }
     //});
 }
+
+*/
 
 async function UpdateHistory_Vis2(values, dates) {
     adapter.log.debug("start history 4 VIS-2 " + JSON.stringify(values) + " " + JSON.stringify(dates));
@@ -1248,7 +1499,7 @@ async function UpdateObject(key, value) {
             await adapter.setStateAsync(key, { ack: true, val: null });
         }
         else {
-            adapter.log.debug("updateObject " + key + " : " + value);
+            //adapter.log.debug("updateObject " + key + " : " + value);
             await adapter.setStateAsync(key, { ack: true, val: value });
         }        
     } catch (e) {
