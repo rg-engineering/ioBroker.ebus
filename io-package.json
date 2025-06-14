@@ -296,11 +296,11 @@
           ]
         },
         "title": {
-          "en": "data structure might be changed",
+          "en": "data structure might be changed"
 
         },
         "text": {
-          "en": "Due to new used parser data structure might be changed. Please verify your settings.",
+          "en": "Due to new used parser data structure might be changed. Please verify your settings."
 
         },
         "level": "warn",
