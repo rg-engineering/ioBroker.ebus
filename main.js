@@ -812,7 +812,7 @@ async function ebusd_ReceiveData() {
             }
 
             //EVU Sperrzeit
-            if (key.includes(".hcmode2.value")) {
+            if (key.includes(".hcmode2.value") || key.includes(".hcmode.value")) {
                 if (parseInt(value) === 0) {
                     adapter.log.info(key + "in hcmode2 with value 0: off");
                     value = "off";
@@ -824,6 +824,7 @@ async function ebusd_ReceiveData() {
                 else {
                     adapter.log.debug("in hcmode2, value " + value);
                 }
+                type = typeof value;
             }
 
             //lastup umrechnen

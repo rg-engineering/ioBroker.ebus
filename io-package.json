@@ -286,6 +286,28 @@
           "agree",
           "cancel"
         ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<=3.6.2",
+            "newVersion>3.6.2"
+          ]
+        },
+        "title": {
+          "en": "data structure might be changed",
+
+        },
+        "text": {
+          "en": "Due to new used parser data structure might be changed. Please verify your settings.",
+
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
       }
     ]
   },
