@@ -1800,7 +1800,16 @@ async function CallExternalScript(script, msg) {
 async function CheckVersion(version, msg) {
 
     if (version == "installable") {
-        adapter.sendTo(msg.from, msg.command, ebusdUpdateVersion[0] + "." + ebusdUpdateVersion[1], msg.callback);
+
+        let version = "unknown"; 
+
+        if (ebusdUpdateVersion[0] > 0 && ebusdVersion[0] > 0) {
+            version = ebusdUpdateVersion[0] + "." + ebusdUpdateVersion[1]
+        }
+        else {
+            version = await GetLatestVersionGithub();
+        }
+        adapter.sendTo(msg.from, msg.command, version , msg.callback);
     }
     else if (version == "current") {
         adapter.sendTo(msg.from, msg.command, ebusdVersion[0] + "." + ebusdVersion[1], msg.callback);
@@ -1810,6 +1819,36 @@ async function CheckVersion(version, msg) {
     }
 
 }
+
+async function GetLatestVersionGithub() {
+
+    let latestVersion = "unknown";
+
+    try {
+        const url = "https://api.github.com/repos/john30/ebusd/releases/latest";
+        adapter.log.debug("call " + url);
+
+        let result = await axios.get(url, { timeout: 5000 });
+
+        if (result != null && result.status == 200 && result.data != null) {
+            adapter.log.info("installable version " + JSON.stringify(result.data.name));
+
+            latestVersion = result.data.name;
+        }
+        else {
+            latestVersion = "unknown / no result";
+        }
+    }
+    catch (e) {
+        adapter.log.error("exception in GetLatestVersionGithub [" + e + "]");
+        latestVersion = "unknown / error";
+    }
+    return latestVersion;
+
+
+}
+
+
 
 // If started as allInOne/compact mode => return function to create instance
 if (module && module.parent) {
