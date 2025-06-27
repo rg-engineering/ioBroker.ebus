@@ -76,11 +76,10 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 3.6.3 (2025-06-27)
 * (René) get version info for ebusd from github if locally not available
 * (René) update dependencies
-* (René) new testing 
+* (René) new testing
 
 ### 3.6.2 (2025-06-09)
 * (René) (Galileo53) #419 avoid Warning and error when history list is empty

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.2",
+    "version": "3.6.3",
     "news": {
+      "3.6.3": {
+        "en": "get version info for ebusd from github if locally not available\nupdate dependencies\nnew testing",
+        "de": "versionsinformationen für ebusd von github erhalten, wenn lokal nicht verfügbar\naktualisierung der abhängigkeiten\nneue tests",
+        "ru": "получить информацию о версии для вытеснения из github, если локально недоступно\nобновление зависимостей\nновые испытания",
+        "pt": "obter informações de versão para o ebusd do github se não estiver disponível localmente\natualizar dependências\nnovos testes",
+        "nl": "krijgen versie-informatie voor ebusd van github als lokaal niet beschikbaar\nafhankelijkheden bijwerken\nnieuwe tests",
+        "fr": "obtenir des informations de version pour ebusd de github si localement pas disponible\nmettre à jour les dépendances\nnouveaux essais",
+        "it": "ottenere informazioni sulla versione per ebusd da github se localmente non disponibile\naggiornamento dipendenze\nnuovi test",
+        "es": "obtener información de la versión para ebusd de github si localmente no disponible\ndependencias de actualización\nnuevas pruebas",
+        "pl": "uzyskać informacje o wersji dla ebusd z github, jeśli lokalnie nie jest dostępny\naktualizacji zależności\nnowe badania",
+        "uk": "отримати інформацію про версію для ebusd від github, якщо локально не доступний\nоновлення залежності\nновий тест",
+        "zh-cn": "如果本地不可用, 从 github 获取 ebusd 的版本信息\n更新依赖关系\n新测试"
+      },
       "3.6.2": {
         "en": "(Galileo53) #419 avoid Warning and error when history list is empty",
         "de": "(Galileo53) #419 vermeiden Warnung und Fehler bei leerer Geschichtsliste",
@@ -80,19 +93,6 @@
         "pl": "połowów wyjątków reportet przez wartownik\nopcja wyłączenia sprawdzania czasu ostatniej aktualizacji (patrz numer # 391)",
         "uk": "виняток винятку по відправці\nможливість відключити перевірку останнього часу оновлення (див. проблему #391)",
         "zh-cn": "按哨兵分列的渔获量例外报告\n选项以禁用上次更新时间的检查(见第391期)"
-      },
-      "3.4.0": {
-        "en": "migration to jsonConfig\nsee issue #383: add optionally parameters to HTTP call",
-        "de": "Migration nach jsonConfig\nsiehe Ausgabe #383: optionale Parameter zum HTTP-Aufruf hinzufügen",
-        "ru": "миграции в jsonConfig\n#383: добавить дополнительные параметры к HTTP-звонку",
-        "pt": "migração para jsonConfig\nveja o problema #383: adicione parâmetros opcionalmente à chamada HTTP",
-        "nl": "migratie naar jsonConfig\nzie probleem #383: voeg optioneel parameters toe aan HTTP-aanroep",
-        "fr": "migration vers jsonConfig\nvoir le numéro #383: ajouter optionnellement des paramètres à l'appel HTTP",
-        "it": "migrazione a jsonConfig\nvedi numero #383: aggiungi parametri opzionalmente alla chiamata HTTP",
-        "es": "migración a jsonConfig\nver número #383: añadir parámetros opcionalmente a la llamada HTTP",
-        "pl": "migracja do jsonConfig\nzobacz numer # 383: dodać opcjonalne parametry do wywołania HTTP",
-        "uk": "міграції в jsonConfig\nпереглянути номер #383: додавати додаткові параметри до HTTP виклику",
-        "zh-cn": "迁移到 jsonConfig\n参见第383期: 在 HTTP 调用中添加可选参数"
       }
     },
     "titleLang": {
@@ -297,11 +297,9 @@
         },
         "title": {
           "en": "data structure might be changed"
-
         },
         "text": {
           "en": "Due to new used parser data structure might be changed. Please verify your settings."
-
         },
         "level": "warn",
         "buttons": [
@@ -323,7 +321,7 @@
     "maxretries": 5,
     "readInterval": 5,
     "History4Vis2": false,
-    "DisableTimeUpdateCheck":false,
+    "DisableTimeUpdateCheck": false,
     "HTTPparameter": [
       {
         "active": false,
