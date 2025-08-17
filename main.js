@@ -703,7 +703,7 @@ async function ebusd_ReceiveData() {
                 //adapter.log.info("in version, value " + value);
                 const versionInfo = value.split(".");
                 if (versionInfo.length > 1) {
-                    adapter.log.info(`installed ebusd version is ${  versionInfo[0]  }.${  versionInfo[1]}`);
+                    adapter.log.debug(`installed ebusd version is ${  versionInfo[0]  }.${  versionInfo[1]}`);
 
                     ebusdVersion[0] = versionInfo[0];
                     ebusdVersion[1] = versionInfo[1];
@@ -831,7 +831,7 @@ async function ebusd_ReceiveData() {
 
         //adapter.log.debug(JSON.stringify(historyvalues));
 
-        adapter.log.info("all http done");
+        adapter.log.debug("all http done");
 
         if (historyvalues.length > 0 && historydates.length > 0) {
             if (adapter.config.History4Vis2) {
