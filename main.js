@@ -266,6 +266,8 @@ function FillHistoryVars() {
     } catch (e) {
         adapter.log.error(`exception in function FillHistoryVars [${  e  }]`);
     }
+
+    adapter.log.debug(`list of history vars ${JSON.stringify(oHistoryVars)}`);
 }
 
 let oHTTPParamsVars = [];
@@ -817,6 +819,10 @@ async function ebusd_ReceiveData() {
             //push to history
 
             for (let ii = 0; ii < oHistoryVars.length; ii++) {
+
+                //adapter.log.debug("check " + key + "==" + oHistoryVars[ii].name);
+
+                //	check uih.messages.YieldThisYear.fields.energy_1.value==ActualEnvironmentPower
                 if (key === oHistoryVars[ii].name) {
                     const sTemp = '{"' + key + '": "' + value + '"}';
                     adapter.log.debug("push history " + sTemp);
