@@ -246,7 +246,7 @@ function FillHistoryVars() {
         ) {
             adapter.log.debug("use new object list for history vars");
             oHistoryVars = adapter.config.HistoryDPs;
-        } else if (adapter.config.HistoryValues !== undefined && typeof adapter.config.HistoryValues === "string")  {
+        } else if (adapter.config.HistoryValues !== undefined && typeof adapter.config.HistoryValues === "string") {
             //make it compatible to old versions
             adapter.log.debug("check old comma separeted list for history vars");
             const oHistory = adapter.config.HistoryValues.split(",");
@@ -254,7 +254,7 @@ function FillHistoryVars() {
             if (oHistory.length > 0) {
                 for (let i = 0; i < oHistory.length; i++) {
                     if (oHistory[i].length > 0) {
-                        console.log(`add ${  oHistory[i]}`);
+                        console.log(`add ${oHistory[i]}`);
                         const value = {
                             name: oHistory[i],
                         };
@@ -264,7 +264,7 @@ function FillHistoryVars() {
             }
         }
     } catch (e) {
-        adapter.log.error(`exception in function FillHistoryVars [${  e  }]`);
+        adapter.log.error(`exception in function FillHistoryVars [${e}]`);
     }
 
     adapter.log.debug(`list of history vars ${JSON.stringify(oHistoryVars)}`);
@@ -276,15 +276,15 @@ function FillHistoryVars() {
         const hasInstance = entry.name.includes("ebus.");
         const hasValue = entry.name.includes("value");
 
-        adapter.log.debug("checking " + entry.name + " hasDot: " + hasDot + " hasInstance: " + hasInstance + " hasValue: " + hasValue);
+        adapter.log.debug("checking " + entry.name + " index " + index + " hasDot: " + hasDot + " hasInstance: " + hasInstance + " hasValue: " + hasValue);
 
 
-        if (!hasDot ) {
-            adapter.log.warn("please check history variable: " +  entry.name  + " -> should contain the complete DP");
+        if (!hasDot) {
+            adapter.log.warn("please check history variable: " + entry.name + " -> should contain the complete DP");
         }
 
         if (!hasValue) {
-            adapter.log.warn("please check history variable " +  entry.name  + " -> should contain 'value'");
+            adapter.log.warn("please check history variable " + entry.name + " -> should contain 'value'");
         }
 
         if (hasInstance) {
@@ -292,7 +292,7 @@ function FillHistoryVars() {
         }
 
     });
-   
+
     //list of history vars [{"name":"ActualEnvironmentPower"},{"name":"YieldTotal"},{"name":"SourceTempInput"},{"name":"SourceTempOutput"},{"name":"HwcTemp"}]
 
 }
