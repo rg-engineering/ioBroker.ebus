@@ -296,10 +296,30 @@
           ]
         },
         "title": {
-          "en": "data structure might be changed"
+          "en": "data structure might be changed",
+          "de": "Die Datenstruktur kann geändert werden",
+          "ru": "Структура данных может быть изменена",
+          "pt": "A estrutura de dados pode ser alterada",
+          "nl": "Gegevensstructuur kan worden gewijzigd",
+          "fr": "La structure des données peut être modifiée",
+          "it": "La struttura dei dati potrebbe essere modificata",
+          "es": "La estructura de datos podría cambiarse",
+          "pl": "Struktura danych może zostać zmieniona",
+          "uk": "Структура даних може бути змінена",
+          "zh-cn": "数据结构可能会更改"
         },
         "text": {
-          "en": "Due to new used parser data structure might be changed. Please verify your settings."
+          "en": "Due to new used parser data structure might be changed. Please verify your settings.",
+          "de": "Aufgrund der neuen gebrauchten Parser -Datenstruktur kann geändert werden. Bitte überprüfen Sie Ihre Einstellungen.",
+          "ru": "Из -за новой используемой структуры данных анализатора может быть изменена. Пожалуйста, проверьте свои настройки.",
+          "pt": "Devido à nova estrutura de dados do analisador usada pode ser alterada. Por favor, verifique suas configurações.",
+          "nl": "Vanwege de nieuwe gebruikte Parser -gegevensstructuur kan worden gewijzigd. Controleer uw instellingen.",
+          "fr": "En raison de la nouvelle structure de données de l'analyseur d'occasion, il peut être modifié. Veuillez vérifier vos paramètres.",
+          "it": "A causa della nuova struttura dati di parser utilizzata potrebbe essere modificata. Verifica le tue impostazioni.",
+          "es": "Debido a la nueva estructura de datos de analizador utilizado podría cambiarse. Verifique su configuración.",
+          "pl": "Ze względu na nową używaną strukturę danych parserów może zostać zmieniona. Sprawdź swoje ustawienia.",
+          "uk": "Через нову використану структуру даних аналізатора може бути змінено. Будь ласка, перевірте свої налаштування.",
+          "zh-cn": "由于新使用的解析器，数据结构可能会更改。请验证您的设置。"
         },
         "level": "warn",
         "buttons": [

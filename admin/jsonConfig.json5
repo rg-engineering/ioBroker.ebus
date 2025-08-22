@@ -522,7 +522,7 @@
           "text": "historyDP configuration",
           "size": 2
         },
-        "table_historyDP": {
+        "HistoryDPs": {
           "type": "table",
           "newLine": true,
           "xs": 12,
@@ -536,7 +536,7 @@
             {
               "type": "text",
               "attr": "name",
-              "width": "16% ",
+              "width": "60% ",
               "title": "name",
               "tooltip": "enter DP name",
               "filter": false,

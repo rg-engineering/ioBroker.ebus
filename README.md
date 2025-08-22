@@ -76,6 +76,11 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+* (René) see issue #430: for history complete datapoint names without instance (e.g. ebus.0) must be used
+* (Galileo53) change some logs
+
 ### 3.6.3 (2025-06-27)
 * (René) get version info for ebusd from github if locally not available
 * (René) update dependencies

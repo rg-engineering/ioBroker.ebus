@@ -4,7 +4,7 @@
  *
  * Created: 15.09.2016 21:31:28
  *  Author: Rene
-
+ * 
 
 */
 
@@ -268,6 +268,33 @@ function FillHistoryVars() {
     }
 
     adapter.log.debug(`list of history vars ${JSON.stringify(oHistoryVars)}`);
+
+    //add a check, that complete dp without ebus.0 is used 2025-08-20
+
+    oHistoryVars.forEach((entry, index) => {
+        const hasDot = entry.name.includes(".");
+        const hasInstance = entry.name.includes("ebus.");
+        const hasValue = "value" in entry;
+
+        adapter.log.debug("checking " + entry.name + " hasDot: " + hasDot + " hasInstance: " + hasInstance + " hasValue: " + hasValue);
+
+
+        if (!hasDot ) {
+            adapter.log.warn("please check history variable: " +  entry.name  + " -> should contain the complete DP");
+        }
+
+        if (!hasValue) {
+            adapter.log.warn("please check history variable " +  entry.name  + " -> should contain 'value'");
+        }
+
+        if (hasInstance) {
+            adapter.log.warn("please check history variable " + entry.name + " -> should not contain instance name and instance number e.g. 'ebus.0' ");
+        }
+
+    });
+   
+    //list of history vars [{"name":"ActualEnvironmentPower"},{"name":"YieldTotal"},{"name":"SourceTempInput"},{"name":"SourceTempOutput"},{"name":"HwcTemp"}]
+
 }
 
 let oHTTPParamsVars = [];
@@ -823,6 +850,16 @@ async function ebusd_ReceiveData() {
                 //adapter.log.debug("check " + key + "==" + oHistoryVars[ii].name);
 
                 //	check uih.messages.YieldThisYear.fields.energy_1.value==ActualEnvironmentPower
+
+                /*
+                ehp.messages.ActualEnvironmentPower.fields.value.value
+                ehp.messages.YieldTotal.fields.value.value
+                ehp.messages.SourceTempInput.fields.temp.value
+                ehp.messages.SourceTempOutput.fields.temp.value
+                ehp.messages.HwcTemp.fields.temp.value
+                */
+
+
                 if (key === oHistoryVars[ii].name) {
                     const sTemp = '{"' + key + '": "' + value + '"}';
                     adapter.log.debug("push history " + sTemp);

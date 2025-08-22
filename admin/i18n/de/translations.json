@@ -25,7 +25,7 @@
     "find parameter": "Parameter suchen",
     "hint_ebusd": "Für den Adapter wird ein laufender ebusd incl. aller notwendigen Konfigurationen benötigt. Dieser Adapter verwendet HTML, um Daten von ebusd zu lesen und TCP (Telnet), um auf ebusd zu schreiben",
     "hint_ebusd2": "Hier können Sie zusätzliche Parameter für HTTP-Anfragen hinzufügen. Bitte tun Sie es nur, wenn Sie wissen, was Sie tun, ansonsten lassen Sie alles deaktiviert.",
-    "hint_ebusd_history": "Liste aller Datenpunktnamen, die mit dem ebus-History-Widget verwendet werden sollen.",
+    "hint_ebusd_history": "Liste aller Datenpunktnamen, die mit dem ebus-History-Widget verwendet werden sollen. ACHTUNG: kompletter Datenpunkt-Name ohne Instanz (z.Bsp. ebus.0)",
     "hint_ebusd_polled": "Liste aller Datenpunktnamen, die vom Adapter aktv abgefragt werden sollen.",
     "historyDP": "historyDP",
     "historyDP configuration": "Verlaufsdatenpunkt-Konfiguration",
