@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.4",
+    "version": "3.6.5",
     "news": {
+      "3.6.5": {
+        "en": "see issue #430: bug fix",
+        "de": "siehe ausgabe #430: bugfix",
+        "ru": "проблема #430: исправление ошибок",
+        "pt": "ver problema # 430: correção de erros",
+        "nl": "zie probleem #430: foutherstel",
+        "fr": "voir problème #430: correction du bug",
+        "it": "vedi numero #430: correzione bug",
+        "es": "ver número #430: corrección de errores",
+        "pl": "zobacz numer # 430: błąd naprawić",
+        "uk": "переглянути проблему #430: виправлення помилок",
+        "zh-cn": "参见第430期: 错误修正"
+      },
       "3.6.4": {
         "en": "see issue #430: for history complete datapoint names without instance (e.g. ebus.0) must be used\nchange some logs",
         "de": "siehe ausgabe #430: für die geschichte müssen vollständige datenpunktnamen ohne beispiel (z.b. ebus.0) verwendet werden\neinige protokolle ändern",
@@ -80,19 +93,6 @@
         "pl": "zmiany wymagane przez sprawdzacz adaptera\nzaktualizowane zależności",
         "uk": "зміни, які вимагаються перевіркою адаптера\nоновлені залежності",
         "zh-cn": "适配器检查器要求的更改\n更新依赖关系"
-      },
-      "3.5.1": {
-        "en": "translations",
-        "de": "übersetzungen",
-        "ru": "перевод",
-        "pt": "traduções",
-        "nl": "vertalingen",
-        "fr": "traductions",
-        "it": "traduzioni",
-        "es": "traducciones",
-        "pl": "tłumaczenia",
-        "uk": "переклади",
-        "zh-cn": "翻译"
       }
     },
     "titleLang": {
