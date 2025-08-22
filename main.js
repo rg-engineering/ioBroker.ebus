@@ -274,7 +274,7 @@ function FillHistoryVars() {
     oHistoryVars.forEach((entry, index) => {
         const hasDot = entry.name.includes(".");
         const hasInstance = entry.name.includes("ebus.");
-        const hasValue = "value" in entry;
+        const hasValue = entry.name.includes("value");
 
         adapter.log.debug("checking " + entry.name + " hasDot: " + hasDot + " hasInstance: " + hasInstance + " hasValue: " + hasValue);
 
