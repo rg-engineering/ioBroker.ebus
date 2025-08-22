@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.3",
+    "version": "3.6.4",
     "news": {
+      "3.6.4": {
+        "en": "see issue #430: for history complete datapoint names without instance (e.g. ebus.0) must be used\nchange some logs",
+        "de": "siehe ausgabe #430: für die geschichte müssen vollständige datenpunktnamen ohne beispiel (z.b. ebus.0) verwendet werden\neinige protokolle ändern",
+        "ru": "проблема no 430: для истории необходимо использовать полные имена точек данных без экземпляра (например, ebus.0)\nизменить некоторые бревна",
+        "pt": "ver problema #430: para o histórico devem ser usados nomes completos de pontos de dados sem instância (por exemplo, ebus.0)\nalterar alguns logs",
+        "nl": "zie probleem #430: voor de geschiedenis moeten volledige datapointnamen zonder instantie (bijv. ebus.0) worden gebruikt\nsommige logs wijzigen",
+        "fr": "voir le numéro 430: pour l'historique, il faut utiliser des noms de datapoints complets sans instance (par exemple ebus.0)\nchanger quelques journaux",
+        "it": "vedi numero #430: per la storia devono essere utilizzati nomi di datapoint completi senza istanza (ad esempio ebus.0)\ncambiare alcuni registri",
+        "es": "ver número #430: para la historia se deben utilizar nombres completos de datos sin instancia (por ejemplo, ebus.0)\ncambiar algunos registros",
+        "pl": "zobacz numer # 430: dla historii należy użyć pełnych nazw punktów danych bez instancji (np. ebus.0)\nzmienić kilka dzienników",
+        "uk": "переглянути номер #430: для історії повна назва даних без екземпляра (наприклад, ebus.0)\nзмінити деякі журнали",
+        "zh-cn": "参见第430期:对于历史完整的无实例数据点名称(例如ebus.0)必须使用\n更改一些日志"
+      },
       "3.6.3": {
         "en": "get version info for ebusd from github if locally not available\nupdate dependencies\nnew testing",
         "de": "versionsinformationen für ebusd von github erhalten, wenn lokal nicht verfügbar\naktualisierung der abhängigkeiten\nneue tests",
@@ -80,19 +93,6 @@
         "pl": "tłumaczenia",
         "uk": "переклади",
         "zh-cn": "翻译"
-      },
-      "3.5.0": {
-        "en": "catch exceptions reportet by sentry\noption to disable check of last update time (see issue #391)",
-        "de": "Ausnahmen reportet by sentry\noption zum deaktivieren der letzten aktualisierungszeit (siehe ausgabe #391)",
-        "ru": "репортаж об исключениях улова\nвозможность отключить проверку последнего времени обновления (см. вопрос #391)",
-        "pt": "captura exceções relatório por sentinela\nopção para desativar a verificação do último tempo de atualização (veja a edição #391)",
-        "nl": "vangstuitzonderingen verslaget door de wacht\noptie om controle van de laatste updatetijd uit te schakelen (zie probleem #391)",
-        "fr": "déclaration des exceptions de capture par sentinelle\noption pour désactiver la vérification de la dernière mise à jour (voir le numéro #391)",
-        "it": "cattura le eccezioni reportet da mittente\nopzione per disabilitare il controllo dell'ultimo aggiornamento (vedere numero #391)",
-        "es": "catch exceptions reportet by centry\nopción para desactivar el cheque de la última hora de actualización (ver número #391)",
-        "pl": "połowów wyjątków reportet przez wartownik\nopcja wyłączenia sprawdzania czasu ostatniej aktualizacji (patrz numer # 391)",
-        "uk": "виняток винятку по відправці\nможливість відключити перевірку останнього часу оновлення (див. проблему #391)",
-        "zh-cn": "按哨兵分列的渔获量例外报告\n选项以禁用上次更新时间的检查(见第391期)"
       }
     },
     "titleLang": {
