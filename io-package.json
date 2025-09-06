@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.6",
+    "version": "3.6.7",
     "news": {
+      "3.6.7": {
+        "en": "dependencies updated and bug fix based on adapter checker",
+        "de": "abhängigkeiten aktualisiert und fehler beheben basierend auf adapter checker",
+        "ru": "обновленные зависимости и исправление ошибок на основе проверки адаптера",
+        "pt": "dependências atualizadas e correção de erros com base no verificador do adaptador",
+        "nl": "afhankelijkheden bijgewerkt en bug fix op basis van adaptercontrole",
+        "fr": "dépendances mises à jour et correction de bugs basée sur adaptateur checker",
+        "it": "dipendenze aggiornate e correzione bug in base all'adattatore checker",
+        "es": "dependencias actualizadas y corrección de errores basado en el control de adaptador",
+        "pl": "aktualizacja zależności i naprawianie błędów w oparciu o sprawdzacz adaptera",
+        "uk": "залежностей, оновлено і виправлення помилок на основі перевірки адаптера",
+        "zh-cn": "基于适配器检查器更新的依赖性和错误修正"
+      },
       "3.6.6": {
         "en": "see issue #430: bug fix",
         "de": "siehe ausgabe #430: bugfix",
@@ -16,7 +29,6 @@
         "uk": "переглянути проблему #430: виправлення помилок",
         "zh-cn": "参见第430期: 错误修正"
       },
-      
       "3.6.3": {
         "en": "get version info for ebusd from github if locally not available\nupdate dependencies\nnew testing",
         "de": "versionsinformationen für ebusd von github erhalten, wenn lokal nicht verfügbar\naktualisierung der abhängigkeiten\nneue tests",
