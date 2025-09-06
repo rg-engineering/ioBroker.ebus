@@ -16,32 +16,7 @@
         "uk": "переглянути проблему #430: виправлення помилок",
         "zh-cn": "参见第430期: 错误修正"
       },
-      "3.6.5": {
-        "en": "see issue #430: bug fix",
-        "de": "siehe ausgabe #430: bugfix",
-        "ru": "проблема #430: исправление ошибок",
-        "pt": "ver problema # 430: correção de erros",
-        "nl": "zie probleem #430: foutherstel",
-        "fr": "voir problème #430: correction du bug",
-        "it": "vedi numero #430: correzione bug",
-        "es": "ver número #430: corrección de errores",
-        "pl": "zobacz numer # 430: błąd naprawić",
-        "uk": "переглянути проблему #430: виправлення помилок",
-        "zh-cn": "参见第430期: 错误修正"
-      },
-      "3.6.4": {
-        "en": "see issue #430: for history complete datapoint names without instance (e.g. ebus.0) must be used\nchange some logs",
-        "de": "siehe ausgabe #430: für die geschichte müssen vollständige datenpunktnamen ohne beispiel (z.b. ebus.0) verwendet werden\neinige protokolle ändern",
-        "ru": "проблема no 430: для истории необходимо использовать полные имена точек данных без экземпляра (например, ebus.0)\nизменить некоторые бревна",
-        "pt": "ver problema #430: para o histórico devem ser usados nomes completos de pontos de dados sem instância (por exemplo, ebus.0)\nalterar alguns logs",
-        "nl": "zie probleem #430: voor de geschiedenis moeten volledige datapointnamen zonder instantie (bijv. ebus.0) worden gebruikt\nsommige logs wijzigen",
-        "fr": "voir le numéro 430: pour l'historique, il faut utiliser des noms de datapoints complets sans instance (par exemple ebus.0)\nchanger quelques journaux",
-        "it": "vedi numero #430: per la storia devono essere utilizzati nomi di datapoint completi senza istanza (ad esempio ebus.0)\ncambiare alcuni registri",
-        "es": "ver número #430: para la historia se deben utilizar nombres completos de datos sin instancia (por ejemplo, ebus.0)\ncambiar algunos registros",
-        "pl": "zobacz numer # 430: dla historii należy użyć pełnych nazw punktów danych bez instancji (np. ebus.0)\nzmienić kilka dzienników",
-        "uk": "переглянути номер #430: для історії повна назва даних без екземпляра (наприклад, ebus.0)\nзмінити деякі журнали",
-        "zh-cn": "参见第430期:对于历史完整的无实例数据点名称(例如ebus.0)必须使用\n更改一些日志"
-      },
+      
       "3.6.3": {
         "en": "get version info for ebusd from github if locally not available\nupdate dependencies\nnew testing",
         "de": "versionsinformationen für ebusd von github erhalten, wenn lokal nicht verfügbar\naktualisierung der abhängigkeiten\nneue tests",
