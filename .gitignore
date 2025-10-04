@@ -17,3 +17,5 @@ lib/i18n/*/flat.txt
 /test.js
 /test1.js
 /admin/*.orig
+.commitinfo
+/.vscode/extensions.json
