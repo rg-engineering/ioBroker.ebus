@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.7",
+    "version": "3.6.8",
     "news": {
+      "3.6.8": {
+        "en": "update dependencies + changes based on adapter checker",
+        "de": "aktualisierung abhängigkeiten + änderungen basierend auf adapter-checker",
+        "ru": "зависимости обновления + изменения на основе проверки адаптера",
+        "pt": "atualizar dependências + alterações com base no verificador de adaptadores",
+        "nl": "update afhankelijkheden + wijzigingen op basis van adaptercontrole",
+        "fr": "mettre à jour les dépendances + les changements basés sur le vérificateur d'adaptateur",
+        "it": "aggiornamento dipendenze + modifiche in base all'adattatore checker",
+        "es": "dependencias de actualización + cambios basados en el control de adaptador",
+        "pl": "aktualizacja zależności + zmiany w oparciu o sprawdzacz adaptera",
+        "uk": "оновлення залежності + зміни на основі перевірки адаптера",
+        "zh-cn": "根据适配器检查器更新依赖性+变化"
+      },
       "3.6.7": {
         "en": "dependencies updated and bug fix based on adapter checker",
         "de": "abhängigkeiten aktualisiert und fehler beheben basierend auf adapter checker",
