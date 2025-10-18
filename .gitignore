@@ -19,3 +19,5 @@ lib/i18n/*/flat.txt
 /admin/*.orig
 .commitinfo
 /.vscode/extensions.json
+/obj/Debug/
+/bin/Microsoft.NodejsTools.WebRole.dll
