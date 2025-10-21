@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.8",
+    "version": "3.6.9",
     "news": {
+      "3.6.9": {
+        "en": "update dependencies + changes based on adapter checker",
+        "de": "aktualisierung abhängigkeiten + änderungen basierend auf adapter-checker",
+        "ru": "зависимости обновления + изменения на основе проверки адаптера",
+        "pt": "atualizar dependências + alterações com base no verificador de adaptadores",
+        "nl": "update afhankelijkheden + wijzigingen op basis van adaptercontrole",
+        "fr": "mettre à jour les dépendances + les changements basés sur le vérificateur d'adaptateur",
+        "it": "aggiornamento dipendenze + modifiche in base all'adattatore checker",
+        "es": "dependencias de actualización + cambios basados en el control de adaptador",
+        "pl": "aktualizacja zależności + zmiany w oparciu o sprawdzacz adaptera",
+        "uk": "оновлення залежності + зміни на основі перевірки адаптера",
+        "zh-cn": "根据适配器检查器更新依赖性+变化"
+      },
       "3.6.8": {
         "en": "update dependencies + changes based on adapter checker",
         "de": "aktualisierung abhängigkeiten + änderungen basierend auf adapter-checker",
@@ -80,19 +93,6 @@
         "pl": "zmiany sugerowane przez sprawdzacz adaptera",
         "uk": "зміни, запропоновані адаптером",
         "zh-cn": "适配器检查器建议的更改"
-      },
-      "3.6.0": {
-        "en": "new supported ebusd version is 25.1\nversion info added in admin",
-        "de": "neue unterstützte ebusd version ist 25.1\nversion info in admin",
-        "ru": "новая поддерживаемая версия ebusd 25.1\nинформация о версии добавлена в admin",
-        "pt": "nova versão ebusd suportada é 25.1\nversão info adicionado em admin",
-        "nl": "nieuwe ondersteunde ebusd versie is 25.1\nversie info toegevoegd in admin",
-        "fr": "nouvelle version ebusd prise en charge est 25.1\nversion info ajoutée dans admin",
-        "it": "nuova versione ebusd supportata è 25.1\nversione info aggiunto in admin",
-        "es": "nueva versión electrónica soportada es 25.1\nversión info añadido en admin",
-        "pl": "nowa obsługiwana wersja ebusd to 25.1\ninformacje o wersji dodane w admin",
-        "uk": "нова підтримана версія ebusd 25.1\nдодано інформацію про версію в адмін",
-        "zh-cn": "新支持的ebusd版本为25.1\n在管理员中添加的版本信息"
       }
     },
     "titleLang": {

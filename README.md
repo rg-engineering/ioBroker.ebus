@@ -76,7 +76,7 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.6.9 (2025-10-21)
 * (René) update dependencies + changes based on adapter checker
 
 ### 3.6.8 (2025-10-04)
