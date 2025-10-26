@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.9",
+    "version": "3.6.10",
     "news": {
+      "3.6.10": {
+        "en": "sentry bug fix",
+        "de": "fehler beheben",
+        "ru": "исправлять ошибки",
+        "pt": "correcção de erros de sentinela",
+        "nl": "sentry bug fix",
+        "fr": "correction du bug sentitoire",
+        "it": "correzione bug inviato",
+        "es": "centry bug fix",
+        "pl": "naprawianie błędu serwera",
+        "uk": "усунення несправностей",
+        "zh-cn": "监视器修复"
+      },
       "3.6.9": {
         "en": "update dependencies + changes based on adapter checker",
         "de": "aktualisierung abhängigkeiten + änderungen basierend auf adapter-checker",
@@ -80,19 +93,6 @@
         "pl": "(Galileo53) # 419 unikać Ostrzeżenie i błąd, gdy lista historii jest pusta",
         "uk": "(Galileo53) #419 уникнути Попередження та похибка, коли список історії порожній",
         "zh-cn": "(加利略53) #419避免 历史列表为空时的警告和错误"
-      },
-      "3.6.1": {
-        "en": "changes suggested by adapter checker",
-        "de": "änderungen vorgeschlagen von adapter checker",
-        "ru": "изменения, предложенные adapter checker",
-        "pt": "alterações sugeridas pelo verificador do adaptador",
-        "nl": "wijzigingen voorgesteld door adaptercontrole",
-        "fr": "changements suggérés par l'adaptateur checker",
-        "it": "modifiche suggerite da adattatore checker",
-        "es": "cambios sugeridos por el adaptador",
-        "pl": "zmiany sugerowane przez sprawdzacz adaptera",
-        "uk": "зміни, запропоновані адаптером",
-        "zh-cn": "适配器检查器建议的更改"
       }
     },
     "titleLang": {
