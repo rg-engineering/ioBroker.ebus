@@ -1,4 +1,4 @@
-﻿/* eslint-disable prefer-template */
+/* eslint-disable prefer-template */
 /*
  * ebus adapter für iobroker
  *
@@ -19,8 +19,10 @@ const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
-const net = require("net");
-const { PromiseSocket } = require("promise-socket");
+//const net = require("net");
+//const { PromiseSocket } = require("promise-socket");
+
+const telnetClient = require("./lib/TelnetClient");
 
 const ebusdMinVersion = [25, 1];
 const ebusdVersion = [0, 0];
@@ -324,12 +326,15 @@ async function ebusd_Command() {
             adapter.log.debug(`connect telnet to IP ${  adapter.config.targetIP  } port ${  parseInt(adapter.config.targetTelnetPort)}`);
 
             try {
-                const socket = new net.Socket();
-                const promiseSocket = new PromiseSocket(socket);
+                //const socket = new net.Socket();
+                //const promiseSocket = new PromiseSocket(socket);
 
-                await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
-                adapter.log.debug("telnet connected for cmd");
-                promiseSocket.setTimeout(5000);
+                //await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
+                //adapter.log.debug("telnet connected for cmd");
+                //promiseSocket.setTimeout(5000);
+
+                const telnet = new telnetClient();
+                await telnet.connect(adapter.config.targetIP, parseInt(adapter.config.targetTelnetPort));
 
                 const oCmds = cmds.split(",");
 
@@ -337,9 +342,11 @@ async function ebusd_Command() {
                     let received = "";
                     for (let n = 0; n < oCmds.length; n++) {
                         adapter.log.debug(`send ${  oCmds[n]}`);
-                        await promiseSocket.write(`${oCmds[n]  }\n`);
+                        //await promiseSocket.write(`${oCmds[n]  }\n`);
+                        await telnet.write(`${oCmds[n]}\n`);
 
-                        const data = await promiseSocket.read();
+                        //const data = await promiseSocket.read();
+                        const data = await telnet.read();
 
                         if (data.includes("ERR")) {
                             adapter.log.warn(`sent ${  oCmds[n]  }, received ${  data  } please check ebusd logs for details!`);
@@ -362,7 +369,8 @@ async function ebusd_Command() {
                 }
                 await adapter.setStateAsync("cmd", { ack: true, val: "" });
 
-                promiseSocket.destroy();
+                //promiseSocket.destroy();
+                await telnet.disconnect();
             } catch (e) {
                 adapter.log.error(`exception from tcp socket` + `[${  e  }]`);
             }
@@ -374,16 +382,21 @@ async function ebusd_Command() {
 
 async function ebusd_find() {
     try {
-        const socket = new net.Socket();
-        const promiseSocket = new PromiseSocket(socket);
+        //const socket = new net.Socket();
+        //const promiseSocket = new PromiseSocket(socket);
 
-        await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
-        adapter.log.debug("telnet connected for cmd");
-        promiseSocket.setTimeout(5000);
+        //await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
+        //adapter.log.debug("telnet connected for cmd");
+        //promiseSocket.setTimeout(5000);
+        const telnet = new telnetClient();
+        await telnet.connect(adapter.config.targetIP, parseInt(adapter.config.targetTelnetPort));
 
-        await promiseSocket.write("find -F circuit,name,comment\n");
 
-        const data = await promiseSocket.read();
+        //await promiseSocket.write("find -F circuit,name,comment\n");
+        await telnet.write("find -F circuit,name,comment\n");
+
+        //const data = await promiseSocket.read();
+        const data = await telnet.read();
 
         if (data.includes("ERR")) {
             adapter.log.warn(`received error! sent find, received ${  data  } please check ebusd logs for details!`);
@@ -407,14 +420,18 @@ async function ebusd_find() {
             adapter.log.debug(`send cmd ${  cmd}`);
 
             cmd += "\n";
-            await promiseSocket.write(cmd);
+            //await promiseSocket.write(cmd);
+            await telnet.write(cmd);
 
-            const result = await promiseSocket.read();
+            //const result = await promiseSocket.read();
+            const result = await telnet.read();
 
             adapter.log.debug(`received ${  typeof result  } ${  result}`);
         }
 
-        promiseSocket.destroy();
+        //promiseSocket.destroy();
+        await telnet.disconnect();
+
     } catch (e) {
         adapter.log.error(`exception from tcp socket in ebusd_find` + `[${  e  }]`);
     }
@@ -1445,12 +1462,15 @@ async function ebusd_ReadValues() {
         adapter.log.debug(`to poll ctr ${  oPolledVars.length  } vals:  ${  JSON.stringify(oPolledVars)}`);
 
         try {
-            const socket = new net.Socket();
-            const promiseSocket = new PromiseSocket(socket);
+            //const socket = new net.Socket();
+            //const promiseSocket = new PromiseSocket(socket);
 
-            await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
-            adapter.log.debug(`telnet connected to poll variables ${  adapter.config.targetIP  } port ${  adapter.config.targetTelnetPort}`);
-            promiseSocket.setTimeout(5000);
+            //await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
+            //adapter.log.debug(`telnet connected to poll variables ${  adapter.config.targetIP  } port ${  adapter.config.targetTelnetPort}`);
+            //promiseSocket.setTimeout(5000);
+
+            const telnet = new telnetClient();
+            await telnet.connect(adapter.config.targetIP, parseInt(adapter.config.targetTelnetPort));
 
             let retries = 0;
             for (let nCtr = 0; nCtr < oPolledVars.length; nCtr++) {
@@ -1464,35 +1484,62 @@ async function ebusd_ReadValues() {
                 }
                 let cmd = `read -f ${  circuit  }${oPolledVars[nCtr].name  }${params}`;
 
-                adapter.log.debug(`send cmd ${  cmd}`);
+                //muss wieder debug werden 2025-11-01
+                adapter.log.info(`send cmd ${  cmd}`);
 
                 cmd += "\n";
-                await promiseSocket.write(cmd);
+                let data = null;
 
-                const data = await promiseSocket.read();
+                try {
+                    //await promiseSocket.write(cmd);
+                    await telnet.write(cmd);
 
-                //received ERR: arbitration lost for YieldThisYear
-                if (data.includes("ERR")) {
-                    adapter.log.warn(`sent ${  cmd  }, received ${  data  } for ${  JSON.stringify(oPolledVars[nCtr])  } please check ebusd logs for details!`);
+                    //const data = await promiseSocket.read();
+                    data = await telnet.read();
+                } catch (e) {
+                    adapter.log.warn(`exception from tcp socket write/read in ebusd_ReadValues for cmd ${cmd}` + `[${e}]`);
 
-                    /*
-                     * sent read -f YieldLastYear, received ERR: arbitration lost for {"circuit":"","name":"YieldLastYear","parameter":""}
-                     * */
-                    if (data.includes("arbitration lost")) {
-                        retries++;
-                        if (retries > adapter.config.maxretries) {
-                            adapter.log.error(`max retries, skip cmd ${  cmd}`);
-                            retries = 0;
-                        } else {
-                            nCtr--;
-                            adapter.log.debug("retry to send data ");
-                        }
+                    //todo: retry nur für timeout und arbitration lost?
+                    retries++;
+                    if (retries > adapter.config.maxretries) {
+                        adapter.log.error(`max retries, skip cmd ${cmd}`);
+                        
+                    } else {
+                        nCtr--; //counter wieder zurücksetzen
+                        adapter.log.debug("retry to send data ");
                     }
-                } else {
-                    adapter.log.debug(`received ${  data  } for ${  JSON.stringify(oPolledVars[nCtr])}`);
+
                 }
+                if (data !== null) {
+                    adapter.log.info(`received ${data} for ${JSON.stringify(oPolledVars[nCtr])}`);
+
+                    //todo: parse data and set DP's
+                }
+                //received ERR: arbitration lost for YieldThisYear
+                //if (data !== null && data.includes("ERR")) {
+                //    adapter.log.warn(`sent ${  cmd  }, received ${  data  } for ${  JSON.stringify(oPolledVars[nCtr])  } please check ebusd logs for details!`);
+                //
+                //    /*
+                //     * sent read -f YieldLastYear, received ERR: arbitration lost for {"circuit":"","name":"YieldLastYear","parameter":""}
+                //     * */
+                //    if (data.includes("arbitration lost")) {
+                //        retries++;
+                //        if (retries > adapter.config.maxretries) {
+                //            adapter.log.error(`max retries, skip cmd ${  cmd}`);
+                //            retries = 0;
+                //        } else {
+                //            nCtr--;
+                //            adapter.log.debug("retry to send data ");
+                //        }
+                //    }
+                //} else {
+                //
+                //    //muss wieder debug werden 2025-11-01
+                //    adapter.log.info(`received ${  data  } for ${  JSON.stringify(oPolledVars[nCtr])}`);
+                //}
             }
-            promiseSocket.destroy();
+            //promiseSocket.destroy();
+            await telnet.disconnect();
             adapter.log.debug("telnet disonnected");
         } catch (e) {
             adapter.log.error(`exception from tcp socket in ebusd_ReadValues ` + `[${  e  }]`);
@@ -1503,42 +1550,55 @@ async function ebusd_ReadValues() {
 }
 
 async function FindParams(obj) {
-    adapter.log.debug(`FindParams ${  JSON.stringify(obj)  } ${  JSON.stringify(obj.message)  } ${  JSON.stringify(obj.message.circuit)}`);
+
+    //muss wieder debug werden 2025-11-01
+    adapter.log.info(`FindParams ${  JSON.stringify(obj)  } ${  JSON.stringify(obj.message)  } ${  JSON.stringify(obj.message.circuit)}`);
 
     const list = [];
 
     try {
         //FindParams {"command":"findParams","message":{"circuit":"cc"},"from":"system.adapter.admin.0","callback":{"message":{"circuit":"cc"},"id":90,"ack":false,"time":1733690088670},"_id":39690903}
 
-        if (obj.message != null) {
+        if (obj.message !== null && obj.message.circuit!== null) {
             const circuit = obj.message.circuit;
 
-            const socket = new net.Socket();
-            const promiseSocket = new PromiseSocket(socket);
+            //const socket = new net.Socket();
+            //const promiseSocket = new PromiseSocket(socket);
 
-            await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
-            adapter.log.debug("telnet connected for cmd");
-            promiseSocket.setTimeout(5000);
+            //await promiseSocket.connect(parseInt(adapter.config.targetTelnetPort), adapter.config.targetIP);
+            //adapter.log.debug("telnet connected for cmd");
+            //promiseSocket.setTimeout(5000);
+
+            const telnet = new telnetClient();
+            await telnet.connect(adapter.config.targetIP, parseInt(adapter.config.targetTelnetPort));
 
             const cmd = `find -c ${  circuit  } -F circuit,name\n`;
-            await promiseSocket.write(cmd);
+            //await promiseSocket.write(cmd);
 
-            const data = await promiseSocket.read();
+            adapter.log.debug(`send cmd ${cmd}`);
+            await telnet.write(cmd);
 
-            if (data.includes("ERR")) {
+            adapter.log.debug(`sent, wait for data...`);
+            //const data = await promiseSocket.read();
+            const data = await telnet.read();
+            adapter.log.info(`data received: ` + data);
+
+            if ( data.includes("ERR")) {
                 adapter.log.warn(`received error! sent find, received ${  data  } please check ebusd logs for details! ${  cmd}`);
                 
             } else {
-                adapter.log.debug(`received ${  typeof data  } ${  data  } ${  + cmd}`);
+                adapter.log.info(`received ${  typeof data  } ${  data  } ${  + cmd}`);
             }
             /*
               received object ehp,AccelerationTestModeehp,AccelerationTestModeehp,ActualEnvironmentPowerehp,ActualEnvironmentPowerehp,ActualEnvironmentPowerPercentageehp,ActualEnvironmentPowerPercentageehp,ApplianceCodeehp,ApplianceCodeehp,Backupehp,Backupehp,BackupHoursehp,BackupHoursHcehp,BackupHoursHwcehp,BackupHysteresisehp,BackupIntegralehp,BackupModeHcehp,BackupModeHwcehp,BackupPowerCutehp,BackupStartsehp,BackupStartsHcehp,BackupStartsHwcehp,BackupTypeehp,BivalentTempehp,Bleedingehp,Bleedingehp,CirPumpehp,CirPumpehp,Code1ehp,Code1Code2Validehp,Code2ehp,Compehp,Compehp,CompControlStateehp,CompCutPressHighCountehp,CompCutPressLowCountehp,CompCutTempCountehp,CompDemandehp,CompHoursehp,CompHoursHcehp,CompHoursHwcehp,CompHysteresisehp,CompIntegralehp,CompPressHighehp,CompPressHighehp,CompPressLowehp,CompPressLowehp,CompStartsehp,CompStartsHcehp,CompStartsHwcehp,CompStateehp,CondensorTempehp,CondensorTempehp,currenterrorehp,Dateehp,DateTimeehp,DeltaTempT6T7ehp,ElectricWiringDiagramehp,ElectricWiringDiagramehp,EnergyBalancingReleaseehp,errorhistoryehp,FlowTempehp,FlowTempehp,FlowtempCoolingMinehp,FlowTempOffsetehp,Hc1Pumpehp,Hc1Pumpehp,Hc1PumpHoursehp,Hc1PumpPortehp,Hc1PumpStartsehp,Hc2Pumpehp,Hc2PumpHoursehp,HcFlowTempehp,HcFlowTempOffsetehp,HcModeDemandHoursehp,HcModeFulfilledHoursehp,HcParallelStorageFillingEnabledehp,HcPressehp,HcReturnTempehp,HcReturnTempehp,HcReturnTempOffsetehp,HeatPumpStatusehp,HeatPumpStatusehp,HeatpumpTypeehp,HwcHcValveehp,HwcHcValveehp,HwcHcValveStartsehp,HwcLaggingTimeehp,HwcLoadingDelayehp,HwcModeDemandHoursehp,HwcModeFulfilledHoursehp,HwcPumpStartsehp,HwcSwitchehp,HwcTempehp,HwcTempehp,HwcTempOffsetehp,HydraulicSchemeehp,ICLOutehp,ICLOutehp,Injectionehp,Integralehp,Mixer1DutyCycleehp,NumberCompStartsehp,OutsideTempehp,OutsideTempOffsetehp,OverpressureThresholdehp,PhaseOrderehp,PhaseOrderehp,PhaseStatusehp,PhaseStatusehp,PowerCutehp,PowerCutPreloadingehp,PressSwitchehp,PressSwitchehp,RebootCounterehp,ReturnTempMaxehp,SetModeehp,SoftwareCodeehp,Source2PumpHoursehp,Sourceehp,Sourceehp,SourceHoursehp,SourcePortehp,SourcePressehp,SourcePumpPrerunTimeehp,SourceStartsehp,SourceSwitchehp,SourceSwitchehp,SourceTempInputehp,SourceTempInputehp,SourceTempInputOffsetehp,SourceTempOutputehp,SourceTempOutputehp,SourceTempOutputOffsetehp,SourceTempOutputT8Minehp,StateSoftwareCodeehp,StateSoftwareCodeehp,Status01ehp,Status02ehp,Status16ehp,Statusehp,StatusCirPumpehp,StorageTempBottomehp,StorageTempBottomehp,StorageTempBottomOffsetehp,StorageTempTopehp,StorageTempTopehp,StorageTempTopOffsetehp,Subcoolingehp,Superheatehp,T19MaxToCompOffehp,TempInputehp,TempInputehp,TempInputOffsetehp,TempOutputehp,TempOutputehp,TempOutputOffsetehp,Timeehp,TimeBetweenTwoCompStartsMinehp,TimeCompOffMinehp,TimeCompOnMinehp,TimeOfNextPredictedPowerCutehp,TimeOfNextPredictedPowerCutehp,Weekdayehp,YieldTotalehp,YieldTotal
             */
-            const str = new TextDecoder().decode(data);
-            const datas = str.split(/\r?\n/);
+            //const str = new TextDecoder().decode(data);
+            const datas = data.split(/[\r?\n,]+/);
+
+            adapter.log.info("found entries: " + datas.length); 
 
             for (let i = 0; i < datas.length; i++) {
-                //adapter.log.debug(JSON.stringify(datas[i]));
+                //adapter.log.info(JSON.stringify(datas[i]));
 
                 const names = datas[i].split(",");
 
@@ -1567,6 +1627,8 @@ async function FindParams(obj) {
                     list.push(entry);
                 }
             }
+
+            await telnet.disconnect();
         } else {
             adapter.log.error("no circuit defined where to look for parameter, check values!");
         }
@@ -1726,6 +1788,13 @@ async function GetLatestVersionGithub() {
     }
     return latestVersion;
 }
+
+
+
+
+
+
+
 
 // If started as allInOne/compact mode => return function to create instance
 if (module && module.parent) {
