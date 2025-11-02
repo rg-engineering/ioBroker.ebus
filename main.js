@@ -1484,8 +1484,7 @@ async function ebusd_ReadValues() {
                 }
                 let cmd = `read -f ${  circuit  }${oPolledVars[nCtr].name  }${params}`;
 
-                //muss wieder debug werden 2025-11-01
-                adapter.log.info(`send cmd ${  cmd}`);
+                adapter.log.debug(`send cmd ${  cmd}`);
 
                 cmd += "\n";
                 let data = null;
@@ -1497,9 +1496,9 @@ async function ebusd_ReadValues() {
                     //const data = await promiseSocket.read();
                     data = await telnet.read();
                 } catch (e) {
-                    adapter.log.warn(`exception from tcp socket write/read in ebusd_ReadValues for cmd ${cmd}` + `[${e}]`);
+                    adapter.log.warn(`exception from tcp socket write/read in ebusd_ReadValues for cmd ${cmd}` + `[${e}]` + ` -> retry` );
 
-                    //todo: retry nur für timeout und arbitration lost?
+                    //todo: retry nur für timeout und arbitration lost? 2025-11-01
                     retries++;
                     if (retries > adapter.config.maxretries) {
                         adapter.log.error(`max retries, skip cmd ${cmd}`);
@@ -1511,9 +1510,9 @@ async function ebusd_ReadValues() {
 
                 }
                 if (data !== null) {
-                    adapter.log.info(`received ${data} for ${JSON.stringify(oPolledVars[nCtr])}`);
+                    adapter.log.debug(`received ${data} for ${JSON.stringify(oPolledVars[nCtr])}`);
 
-                    //todo: parse data and set DP's
+                    //todo: parse data and set DP's 2025-11-01
                 }
                 //received ERR: arbitration lost for YieldThisYear
                 //if (data !== null && data.includes("ERR")) {
@@ -1534,7 +1533,7 @@ async function ebusd_ReadValues() {
                 //    }
                 //} else {
                 //
-                //    //muss wieder debug werden 2025-11-01
+                //    //muss wieder debug werden 2025-11-01 todo
                 //    adapter.log.info(`received ${  data  } for ${  JSON.stringify(oPolledVars[nCtr])}`);
                 //}
             }
@@ -1551,7 +1550,7 @@ async function ebusd_ReadValues() {
 
 async function FindParams(obj) {
 
-    //muss wieder debug werden 2025-11-01
+    //todo muss wieder debug werden 2025-11-01
     adapter.log.info(`FindParams ${  JSON.stringify(obj)  } ${  JSON.stringify(obj.message)  } ${  JSON.stringify(obj.message.circuit)}`);
 
     const list = [];
