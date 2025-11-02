@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.6.10",
+    "version": "3.7.0",
     "news": {
+      "3.7.0": {
+        "en": "issue #469: telnet connection overworked, promise-socket removed",
+        "de": "ausgabe #469: telnet-verbindung überbearbeitet, versprechen-socket entfernt",
+        "ru": "проблема no 469: перегруженное соединение с сетью telnet, удаленное сокет-обещание",
+        "pt": "problema #469: conexão telnet overworked, promessa-socket removido",
+        "nl": "nummer #469: telnetverbinding overwerkt, belofte-socket verwijderd",
+        "fr": "numéro 469: connexion telnet surchargée, promesse-socket supprimée",
+        "it": "numero #469: connessione telnet overworked, promessa-socket rimosso",
+        "es": "cuestión #469: conexión de telnet superada, promesa-socket eliminado",
+        "pl": "numer # 469: przepracowane połączenie telnet, usunięte gniazdo",
+        "uk": "problem #469: перероблено зв'язку телнет, вилучено обіцянку",
+        "zh-cn": "第469期: 电话网连接超负荷工作, 承诺口袋被移除"
+      },
       "3.6.10": {
         "en": "sentry bug fix",
         "de": "fehler beheben",
@@ -80,19 +93,6 @@
         "pl": "uzyskać informacje o wersji dla ebusd z github, jeśli lokalnie nie jest dostępny\naktualizacji zależności\nnowe badania",
         "uk": "отримати інформацію про версію для ebusd від github, якщо локально не доступний\nоновлення залежності\nновий тест",
         "zh-cn": "如果本地不可用, 从 github 获取 ebusd 的版本信息\n更新依赖关系\n新测试"
-      },
-      "3.6.2": {
-        "en": "(Galileo53) #419 avoid Warning and error when history list is empty",
-        "de": "(Galileo53) #419 vermeiden Warnung und Fehler bei leerer Geschichtsliste",
-        "ru": "(Galileo53) #419 Избегайте Предупреждение и ошибка, когда список истории пуст",
-        "pt": "#419 evitam Aviso e erro quando a lista de histórico estiver vazia",
-        "nl": "(Galileo53) #419 vermijden Waarschuwing en fout wanneer geschiedenislijst leeg is",
-        "fr": "(Galileo53) #419 éviter Avertissement et erreur lorsque la liste d'historique est vide",
-        "it": "#419 evita Avvertenza ed errore quando l'elenco di storia è vuoto",
-        "es": "(Galileo53) #419 evitar Advertencia y error cuando la lista de historia está vacía",
-        "pl": "(Galileo53) # 419 unikać Ostrzeżenie i błąd, gdy lista historii jest pusta",
-        "uk": "(Galileo53) #419 уникнути Попередження та похибка, коли список історії порожній",
-        "zh-cn": "(加利略53) #419避免 历史列表为空时的警告和错误"
       }
     },
     "titleLang": {
