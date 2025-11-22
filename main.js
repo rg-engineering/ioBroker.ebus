@@ -213,7 +213,10 @@ function FillPolledVars() {
             //make it compatible to old versions
             adapter.log.debug(`check old comma separeted list for polled vars ${  adapter.config.PolledValues}`);
 
-            if (adapter.config.PolledValues !== undefined && typeof adapter.config.PolledValues == "string") {
+            if (adapter.config.PolledValues !== undefined
+                && adapter.config.PolledValues != null
+                && typeof adapter.config.PolledValues == "string") {
+
                 const oPolled = adapter.config.PolledValues.split(",");
 
                 if (oPolled.length > 0) {
