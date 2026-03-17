@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "3.7.0",
+    "version": "3.8.0",
     "news": {
+      "3.8.0": {
+        "en": ": avoid exception, reported by sentry\nupdate dependencies + changes based on adapter checker\nsee issue #497: support of ebusd 26.1",
+        "de": ": vermeidung von ausnahmen, von der sendung gemeldet\naktualisierung abhängigkeiten + änderungen basierend auf adapter-checker\nsiehe ausgabe #497: unterstützung von ebusd 26.1",
+        "ru": "избегайте исключений, о которых сообщает часовой\nзависимости обновления + изменения на основе проверки адаптера\nсм. выпуск #497: поддержка ebusd 26.1",
+        "pt": ": evitar exceção, reportada por sentinela\natualizar dependências + alterações com base no verificador de adaptadores\nver número 497: apoio do ebusd 26.1",
+        "nl": ": uitzondering vermijden, gemeld door de wachtdienst\nupdate afhankelijkheden + wijzigingen op basis van adaptercontrole\nzie nummer #497: ondersteuning van ebusd 26.1",
+        "fr": ": éviter l'exception, rapportée par sentinelle\nmettre à jour les dépendances + les changements basés sur le vérificateur d'adaptateur\nvoir numéro 497: soutien de l'ebusd 26.1",
+        "it": ": evitare eccezioni, riportate dalla sentinella\naggiornamento dipendenze + modifiche in base all'adattatore checker\nvedi numero #497: supporto di ebusd 26.1",
+        "es": ": evitar la excepción, reportada por centinela\ndependencias de actualización + cambios basados en el control de adaptador\nver número #497: soporte de ebusd 26.1",
+        "pl": ": uniknąć wyjątku, zgłaszane przez wartownika\naktualizacja zależności + zmiany w oparciu o sprawdzacz adaptera\nzob. numer # 497: wsparcie ebusd 26.1",
+        "uk": ": уникнути винятків, повідомляється відправником\nоновлення залежності + зміни на основі перевірки адаптера\nпереглянути номер #497: підтримка ebusd 26.1",
+        "zh-cn": ":避免例外,由哨兵报告\n根据适配器检查器更新依赖性+变化\n见问题497:支持ebusd 26.1"
+      },
       "3.7.0": {
         "en": "issue #469: telnet connection overworked, promise-socket removed",
         "de": "ausgabe #469: telnet-verbindung überbearbeitet, versprechen-socket entfernt",
@@ -80,19 +93,6 @@
         "pl": "zobacz numer # 430: błąd naprawić",
         "uk": "переглянути проблему #430: виправлення помилок",
         "zh-cn": "参见第430期: 错误修正"
-      },
-      "3.6.3": {
-        "en": "get version info for ebusd from github if locally not available\nupdate dependencies\nnew testing",
-        "de": "versionsinformationen für ebusd von github erhalten, wenn lokal nicht verfügbar\naktualisierung der abhängigkeiten\nneue tests",
-        "ru": "получить информацию о версии для вытеснения из github, если локально недоступно\nобновление зависимостей\nновые испытания",
-        "pt": "obter informações de versão para o ebusd do github se não estiver disponível localmente\natualizar dependências\nnovos testes",
-        "nl": "krijgen versie-informatie voor ebusd van github als lokaal niet beschikbaar\nafhankelijkheden bijwerken\nnieuwe tests",
-        "fr": "obtenir des informations de version pour ebusd de github si localement pas disponible\nmettre à jour les dépendances\nnouveaux essais",
-        "it": "ottenere informazioni sulla versione per ebusd da github se localmente non disponibile\naggiornamento dipendenze\nnuovi test",
-        "es": "obtener información de la versión para ebusd de github si localmente no disponible\ndependencias de actualización\nnuevas pruebas",
-        "pl": "uzyskać informacje o wersji dla ebusd z github, jeśli lokalnie nie jest dostępny\naktualizacji zależności\nnowe badania",
-        "uk": "отримати інформацію про версію для ebusd від github, якщо локально не доступний\nоновлення залежності\nновий тест",
-        "zh-cn": "如果本地不可用, 从 github 获取 ebusd 的版本信息\n更新依赖关系\n新测试"
       }
     },
     "titleLang": {

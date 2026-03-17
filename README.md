@@ -76,8 +76,7 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 3.8.0 (2026-03-17)
 * (René): avoid exception, reported by sentry
 * (René) update dependencies + changes based on adapter checker
 * (René) see issue #497: support of ebusd 26.1
