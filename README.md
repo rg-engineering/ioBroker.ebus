@@ -80,7 +80,7 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
 ### **WORK IN PROGRESS**
 * (René): avoid exception, reported by sentry
 * (René) update dependencies + changes based on adapter checker
-
+* (René) see issue #497: support of ebusd 26.1
 
 ### 3.7.0 (2025-11-02)
 * (René) issue #469: telnet connection overworked, promise-socket removed

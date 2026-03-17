@@ -24,7 +24,7 @@ const axios = require("axios");
 
 const telnetClient = require("./lib/TelnetClient");
 
-const ebusdMinVersion = [25, 1];
+const ebusdMinVersion = [26, 1];
 const ebusdVersion = [0, 0];
 const ebusdUpdateVersion = [0, 0];
 
