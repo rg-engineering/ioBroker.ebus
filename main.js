@@ -13,13 +13,13 @@
 "use strict";
 
 const utils = require("@iobroker/adapter-core");
-const os = require("os");
-//const { exec } = require("child_process");
-const { spawn } = require("child_process");
-const fs = require("fs");
-const path = require("path");
+const os = require("node:os");
+//const { exec } = require("node:child_process");
+const { spawn } = require("node:child_process");
+const fs = require("node:fs");
+const path = require("node:path");
 const axios = require("axios");
-//const net = require("net");
+//const net = require("node:net");
 //const { PromiseSocket } = require("promise-socket");
 
 const telnetClient = require("./lib/TelnetClient");
