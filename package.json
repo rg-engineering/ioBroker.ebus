@@ -33,6 +33,7 @@
     "@alcalzone/release-script-plugin-license": "^5.1.1",
     "@alcalzone/release-script-plugin-manual-review": "^5.1.1",
     "@iobroker/adapter-dev": "^1.5.0",
+    "@iobroker/build-tools": "^3.0.1",
     "@iobroker/eslint-config": "^2.2.0",
     "@iobroker/testing": "^5.2.2"
   },
@@ -62,14 +63,13 @@
   ],
   "readmeFilename": "README.md",
   "scripts": {
-    "test": "npm run test:package",
-    "test:package": "mocha test/package --exit",
-    "test:unit": "mocha test/unit --exit",
-    "test:integration": "mocha test/integration --exit",
-    "lint": "eslint -c eslint.config.mjs .",
-    "translate": "translate-adapter",
-    "translate1": "translate-adapter adminLanguages2words",
-    "release": "release-script",
-    "npm": "npm i"
+    "0-clean": "node tasks.js --0-clean",
+    "1-npm": "node tasks.js --1-npm",
+    "2-build": "node tasks.js --2-build",
+    "3-copy": "node tasks.js --3-copy",
+    "4-patch": "node tasks.js --4-patch",
+    "build": " node tasks --build && npm pack",
+    "build-backend": "tsc -p tsconfig.build.json",
+    "npm": "npm i && cd src-admin && npm i -f"
   }
 }
