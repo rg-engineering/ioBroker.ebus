@@ -9,7 +9,16 @@ interface HTTPparameter {
     value: string
 }
 
+interface polledDP {
+    active: boolean,
+    circuit: string,
+    name: string,
+    parameter: string,
+}
 
+interface historyDP {
+    name: string,
+}
 
 
 export interface ebusAdapterConfig extends ioBroker.AdapterConfig {
@@ -28,7 +37,13 @@ export interface ebusAdapterConfig extends ioBroker.AdapterConfig {
     parseTimeout: number,
     maxretries: number,
 
-    HTTPparameter: HTTPparameter[]
+    HTTPparameter: HTTPparameter[],
+
+    PolledDPs: polledDP[],
+    Circuit4Find: string,
+
+    HistoryDPs: historyDP[],
+
   
 
     

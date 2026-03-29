@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.3.2",
-    "axios": "^1.13.6",
+    "axios": "^1.14.0",
     "net": "^1.0.2"
   },
   "devDependencies": {
@@ -63,6 +63,13 @@
   ],
   "readmeFilename": "README.md",
   "scripts": {
+    "test": "node node_modules/mocha/bin/mocha test/testAdapter.js --exit && node node_modules/mocha/bin/mocha test/testPackageFiles.js --exit",
+    "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit",
+    "test:integration": "mocha test/integration --exit",
+    "lint": "eslint -c eslint.config.mjs .",
+    "translate": "translate-adapter",
+    "release": "release-script",
     "0-clean": "node tasks.js --0-clean",
     "1-npm": "node tasks.js --1-npm",
     "2-build": "node tasks.js --2-build",
