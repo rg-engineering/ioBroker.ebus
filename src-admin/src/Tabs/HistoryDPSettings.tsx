@@ -99,9 +99,43 @@ export default function HistoryDPSettings(props: SettingsProps): React.JSX.Eleme
 
                 <TextField
                     label={I18n.t('hint_ebusd_history')}
-                >
-                </TextField>
-               
+                    value={I18n.t('hint_ebusd_history')}
+                    InputProps={{
+                        readOnly: true,
+                        disableUnderline: true,
+                        style: {
+                            fontSize: '0.85rem',
+                            width: '100%',
+                            border: 'none',
+                            background: 'transparent',
+                            padding: 0,
+                        },
+                    }}
+                    variant="standard"
+                    fullWidth
+                    InputLabelProps={{
+                        shrink: false,
+                        style: { display: 'none' },
+                    }}
+                    sx={{
+                        '& .MuiInputBase-root': {
+                            border: 'none',
+                            fontSize: '0.85rem',
+                            width: '100%',
+                            background: 'transparent',
+                            padding: 0,
+                        },
+                        '& .MuiInputBase-input': {
+                            border: 'none',
+                            fontSize: '0.85rem',
+                            width: '100%',
+                            background: 'transparent',
+                            padding: 0,
+                        },
+                    }}
+                />
+
+
                 <DP_table
                     settingName={I18n.t('history DPs')}
                     settings={props.native.HistoryDPs}
@@ -117,11 +151,11 @@ export default function HistoryDPSettings(props: SettingsProps): React.JSX.Eleme
 
                 </DP_table>
 
-               
+
 
 
             </Box>
         </Box>
     );
-    
+
 }

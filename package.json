@@ -37,7 +37,7 @@
     "@iobroker/eslint-config": "^2.2.0",
     "@iobroker/testing": "^5.2.2"
   },
-  "main": "main.js",
+  "main": "build/main.js",
   "bugs": {
     "url": "https://github.com/rg-engineering/ioBroker.ebus"
   },
@@ -59,7 +59,8 @@
     "widgets/",
     "io-package.json",
     "LICENSE",
-    "main.js"
+    "!main.js",
+    "build/"
   ],
   "readmeFilename": "README.md",
   "scripts": {
@@ -75,7 +76,7 @@
     "2-build": "node tasks.js --2-build",
     "3-copy": "node tasks.js --3-copy",
     "4-patch": "node tasks.js --4-patch",
-    "build": " node tasks --build && npm pack",
+    "build": " npm run build-backend && node tasks --build && npm pack",
     "build-backend": "tsc -p tsconfig.build.json",
     "npm": "npm i && cd src-admin && npm i -f"
   }

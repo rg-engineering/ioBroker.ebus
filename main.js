@@ -1554,7 +1554,7 @@ async function ebusd_ReadValues() {
 async function FindParams(obj) {
 
     //todo muss wieder debug werden 2025-11-01
-    adapter.log.info(`FindParams ${  JSON.stringify(obj)  } ${  JSON.stringify(obj.message)  } ${  JSON.stringify(obj.message.circuit)}`);
+    adapter.log.debug(`FindParams ${  JSON.stringify(obj)  }`);
 
     const list = [];
 

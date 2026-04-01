@@ -187,31 +187,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
         console.debug("active DP's: " + JSON.stringify(this.keys));
 
 
-        /*
-        {
-            "heatingcontrol.0.Present":{
-                "enabled":true,
-                "aliasId":"",
-                "debounceTime":0,
-                "blockTime":0,
-                "changesOnly":false,
-                "changesRelogInterval":0,
-                "changesMinDelta":0,
-                "ignoreBelowNumber":"",
-                "disableSkippedValueLogging":false,
-                "retention":31536000,
-                "customRetentionDuration":365,
-                "maxLength":10,
-                "enableDebugLogs":false,
-                "debounce":0,
-                "ignoreZero":false,
-                "round":null},
-            "heatingcontrol.0.Rooms.TestRaum.ActiveTimeSlot":{"enabled":true,"aliasId":"","debounceTime":0,"blockTime":0,"changesOnly":true,"changesRelogInterval":0,"changesMinDelta":0,"ignoreBelowNumber":"","disableSkippedValueLogging":false,"retention":31536000,"customRetentionDuration":365,"maxLength":960,"enableDebugLogs":false,"debounce":1000,"ignoreZero":false,"round":null},"heatingcontrol.0.Rooms.TestRaum.CurrentTarget":{"enabled":true,"aliasId":"","debounceTime":0,"blockTime":0,"changesOnly":true,"changesRelogInterval":0,"changesMinDelta":0,"ignoreBelowNumber":"","disableSkippedValueLogging":false,"retention":31536000,"customRetentionDuration":365,"maxLength":960,"enableDebugLogs":false,"debounce":1000,"ignoreZero":false,"round":null},"heatingcontrol.0.Rooms.TestRaum.CurrentTimePeriodTemperature":{"enabled":true,"aliasId":"","debounceTime":0,"blockTime":0,"changesOnly":true,"changesRelogInterval":0,"changesMinDelta":0,"ignoreBelowNumber":"","disableSkippedValueLogging":false,"retention":31536000,"customRetentionDuration":365,"maxLength":960,"enableDebugLogs":false,"debounce":1000,"ignoreZero":false,"round":null},"heatingcontrol.0.Rooms.TestRaum.TemperaturOverride":{"enabled":true,"aliasId":"","debounceTime":0,"blockTime":0,"changesOnly":true,"changesRelogInterval":0,"changesMinDelta":0,"ignoreBelowNumber":"","disableSkippedValueLogging":false,"retention":31536000,"customRetentionDuration":365,"maxLength":960,"enableDebugLogs":false,"debounce":1000,"ignoreZero":false,"round":null},"heatingcontrol.0.Rooms.TestRaum.TemperaturOverrideRemainingTime":{"enabled":true,"aliasId":"","debounceTime":0,"blockTime":0,"changesOnly":true,"changesRelogInterval":0,"changesMinDelta":0,"ignoreBelowNumber":"","disableSkippedValueLogging":false,"retention":31536000,"customRetentionDuration":365,"maxLength":960,"enableDebugLogs":false,"debounce":1000,"ignoreZero":false,"round":null},"heatingcontrol.0.Rooms.TestRaum.WindowIsOpen":
-
-
-
-
-        */
+        
 
     }
 

@@ -125,30 +125,64 @@ export default function QueriedDPSettings(props: SettingsProps): React.JSX.Eleme
 
                 <TextField
                     label={I18n.t('hint_ebusd_polled')}
-                >
-                </TextField>
-
-                <TextField
-                    style={{ marginBottom: 16 }}
-                    id='Circuit4Find'
-                    label={I18n.t('Circuit4Find')}
+                    value={I18n.t('hint_ebusd_polled')}
+                    InputProps={{
+                        readOnly: true,
+                        disableUnderline: true,
+                        style: {
+                            fontSize: '0.85rem',
+                            width: '100%',
+                            border: 'none',
+                            background: 'transparent',
+                            padding: 0,
+                        },
+                    }}
                     variant="standard"
-                    value={props.native.Circuit4Find}
-                    onChange={handleCircuit4Find}
-                    sx={{ mb: 2, maxWidth: '30%' }}
-                    
-                    
+                    fullWidth
+                    InputLabelProps={{
+                        shrink: false,
+                        style: { display: 'none' },
+                    }}
+                    sx={{
+                        '& .MuiInputBase-root': {
+                            border: 'none',
+                            fontSize: '0.85rem',
+                            width: '100%',
+                            background: 'transparent',
+                            padding: 0,
+                        },
+                        '& .MuiInputBase-input': {
+                            border: 'none',
+                            fontSize: '0.85rem',
+                            width: '100%',
+                            background: 'transparent',
+                            padding: 0,
+                        },
+                    }}
                 />
 
-                <Button
-                    id='btn_findParamters'
-                    onClick={() => FindParameters()}
-                    variant="contained"
-                    sx={{ flexShrink: 0 }}
-                >
-                    {I18n.t('find parameter')}
-                </Button>
+                <Box>
+                    <TextField
+                        style={{ marginBottom: 16 }}
+                        id='Circuit4Find'
+                        label={I18n.t('Circuit4Find')}
+                        variant="standard"
+                        value={props.native.Circuit4Find}
+                        onChange={handleCircuit4Find}
+                        sx={{ mb: 2, maxWidth: '30%' }}
 
+
+                    />
+
+                    <Button
+                        id='btn_findParamters'
+                        onClick={() => FindParameters()}
+                        variant="contained"
+                        sx={{ flexShrink: 0 }}
+                    >
+                        {I18n.t('find parameter')}
+                    </Button>
+                </Box>
 
                 <DP_table
                     settingName={I18n.t('queried datapoints')}
@@ -161,12 +195,12 @@ export default function QueriedDPSettings(props: SettingsProps): React.JSX.Eleme
                     onUpdate={updatePolledDP}
                     onRemove={removePolledDP}
                     addButtonTooltip={I18n.t('add a new polled datapoint')}
-                    >
+                >
 
                 </DP_table>
 
             </Box>
         </Box>
     );
-    
+
 }
