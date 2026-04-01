@@ -10,6 +10,22 @@ import * as utils from "@iobroker/adapter-core";
 import axios from "axios";
 import  TelnetClient  from "./lib/TelnetClient";
 
+type polledVar = {
+    active: boolean,
+    circuit: string,
+    name: string,
+    parameter: string,
+}
+
+type historyVar = {
+    name: string,
+}
+
+type HTTPParamsVar = {
+    active: boolean,
+    name: string,
+    value: string
+}
 
 export class ebus extends utils.Adapter {
 
@@ -17,9 +33,9 @@ export class ebus extends utils.Adapter {
     updateTimerID: NodeJS.Timeout | null = null;
     requestRunning: boolean = false;
 
-    oPolledVars = [];
-    oHistoryVars = [];
-    oHTTPParamsVars = [];
+    oPolledVars: polledVar[] = [];
+    oHistoryVars: historyVar[] = [];
+    oHTTPParamsVars: HTTPParamsVar[] = [];
     ebusdMinVersion = [26, 1];
     ebusdVersion = [0, 0];
     ebusdUpdateVersion = [0, 0];
@@ -86,7 +102,7 @@ export class ebus extends utils.Adapter {
     /**
      * Wird aufgerufen, wenn ein abonnierter State geändert wird
      */
-    private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
+    private async onStateChange(id: string, state: ioBroker.State | null | undefined): Promise<void> {
         if (state != null && state.ack !== true) {
             this.log.debug(`handle state change ${id}`);
             const ids = id.split(".");
@@ -157,7 +173,7 @@ export class ebus extends utils.Adapter {
         await this.subscribeVars();
 
         let readInterval = 5;
-        if (parseInt(this.config.readInterval) > 0) {
+        if (this.config.readInterval > 0) {
             readInterval = this.config.readInterval;
         }
         this.log.debug(`read every  ${readInterval} minutes`);
@@ -224,30 +240,7 @@ export class ebus extends utils.Adapter {
                         this.oPolledVars.push(this.config.PolledDPs[i]);
                     }
                 }
-            } else {
-                //make it compatible to old versions
-                this.log.debug(`check old comma separeted list for polled vars ${this.config.PolledValues}`);
-
-                if (this.config.PolledValues !== undefined
-                    && this.config.PolledValues != null
-                    && typeof this.config.PolledValues == "string") {
-
-                    const oPolled = this.config.PolledValues.split(",");
-
-                    if (oPolled.length > 0) {
-                        for (let i = 0; i < oPolled.length; i++) {
-                            if (oPolled[i].length > 0) {
-                                //console.log('add ' + oPolled[i]);
-                                const value = {
-                                    circuit: "",
-                                    name: oPolled[i],
-                                    parameter: "",
-                                };
-                                this.oPolledVars.push(value);
-                            }
-                        }
-                    }
-                }
+            
             }
         } catch (e) {
             this.log.error(`exception in FillPolledVars [${e}]`);
@@ -266,22 +259,6 @@ export class ebus extends utils.Adapter {
             ) {
                 this.log.debug("use new object list for history vars");
                 this.oHistoryVars = this.config.HistoryDPs;
-            } else if (this.config.HistoryValues !== undefined && typeof this.config.HistoryValues === "string") {
-                //make it compatible to old versions
-                this.log.debug("check old comma separeted list for history vars");
-                const oHistory = this.config.HistoryValues.split(",");
-
-                if (oHistory.length > 0) {
-                    for (let i = 0; i < oHistory.length; i++) {
-                        if (oHistory[i].length > 0) {
-                            console.log(`add ${oHistory[i]}`);
-                            const value = {
-                                name: oHistory[i],
-                            };
-                            this.oHistoryVars.push(value);
-                        }
-                    }
-                }
             }
         } catch (e) {
             this.log.error(`exception in function FillHistoryVars [${e}]`);
@@ -628,7 +605,7 @@ export class ebus extends utils.Adapter {
 
     async ebusd_ReceiveData() {
         try {
-            let sUrl = `http://${this.config.targetIP}:${parseInt(this.config.targetHTTPPort)}/data`;
+            let sUrl = `http://${this.config.targetIP}:${this.config.targetHTTPPort}/data`;
 
             //Erweiterung mit optionalen parametern
             var paramsCnt = 0;
@@ -863,7 +840,7 @@ export class ebus extends utils.Adapter {
         this.log.debug(`start history 4 VIS-2 ${JSON.stringify(values)} ${JSON.stringify(dates)}`);
 
         //not used anymore
-        await this.setStateAsync("history.date", { ack: true, val: "" });
+        await this.setState("history.date", { ack: true, val: "" });
 
         for (let s = 0; s < values.length; s++) {
             const values1 = values[s];
@@ -874,14 +851,14 @@ export class ebus extends utils.Adapter {
 
             const obj = await this.getStateAsync(`history.value${ctr}`);
 
-            if (obj === null || obj === undefined) {
+            if (obj === null || obj === undefined ) {
                 this.log.warn(`history.value${ctr} not found, creating DP ${JSON.stringify(obj)}`);
-                await this.setStateAsync(`history.value${ctr}`, { ack: true, val: "[]" });
+                await this.setState(`history.value${ctr}`, { ack: true, val: "[]" });
             }
-
-            val2Write = JSON.parse(obj.val);
-            this.log.debug(`history.value${ctr} got ${JSON.stringify(val2Write)}`);
-
+            else {
+                val2Write = JSON.parse(obj.val);
+                this.log.debug(`history.value${ctr} got ${JSON.stringify(val2Write)}`);
+            }
             for (let ss = 0; ss < values1.length; ss++) {
                 const values2 = values1[ss];
                 //this.log.debug(ss + " " + JSON.stringify(values2));
@@ -917,7 +894,7 @@ export class ebus extends utils.Adapter {
                     }
                 }
             }
-            await this.setStateAsync(`history.value${ctr}`, { ack: true, val: JSON.stringify(val2Write) });
+            await this.setState(`history.value${ctr}`, { ack: true, val: JSON.stringify(val2Write) });
         }
     }
 
@@ -1331,16 +1308,16 @@ export class ebus extends utils.Adapter {
         */
     }
 
-    async CheckVersion(version, msg) {
+    async CheckVersion(version:string, msg) {
         if (version == "installable") {
-            let version = "unknown";
+            let vers = "unknown";
 
             if (this.ebusdUpdateVersion[0] > 0 && this.ebusdVersion[0] > 0) {
-                version = `${this.ebusdUpdateVersion[0]}.${this.ebusdUpdateVersion[1]}`
+                vers = `${this.ebusdUpdateVersion[0]}.${this.ebusdUpdateVersion[1]}`
             } else {
-                version = await this.GetLatestVersionGithub();
+                vers = await this.GetLatestVersionGithub();
             }
-            this.sendTo(msg.from, msg.command, version, msg.callback);
+            this.sendTo(msg.from, msg.command, vers, msg.callback);
         } else if (version == "current") {
             this.sendTo(msg.from, msg.command, `${this.ebusdVersion[0]}.${this.ebusdVersion[1]}`, msg.callback);
         } else if (version == "supported") {
@@ -1373,8 +1350,6 @@ export class ebus extends utils.Adapter {
     }
 
 }
-
-
 
 
 
