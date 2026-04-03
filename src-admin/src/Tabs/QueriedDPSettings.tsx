@@ -11,7 +11,7 @@ import type {
 
 import { I18n } from '@iobroker/adapter-react-v5';
 
-import type { ebusAdapterConfig } from "../types";
+import type { ebusAdapterConfig, SettingDP } from "../types";
 
 import {
     Select,
@@ -61,29 +61,33 @@ export default function QueriedDPSettings(props: SettingsProps): React.JSX.Eleme
 
     console.log("QueriedDPSettings render " + JSON.stringify(props.native));
 
-    // Fügt einen neuen HistoryDP hinzu
+
+    // Fügt einen neuen PolledDP hinzu (angepasst an DP_table)
     const addPolledDP = useCallback(() => {
+
+        console.log("addPolledDP pressed");
         const newDPs = Array.isArray(props.native.PolledDPs) ? [...props.native.PolledDPs] : [];
+        // DP_table erwartet ein leeres Objekt oder Default-Werte
         newDPs.push({
             active: true,
             circuit: '',
             parameter: '',
-            name: ''
-        }); // Passe das Objekt ggf. an das erwartete Schema an
+            name: 'new'
+        });
         props.changeNative({ ...props.native, PolledDPs: newDPs });
     }, [props.native, props.changeNative]);
 
-    // Aktualisiert einen bestehenden PolledDP
-    const updatePolledDP = useCallback((index: number, updatedDP: any) => {
-        const newDPs = Array.isArray(props.native.PolledDPs) ? [...props.native.PolledDPs] : [];
-        if (index >= 0 && index < newDPs.length) {
-            newDPs[index] = updatedDP;
-            props.changeNative({ ...props.native, PolledDPs: newDPs });
-        }
+    // Aktualisiert einen bestehenden PolledDP (angepasst an DP_table)
+    const updatePolledDP = useCallback((index: number, field: keyof SettingDP, value: any) => {       
+        console.log("Updating PolledDP at index " + index + ": " + JSON.stringify({ [field]: value }));
+
+        const newList = (props.native.PolledDPs.map((t, i) => i === index ? { ...t, [field]: value } : t));
+        props.changeNative({ ...props.native, PolledDPs: newList });
     }, [props.native, props.changeNative]);
 
-    // Entfernt einen PolledDP
+    // Entfernt einen PolledDP (angepasst an DP_table)
     const removePolledDP = useCallback((index: number) => {
+        console.log("removePolledDP index: " + index);
         const newDPs = Array.isArray(props.native.PolledDPs) ? [...props.native.PolledDPs] : [];
         if (index >= 0 && index < newDPs.length) {
             newDPs.splice(index, 1);

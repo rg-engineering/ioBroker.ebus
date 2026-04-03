@@ -5,6 +5,11 @@
 
 // https://www.iobroker.net/#en/documentation/dev/adapterdev.md
 
+//import os from "os";
+//import fs from "fs";
+//import path from "path";
+//import spawn from "child_process";
+
 import * as utils from "@iobroker/adapter-core";
 
 import axios from "axios";
@@ -72,6 +77,8 @@ export class ebus extends utils.Adapter {
      * Wird aufgerufen, wenn der Adapter heruntergefahren wird - Callback MUSS unter allen Umständen aufgerufen werden!
      */
     private async onUnload(callback: () => void): Promise<void> {
+
+        await Promise.resolve(); //dummy await to make function async
         try {
             // Hier müssen alle Timeouts oder Intervalle gelöscht werden, die noch aktiv sein könnten
             if (this.intervalID != null) {
@@ -139,11 +146,11 @@ export class ebus extends utils.Adapter {
                     break;
                 case "Install":
                     this.log.debug("message install called");
-                    await this.CallExternalScript("InstallEbusd.sh", obj);
+                    //await this.CallExternalScript("InstallEbusd.sh", obj);
                     break;
                 case "Update":
                     this.log.debug("message update called");
-                    await this.CallExternalScript("UpdateEbusd.sh", obj);
+                    //await this.CallExternalScript("UpdateEbusd.sh", obj);
                     break;
                 case "checkInstallableversion":
                     await this.CheckVersion("installable", obj);
@@ -161,7 +168,7 @@ export class ebus extends utils.Adapter {
         }
     }
 
-    async main() {
+    async main(): Promise<void> {
         this.log.debug("start with interface ebusd ");
 
         this.FillPolledVars();
@@ -177,13 +184,13 @@ export class ebus extends utils.Adapter {
             readInterval = this.config.readInterval;
         }
         this.log.debug(`read every  ${readInterval} minutes`);
-        this.intervalID = setInterval(this.Do, readInterval * 60 * 1000);
+        this.intervalID = setInterval(this.Do.bind(this), readInterval * 60 * 1000);
 
         //read at thisstart
         await this.Do();
     }
 
-    async DoRequest() {
+    async DoRequest(): Promise<void> {
         this.log.debug("DoRequest ");
 
         if (!this.requestRunning) {
@@ -197,7 +204,7 @@ export class ebus extends utils.Adapter {
         this.requestRunning = false;
     }
 
-    async Do() {
+    async Do(): Promise<void> {
         this.log.debug("starting ... ");
 
         await this.ebusd_Command();
@@ -205,7 +212,7 @@ export class ebus extends utils.Adapter {
         await this.DoRequest();
     }
 
-    StartDataRequest() {
+    StartDataRequest(): void {
         if (this.updateTimerID != null) {
             //already running
             clearTimeout(this.updateTimerID);
@@ -216,7 +223,7 @@ export class ebus extends utils.Adapter {
         this.log.debug("StartDataRequest");
     }
 
-    async DataRequest() {
+    async DataRequest(): Promise<void> {
         this.log.debug("get data after command and timeout");
         if (this.updateTimerID != null) {
             clearTimeout(this.updateTimerID);
@@ -225,7 +232,7 @@ export class ebus extends utils.Adapter {
         await this.DoRequest();
     }
 
-    FillPolledVars() {
+    FillPolledVars(): void {
         try {
             if (
                 this.config.PolledDPs !== undefined &&
@@ -240,7 +247,7 @@ export class ebus extends utils.Adapter {
                         this.oPolledVars.push(this.config.PolledDPs[i]);
                     }
                 }
-            
+
             }
         } catch (e) {
             this.log.error(`exception in FillPolledVars [${e}]`);
@@ -250,7 +257,7 @@ export class ebus extends utils.Adapter {
     }
 
 
-    FillHistoryVars() {
+    FillHistoryVars(): void {
         try {
             if (
                 this.config.HistoryDPs !== undefined &&
@@ -295,7 +302,7 @@ export class ebus extends utils.Adapter {
     }
 
 
-    FillHTTPParamsVars() {
+    FillHTTPParamsVars(): void {
         if (
             this.config.HTTPparameter !== undefined &&
             this.config.HTTPparameter != null &&
@@ -310,12 +317,12 @@ export class ebus extends utils.Adapter {
     //===================================================================================================
     // ebusd interface
 
-    async ebusd_Command() {
+    async ebusd_Command(): Promise<void> {
         const obj = await this.getStateAsync("cmd");
 
         if (obj !== undefined && obj != null) {
             const cmds = obj.val?.toString();
-            if (cmds!= null && cmds !== "") {
+            if (cmds != null && cmds !== "") {
                 this.log.debug(`got command(s): ${cmds}`);
 
                 this.log.debug(`connect telnet to IP ${this.config.targetIP} port ${this.config.targetTelnetPort}`);
@@ -375,7 +382,7 @@ export class ebus extends utils.Adapter {
         }
     }
 
-    async ebusd_find() {
+    async ebusd_find(): Promise<void> {
         try {
             //const socket = new net.Socket();
             //const promiseSocket = new PromiseSocket(socket);
@@ -399,11 +406,26 @@ export class ebus extends utils.Adapter {
                 this.log.debug(`received ${typeof data} ${data}`);
             }
 
-            const str = new TextDecoder().decode(data);
-            const datas = str.split(/\r?\n/);
+            let str: string;
+            if (typeof data === "string") {
+                str = data;
+            } else if ((data as any) instanceof Uint8Array) {
+                str = new TextDecoder().decode(data);
+            } else if ((data as any) instanceof ArrayBuffer) {
+                str = new TextDecoder().decode(new Uint8Array(data));
+            } else {
+                // fallback: convert to string
+                str = String(data);
+            }
+
+            //const str = new TextDecoder().decode(data);
+
+            const datas = str.split(/[\r?\n,]+/);
+
+            this.log.info("found entries: " + datas.length);
 
             for (let i = 0; i < datas.length; i++) {
-                //this.log.debug(JSON.stringify(datas[i]));
+                //this.log.info(JSON.stringify(datas[i]));
 
                 const names = datas[i].split(",");
 
@@ -457,7 +479,7 @@ export class ebus extends utils.Adapter {
     
     */
 
-    async subscribeVars() {
+    async subscribeVars(): Promise<void> {
         this.subscribeStates("cmd");
 
         this.subscribeStates("find");
@@ -466,7 +488,7 @@ export class ebus extends utils.Adapter {
     }
 
 
-    async checkVariables() {
+    async checkVariables(): Promise<void> {
         this.log.debug("init variables ");
 
         let key;
@@ -573,7 +595,7 @@ export class ebus extends utils.Adapter {
         await this.CreateObject(key, obj);
     }
 
-    VersionCheck() {
+    VersionCheck(): void {
         if (this.ebusdVersion[0] > 0) {
             if (
                 this.ebusdVersion[0] < this.ebusdMinVersion[0] ||
@@ -603,12 +625,12 @@ export class ebus extends utils.Adapter {
     //get data via https in json -> this is the main data receiver; telnet just triggers ebusd to read data;
     //https://github.com/john30/ebusd/wiki/3.2.-HTTP-client
 
-    async ebusd_ReceiveData() {
+    async ebusd_ReceiveData(): Promise<void> {
         try {
             let sUrl = `http://${this.config.targetIP}:${this.config.targetHTTPPort}/data`;
 
             //Erweiterung mit optionalen parametern
-            var paramsCnt = 0;
+            let paramsCnt = 0;
             if (this.oHTTPParamsVars !== undefined && this.oHTTPParamsVars != null && this.oHTTPParamsVars.length > 0) {
                 for (let i = 0; i < this.oHTTPParamsVars.length; i++) {
                     if (this.oHTTPParamsVars[i].active) {
@@ -628,8 +650,8 @@ export class ebus extends utils.Adapter {
 
             this.log.debug(`got data ${typeof buffer.data} ${JSON.stringify(buffer.data)}`);
 
-            const flattenObject = (obj, delimiter = ".", prefix = "") =>
-                Object.keys(obj).reduce((acc, k) => {
+            const flattenObject = (obj: Record<string, any>, delimiter = ".", prefix = ""): Record<string, any> =>
+                Object.keys(obj).reduce((acc: Record<string, any>, k: string) => {
                     const pre = prefix.length ? `${prefix}${delimiter}` : "";
                     if (typeof obj[k] === "object" && obj[k] !== null && Object.keys(obj[k]).length > 0) {
                         Object.assign(acc, flattenObject(obj[k], delimiter, pre + k));
@@ -639,10 +661,12 @@ export class ebus extends utils.Adapter {
                     return acc;
                 }, {});
 
-            let data = flattenObject(buffer.data, ".");
+            const data = flattenObject(buffer.data, ".");
 
-            const historyvalues = [];
-            const historydates = [];
+
+            //todo: replace any
+            const historyvalues: any[] = [];
+            const historydates: any[] = [];
 
             const oToday = new Date();
             const month = oToday.getMonth() + 1;
@@ -657,7 +681,7 @@ export class ebus extends utils.Adapter {
             for (let key in data) {
                 const subnames = key.split(".");
                 //const namelength = subnames.length;
-                let value = data[key];
+                let value: any = data[key];
 
                 //this.log.debug("key " + key);
 
@@ -704,7 +728,7 @@ export class ebus extends utils.Adapter {
                 }
 
                 //============ type check
-                let type = typeof value;
+                let type: "string" | "number" | "boolean" | "array" | "object" | "mixed" = this.mapJsTypeToIoBrokerType(value);
 
                 if (this.config.useBoolean4Onoff) {
                     if (type == "string" && (value == "on" || value == "off")) {
@@ -732,7 +756,7 @@ export class ebus extends utils.Adapter {
                     } else {
                         this.log.debug(`in hcmode2, value ${value}`);
                     }
-                    type = typeof value;
+                    type = this.mapJsTypeToIoBrokerType(value);
                 }
 
                 //lastup umrechnen
@@ -752,7 +776,7 @@ export class ebus extends utils.Adapter {
                         const sDate = oDate.toLocaleString();
 
                         value = sDate;
-                        type = typeof value;
+                        type = this.mapJsTypeToIoBrokerType(value);
 
                         const oToday = new Date();
 
@@ -786,6 +810,8 @@ export class ebus extends utils.Adapter {
                 }
 
                 //add and update data
+
+
                 await this.AddObject(key, type);
                 await this.UpdateObject(key, value);
 
@@ -836,7 +862,20 @@ export class ebus extends utils.Adapter {
         }
     }
 
-    async UpdateHistory_Vis2(values, dates) {
+    mapJsTypeToIoBrokerType(value: any): "string" | "number" | "boolean" | "array" | "object" | "mixed" {
+        if (Array.isArray(value)) {
+            return "array";
+        }
+        switch (typeof value) {
+            case "string": return "string";
+            case "number": return "number";
+            case "boolean": return "boolean";
+            case "object": return value === null ? "mixed" : "object";
+            default: return "mixed";
+        }
+    }
+
+    async UpdateHistory_Vis2(values: any[], dates: any[]): Promise<void> {
         this.log.debug(`start history 4 VIS-2 ${JSON.stringify(values)} ${JSON.stringify(dates)}`);
 
         //not used anymore
@@ -850,14 +889,14 @@ export class ebus extends utils.Adapter {
             const ctr = s + 1;
 
             const obj = await this.getStateAsync(`history.value${ctr}`);
-
-            if (obj === null || obj === undefined ) {
+            if (obj === null || obj === undefined) {
                 this.log.warn(`history.value${ctr} not found, creating DP ${JSON.stringify(obj)}`);
                 await this.setState(`history.value${ctr}`, { ack: true, val: "[]" });
-            }
-            else {
-                val2Write = JSON.parse(obj.val);
-                this.log.debug(`history.value${ctr} got ${JSON.stringify(val2Write)}`);
+            } else {
+                if (obj.val != null && obj.val != "" && typeof obj.val === "string") {
+                    val2Write = JSON.parse(obj.val);
+                    this.log.debug(`history.value${ctr} got ${JSON.stringify(val2Write)}`);
+                }
             }
             for (let ss = 0; ss < values1.length; ss++) {
                 const values2 = values1[ss];
@@ -867,8 +906,8 @@ export class ebus extends utils.Adapter {
 
                 for (const n in values2) {
                     const val = values2[n];
-                    const time = dates[d]["time"];
-                    const date = dates[d]["date"];
+                    const time = dates[d].time;
+                    const date = dates[d].date;
                     d++;
 
                     const times = time.split(":");
@@ -898,7 +937,7 @@ export class ebus extends utils.Adapter {
         }
     }
 
-    async UpdateHistory(values, dates) {
+    async UpdateHistory(values: any[], dates: any[]): Promise<void> {
         if (this.oHistoryVars.length > 0) {
             //prüfen ob alle json gleich lang sind
             let NoOfDates = -1;
@@ -909,7 +948,9 @@ export class ebus extends utils.Adapter {
                 try {
                     let oEbusDates = [];
                     //this.log.debug("before " + obj.val);
-                    oEbusDates = JSON.parse(obj.val);
+                    if (obj.val != null && obj.val != "" && typeof obj.val === "string") {
+                        oEbusDates = JSON.parse(obj.val);
+                    }
                     //this.log.debug("after parse " + JSON.stringify(oEbusDates));
 
                     oEbusDates.push(dates);
@@ -956,7 +997,7 @@ export class ebus extends utils.Adapter {
         }
     }
 
-    async UpdateHistoryValues(values, ctr, curDateCtr) {
+    async UpdateHistoryValues(values: any[], ctr: number, curDateCtr: number): Promise<boolean> {
         let bRet = true;
 
         const obj = await this.getStateAsync(`history.value${ctr}`);
@@ -967,7 +1008,9 @@ export class ebus extends utils.Adapter {
                 if (obj !== null) {
                     //this.log.debug("before " + obj.val);
 
-                    oEbusValues = JSON.parse(obj.val);
+                    if (obj.val != null && obj.val != "" && typeof obj.val === "string") {
+                        oEbusValues = JSON.parse(obj.val);
+                    }
 
                     //this.log.debug("after parse " + JSON.stringify(oEbusValues));
 
@@ -1018,7 +1061,7 @@ export class ebus extends utils.Adapter {
 
     //this function just triggers ebusd to read data; result will not be parsed; we just take the values from http result
     //here we need a loop over all configured read data in admin-page
-    async ebusd_ReadValues() {
+    async ebusd_ReadValues(): Promise<void> {
         if (this.oPolledVars.length > 0) {
             this.log.debug(`to poll ctr ${this.oPolledVars.length} vals:  ${JSON.stringify(this.oPolledVars)}`);
 
@@ -1071,7 +1114,7 @@ export class ebus extends utils.Adapter {
 
                     }
                     if (data !== null) {
-                        this.log.debug(`received ${data} for ${JSON.stringify(oPolledVars[nCtr])}`);
+                        this.log.debug(`received ${data} for ${JSON.stringify(this.oPolledVars[nCtr])}`);
 
                         //todo: parse data and set DP's 2025-11-01
                     }
@@ -1109,7 +1152,7 @@ export class ebus extends utils.Adapter {
         }
     }
 
-    async FindParams(obj) {
+    async FindParams(obj: any): Promise<void> {
 
         //todo muss wieder debug werden 2025-11-01
         this.log.debug(`FindParams ${JSON.stringify(obj)}`);
@@ -1153,7 +1196,19 @@ export class ebus extends utils.Adapter {
                   received object ehp,AccelerationTestModeehp,AccelerationTestModeehp,ActualEnvironmentPowerehp,ActualEnvironmentPowerehp,ActualEnvironmentPowerPercentageehp,ActualEnvironmentPowerPercentageehp,ApplianceCodeehp,ApplianceCodeehp,Backupehp,Backupehp,BackupHoursehp,BackupHoursHcehp,BackupHoursHwcehp,BackupHysteresisehp,BackupIntegralehp,BackupModeHcehp,BackupModeHwcehp,BackupPowerCutehp,BackupStartsehp,BackupStartsHcehp,BackupStartsHwcehp,BackupTypeehp,BivalentTempehp,Bleedingehp,Bleedingehp,CirPumpehp,CirPumpehp,Code1ehp,Code1Code2Validehp,Code2ehp,Compehp,Compehp,CompControlStateehp,CompCutPressHighCountehp,CompCutPressLowCountehp,CompCutTempCountehp,CompDemandehp,CompHoursehp,CompHoursHcehp,CompHoursHwcehp,CompHysteresisehp,CompIntegralehp,CompPressHighehp,CompPressHighehp,CompPressLowehp,CompPressLowehp,CompStartsehp,CompStartsHcehp,CompStartsHwcehp,CompStateehp,CondensorTempehp,CondensorTempehp,currenterrorehp,Dateehp,DateTimeehp,DeltaTempT6T7ehp,ElectricWiringDiagramehp,ElectricWiringDiagramehp,EnergyBalancingReleaseehp,errorhistoryehp,FlowTempehp,FlowTempehp,FlowtempCoolingMinehp,FlowTempOffsetehp,Hc1Pumpehp,Hc1Pumpehp,Hc1PumpHoursehp,Hc1PumpPortehp,Hc1PumpStartsehp,Hc2Pumpehp,Hc2PumpHoursehp,HcFlowTempehp,HcFlowTempOffsetehp,HcModeDemandHoursehp,HcModeFulfilledHoursehp,HcParallelStorageFillingEnabledehp,HcPressehp,HcReturnTempehp,HcReturnTempehp,HcReturnTempOffsetehp,HeatPumpStatusehp,HeatPumpStatusehp,HeatpumpTypeehp,HwcHcValveehp,HwcHcValveehp,HwcHcValveStartsehp,HwcLaggingTimeehp,HwcLoadingDelayehp,HwcModeDemandHoursehp,HwcModeFulfilledHoursehp,HwcPumpStartsehp,HwcSwitchehp,HwcTempehp,HwcTempehp,HwcTempOffsetehp,HydraulicSchemeehp,ICLOutehp,ICLOutehp,Injectionehp,Integralehp,Mixer1DutyCycleehp,NumberCompStartsehp,OutsideTempehp,OutsideTempOffsetehp,OverpressureThresholdehp,PhaseOrderehp,PhaseOrderehp,PhaseStatusehp,PhaseStatusehp,PowerCutehp,PowerCutPreloadingehp,PressSwitchehp,PressSwitchehp,RebootCounterehp,ReturnTempMaxehp,SetModeehp,SoftwareCodeehp,Source2PumpHoursehp,Sourceehp,Sourceehp,SourceHoursehp,SourcePortehp,SourcePressehp,SourcePumpPrerunTimeehp,SourceStartsehp,SourceSwitchehp,SourceSwitchehp,SourceTempInputehp,SourceTempInputehp,SourceTempInputOffsetehp,SourceTempOutputehp,SourceTempOutputehp,SourceTempOutputOffsetehp,SourceTempOutputT8Minehp,StateSoftwareCodeehp,StateSoftwareCodeehp,Status01ehp,Status02ehp,Status16ehp,Statusehp,StatusCirPumpehp,StorageTempBottomehp,StorageTempBottomehp,StorageTempBottomOffsetehp,StorageTempTopehp,StorageTempTopehp,StorageTempTopOffsetehp,Subcoolingehp,Superheatehp,T19MaxToCompOffehp,TempInputehp,TempInputehp,TempInputOffsetehp,TempOutputehp,TempOutputehp,TempOutputOffsetehp,Timeehp,TimeBetweenTwoCompStartsMinehp,TimeCompOffMinehp,TimeCompOnMinehp,TimeOfNextPredictedPowerCutehp,TimeOfNextPredictedPowerCutehp,Weekdayehp,YieldTotalehp,YieldTotal
                 */
                 //const str = new TextDecoder().decode(data);
-                const datas = data.split(/[\r?\n,]+/);
+                let str: string;
+                if (typeof data === "string") {
+                    str = data;
+                } else if ((data as any) instanceof Uint8Array) {
+                    str = new TextDecoder().decode(data);
+                } else if ((data as any) instanceof ArrayBuffer) {
+                    str = new TextDecoder().decode(new Uint8Array(data));
+                } else {
+                    // fallback: convert to string
+                    str = String(data);
+                }
+
+                const datas = str.split(/[\r?\n,]+/);
 
                 this.log.info("found entries: " + datas.length);
 
@@ -1201,6 +1256,8 @@ export class ebus extends utils.Adapter {
         this.sendTo(obj.from, obj.command, list, obj.callback);
     }
 
+
+    /*
     async CallExternalScript(script, msg) {
 
 
@@ -1306,9 +1363,9 @@ export class ebus extends utils.Adapter {
             }
         
         */
-    }
+    //}
 
-    async CheckVersion(version:string, msg) {
+    async CheckVersion(version: string, msg: any): Promise<void> {
         if (version == "installable") {
             let vers = "unknown";
 
@@ -1325,14 +1382,14 @@ export class ebus extends utils.Adapter {
         }
     }
 
-    async GetLatestVersionGithub() {
+    async GetLatestVersionGithub(): Promise<string> {
         let latestVersion = "unknown";
 
         try {
             const url = "https://api.github.com/repos/john30/ebusd/releases/latest";
             this.log.debug(`call ${url}`);
 
-            let result = await axios.get(url, { timeout: 5000 });
+            const result = await axios.get(url, { timeout: 5000 });
 
             if (result != null && result.status == 200 && result.data != null) {
                 this.log.info(`installable version on github ${JSON.stringify(result.data.tag_name)} (${JSON.stringify(result.data.name)})`);
@@ -1349,7 +1406,138 @@ export class ebus extends utils.Adapter {
         return latestVersion;
     }
 
+
+
+    //==========================================================
+    // replace by general functions from base.ts
+
+
+    async CreateObject(key: string, obj: any): Promise<void> {
+        const obj_new = await this.getObjectAsync(key);
+        //adapter.log.warn("got object " + JSON.stringify(obj_new));
+
+        if (obj_new != null) {
+            if (
+                (obj_new.common.role != obj.common.role ||
+                    obj_new.common.type != obj.common.type ||
+                    (obj_new.common.unit != obj.common.unit && obj.common.unit != null) ||
+                    obj_new.common.read != obj.common.read ||
+                    obj_new.common.write != obj.common.write ||
+                    obj_new.common.name != obj.common.name) &&
+                obj.type === "state"
+            ) {
+                this.log.warn(`change object ${JSON.stringify(obj)} ${JSON.stringify(obj_new)}`);
+                await this.extendObject(key, {
+                    common: {
+                        name: obj.common.name,
+                        role: obj.common.role,
+                        type: obj.common.type,
+                        unit: obj.common.unit,
+                        read: obj.common.read,
+                        write: obj.common.write,
+                    },
+                });
+            }
+        } else {
+            await this.setObjectNotExistsAsync(key, obj);
+        }
+    }
+
+
+    //circuit,name,comment
+    async UpdateDP(circuit: string, name: string, comment: string): Promise<void> {
+        const key = `${circuit}.messages.${name}`;
+        this.log.debug(`update check for ${key}`);
+
+        //       ehp.messages.Injection
+        //ebus.0.ehp.messages.Injection
+
+        const obj = await this.getObjectAsync(key);
+        this.log.debug(`update check got ${JSON.stringify(obj)}`);
+
+        //update check got null
+
+        if (obj != null) {
+            if (obj.common.name != comment) {
+                this.log.debug(`update  ${key} ${comment}`);
+                await this.extendObject(key, {
+                    common: {
+                        name: comment,
+                        read: true,
+                        write: false,
+                    },
+                });
+            }
+        } else {
+            await this.setObjectNotExistsAsync(key, {
+                type: "channel",
+                common: {
+                    name: comment
+                    //read: true,
+                    //write: false,
+                },
+                native: {}
+            });
+        }
+    }
+
+    async AddObject(
+        key: string,
+        types: "string" | "number" | "boolean" | "array" | "object" | "mixed"
+    ): Promise<void> {
+        try {
+            const obj = await this.getObjectAsync(key);
+
+            if (obj != null) {
+                if (obj.common.role != "value" || obj.common.type != types) {
+                    this.log.debug(` !!! need to extend for ${key}`);
+                    await this.extendObject(key, {
+                        common: {
+                            type: types,
+                            role: "value",
+                        },
+                    });
+                }
+            } else {
+                this.log.warn(` !!! does not exist, creating now ${key}`);
+
+                await this.setObjectNotExistsAsync(key, {
+                    type: "state",
+                    common: {
+                        name: "data",
+                        type: types,
+                        role: "value",
+                        unit: "",
+                        read: true,
+                        write: false,
+                    },
+                    native: {
+                        location: key,
+                    },
+                });
+            }
+        } catch (e) {
+            this.log.error(`exception in AddObject ` + `[${e}]`);
+        }
+    }
+
+    async UpdateObject(key: string, value: any): Promise<void> {
+        try {
+            if (value === undefined) {
+                this.log.warn(`updateObject: not updated ${key} value: ${value} ${typeof value}`);
+            } else if (value == null) {
+                this.log.debug(`updateObject: update to null ${key} value: ${value}`);
+                await this.setState(key, { ack: true, val: null });
+            } else {
+                //this.log.debug("updateObject " + key + " : " + value);
+                await this.setState(key, { ack: true, val: value });
+            }
+        } catch (e) {
+            this.log.error(`exception in UpdateObject ` + `[${e}]`);
+        }
+    }
 }
+
 
 
 

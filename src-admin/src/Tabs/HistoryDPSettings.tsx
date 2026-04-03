@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template */
 /* eslint-disable quote-props */
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import type {
     AdminConnection,
     IobTheme,
@@ -11,7 +11,7 @@ import type {
 
 import { I18n } from '@iobroker/adapter-react-v5';
 
-import type { ebusAdapterConfig } from "../types";
+import type { ebusAdapterConfig, SettingDP } from "../types";
 
 import {
     Select,
@@ -29,7 +29,6 @@ import {
     Table,
     TableBody,
     Tooltip
-    
 } from '@mui/material';
 //import AddIcon from '@mui/icons-material/Add';
 //import DeleteIcon from '@mui/icons-material/Delete';
@@ -60,24 +59,29 @@ export default function HistoryDPSettings(props: SettingsProps): React.JSX.Eleme
 
     // Fügt einen neuen HistoryDP hinzu
     const addHistoryDP = useCallback(() => {
+
+        console.log("addHistoryDP pressed");
         const newDPs = Array.isArray(props.native.HistoryDPs) ? [...props.native.HistoryDPs] : [];
+        // DP_table erwartet ein leeres Objekt oder Default-Werte
         newDPs.push({
-            name: ''
-        }); // Passe das Objekt ggf. an das erwartete Schema an
+            
+            name: 'new'
+        });
         props.changeNative({ ...props.native, HistoryDPs: newDPs });
     }, [props.native, props.changeNative]);
 
     // Aktualisiert einen bestehenden HistoryDP
-    const updateHistoryDP = useCallback((index: number, updatedDP: any) => {
-        const newDPs = Array.isArray(props.native.HistoryDPs) ? [...props.native.HistoryDPs] : [];
-        if (index >= 0 && index < newDPs.length) {
-            newDPs[index] = updatedDP;
-            props.changeNative({ ...props.native, HistoryDPs: newDPs });
-        }
+    const updateHistoryDP = useCallback((index: number, field: keyof SettingDP, value: any) => {
+        console.log("Updating HistoryDP at index " + index + ": " + JSON.stringify({ [field]: value }));
+
+        const newList = (props.native.HistoryDPs.map((t, i) => i === index ? { ...t, [field]: value } : t));
+                props.changeNative({ ...props.native, HistoryDPs: newList });
+        
     }, [props.native, props.changeNative]);
 
     // Entfernt einen HistoryDP
     const removeHistoryDP = useCallback((index: number) => {
+        console.log("Removing HistoryDP at index " + index);
         const newDPs = Array.isArray(props.native.HistoryDPs) ? [...props.native.HistoryDPs] : [];
         if (index >= 0 && index < newDPs.length) {
             newDPs.splice(index, 1);
@@ -90,8 +94,6 @@ export default function HistoryDPSettings(props: SettingsProps): React.JSX.Eleme
             <Box
                 style={{ margin: 10 }}
             >
-
-
                 <BoxDivider
                     Name={I18n.t('datapoints')}
                     theme={props.theme}
@@ -135,7 +137,6 @@ export default function HistoryDPSettings(props: SettingsProps): React.JSX.Eleme
                     }}
                 />
 
-
                 <DP_table
                     settingName={I18n.t('history DPs')}
                     settings={props.native.HistoryDPs}
@@ -148,14 +149,8 @@ export default function HistoryDPSettings(props: SettingsProps): React.JSX.Eleme
                     onRemove={removeHistoryDP}
                     addButtonTooltip={I18n.t('add a new history datapoint')}
                 >
-
                 </DP_table>
-
-
-
-
             </Box>
         </Box>
     );
-
 }

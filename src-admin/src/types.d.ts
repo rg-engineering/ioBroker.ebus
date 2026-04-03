@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 //ist das gleiche interface wie in adapter-config.d.ts
 
-
+export type SettingDP = { active: boolean; circuit: string; name: string; parameter: string };
 
 interface HTTPparameter {
     active: boolean,

@@ -20,7 +20,7 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import type { AdminConnection, IobTheme, ThemeName, ThemeType } from '@iobroker/adapter-react-v5';
 //import SelectOID from './SelectOID';
 
-export type SettingDP = { active: boolean; circuit: string; name: string; parameter: string };
+import type {SettingDP } from "../types";
 
 type Props = {
     settingName: string;
@@ -62,6 +62,7 @@ export default function SettingActorsTable(props: Props): React.JSX.Element {
                         <TableCell>{I18n.t('circuit')}</TableCell>
                         <TableCell>{I18n.t('name')}</TableCell>
                         <TableCell>{I18n.t('parameter')}</TableCell>
+                        <TableCell>{I18n.t('actions')}</TableCell>
                        
                     </TableRow>
                 </TableHead>
@@ -83,20 +84,20 @@ export default function SettingActorsTable(props: Props): React.JSX.Element {
                             <TableCell>
                                 <TextField
                                     fullWidth
-                                    value={t.name}
-                                    onChange={(e) => onUpdate(idx, 'name', e.target.value)}
+                                    value={t.circuit}
+                                    onChange={(e) => onUpdate(idx, 'circuit', e.target.value)}
                                     variant="standard"
-                                    placeholder={I18n.t('name')}
+                                    placeholder={I18n.t('circuit')}
                                 />
                             </TableCell>
 
                             <TableCell>
                                 <TextField
                                     fullWidth
-                                    value={t.circuit}
-                                    onChange={(e) => onUpdate(idx, 'circuit', e.target.value)}
+                                    value={t.name}
+                                    onChange={(e) => onUpdate(idx, 'name', e.target.value)}
                                     variant="standard"
-                                    placeholder={I18n.t('circuit')}
+                                    placeholder={I18n.t('name')}
                                 />
                             </TableCell>
 
@@ -109,7 +110,13 @@ export default function SettingActorsTable(props: Props): React.JSX.Element {
                                     placeholder={I18n.t('parameter')}
                                 />
                             </TableCell>
-
+                            <TableCell>
+                                <Tooltip title={I18n.t('Delete device')}>
+                                    <IconButton size="small" onClick={() => onRemove(idx)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Tooltip> 
+                            </TableCell>
                             
                         </TableRow>
                     ))}

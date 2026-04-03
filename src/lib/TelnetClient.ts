@@ -15,7 +15,9 @@ export default class TelnetClient {
     }
 
     async connect(host: string, port: number): Promise<void> {
-        if (this.connected) return;
+        if (this.connected) {
+            return;
+        }
 
         await new Promise<void>((resolve, reject) => {
             const onConnect = () => {
