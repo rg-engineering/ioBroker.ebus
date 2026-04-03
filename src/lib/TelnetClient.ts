@@ -1,4 +1,5 @@
 /* eslint-disable prefer-template */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import net from "net";
 
 export default class TelnetClient {
@@ -20,20 +21,20 @@ export default class TelnetClient {
         }
 
         await new Promise<void>((resolve, reject) => {
-            const onConnect = () => {
+            const cleanup = (): void => {
+                this.socket.removeListener("connect", onConnect);
+                this.socket.removeListener("error", onError);
+            };
+
+            const onConnect = (): void => {
                 this.connected = true;
                 cleanup();
                 resolve();
             };
 
-            const onError = (err: Error) => {
+            const onError = (err: Error): void => {
                 cleanup();
                 reject(err);
-            };
-
-            const cleanup = () => {
-                this.socket.removeListener("connect", onConnect);
-                this.socket.removeListener("error", onError);
             };
 
             this.socket.once("connect", onConnect);
@@ -65,25 +66,25 @@ export default class TelnetClient {
         }
 
         return new Promise<string>((resolve, reject) => {
-            const onData = (data: Buffer) => {
+            const cleanup = (): void => {
+                clearTimeout(timer);
+                this.socket.removeListener("data", onData);
+                this.socket.removeListener("error", onError);
+            };
+
+            const onData = (data: Buffer): void => {
                 cleanup();
                 resolve(data.toString());
             };
 
-            const onError = (err: Error) => {
+            const onError = (err: Error): void => {
                 cleanup();
                 reject(err);
             };
 
-            const onTimeout = () => {
+            const onTimeout = (): void => {
                 cleanup();
                 reject(new Error("Read timeout"));
-            };
-
-            const cleanup = () => {
-                clearTimeout(timer);
-                this.socket.removeListener("data", onData);
-                this.socket.removeListener("error", onError);
             };
 
             const timer = setTimeout(onTimeout, timeoutMs);
@@ -94,7 +95,9 @@ export default class TelnetClient {
     }
 
     async disconnect(): Promise<void> {
-        if (!this.connected) return;
+        if (!this.connected) {
+            return;
+        }
 
         await new Promise<void>((resolve) => {
             this.socket.end(() => {

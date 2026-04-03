@@ -33,15 +33,15 @@ type Props = {
     onUpdate: (index: number, field: keyof SettingDP, value: any) => void;
     onRemove: (index: number) => void;
     addButtonTooltip?: string;
+    useAllColumns?: boolean;
 };
 
 
 export default function SettingActorsTable(props: Props): React.JSX.Element {
-    const { settingName, settings, onAdd, onUpdate, onRemove, addButtonTooltip } = props;
+    const { settingName, settings, onAdd, onUpdate, onRemove, addButtonTooltip, useAllColumns } = props;
 
 
-    const colCount = 5;
-
+    const colCount = useAllColumns ? 5 : 2;
 
 
     return (
@@ -58,12 +58,12 @@ export default function SettingActorsTable(props: Props): React.JSX.Element {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>{I18n.t('active')}</TableCell>
-                        <TableCell>{I18n.t('circuit')}</TableCell>
+                        {useAllColumns && <TableCell>{I18n.t('active')}</TableCell>}
+                        {useAllColumns && <TableCell>{I18n.t('circuit')}</TableCell>}
                         <TableCell>{I18n.t('name')}</TableCell>
-                        <TableCell>{I18n.t('parameter')}</TableCell>
+                        {useAllColumns && <TableCell>{I18n.t('parameter')}</TableCell>}
                         <TableCell>{I18n.t('actions')}</TableCell>
-                       
+
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -73,23 +73,26 @@ export default function SettingActorsTable(props: Props): React.JSX.Element {
                         </TableRow>
                     ) : settings.map((t, idx) => (
                         <TableRow key={idx}>
-                            <TableCell>
-                                <Checkbox
-                                    checked={!!t.active}
-                                    onChange={(e) => onUpdate(idx, 'active', e.target.checked)}
-                                />
+                            {useAllColumns && (
+                                <TableCell>
+                                    <Checkbox
+                                        checked={!!t.active}
+                                        onChange={(e) => onUpdate(idx, 'active', e.target.checked)}
+                                    />
 
-                                
-                            </TableCell>
-                            <TableCell>
-                                <TextField
-                                    fullWidth
-                                    value={t.circuit}
-                                    onChange={(e) => onUpdate(idx, 'circuit', e.target.value)}
-                                    variant="standard"
-                                    placeholder={I18n.t('circuit')}
-                                />
-                            </TableCell>
+
+                                </TableCell>)}
+
+                            {useAllColumns && (
+                                <TableCell>
+                                    <TextField
+                                        fullWidth
+                                        value={t.circuit}
+                                        onChange={(e) => onUpdate(idx, 'circuit', e.target.value)}
+                                        variant="standard"
+                                        placeholder={I18n.t('circuit')}
+                                    />
+                                </TableCell>)}
 
                             <TableCell>
                                 <TextField
@@ -101,23 +104,24 @@ export default function SettingActorsTable(props: Props): React.JSX.Element {
                                 />
                             </TableCell>
 
-                            <TableCell>
-                                <TextField
-                                    fullWidth
-                                    value={t.parameter}
-                                    onChange={(e) => onUpdate(idx, 'parameter', e.target.value)}
-                                    variant="standard"
-                                    placeholder={I18n.t('parameter')}
-                                />
-                            </TableCell>
+                            {useAllColumns && (
+                                <TableCell>
+                                    <TextField
+                                        fullWidth
+                                        value={t.parameter}
+                                        onChange={(e) => onUpdate(idx, 'parameter', e.target.value)}
+                                        variant="standard"
+                                        placeholder={I18n.t('parameter')}
+                                    />
+                                </TableCell>)}
                             <TableCell>
                                 <Tooltip title={I18n.t('Delete device')}>
                                     <IconButton size="small" onClick={() => onRemove(idx)}>
                                         <DeleteIcon />
                                     </IconButton>
-                                </Tooltip> 
+                                </Tooltip>
                             </TableCell>
-                            
+
                         </TableRow>
                     ))}
                 </TableBody>

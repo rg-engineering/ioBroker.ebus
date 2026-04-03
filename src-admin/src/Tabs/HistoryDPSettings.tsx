@@ -14,21 +14,8 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import type { ebusAdapterConfig, SettingDP } from "../types";
 
 import {
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    Checkbox,
-    FormControlLabel,
-    IconButton,
     Box,
     TextField,
-    TableCell,
-    TableRow,
-    TableHead,
-    Table,
-    TableBody,
-    Tooltip
 } from '@mui/material';
 //import AddIcon from '@mui/icons-material/Add';
 //import DeleteIcon from '@mui/icons-material/Delete';
@@ -148,6 +135,7 @@ export default function HistoryDPSettings(props: SettingsProps): React.JSX.Eleme
                     onUpdate={updateHistoryDP}
                     onRemove={removeHistoryDP}
                     addButtonTooltip={I18n.t('add a new history datapoint')}
+                    useAllColumns={false}
                 >
                 </DP_table>
             </Box>

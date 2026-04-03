@@ -18,6 +18,8 @@ export default [
             'admin/words.js',
             'admin/admin.d.ts',
             'admin/blockly.js',
+            'admin/assets',
+            'src-admin/build',
             '**/adapter-config.d.ts',
             'node_modules',
             'typings',

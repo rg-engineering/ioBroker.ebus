@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template */
 /* eslint-disable quote-props */
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {  useCallback } from 'react';
 import type {
     AdminConnection,
     IobTheme,
@@ -14,30 +14,15 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import type { ebusAdapterConfig, SettingDP } from "../types";
 
 import {
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    Checkbox,
-    FormControlLabel,
-    IconButton,
     Box,
     TextField,
-    TableCell,
-    TableRow,
-    TableHead,
-    Table,
-    TableBody,
-    Tooltip,
     Button
-    
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-    import DeleteIcon from '@mui/icons-material/Delete';
+//import AddIcon from '@mui/icons-material/Add';
+//import DeleteIcon from '@mui/icons-material/Delete';
 
 import BoxDivider from '../Components/BoxDivider'
 import DP_table from '../Components/DP_table'
-
 
 interface SettingsProps {
     common: ioBroker.InstanceCommon;
@@ -56,15 +41,12 @@ interface SettingsProps {
     activeDPs: string[];
 }
 
-
 export default function QueriedDPSettings(props: SettingsProps): React.JSX.Element {
 
     console.log("QueriedDPSettings render " + JSON.stringify(props.native));
 
-
     // Fügt einen neuen PolledDP hinzu (angepasst an DP_table)
     const addPolledDP = useCallback(() => {
-
         console.log("addPolledDP pressed");
         const newDPs = Array.isArray(props.native.PolledDPs) ? [...props.native.PolledDPs] : [];
         // DP_table erwartet ein leeres Objekt oder Default-Werte
@@ -95,17 +77,41 @@ export default function QueriedDPSettings(props: SettingsProps): React.JSX.Eleme
         }
     }, [props.native, props.changeNative]);
 
-
     const FindParameters = async (): Promise<void> => {
         console.log("FindParameters pressed");
 
         const instance = 'ebus.' + props.instance;
-        const result = await props.socket.sendTo(instance, 'findParams', props.native.Circuit4Find);
+
+        const message = {
+            circuit: props.native.Circuit4Find
+        };
+
+        console.log("Sending findParams to " + instance + " with message: " + JSON.stringify(message));
+        const result = await props.socket.sendTo(instance, 'findParams', message);
 
         try {
             const status = (result) ? result : '';
 
             console.log("FindParameters result todo: " + JSON.stringify(status));
+
+            if (status && Array.isArray(status)) {
+                // Kopie der aktuellen PolledDPs erstellen
+                const newPolledDPs = Array.isArray(props.native.PolledDPs) ? [...props.native.PolledDPs] : [];
+                for (const item of status) {
+                    const name = item.circuit || '';
+                    const circuit = props.native.Circuit4Find;
+                    const active = false;
+
+                    const newDP: SettingDP = {
+                        name: name,
+                        circuit: circuit,
+                        active: active,
+                        parameter:""
+                    };
+                    newPolledDPs.push(newDP);
+                }
+                props.changeNative({ ...props.native, PolledDPs: newPolledDPs });
+            }
         } catch (err) {
             console.error('Error command findParams result:', err);
         }
@@ -117,11 +123,7 @@ export default function QueriedDPSettings(props: SettingsProps): React.JSX.Eleme
 
     return (
         <Box style={{ width: 'calc(100% - 8px)', minHeight: '100%' }}>
-            <Box
-                style={{ margin: 10 }}
-            >
-
-
+            <Box style={{ margin: 10 }}>
                 <BoxDivider
                     Name={I18n.t('datapoints')}
                     theme={props.theme}
@@ -166,16 +168,54 @@ export default function QueriedDPSettings(props: SettingsProps): React.JSX.Eleme
                 />
 
                 <Box>
+
+                    <TextField
+                        label={I18n.t('hint_findparams')}
+                        value={I18n.t('hint_findparams_with_examples')}
+                        InputProps={{
+                            readOnly: true,
+                            disableUnderline: true,
+                            style: {
+                                fontSize: '0.85rem',
+                                width: '100%',
+                                border: 'none',
+                                background: 'transparent',
+                                padding: 0,
+                            },
+                        }}
+                        variant="standard"
+                        fullWidth
+                        InputLabelProps={{
+                            shrink: false,
+                            style: { display: 'none' },
+                        }}
+                        sx={{
+                            '& .MuiInputBase-root': {
+                                border: 'none',
+                                fontSize: '0.85rem',
+                                width: '100%',
+                                background: 'transparent',
+                                padding: 0,
+                            },
+                            '& .MuiInputBase-input': {
+                                border: 'none',
+                                fontSize: '0.85rem',
+                                width: '100%',
+                                background: 'transparent',
+                                padding: 0,
+                            },
+                        }}
+                    />
+
                     <TextField
                         style={{ marginBottom: 16 }}
                         id='Circuit4Find'
                         label={I18n.t('Circuit4Find')}
+                        helperText={I18n.t('Circuit4Find_hint')}
                         variant="standard"
                         value={props.native.Circuit4Find}
                         onChange={handleCircuit4Find}
-                        sx={{ mb: 2, maxWidth: '30%' }}
-
-
+                        sx={{ mb: 2, minWidth: '20%', maxWidth: '40%' }}
                     />
 
                     <Button
@@ -199,12 +239,10 @@ export default function QueriedDPSettings(props: SettingsProps): React.JSX.Eleme
                     onUpdate={updatePolledDP}
                     onRemove={removePolledDP}
                     addButtonTooltip={I18n.t('add a new polled datapoint')}
+                    useAllColumns={true}
                 >
-
                 </DP_table>
-
             </Box>
         </Box>
     );
-
 }

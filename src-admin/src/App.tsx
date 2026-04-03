@@ -89,7 +89,7 @@ const tabs: {
         },
         {
             name: 'historyDP_settings',
-            title: 'historydDP',
+            title: 'historyDP',
         },
 
 
@@ -378,14 +378,11 @@ class App extends GenericApp<GenericAppProps, AppState> {
 
         if (this.state.selectedTab === 'main_settings' || !this.state.selectedTab) {
             return this.renderMainSettings();
-        }
-        else if (this.state.selectedTab === 'ebusd_settings' ) {
+        } else if (this.state.selectedTab === 'ebusd_settings') {
             return this.renderbusdSettings();
-        }
-        else if (this.state.selectedTab === 'queriedDP_settings') {
+        } else if (this.state.selectedTab === 'queriedDP_settings') {
             return this.renderQueriedDPSettings();
-        }
-        else if (this.state.selectedTab === 'historyDP_settings') {
+        } else if (this.state.selectedTab === 'historyDP_settings') {
             return this.renderHistoryDPSettings();
         }
 

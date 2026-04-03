@@ -4,7 +4,6 @@
  */
 
 // https://www.iobroker.net/#en/documentation/dev/adapterdev.md
-
 //import os from "os";
 //import fs from "fs";
 //import path from "path";
