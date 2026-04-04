@@ -6,7 +6,7 @@
   "History4Vis2_help": "if you use the new Vis-2 and the general diagram widget in weather-and-heating-widgets ",
   "IP of system where ebusd runs": "IP of system where ebusd runs",
   "Main settings": "Main settings",
-  "Update hint": "",
+  "Update hint": "please update your ebusd",
   "Update hint ebusd": "update hint ebusd",
   "active": "active",
   "addParameter": "additional parameter",
@@ -25,7 +25,7 @@
   "find parameter": "find parameter",
   "hint_ebusd": "you need an running ebusd inclusive all necessary configurations. This adapter uses HTML to read data from ebusd. It uses TCP (Telnet) to write to ebusd.",
   "hint_ebusd2": "here you can add additional parameters for HTTP request. Please do it only if you know what you do, otherwise leave everything deactivated.",
-  "hint_ebusd_history": "list of all datapoint names which should be used with ebus history widget or new VIS-2 widget. Attention: Use the complete datapoint name but without instance (e.g. ebus.0) ",
+  "hint_ebusd_history": "list of all datapoint names which should be used with ebus history widget or new VIS-2 widget. Attention: Use the complete datapoint name (e.g. ehp.messages.YieldTotal.fields.value.value) but without instance (e.g. ebus.0) ",
   "hint_ebusd_polled": "list of all datapoint names which should be polled from adapter. Do not add datapoints which are already polled from ebusd automatically. Circuit and additional parameter are optionally.",
   "historyDP": "History DPs",
   "historyDP configuration": "history DP configuration",
@@ -55,13 +55,13 @@
   "queriedDP": "Queried DP",
   "hint_findparams_with_examples": "Using 'Search parameters' you can retrieve all data points from ebusd for a specific circuit and fill below list.",
   "Circuit4Find_hint": "use circuits like cc, ehp, mc ",
-  "queried datapoints:": "queried datapoints:",
+  "queried datapoints": "queried datapoints",
   "parameter": "parameter",
   "actions": "actions",
-  "history DPs:": "history DPs:",
+  "history DPs": "history DPs",
   "Download configuration": "Download configuration",
-  "Upload configuration": "Upload configuration"
-
+  "Upload configuration": "Upload configuration",
+  "datapoints": "datapoints"
 
 
 

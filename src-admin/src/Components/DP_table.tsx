@@ -48,7 +48,7 @@ export default function SettingActorsTable(props: Props): React.JSX.Element {
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <div style={{ fontWeight: 500 }}>{settingName}:</div>
-                <Tooltip title={addButtonTooltip ?? I18n.t('add new device')}>
+                <Tooltip title={addButtonTooltip ?? I18n.t('add new datapoint')}>
                     <IconButton size="small" onClick={onAdd}>
                         <AddIcon />
                     </IconButton>
@@ -115,7 +115,7 @@ export default function SettingActorsTable(props: Props): React.JSX.Element {
                                     />
                                 </TableCell>)}
                             <TableCell>
-                                <Tooltip title={I18n.t('Delete device')}>
+                                <Tooltip title={I18n.t('Delete datapoint')}>
                                     <IconButton size="small" onClick={() => onRemove(idx)}>
                                         <DeleteIcon />
                                     </IconButton>

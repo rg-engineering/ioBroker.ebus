@@ -77,7 +77,7 @@ const tabs: {
 }[] = [
         {
             name: 'main_settings',
-            title: 'Main_settings',
+            title: 'Main settings',
         },
         {
             name: 'ebusd_settings',

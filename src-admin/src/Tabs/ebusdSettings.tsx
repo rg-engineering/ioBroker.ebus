@@ -27,17 +27,7 @@ const schema: ConfigItemPanel = {
     type: 'panel',
     label: 'ebusd settings',
     items: {
-        "ebusdhint": {
-            "type": "staticText",
-            "text": "hint_ebusd",
-            "newLine": true,
-            "xs": 12,
-            "sm": 12,
-            "md": 12,
-            "lg": 12,
-            "xl": 12
-
-        },
+        
 
         "dividerHdr2": {
             "newLine": true,

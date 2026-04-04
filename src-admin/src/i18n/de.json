@@ -6,7 +6,7 @@
   "History4Vis2_help": "bei Benutzung des neuen Vis-2 und das allgemeine Diagramm-Widget in Wetter-und-Heizungs-Widgets",
   "IP of system where ebusd runs": "IP des Systems, auf dem ebusd ausgeführt wird",
   "Main settings": "Haupteinstellungen",
-  "Update hint": "",
+  "Update hint": "bitte den ebusd aktualisieren",
   "Update hint ebusd": "Update-Hinweis ebusd",
   "active": "aktiv",
   "addParameter": "zusätzlicher Parameter",
@@ -25,7 +25,7 @@
   "find parameter": "Parameter finden",
   "hint_ebusd": "Es wird ein ebusd inklusive aller notwendigen Konfigurationen benötigt. Dieser Adapter verwendet HTML, um Daten von ebusd zu lesen. Es verwendet TCP (Telnet), um auf ebusd zu schreiben.",
   "hint_ebusd2": "Hier können zusätzliche Parameter für HTTP-Anfragen hinzugefügt werden. Bitte tun Sie es nur, wenn Sie wissen, was Sie tun, ansonsten lassen Sie alles deaktiviert.",
-  "hint_ebusd_history": "Liste aller Datenpunktnamen, die mit dem Ebus-History-Widget oder dem neuen Vis2-Widget verwendet werden sollen. Achtung: Verwenden Sie den vollständigen Datenpunktnamen ohne Instanz (z. B. ebus.0)",
+  "hint_ebusd_history": "Liste aller Datenpunktnamen, die mit dem Ebus-History-Widget oder dem neuen Vis2-Widget verwendet werden sollen. Achtung: Verwenden Sie den vollständigen Datenpunktnamen (z.Bsp. ehp.messages.YieldTotal.fields.value.value) ohne Instanz (z. B. ebus.0)",
   "hint_ebusd_polled": "Liste aller Datenpunktnamen, die vom Adapter abgefragt werden sollen. Fügen Sie keine Datenpunkte hinzu, die bereits von ebusd abgefragt wurden. Schaltung und Zusatzparameter sind optional.",
   "historyDP": "Verlaufs-DP",
   "historyDP configuration": "Konfiguration der Verlaufs-DP",
@@ -56,10 +56,11 @@
   "queriedDP": "abgefragte DP",
   "hint_findparams_with_examples": "Mit ' Parameter suchen' kann man alle Datenpunkte aus dem ebusd für ein bestimmtes circuit abrufen und in die Liste unten eintragen.",
   "Circuit4Find_hint": "verwende circuits wie z.Bsp. cc, ehp, mc ",
-  "queried datapoints:": "abgefragte Datenpunkte:",
+  "queried datapoints": "abgefragte Datenpunkte",
   "parameter": "Parameter",
   "actions": "Aktionen",
-  "history DPs:": "Verlaufs-DP:",
+  "history DPs": "Verlaufs-DP",
   "Download configuration": "Konfiguration herunter laden",
-  "Upload configuration": "Konfiguration hochladen"
+  "Upload configuration": "Konfiguration hochladen",
+  "datapoints": "Datenpunkte"
 }

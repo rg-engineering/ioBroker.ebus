@@ -27,16 +27,7 @@ const schema: ConfigItemPanel = {
     type: 'panel',
     label: 'main settings',
     items: {
-        "icontest": {
-            "type": "staticImage",
-            "src": "ebus.png",
-            "newLine": true,
-            "xs": 12,
-            "sm": 3,
-            "md": 3,
-            "lg": 1.2,
-            "xl": 1.2
-        },
+       
 
         "InstallUpdatehdr": {
             "type": "header",
@@ -121,7 +112,17 @@ const schema: ConfigItemPanel = {
 
         },
 
+        "ebusdhint": {
+            "type": "staticText",
+            "text": "hint_ebusd",
+            "newLine": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
 
+        },
 
         //just a link
         "EbusReadme": {
