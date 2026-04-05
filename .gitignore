@@ -21,3 +21,4 @@ lib/i18n/*/flat.txt
 /.vscode/extensions.json
 /obj/Debug/
 /bin/Microsoft.NodejsTools.WebRole.dll
+/iobroker.ebus-3.8.0.tgz
