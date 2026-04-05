@@ -76,7 +76,7 @@
         "nl": "afhankelijkheden bijgewerkt en bug fix op basis van adaptercontrole",
         "fr": "dépendances mises à jour et correction de bugs basée sur adaptateur checker",
         "it": "dipendenze aggiornate e correzione bug in base all'adattatore checker",
-        "es": "dependencias actualizadas y corrección de errores basado en el control de adaptador",
+        "es": "dependencias actualizadas y corrección de ошибок basado en el контроль de адаптера",
         "pl": "aktualizacja zależności i naprawianie błędów w oparciu o sprawdzacz adaptera",
         "uk": "залежностей, оновлено і виправлення помилок на основі перевірки адаптера",
         "zh-cn": "基于适配器检查器更新的依赖性和错误修正"
@@ -85,11 +85,11 @@
         "en": "see issue #430: bug fix",
         "de": "siehe ausgabe #430: bugfix",
         "ru": "проблема #430: исправление ошибок",
-        "pt": "ver problema # 430: correção de erros",
+        "pt": "ver problema # 430: correção de ошибок",
         "nl": "zie probleem #430: foutherstel",
         "fr": "voir problème #430: correction du bug",
         "it": "vedi numero #430: correzione bug",
-        "es": "ver número #430: corrección de errores",
+        "es": "ver número #430: corrección de ошибок",
         "pl": "zobacz numer # 430: błąd naprawić",
         "uk": "переглянути проблему #430: виправлення помилок",
         "zh-cn": "参见第430期: 错误修正"
@@ -311,15 +311,55 @@
         "text": {
           "en": "Due to new used parser data structure might be changed. Please verify your settings.",
           "de": "Aufgrund der neuen gebrauchten Parser -Datenstruktur kann geändert werden. Bitte überprüfen Sie Ihre Einstellungen.",
-          "ru": "Из -за новой используемой структуры данных анализатора может быть изменена. Пожалуйста, проверьте свои настройки.",
-          "pt": "Devido à nova estrutura de dados do analisador usada pode ser alterada. Por favor, verifique suas configurações.",
-          "nl": "Vanwege de nieuwe gebruikte Parser -gegevensstructuur kan worden gewijzigd. Controleer uw instellingen.",
-          "fr": "En raison de la nouvelle structure de données de l'analyseur d'occasion, il peut être modifié. Veuillez vérifier vos paramètres.",
-          "it": "A causa della nuova struttura dati di parser utilizzata potrebbe essere modificata. Verifica le tue impostazioni.",
-          "es": "Debido a la nueva estructura de datos de analizador utilizado podría cambiarse. Verifique su configuración.",
-          "pl": "Ze względu na nową używaną strukturę danych parserów może zostać zmieniona. Sprawdź swoje ustawienia.",
-          "uk": "Через нову використану структуру даних аналізатора може бути змінено. Будь ласка, перевірте свої налаштування.",
+          "ru": "Из-за новой используемой структуры данных парсера структура данных может быть изменена. Пожалуйста, проверьте свои настройки.",
+          "pt": "Devido à nova estrutura de dados do analisador usada, a estrutura de dados pode ser alterada. Por favor, verifique suas configurações.",
+          "nl": "Vanwege de nieuwe gebruikte parser kan de gegevensstructuur gewijzigd zijn. Controleer uw instellingen.",
+          "fr": "En raison de la nouvelle structure de données du parseur utilisé, la структура данных может быть modifiée. Veuillez vérifier vos параметры.",
+          "it": "A causa della nuova struttura dati del parser utilizzato, la struttura dei dati potrebbe essere modificata. Verifica le tue impostazioni.",
+          "es": "Debido a la nueva estructura de datos del analizador utilizado, la estructura de datos podría cambiarse. Verifique su configuración.",
+          "pl": "Ze względu na nową używaną strukturę danych parsera, struktura danych może zostać zmieniona. Sprawdź swoje ustawienia.",
+          "uk": "Через нову використану структуру даних парсера структура даних може бути змінена. Будь ласка, перевірте свої налаштування.",
           "zh-cn": "由于新使用的解析器，数据结构可能会更改。请验证您的设置。"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<4.0.0",
+            "newVersion>=4.0.0"
+          ]
+        },
+        "title": {
+          "en": "admin is now based on react and adapter was rewitten in typescript. Please check configuration!",
+          "de": "Admin basiert jetzt auf React und der Adapter wurde in TypeScript neu geschrieben. Bitte überprüfen Sie die Konfiguration!",
+          "ru": "Админ теперь основан на React, а адаптер был переписан на TypeScript. Пожалуйста, проверьте конфигурацию!",
+          "pt": "O admin agora é baseado em React e o adaptador foi reescrito em TypeScript. Por favor, verifique a configuração!",
+          "nl": "Admin is nu gebaseerd op React en de adapter is herschreven in TypeScript. Controleer de configuratie!",
+          "fr": "L'administration est maintenant basée sur React et l'adaptateur a été réécrit en TypeScript. Veuillez vérifier la configuration!",
+          "it": "L'amministrazione è ora basata su React e l'adattatore è stato riscritto in TypeScript. Si prega di verificare la configurazione!",
+          "es": "La administración ahora se basa en React y el adaptador se ha reescrito en TypeScript. ¡Por favor, verifique la configuración!",
+          "pl": "Administracja jest teraz oparta na React, a adapter został przepisany w TypeScript. Sprawdź konfigurację!",
+          "zh-cn": "管理现在基于React，适配器已重写为TypeScript。请检查配置！",
+          "uk": "Адміністрування тепер базується на React, а адаптер був переписаний на TypeScript. Будь ласка, перевірте конфігурацію!"
+        },
+        "text": {
+          "en": "It could happen that configuration migration failed. Make sure to verify your configuration",
+          "de": "Es könnte passieren, dass die Migration der Daten fehlgeschlagen ist. Stellen Sie sicher, dass Sie Ihre Konfiguration überprüfen",
+          "ru": "Может случиться так, что миграция конфигурации не удалась. Обязательно проверьте свою конфигурацию",
+          "pt": "Pode acontecer que a migração da configuração tenha falhado. Certifique-se de verificar sua configuração",
+          "nl": "Het kan gebeuren dat de configuratiemigratie is mislukt. Controleer uw configuratie",
+          "fr": "Il se peut que la миграция de la конфигурация ait échoué. Assurez-vous de vérifier votre конфігурацію",
+          "it": "Potrebbe accadere che la migrazione della configurazione non sia riuscita. Assicurati di verificare la tua configurazione",
+          "es": "Podría suceder que la migración de la configuración haya fallado. Asegúrese de verificar su configuración",
+          "pl": "Może się zdarzyć, że migracja konfiguracji nie powiodła się. Upewnij się, że sprawdziłeś swoją konfigurację",
+          "zh-cn": "配置迁移可能失败。请确保验证您的配置",
+          "uk": "Може статися так, що міграція конфігурації не вдалася. Обов'язково перевірте свою конфігурацію"
         },
         "level": "warn",
         "buttons": [
