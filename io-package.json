@@ -3,9 +3,9 @@
     "name": "ebus",
     "version": "4.0.0",
     "news": {
-      "4.0.0": {
+      "4.0.1": {
         "en": ": admin rewitten based on react\n: see issue #470: table of polled datapoints can now be filled from existing datapoints in ebusd again\n: adapter rewritten in typescript",
-        "de": ": admin rewitten basierend auf reag\n: siehe ausgabe #470: tabelle der abgefragten datenpunkte kann nun wieder aus vorhandenen datenpunkten ausgefüllt werden\n: adapter neu geschrieben in typescript",
+        "de": ": admin basierend auf React neu geschrieben\n: siehe issue #470: Tabelle der abgefragten Datenpunkte kann nun wieder aus vorhandenen Datenpunkten gefüllt werden\n: Adapter in Typescript neu geschrieben",
         "ru": "admin rewitten в зависимости от реакции\n#470: таблица опрошенных точек данных теперь может быть заполнена из существующих точек данных при повторном превышении\nадаптер, переписанный в typescript",
         "pt": ": admin rewitten baseado em reagir\n: ver número 470: tabela de pontos de dados pesquisados agora pode ser preenchido a partir de pontos de dados existentes em ebusd novamente\n: adaptador reescrito em digitação",
         "nl": ": admin rewitten gebaseerd op reactie\n: zie nummer #470: tabel van ondervraagde datapunten kan nu weer worden ingevuld uit bestaande datapoints in ebusd\n: adapter herschreven in typescript",

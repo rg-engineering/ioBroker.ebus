@@ -14,7 +14,7 @@ updates:
     open-pull-requests-limit: 15
 
   - package-ecosystem: 'npm'
-    directory: '/'
+    directory: '**/*'
     schedule:
       interval: 'cron'
       timezone: 'Europe/Berlin'

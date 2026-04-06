@@ -76,7 +76,8 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### 4.0.0 (2026-04-05)
+
+### **WORK IN PROGRESS**
 * (René): admin rewitten based on react
 * (René): see issue #470: table of polled datapoints can now be filled from existing datapoints in ebusd again
 * (René): adapter rewritten in typescript
