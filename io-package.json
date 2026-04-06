@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "ebus",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "news": {
       "4.0.1": {
         "en": ": admin rewitten based on react\n: see issue #470: table of polled datapoints can now be filled from existing datapoints in ebusd again\n: adapter rewritten in typescript",
