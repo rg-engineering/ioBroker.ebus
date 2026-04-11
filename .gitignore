@@ -22,3 +22,4 @@ lib/i18n/*/flat.txt
 /obj/Debug/
 /bin/Microsoft.NodejsTools.WebRole.dll
 /iobroker.ebus-3.8.0.tgz
+/iobroker.ebus-4.0.1.tgz
