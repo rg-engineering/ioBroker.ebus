@@ -37,7 +37,6 @@ interface SettingsProps {
     rooms?: Record<string, ioBroker.EnumObject>;
     functions?: Record<string, ioBroker.EnumObject>;
     alive: boolean;
-    activeDPs: string[];
 }
 
 export default function HistoryDPSettings(props: SettingsProps): React.JSX.Element {

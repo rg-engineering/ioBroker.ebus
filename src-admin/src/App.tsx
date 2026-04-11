@@ -161,8 +161,6 @@ class App extends GenericApp<GenericAppProps, AppState> {
         super.onConnectionReady();
         const selectedTab = window.localStorage.getItem(`ebus.${this.instance}.selectedTab`) || 'main_settings';
 
-        await this.GetActiveDP();
-
         void this.socket.getEnums('rooms').then(rooms => this.setState({ moreLoaded: true, rooms }));
         void this.socket.getEnums('functions').then(functions => this.setState({ moreLoaded: true, functions }));
 
@@ -171,26 +169,8 @@ class App extends GenericApp<GenericAppProps, AppState> {
         this.setState({ alive: !!aliveState?.val, selectedTab, systemConfig });
         await this.socket.subscribeState(`system.adapter.ebus.${this.instance}.alive`, this.onAliveChanged);
 
-        
-
         console.log("onConnectionReady done");
-
     }
-
-    async GetActiveDP(): Promise<void> {
-        const allActiveDP = (await this.socket.sendTo("history.0", 'getEnabledDPs'));
-
-        //console.debug("active DP's: " + JSON.stringify(allActiveDP));
-
-        this.keys = Object.keys(allActiveDP);
-
-        console.debug("active DP's: " + JSON.stringify(this.keys));
-
-
-        
-
-    }
-
 
     onAliveChanged = (_id: string, state: ioBroker.State | null | undefined): void => {
         if (!!state?.val !== this.state.alive) {
@@ -312,7 +292,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
                 theme={this.state.theme}
                 themeName={this.state.themeName}
                 systemConfig={this.state.systemConfig}
-                activeDPs={this.keys}
+                
             />
         );
     }
@@ -339,7 +319,6 @@ class App extends GenericApp<GenericAppProps, AppState> {
                 theme={this.state.theme}
                 themeName={this.state.themeName}
                 systemConfig={this.state.systemConfig}
-                activeDPs={this.keys}
             />
         );
     }
@@ -366,7 +345,6 @@ class App extends GenericApp<GenericAppProps, AppState> {
                 theme={this.state.theme}
                 themeName={this.state.themeName}
                 systemConfig={this.state.systemConfig}
-                activeDPs={this.keys}
             />
         );
     }

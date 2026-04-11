@@ -38,7 +38,6 @@ interface SettingsProps {
     rooms?: Record<string, ioBroker.EnumObject>;
     functions?: Record<string, ioBroker.EnumObject>;
     alive: boolean;
-    activeDPs: string[];
 }
 
 export default function QueriedDPSettings(props: SettingsProps): React.JSX.Element {
