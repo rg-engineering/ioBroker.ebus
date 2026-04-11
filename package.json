@@ -1,6 +1,6 @@
 {
   "name": "iobroker.ebus",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "ioBroker ebus Adapter",
   "author": {
     "name": "René G.",

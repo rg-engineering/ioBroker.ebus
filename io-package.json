@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "news": {
+      "4.0.2": {
+        "en": ": bug fix see issue #513: under some conditions admin page was not available",
+        "de": ": bugfix siehe ausgabe #513: unter einigen bedingungen admin-seite war nicht verfügbar",
+        "ru": "исправление ошибок см. проблема #513: при некоторых условиях страница администратора недоступна",
+        "pt": ": bug fix ver problema # 513: sob algumas condições página de administrador não estava disponível",
+        "nl": ": bug fix zie probleem #513: onder sommige voorwaarden admin pagina was niet beschikbaar",
+        "fr": ": correction du bug voir le problème #513: sous certaines conditions la page admin n'était pas disponible",
+        "it": ": bug fix vedi problema #513: in alcune condizioni pagina admin non era disponibile",
+        "es": ": corrección de errores ver número #513: bajo algunas condiciones página de administración no estaba disponible",
+        "pl": ": bug fix see issue # 513: pod pewnymi warunkami strona admin nie była dostępna",
+        "uk": ": виправлення помилок див. питання #513: в деяких умовах admin page не був доступний",
+        "zh-cn": ": bug fix 参见 513 期: 在某些条件下, 管理页面没有可用"
+      },
       "4.0.1": {
         "en": ": admin rewitten based on react\n: see issue #470: table of polled datapoints can now be filled from existing datapoints in ebusd again\n: adapter rewritten in typescript",
         "de": ": admin basierend auf React neu geschrieben\n: siehe issue #470: Tabelle der abgefragten Datenpunkte kann nun wieder aus vorhandenen Datenpunkten gefüllt werden\n: Adapter in Typescript neu geschrieben",
@@ -80,19 +93,6 @@
         "pl": "aktualizacja zależności + zmiany w oparciu o sprawdzacz adaptera",
         "uk": "оновлення залежності + зміни на основі перевірки адаптера",
         "zh-cn": "根据适配器检查器更新依赖性+变化"
-      },
-      "3.6.7": {
-        "en": "dependencies updated and bug fix based on adapter checker",
-        "de": "abhängigkeiten aktualisiert und fehler beheben basierend auf adapter checker",
-        "ru": "обновленные зависимости и исправление ошибок на основе проверки адаптера",
-        "pt": "dependências atualizadas e correção de erros com base no verificador do adaptador",
-        "nl": "afhankelijkheden bijgewerkt en bug fix op basis van adaptercontrole",
-        "fr": "dépendances mises à jour et correction de bugs basée sur adaptateur checker",
-        "it": "dipendenze aggiornate e correzione bug in base all'adattatore checker",
-        "es": "dependencias actualizadas y corrección de ошибок basado en el контроль de адаптера",
-        "pl": "aktualizacja zależności i naprawianie błędów w oparciu o sprawdzacz adaptera",
-        "uk": "залежностей, оновлено і виправлення помилок на основі перевірки адаптера",
-        "zh-cn": "基于适配器检查器更新的依赖性和错误修正"
       }
     },
     "titleLang": {
