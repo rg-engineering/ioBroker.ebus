@@ -76,7 +76,7 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.3 (2026-04-12)
 * (René): bug fix see issue #517: avoid crash when using external command
 
 ### 4.0.2 (2026-04-11)
@@ -94,9 +94,6 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
 
 ### 3.7.0 (2025-11-02)
 * (René) issue #469: telnet connection overworked, promise-socket removed
-
-### 3.6.10 (2025-10-26)
-* (René) sentry bug fix
 
 ## License
 MIT License

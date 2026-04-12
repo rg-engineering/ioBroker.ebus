@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "4.0.2",
+    "version": "4.0.3",
     "news": {
+      "4.0.3": {
+        "en": ": bug fix see issue #517: avoid crash when using external command",
+        "de": ": bugfix siehe ausgabe #517: crash vermeiden bei verwendung von externem befehl",
+        "ru": "исправление ошибок см. проблему #517: избегайте сбоев при использовании внешней команды",
+        "pt": ": bug fix ver problema #517: evitar falha ao usar o comando externo",
+        "nl": ": bug fix zie probleem #517: crash vermijden bij het gebruik van extern commando",
+        "fr": ": correction du bug voir le problème #517: éviter le crash lors de l'utilisation de la commande externe",
+        "it": ": bug fix vedi problema #517: evitare crash quando si utilizza il comando esterno",
+        "es": ": bug fix see issue #517: avoid crash when using external command",
+        "pl": ": bug fix see issue # 517: uniknąć awarii przy użyciu polecenia zewnętrznego",
+        "uk": ": виправлення помилок див. питання #517: уникнути аварійних ситуацій при використанні зовнішньої команди",
+        "zh-cn": ": bug fix 见问题517: 使用外部命令时避免崩溃"
+      },
       "4.0.2": {
         "en": ": bug fix see issue #513: under some conditions admin page was not available",
         "de": ": bugfix siehe ausgabe #513: unter einigen bedingungen admin-seite war nicht verfügbar",
@@ -69,19 +82,6 @@
         "zh-cn": "监视器修复"
       },
       "3.6.9": {
-        "en": "update dependencies + changes based on adapter checker",
-        "de": "aktualisierung abhängigkeiten + änderungen basierend auf adapter-checker",
-        "ru": "зависимости обновления + изменения на основе проверки адаптера",
-        "pt": "atualizar dependências + alterações com base no verificador de adaptadores",
-        "nl": "update afhankelijkheden + wijzigingen op basis van adaptercontrole",
-        "fr": "mettre à jour les dépendances + les changements basés sur le vérificateur d'adaptateur",
-        "it": "aggiornamento dipendenze + modifiche in base all'adattatore checker",
-        "es": "dependencias de actualización + cambios basados en el control de adaptador",
-        "pl": "aktualizacja zależności + zmiany w oparciu o sprawdzacz adaptera",
-        "uk": "оновлення залежності + зміни на основі перевірки адаптера",
-        "zh-cn": "根据适配器检查器更新依赖性+变化"
-      },
-      "3.6.8": {
         "en": "update dependencies + changes based on adapter checker",
         "de": "aktualisierung abhängigkeiten + änderungen basierend auf adapter-checker",
         "ru": "зависимости обновления + изменения на основе проверки адаптера",

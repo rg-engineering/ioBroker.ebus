@@ -1,4 +1,7 @@
 # Older changes
+## 3.6.10 (2025-10-26)
+* (René) sentry bug fix
+
 ## 3.6.9 (2025-10-21)
 * (René) update dependencies + changes based on adapter checker
 
