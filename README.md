@@ -76,6 +76,9 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (René): bug fix see issue #517: avoid crash when using external command
+
 ### 4.0.2 (2026-04-11)
 * (René): bug fix see issue #513: under some conditions admin page was not available
 
