@@ -218,7 +218,7 @@ export class ebus extends utils.Adapter {
             this.updateTimerID = null;
         }
         //start or restart
-        this.updateTimerID = setTimeout(this.DataRequest, 500);
+        this.updateTimerID = setTimeout(this.DataRequest.bind(this), 500);
         this.log.debug("StartDataRequest");
     }
 
