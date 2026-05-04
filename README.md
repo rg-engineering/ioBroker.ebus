@@ -98,6 +98,8 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
 ### 3.7.0 (2025-11-02)
 * (René) issue #469: telnet connection overworked, promise-socket removed
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 MIT License
 
