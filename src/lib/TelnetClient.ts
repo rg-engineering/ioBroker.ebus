@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import net from "node:net";
+import net from "net";
 
 export default class TelnetClient {
     private socket: net.Socket;

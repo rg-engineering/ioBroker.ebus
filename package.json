@@ -39,7 +39,7 @@
   },
   "main": "build/main.js",
   "bugs": {
-    "url": "https://github.com/rg-engineering/ioBroker.ebus"
+    "url": "https://github.com/rg-engineering/ioBroker.ebus/issues"
   },
   "files": [
     "admin/",
