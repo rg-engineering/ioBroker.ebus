@@ -183,7 +183,7 @@ export class ebus extends utils.Adapter {
             readInterval = this.config.readInterval;
         }
         this.log.debug(`read every  ${readInterval} minutes`);
-        this.intervalID = setInterval(this.Do.bind(this), readInterval * 60 * 1000);
+        this.intervalID = this.setInterval(this.Do.bind(this), readInterval * 60 * 1000);
 
         //read at thisstart
         await this.Do();
@@ -218,7 +218,7 @@ export class ebus extends utils.Adapter {
             this.updateTimerID = null;
         }
         //start or restart
-        this.updateTimerID = setTimeout(this.DataRequest.bind(this), 500);
+        this.updateTimerID = this.setTimeout(this.DataRequest.bind(this), 500);
         this.log.debug("StartDataRequest");
     }
 
