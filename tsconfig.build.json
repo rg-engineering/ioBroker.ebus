@@ -6,7 +6,8 @@
 		"checkJs": false,
 		"noEmit": false,
 		"declaration": false,
-		"types": [ "@iobroker/types" ]
+		"types": [ "@iobroker/types" ],
+		"rootDir": "./src"
 	},
 	"include": [
 		"src/**/*.ts",

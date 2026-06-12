@@ -33,8 +33,8 @@ type HTTPParamsVar = {
 
 export class ebus extends utils.Adapter {
 
-    intervalID: NodeJS.Timeout | null = null;
-    updateTimerID: NodeJS.Timeout | null = null;
+    intervalID: ReturnType<typeof this.setInterval> | null = null;
+    updateTimerID: ReturnType<typeof this.setTimeout> | null = null;
     requestRunning: boolean = false;
 
     oPolledVars: polledVar[] = [];
