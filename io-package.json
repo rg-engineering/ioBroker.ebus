@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "4.0.3",
+    "version": "4.0.4",
     "news": {
+      "4.0.4": {
+        "en": "Adapter requires node.js >= 22 now\nUpdate dependencies and some additional changes based on adapter checker",
+        "de": "Der Adapter benötigt jetzt Node.js >= 22.\nAbhängigkeiten aktualisieren und einige zusätzliche Änderungen basierend auf dem Adapter-Checker vornehmen",
+        "ru": "Для работы адаптера требуется Node.js версии >= 22.\nОбновлены зависимости и внесены некоторые дополнительные изменения на основе проверки адаптера.",
+        "pt": "O adaptador agora requer Node.js >= 22.\nAtualização de dependências e algumas alterações adicionais com base no verificador de adaptadores.",
+        "nl": "De adapter vereist nu Node.js versie 22 of hoger.\nAfhankelijkheden bijwerken en enkele aanvullende wijzigingen doorvoeren op basis van de adapterchecker.",
+        "fr": "L'adaptateur nécessite désormais Node.js >= 22.\nMise à jour des dépendances et modifications supplémentaires suite à la vérification de l'adaptateur",
+        "it": "L'adattatore ora richiede Node.js >= 22\nAggiornamento delle dipendenze e alcune modifiche aggiuntive basate sul controllo dell'adattatore",
+        "es": "El adaptador ahora requiere node.js >= 22.\nActualizar las dependencias y realizar algunos cambios adicionales según el verificador del adaptador.",
+        "pl": "Adapter wymaga teraz node.js >= 22\nZaktualizowano zależności i wprowadzono pewne dodatkowe zmiany na podstawie modułu sprawdzającego adaptery",
+        "uk": "Адаптер тепер вимагає node.js >= 22\nОновлення залежностей та деякі додаткові зміни на основі перевірки адаптера",
+        "zh-cn": "适配器现在需要 node.js 版本 >= 22。\n根据适配器检查器更新依赖项并进行一些其他更改"
+      },
       "4.0.3": {
         "en": ": bug fix see issue #517: avoid crash when using external command",
         "de": ": bugfix siehe ausgabe #517: crash vermeiden bei verwendung von externem befehl",
@@ -80,19 +93,6 @@
         "pl": "naprawianie błędu serwera",
         "uk": "усунення несправностей",
         "zh-cn": "监视器修复"
-      },
-      "3.6.9": {
-        "en": "update dependencies + changes based on adapter checker",
-        "de": "aktualisierung abhängigkeiten + änderungen basierend auf adapter-checker",
-        "ru": "зависимости обновления + изменения на основе проверки адаптера",
-        "pt": "atualizar dependências + alterações com base no verificador de adaptadores",
-        "nl": "update afhankelijkheden + wijzigingen op basis van adaptercontrole",
-        "fr": "mettre à jour les dépendances + les changements basés sur le vérificateur d'adaptateur",
-        "it": "aggiornamento dipendenze + modifiche in base all'adattatore checker",
-        "es": "dependencias de actualización + cambios basados en el control de adaptador",
-        "pl": "aktualizacja zależności + zmiany w oparciu o sprawdzacz adaptera",
-        "uk": "оновлення залежності + зміни на основі перевірки адаптера",
-        "zh-cn": "根据适配器检查器更新依赖性+变化"
       }
     },
     "titleLang": {

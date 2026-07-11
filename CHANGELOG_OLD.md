@@ -1,4 +1,8 @@
 # Older changes
+## 3.7.0 (2025-11-02)
+* (René) issue #469: telnet connection overworked, promise-socket removed
+
+
 ## 3.6.10 (2025-10-26)
 * (René) sentry bug fix
 
