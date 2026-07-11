@@ -66,7 +66,7 @@ export class ebus extends utils.Adapter {
             await this.main();
 
         } catch (e) {
-            this.log.error("Exception in onReady [" + e + "]");
+            this.log.error("Exception in onReady [" + String(e) + "]");
         }
     }
 
@@ -89,7 +89,7 @@ export class ebus extends utils.Adapter {
             this.log.info("cleaned everything up...");
             callback();
         } catch (e) {
-            this.log.error("Exception in onUnload " + e);
+            this.log.error("Exception in onUnload " + String(e));
             callback();
         }
     }
@@ -249,7 +249,7 @@ export class ebus extends utils.Adapter {
 
             }
         } catch (e) {
-            this.log.error(`exception in FillPolledVars [${e}]`);
+            this.log.error(`exception in FillPolledVars ${String(e)}`);
         }
 
         this.log.debug(`list of polled vars ${JSON.stringify(this.oPolledVars)}`);
@@ -267,7 +267,7 @@ export class ebus extends utils.Adapter {
                 this.oHistoryVars = this.config.HistoryDPs;
             }
         } catch (e) {
-            this.log.error(`exception in function FillHistoryVars [${e}]`);
+            this.log.error(`exception in function FillHistoryVars [${String(e)}]`);
         }
 
         this.log.debug(`list of history vars ${JSON.stringify(this.oHistoryVars)}`);
@@ -373,7 +373,7 @@ export class ebus extends utils.Adapter {
                     //promiseSocket.destroy();
                     await telnet.disconnect();
                 } catch (e) {
-                    this.log.error(`exception from tcp socket` + `[${e}]`);
+                    this.log.error(`exception from tcp socket` + `[${String(e)}]`);
                 }
             }
         } else {
@@ -449,7 +449,7 @@ export class ebus extends utils.Adapter {
             await telnet.disconnect();
 
         } catch (e) {
-            this.log.error(`exception from tcp socket in ebusd_find` + `[${e}]`);
+            this.log.error(`exception from tcp socket in ebusd_find` + `[${String(e)}]`);
         }
     }
 
@@ -855,7 +855,7 @@ export class ebus extends utils.Adapter {
                 }
             }
         } catch (e) {
-            this.log.error(`exception in ebusd_ReceiveData [${e}]`);
+            this.log.error(`exception in ebusd_ReceiveData [${String(e)}]`);
 
             await this.setState("history.error", { ack: true, val: "exception in receive" });
         }
@@ -964,7 +964,7 @@ export class ebus extends utils.Adapter {
                     NoOfDates = oEbusDates.length;
                     await this.setState("history.date", { ack: true, val: JSON.stringify(oEbusDates) });
                 } catch (e) {
-                    this.log.error(`exception in UpdateHistory part1 [${e}]`);
+                    this.log.error(`exception in UpdateHistory part1 [${String(e)}]`);
                     await this.setState("history.date", { ack: true, val: "[]" });
                     NoOfDates = 0;
                 }
@@ -1040,7 +1040,7 @@ export class ebus extends utils.Adapter {
                     await this.setState(key, { ack: true, val: JSON.stringify(oEbusValues) });
                 }
             } catch (e) {
-                this.log.error(`exception in UpdateHistory part2 [${e}]`);
+                this.log.error(`exception in UpdateHistory part2 [${String(e)}]`);
                 await this.setState(`history.value${ctr}`, { ack: true, val: "[]" });
                 if (curDateCtr > 0) {
                     bRet = false;
@@ -1099,7 +1099,7 @@ export class ebus extends utils.Adapter {
                         //const data = await promiseSocket.read();
                         data = await telnet.read();
                     } catch (e) {
-                        this.log.warn(`exception from tcp socket write/read in ebusd_ReadValues for cmd ${cmd}` + `[${e}]` + ` -> retry`);
+                        this.log.warn(`exception from tcp socket write/read in ebusd_ReadValues for cmd ${cmd}` + `[${String(e)}]` + ` -> retry`);
 
                         //todo: retry nur für timeout und arbitration lost? 2025-11-01
                         retries++;
@@ -1144,7 +1144,7 @@ export class ebus extends utils.Adapter {
                 await telnet.disconnect();
                 this.log.debug("telnet disonnected");
             } catch (e) {
-                this.log.error(`exception from tcp socket in ebusd_ReadValues ` + `[${e}]`);
+                this.log.error(`exception from tcp socket in ebusd_ReadValues ` + `[${String(e)}]`);
             }
         } else {
             this.log.debug("nothing to poll; skip telnet");
@@ -1247,7 +1247,7 @@ export class ebus extends utils.Adapter {
                 this.log.error("no circuit defined where to look for parameter, check values!");
             }
         } catch (e) {
-            this.log.error(`exception in FindParams ` + `[${e}]`);
+            this.log.error(`exception in FindParams ` + `[${String(e)}]`);
         }
 
         this.log.info(`parameters ${JSON.stringify(list)}`);
@@ -1399,7 +1399,7 @@ export class ebus extends utils.Adapter {
                 latestVersion = "unknown / no result";
             }
         } catch (e) {
-            this.log.error(`exception in GetLatestVersionGithub [${e}]`);
+            this.log.error(`exception in GetLatestVersionGithub [${String(e)}]`);
             latestVersion = "unknown / error";
         }
         return latestVersion;
@@ -1516,7 +1516,7 @@ export class ebus extends utils.Adapter {
                 });
             }
         } catch (e) {
-            this.log.error(`exception in AddObject ` + `[${e}]`);
+            this.log.error(`exception in AddObject ` + `[${String(e)}]`);
         }
     }
 
@@ -1532,7 +1532,7 @@ export class ebus extends utils.Adapter {
                 await this.setState(key, { ack: true, val: value });
             }
         } catch (e) {
-            this.log.error(`exception in UpdateObject ` + `[${e}]`);
+            this.log.error(`exception in UpdateObject ` + `[${String(e)}]`);
         }
     }
 }
