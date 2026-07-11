@@ -11,10 +11,10 @@
         "nl": ": bug fix zie probleem #517: crash vermijden bij het gebruik van extern commando",
         "fr": ": correction du bug voir le problème #517: éviter le crash lors de l'utilisation de la commande externe",
         "it": ": bug fix vedi problema #517: evitare crash quando si utilizza il comando esterno",
-        "es": ": bug fix see issue #517: avoid crash when using external command",
         "pl": ": bug fix see issue # 517: uniknąć awarii przy użyciu polecenia zewnętrznego",
         "uk": ": виправлення помилок див. питання #517: уникнути аварійних ситуацій при використанні зовнішньої команди",
-        "zh-cn": ": bug fix 见问题517: 使用外部命令时避免崩溃"
+        "zh-cn": ": bug fix 见问题517: 使用外部命令时避免崩溃",
+        "es": ": corrección de errores, consulte el problema n.° 517: evite fallas al usar un comando externo"
       },
       "4.0.2": {
         "en": ": bug fix see issue #513: under some conditions admin page was not available",
@@ -69,7 +69,7 @@
         "zh-cn": "第469期: 电话网连接超负荷工作, 承诺口袋被移除"
       },
       "3.6.10": {
-        "en": "sentry bug fix",
+        "en": "sentry based bug fix",
         "de": "fehler beheben",
         "ru": "исправлять ошибки",
         "pt": "correcção de erros de sentinela",
