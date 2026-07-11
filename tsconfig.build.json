@@ -6,12 +6,10 @@
 		"checkJs": false,
 		"noEmit": false,
 		"declaration": false,
-		"types": [ "@iobroker/types" ],
 		"rootDir": "./src"
 	},
 	"include": [
-		"src/**/*.ts",
-		"src/**/*.d.ts"
+		"src/**/*.ts"
 	],
 	"exclude": [
 		"src/**/*.test.ts"

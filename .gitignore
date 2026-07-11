@@ -24,3 +24,5 @@ lib/i18n/*/flat.txt
 /iobroker.ebus-3.8.0.tgz
 /iobroker.ebus-4.0.1.tgz
 /iobroker.ebus-4.0.2.tgz
+/.github/copilot-instructions.md
+/iobroker.ebus-*.tgz
