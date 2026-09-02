@@ -7,9 +7,9 @@ import type {
     IobTheme,
     ThemeName,
     ThemeType
-} from '@iobroker/adapter-react-v5';
+} from '@iobroker/gui-components';
 
-import { I18n } from '@iobroker/adapter-react-v5';
+import { I18n } from '@iobroker/gui-components';
 
 import type { ebusAdapterConfig, SettingDP } from "../types";
 
