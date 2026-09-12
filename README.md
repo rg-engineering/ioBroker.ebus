@@ -80,7 +80,6 @@ in /opt/iobroker/node_modules/iobroker.ebus/lib/scripts you can find a scripts t
 ### **WORK IN PROGRESS**
 * (René) Update dependencies
 
-
 ### 4.0.4 (2026-07-11)
 * (copilot) Adapter requires node.js >= 22 now
 * (René) Update dependencies and some additional changes based on adapter checker
