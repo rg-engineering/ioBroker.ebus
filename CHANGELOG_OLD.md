@@ -1,7 +1,12 @@
 # Older changes
+## 3.8.0 (2026-03-17)
+* (René): avoid exception, reported by sentry
+* (René) update dependencies + changes based on adapter checker
+* (René) see issue #497: support of ebusd 26.1
+
+
 ## 3.7.0 (2025-11-02)
 * (René) issue #469: telnet connection overworked, promise-socket removed
-
 
 ## 3.6.10 (2025-10-26)
 * (René) sentry bug fix

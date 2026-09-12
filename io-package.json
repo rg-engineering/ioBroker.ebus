@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ebus",
-    "version": "4.0.4",
+    "version": "4.0.5",
     "news": {
+      "4.0.5": {
+        "en": "Update dependencies",
+        "de": "Abhängigkeiten updaten",
+        "ru": "Обновить зависимости",
+        "pt": "Atualizar dependências",
+        "nl": "Afhankelijkheden bijwerken",
+        "fr": "Mettre à jour les dépendances",
+        "it": "Aggiorna dipendenze",
+        "es": "Actualizar dependencias",
+        "pl": "Zaktualizuj zależności",
+        "uk": "Оновлення залежностей",
+        "zh-cn": "更新依赖关系"
+      },
       "4.0.4": {
         "en": "Adapter requires node.js >= 22 now\nUpdate dependencies and some additional changes based on adapter checker",
         "de": "Der Adapter benötigt jetzt Node.js >= 22.\nAbhängigkeiten aktualisieren und einige zusätzliche Änderungen basierend auf dem Adapter-Checker vornehmen",
@@ -80,19 +93,6 @@
         "pl": "numer # 469: przepracowane połączenie telnet, usunięte gniazdo",
         "uk": "problem #469: перероблено зв'язку телнет, вилучено обіцянку",
         "zh-cn": "第469期: 电话网连接超负荷工作, 承诺口袋被移除"
-      },
-      "3.6.10": {
-        "en": "sentry based bug fix",
-        "de": "fehler beheben",
-        "ru": "исправлять ошибки",
-        "pt": "correcção de erros de sentinela",
-        "nl": "sentry bug fix",
-        "fr": "correction du bug sentitoire",
-        "it": "correzione bug inviato",
-        "es": "centry bug fix",
-        "pl": "naprawianie błędu serwera",
-        "uk": "усунення несправностей",
-        "zh-cn": "监视器修复"
       }
     },
     "titleLang": {
