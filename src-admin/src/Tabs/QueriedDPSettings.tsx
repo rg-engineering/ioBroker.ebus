@@ -97,7 +97,7 @@ export default function QueriedDPSettings(props: SettingsProps): React.JSX.Eleme
                 // Kopie der aktuellen PolledDPs erstellen
                 const newPolledDPs = Array.isArray(props.native.PolledDPs) ? [...props.native.PolledDPs] : [];
                 for (const item of status) {
-                    const name = item.circuit || '';
+                    const name = item.name || '';
                     const circuit = props.native.Circuit4Find;
                     const active = false;
 
