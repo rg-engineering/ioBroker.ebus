@@ -419,7 +419,11 @@ export class ebus extends utils.Adapter {
 
             //const str = new TextDecoder().decode(data);
 
-            const datas = str.split(/[\r?\n,]+/);
+            //split on line breaks only. Splitting on the comma as well would flatten the whole
+            //answer into single tokens and destroy the circuit/name pairing, which is what the
+            //following split(",") relies on. The comma also has to stay out of the character class
+            //because "?" inside one is a literal, so a message name containing it got torn apart.
+            const datas = str.split(/[\r\n]+/);
 
             this.log.info("found entries: " + datas.length);
 
@@ -428,8 +432,15 @@ export class ebus extends utils.Adapter {
 
                 const names = datas[i].split(",");
 
-                //circuit,name,comment
-                await this.UpdateDP(names[0], names[1], names[2]);
+                if (!names[0] || !names[1]) {
+                    continue;
+                }
+
+                //circuit,name,comment - the comment is the last field and ebusd quotes it when it
+                //contains a comma, so everything from the third field on belongs to it
+                const comment = names.slice(2).join(",").replace(/^"|"$/g, "");
+
+                await this.UpdateDP(names[0], names[1], comment);
 
                 let cmd = `read -f -c ${names[0]} ${names[1]}`;
 
@@ -1207,7 +1218,8 @@ export class ebus extends utils.Adapter {
                     str = String(data);
                 }
 
-                const datas = str.split(/[\r?\n,]+/);
+                //split on line breaks only - see the note in ebusd_find
+                const datas = str.split(/[\r\n]+/);
 
                 this.log.info("found entries: " + datas.length);
 
